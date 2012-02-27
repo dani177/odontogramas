@@ -520,8 +520,12 @@ h2 + .row {
 /* Remove bottom margin on example forms in wells */
 form.well {
   padding: 14px;
+  margin: 0;
 }
 
+.dropdown-menu label a {
+padding-left: 0;
+}
 /* Tighten up spacing */
 .well hr {
   margin: 18px 0;
