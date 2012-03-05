@@ -5,7 +5,7 @@
         String aux = (String) session1.getAttribute("logueado");
         if (aux == null || aux.equals("")) {
         } else {
-            RequestDispatcher rd = request.getRequestDispatcher("/index2.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/vista/index2.jsp");
             rd.forward(request, response);
 
         }
