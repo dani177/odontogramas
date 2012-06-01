@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 
+import conexion.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,6 +32,9 @@ public class loginController extends HttpServlet {
         HttpSession session = request.getSession();
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
+        
+        Conexion con = new Conexion();
+        con.conectarMySQL("odontograma");
         try {
             if(un.equals("julio") && pw.equals("julio")){
             session.setAttribute("logueado", "ok");    

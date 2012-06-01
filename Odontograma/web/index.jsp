@@ -11,7 +11,7 @@
         }
 
     %>
-    
+
     <head>
         <meta charset="utf-8">
         <title>Odontogramas</title>
@@ -44,7 +44,7 @@
         <script src="assets/js/bootstrap-modal.js"></script>
         <script src="assets/js/bootstrap-dropdown.js"></script>
         <script src="assets/js/bootstrap-button.js"></script>
-        
+
         <script type="text/javascript">
             $(function(){
                 $('.dropdown-menu').find('form').click(function (e) {
@@ -56,11 +56,10 @@
                 });	 
                 
                 $("#formulario_login").validate({
-                        errorLabelContainer:".alert-error",
-                        submitHandler: function() {
-                            console.log("submitiando");
-                            setTimeout(function () {
-                                $.ajax({
+                    errorLabelContainer:".alert-error",
+                    submitHandler: function() {
+                        setTimeout(function () {
+                            $.ajax({
                                 url: '/Odontograma/loginController',
                                 data: 'un='+ $('#codigo').val() +'&pw=' + $('#pass').val(),
                                 type: 'post',
@@ -111,9 +110,9 @@
                             <ul class="dropdown-menu">
                                 <form class="well" id="formulario_login" action="">
                                     <div class='alert alert-error' style="display: none">
-                                                <a data-dismiss='alert' class='close'>×</a>  
-                                                <strong>Error!</strong>Usuario y/o Contrase&ntilde;a incorrecto(s)
-                                            </div>
+                                        <a data-dismiss='alert' class='close'>×</a>  
+                                        <strong>Error!</strong>Usuario y/o Contrase&ntilde;a incorrecto(s)
+                                    </div>
                                     <label>Usuario</label>
                                     <input type="text" id="codigo" name="codigo" class="span3 {required:true}" />
                                     <label>Contrase&ntilde;a</label>
@@ -130,14 +129,50 @@
             </div>
         </div>
 
-        <div class="container">
-
+        <div class="container" style="margin-top:-20px;">
+            <div class="logo">
+                <img class="center" alt="logo" src="images/logo2.png">
+            </div>
+            <div class="hero-unit" style="margin-top: -5px;">
+                <h1>Bienvenido!</h1>
+                <p>Eum hinc argumentum te, no sit percipit adversarium, ne qui feugiat persecuti. Odio omnes scripserit ad est, ut vidit lorem maiestatis his, putent mandamus gloriatur ne pro. Oratio iriure rationibus ne his, ad est corrumpit splendide. Ad duo appareat moderatius, ei falli tollit denique eos.!</p>
+                <p><a class="btn btn-large btn-primary" href="about">Leer m&aacute;s »</a></p>
+            </div>
+            <div class="row">
+                <div class="span4">
+                    <h2>Sitios</h2>
+                    <ul class="thumbnails">
+                        <li class="span4"><a class="thumbnail" href="sites">
+                                <img alt="" src="images/odon.png"></a></li></ul>
+                    <p>La Facultad de Odontología de la Universidad de Cartagena forma un profesional con conocimientos, habilidades y destrezas integrales en las áreas propias del saber. </p>
+                    <p><a href="sites" class="btn">Ver »</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Logros</h2>
+                    <ul class="thumbnails">
+                        <li class="span4"><a class="thumbnail" href="tutorials">
+                                <img alt="" src="images/logros.png"></a></li></ul>        
+                    <p>Como una forma de propiciar su relación con el entorno, la Facultad de Odontología realiza su proyección a través de una serie de actividades de impacto social, dentro y fuera de su  planta física.</p>
+                    <p><a href="tutorials" class="btn">Ver »</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Objetivos</h2>
+                    <ul class="thumbnails">
+                        <li class="span4">
+                            <a class="thumbnail" href="code">
+                                <img alt="" src="images/boca.jpg"></a></li></ul>        
+                    <p>Formar de manera integral Odontólogos especialistas en el área de Estomatología y Cirugía Oral que suplan las necesidades en las zonas rurales y urbanas, en cuanto a  la resolución de patologías del sistema estomatognático, logrando reducir así las incidencias de estas alteraciones y sus consecuencia.</p>
+                    <p><a href="code" class="btn">Ver »</a></p>
+                </div>
+            </div>
             <footer>
-                <p>&copy; Universidad de Cartagena 2012</p>
+                <hr>
+                <p class="left">&copy; Universidad de Cartagena 2012</p>
+
             </footer>
 
         </div> <!-- /container -->
 
-        
+
     </body>
 </html>
