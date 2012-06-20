@@ -41,7 +41,7 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             }
             em.persist(examenfisicoestomatologico);
             if (pacienteidpersona != null) {
-                pacienteidpersona.getExamenfisicoestomatologicoCollection().add(examenfisicoestomatologico);
+                pacienteidpersona.getExamenfisicoestomatologicoList().add(examenfisicoestomatologico);
                 pacienteidpersona = em.merge(pacienteidpersona);
             }
             em.getTransaction().commit();
@@ -66,11 +66,11 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             }
             examenfisicoestomatologico = em.merge(examenfisicoestomatologico);
             if (pacienteidpersonaOld != null && !pacienteidpersonaOld.equals(pacienteidpersonaNew)) {
-                pacienteidpersonaOld.getExamenfisicoestomatologicoCollection().remove(examenfisicoestomatologico);
+                pacienteidpersonaOld.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologico);
                 pacienteidpersonaOld = em.merge(pacienteidpersonaOld);
             }
             if (pacienteidpersonaNew != null && !pacienteidpersonaNew.equals(pacienteidpersonaOld)) {
-                pacienteidpersonaNew.getExamenfisicoestomatologicoCollection().add(examenfisicoestomatologico);
+                pacienteidpersonaNew.getExamenfisicoestomatologicoList().add(examenfisicoestomatologico);
                 pacienteidpersonaNew = em.merge(pacienteidpersonaNew);
             }
             em.getTransaction().commit();
@@ -104,7 +104,7 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             }
             Paciente pacienteidpersona = examenfisicoestomatologico.getPacienteidpersona();
             if (pacienteidpersona != null) {
-                pacienteidpersona.getExamenfisicoestomatologicoCollection().remove(examenfisicoestomatologico);
+                pacienteidpersona.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologico);
                 pacienteidpersona = em.merge(pacienteidpersona);
             }
             em.remove(examenfisicoestomatologico);

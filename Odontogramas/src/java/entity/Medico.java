@@ -6,7 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,7 +35,7 @@ public class Medico implements Serializable {
         @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")}, inverseJoinColumns = {
         @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")})
     @ManyToMany
-    private Collection<Paciente> pacienteCollection;
+    private List<Paciente> pacienteList;
 
     public Medico() {
     }
@@ -69,12 +69,12 @@ public class Medico implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Paciente> getPacienteCollection() {
-        return pacienteCollection;
+    public List<Paciente> getPacienteList() {
+        return pacienteList;
     }
 
-    public void setPacienteCollection(Collection<Paciente> pacienteCollection) {
-        this.pacienteCollection = pacienteCollection;
+    public void setPacienteList(List<Paciente> pacienteList) {
+        this.pacienteList = pacienteList;
     }
 
     @Override

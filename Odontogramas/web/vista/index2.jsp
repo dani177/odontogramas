@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,41 +53,59 @@
                     $(div).show();
                 
                 });
-            
-                $("#agregarDiag").click(function(){
-                    $("#tablaDiag").append("<tr>"
-                        +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
-                        +"<td> <input type='text' name='codigo' class='input-medium'></td>"
-                        +"</tr>  ");
-                }) 
-                $("#agregarTrat").click(function(){
-                    $("#tablaTrat").append("<tr>"
-                        +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
-                        +"<td> <input type='text' name='codigo' class='input-medium'></td>"
-                        +"</tr>  ");
-                })
                 
-                $("#formularioDatosPersonales").validate({
-                    submitHandler: function(){
-                        $(".alert-success").alert();
-                        $.ajax({
-                            type: 'POST', 
-                            url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
-                            data: $("#formularioDatosPersonales").serialize(),
-                            success: function(){
-                                var html = ' <div class="alert alert-success fade in">'
-                                    +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
-                                    +'<strong>Bien hecho!</strong> Los datos han sido guardados con exito.'
-                                    +'</div>';
-
-                                $("#notificaciones").append($(html));
-                                $("#guardado").alert();
+                $('#departamentos').change(function()
+                {
+                    $.ajax({
+                        type: 'POST', 
+                        url: "<%=request.getContextPath()%>/formController?action=municipios",
+                        data: 'codDep='+$('#departamentos option:selected').val(),
+                        success: function(data){
+                
+                $("#municipios").html("<option>seleccione municipio</option>");
+                
+                       
+                                
                             } //fin success
                         }); //fin $.ajax    
-                    }
-                });
+                    });
+
+
+            
+                    $("#agregarDiag").click(function(){
+                        $("#tablaDiag").append("<tr>"
+                            +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
+                            +"<td> <input type='text' name='codigo' class='input-medium'></td>"
+                            +"</tr>  ");
+                    }) 
+                    $("#agregarTrat").click(function(){
+                        $("#tablaTrat").append("<tr>"
+                            +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
+                            +"<td> <input type='text' name='codigo' class='input-medium'></td>"
+                            +"</tr>  ");
+                    })
                 
-            });
+                    $("#formularioDatosPersonales").validate({
+                        submitHandler: function(){
+                            $(".alert-success").alert();
+                            $.ajax({
+                                type: 'POST', 
+                                url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
+                                data: $("#formularioDatosPersonales").serialize(),
+                                success: function(){
+                                    var html = ' <div class="alert alert-success fade in">'
+                                        +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                                        +'<strong>Bien hecho!</strong> Los datos han sido guardados con exito.'
+                                        +'</div>';
+
+                                    $("#notificaciones").append($(html));
+                                    $("#guardado").alert();
+                                } //fin success
+                            }); //fin $.ajax    
+                        }
+                    });
+                
+                });
         </script>
 
     </head>
@@ -193,9 +212,22 @@
                                                     </div>
                                                 </div>
                                                 <div class="control-group">
-                                                    <label for="input06" class="control-label">Ciudad/Departamento</label>
+                                                    <label for="input06" class="control-label">Departamento</label>
                                                     <div class="controls">
-                                                        <input type="text" id="input06" name="ciudad" class="{required:true}">
+                                                        <select id="departamentos">
+                                                            <option>seleccione departamento</option>  
+                                                            <c:forEach items="${departamentos}" var="row" varStatus="iter">
+                                                                <option value="${row.codigo}">${row.nombre}</option>    
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label for="input06" class="control-label">Ciudad/Municipio</label>
+                                                    <div class="controls">
+                                                        <select id="municipios">
+                                                            <option>seleccione municipio</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="control-group">
@@ -251,14 +283,6 @@
                                                         <input type="text" id="ocupacion" class="{required:true}">
                                                     </div>
                                                 </div> 
-
-                                                <div class="control-group">
-                                                    <label for="textarea" class="control-label">Remitido a</label>
-                                                    <div class="controls">
-                                                        <textarea rows="3" id="textarea" name="remitido" class="input-xlarge {required:true}"></textarea>
-                                                    </div>
-                                                </div>       
-
 
                                                 <div class="form-actions">
                                                     <button class="btn btn-primary" id="personales" type="submit">Guardar cambios</button>
@@ -713,7 +737,7 @@
 
 
             <div id="notificaciones">
-                
+
             </div>
 
 

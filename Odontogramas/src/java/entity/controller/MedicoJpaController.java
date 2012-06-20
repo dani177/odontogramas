@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -14,9 +15,10 @@ import javax.persistence.criteria.Root;
 import entity.Paciente;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 
 public class MedicoJpaController implements Serializable {
 
@@ -28,23 +30,23 @@ public class MedicoJpaController implements Serializable {
     }
 
     public void create(Medico medico) {
-        if (medico.getPacienteCollection() == null) {
-            medico.setPacienteCollection(new ArrayList<Paciente>());
+        if (medico.getPacienteList() == null) {
+            medico.setPacienteList(new ArrayList<Paciente>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Paciente> attachedPacienteCollection = new ArrayList<Paciente>();
-            for (Paciente pacienteCollectionPacienteToAttach : medico.getPacienteCollection()) {
-                pacienteCollectionPacienteToAttach = em.getReference(pacienteCollectionPacienteToAttach.getClass(), pacienteCollectionPacienteToAttach.getIdpersona());
-                attachedPacienteCollection.add(pacienteCollectionPacienteToAttach);
+            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
+            for (Paciente pacienteListPacienteToAttach : medico.getPacienteList()) {
+                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
+                attachedPacienteList.add(pacienteListPacienteToAttach);
             }
-            medico.setPacienteCollection(attachedPacienteCollection);
+            medico.setPacienteList(attachedPacienteList);
             em.persist(medico);
-            for (Paciente pacienteCollectionPaciente : medico.getPacienteCollection()) {
-                pacienteCollectionPaciente.getMedicoCollection().add(medico);
-                pacienteCollectionPaciente = em.merge(pacienteCollectionPaciente);
+            for (Paciente pacienteListPaciente : medico.getPacienteList()) {
+                pacienteListPaciente.getMedicoList().add(medico);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.getTransaction().commit();
         } finally {
@@ -60,26 +62,26 @@ public class MedicoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Medico persistentMedico = em.find(Medico.class, medico.getIdmedico());
-            Collection<Paciente> pacienteCollectionOld = persistentMedico.getPacienteCollection();
-            Collection<Paciente> pacienteCollectionNew = medico.getPacienteCollection();
-            Collection<Paciente> attachedPacienteCollectionNew = new ArrayList<Paciente>();
-            for (Paciente pacienteCollectionNewPacienteToAttach : pacienteCollectionNew) {
-                pacienteCollectionNewPacienteToAttach = em.getReference(pacienteCollectionNewPacienteToAttach.getClass(), pacienteCollectionNewPacienteToAttach.getIdpersona());
-                attachedPacienteCollectionNew.add(pacienteCollectionNewPacienteToAttach);
+            List<Paciente> pacienteListOld = persistentMedico.getPacienteList();
+            List<Paciente> pacienteListNew = medico.getPacienteList();
+            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
+            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
+                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
+                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
             }
-            pacienteCollectionNew = attachedPacienteCollectionNew;
-            medico.setPacienteCollection(pacienteCollectionNew);
+            pacienteListNew = attachedPacienteListNew;
+            medico.setPacienteList(pacienteListNew);
             medico = em.merge(medico);
-            for (Paciente pacienteCollectionOldPaciente : pacienteCollectionOld) {
-                if (!pacienteCollectionNew.contains(pacienteCollectionOldPaciente)) {
-                    pacienteCollectionOldPaciente.getMedicoCollection().remove(medico);
-                    pacienteCollectionOldPaciente = em.merge(pacienteCollectionOldPaciente);
+            for (Paciente pacienteListOldPaciente : pacienteListOld) {
+                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
+                    pacienteListOldPaciente.getMedicoList().remove(medico);
+                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
                 }
             }
-            for (Paciente pacienteCollectionNewPaciente : pacienteCollectionNew) {
-                if (!pacienteCollectionOld.contains(pacienteCollectionNewPaciente)) {
-                    pacienteCollectionNewPaciente.getMedicoCollection().add(medico);
-                    pacienteCollectionNewPaciente = em.merge(pacienteCollectionNewPaciente);
+            for (Paciente pacienteListNewPaciente : pacienteListNew) {
+                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
+                    pacienteListNewPaciente.getMedicoList().add(medico);
+                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
                 }
             }
             em.getTransaction().commit();
@@ -111,10 +113,10 @@ public class MedicoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The medico with id " + id + " no longer exists.", enfe);
             }
-            Collection<Paciente> pacienteCollection = medico.getPacienteCollection();
-            for (Paciente pacienteCollectionPaciente : pacienteCollection) {
-                pacienteCollectionPaciente.getMedicoCollection().remove(medico);
-                pacienteCollectionPaciente = em.merge(pacienteCollectionPaciente);
+            List<Paciente> pacienteList = medico.getPacienteList();
+            for (Paciente pacienteListPaciente : pacienteList) {
+                pacienteListPaciente.getMedicoList().remove(medico);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.remove(medico);
             em.getTransaction().commit();
@@ -170,4 +172,5 @@ public class MedicoJpaController implements Serializable {
             em.close();
         }
     }
+
 }

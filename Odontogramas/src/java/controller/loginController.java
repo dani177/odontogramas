@@ -5,6 +5,7 @@
 package controller;
 
 import entity.Medico;
+import entity.controller.DepartamentosJpaController;
 import entity.controller.MedicoJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,6 +49,8 @@ public class loginController extends HttpServlet {
         if (medico != null) {
             if (medico.getClave().equals(pw)) {
                 session.setAttribute("logueado", "ok");
+                DepartamentosJpaController ConDe = new DepartamentosJpaController();
+                session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
                 out.println(0);
             }else{
                 out.println(1);

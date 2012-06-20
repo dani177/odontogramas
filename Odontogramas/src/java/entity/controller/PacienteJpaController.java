@@ -13,11 +13,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -32,76 +31,85 @@ public class PacienteJpaController implements Serializable {
     }
 
     public void create(Paciente paciente) throws PreexistingEntityException, Exception {
-        if (paciente.getMedicoCollection() == null) {
-            paciente.setMedicoCollection(new ArrayList<Medico>());
+        if (paciente.getMedicoList() == null) {
+            paciente.setMedicoList(new ArrayList<Medico>());
         }
-        if (paciente.getExamenfisicoestomatologicoCollection() == null) {
-            paciente.setExamenfisicoestomatologicoCollection(new ArrayList<Examenfisicoestomatologico>());
+        if (paciente.getExamenfisicoestomatologicoList() == null) {
+            paciente.setExamenfisicoestomatologicoList(new ArrayList<Examenfisicoestomatologico>());
         }
-        if (paciente.getDiagnosticoCollection() == null) {
-            paciente.setDiagnosticoCollection(new ArrayList<Diagnostico>());
+        if (paciente.getDiagnosticoList() == null) {
+            paciente.setDiagnosticoList(new ArrayList<Diagnostico>());
         }
-        if (paciente.getDatosconsultaCollection() == null) {
-            paciente.setDatosconsultaCollection(new ArrayList<Datosconsulta>());
+        if (paciente.getDatosconsultaList() == null) {
+            paciente.setDatosconsultaList(new ArrayList<Datosconsulta>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Medico> attachedMedicoCollection = new ArrayList<Medico>();
-            for (Medico medicoCollectionMedicoToAttach : paciente.getMedicoCollection()) {
-                medicoCollectionMedicoToAttach = em.getReference(medicoCollectionMedicoToAttach.getClass(), medicoCollectionMedicoToAttach.getIdmedico());
-                attachedMedicoCollection.add(medicoCollectionMedicoToAttach);
+            Municipios municipiosCodigo = paciente.getMunicipiosCodigo();
+            if (municipiosCodigo != null) {
+                municipiosCodigo = em.getReference(municipiosCodigo.getClass(), municipiosCodigo.getCodigo());
+                paciente.setMunicipiosCodigo(municipiosCodigo);
             }
-            paciente.setMedicoCollection(attachedMedicoCollection);
-            Collection<Examenfisicoestomatologico> attachedExamenfisicoestomatologicoCollection = new ArrayList<Examenfisicoestomatologico>();
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionExamenfisicoestomatologicoToAttach : paciente.getExamenfisicoestomatologicoCollection()) {
-                examenfisicoestomatologicoCollectionExamenfisicoestomatologicoToAttach = em.getReference(examenfisicoestomatologicoCollectionExamenfisicoestomatologicoToAttach.getClass(), examenfisicoestomatologicoCollectionExamenfisicoestomatologicoToAttach.getIdexamenFisicoEstomatologico());
-                attachedExamenfisicoestomatologicoCollection.add(examenfisicoestomatologicoCollectionExamenfisicoestomatologicoToAttach);
+            List<Medico> attachedMedicoList = new ArrayList<Medico>();
+            for (Medico medicoListMedicoToAttach : paciente.getMedicoList()) {
+                medicoListMedicoToAttach = em.getReference(medicoListMedicoToAttach.getClass(), medicoListMedicoToAttach.getIdmedico());
+                attachedMedicoList.add(medicoListMedicoToAttach);
             }
-            paciente.setExamenfisicoestomatologicoCollection(attachedExamenfisicoestomatologicoCollection);
-            Collection<Diagnostico> attachedDiagnosticoCollection = new ArrayList<Diagnostico>();
-            for (Diagnostico diagnosticoCollectionDiagnosticoToAttach : paciente.getDiagnosticoCollection()) {
-                diagnosticoCollectionDiagnosticoToAttach = em.getReference(diagnosticoCollectionDiagnosticoToAttach.getClass(), diagnosticoCollectionDiagnosticoToAttach.getIddiagnostico());
-                attachedDiagnosticoCollection.add(diagnosticoCollectionDiagnosticoToAttach);
+            paciente.setMedicoList(attachedMedicoList);
+            List<Examenfisicoestomatologico> attachedExamenfisicoestomatologicoList = new ArrayList<Examenfisicoestomatologico>();
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListExamenfisicoestomatologicoToAttach : paciente.getExamenfisicoestomatologicoList()) {
+                examenfisicoestomatologicoListExamenfisicoestomatologicoToAttach = em.getReference(examenfisicoestomatologicoListExamenfisicoestomatologicoToAttach.getClass(), examenfisicoestomatologicoListExamenfisicoestomatologicoToAttach.getIdexamenFisicoEstomatologico());
+                attachedExamenfisicoestomatologicoList.add(examenfisicoestomatologicoListExamenfisicoestomatologicoToAttach);
             }
-            paciente.setDiagnosticoCollection(attachedDiagnosticoCollection);
-            Collection<Datosconsulta> attachedDatosconsultaCollection = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaCollectionDatosconsultaToAttach : paciente.getDatosconsultaCollection()) {
-                datosconsultaCollectionDatosconsultaToAttach = em.getReference(datosconsultaCollectionDatosconsultaToAttach.getClass(), datosconsultaCollectionDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaCollection.add(datosconsultaCollectionDatosconsultaToAttach);
+            paciente.setExamenfisicoestomatologicoList(attachedExamenfisicoestomatologicoList);
+            List<Diagnostico> attachedDiagnosticoList = new ArrayList<Diagnostico>();
+            for (Diagnostico diagnosticoListDiagnosticoToAttach : paciente.getDiagnosticoList()) {
+                diagnosticoListDiagnosticoToAttach = em.getReference(diagnosticoListDiagnosticoToAttach.getClass(), diagnosticoListDiagnosticoToAttach.getIddiagnostico());
+                attachedDiagnosticoList.add(diagnosticoListDiagnosticoToAttach);
             }
-            paciente.setDatosconsultaCollection(attachedDatosconsultaCollection);
+            paciente.setDiagnosticoList(attachedDiagnosticoList);
+            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListDatosconsultaToAttach : paciente.getDatosconsultaList()) {
+                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
+            }
+            paciente.setDatosconsultaList(attachedDatosconsultaList);
             em.persist(paciente);
-            for (Medico medicoCollectionMedico : paciente.getMedicoCollection()) {
-                medicoCollectionMedico.getPacienteCollection().add(paciente);
-                medicoCollectionMedico = em.merge(medicoCollectionMedico);
+            if (municipiosCodigo != null) {
+                municipiosCodigo.getPacienteList().add(paciente);
+                municipiosCodigo = em.merge(municipiosCodigo);
             }
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionExamenfisicoestomatologico : paciente.getExamenfisicoestomatologicoCollection()) {
-                Paciente oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionExamenfisicoestomatologico = examenfisicoestomatologicoCollectionExamenfisicoestomatologico.getPacienteidpersona();
-                examenfisicoestomatologicoCollectionExamenfisicoestomatologico.setPacienteidpersona(paciente);
-                examenfisicoestomatologicoCollectionExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoCollectionExamenfisicoestomatologico);
-                if (oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionExamenfisicoestomatologico != null) {
-                    oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionExamenfisicoestomatologico.getExamenfisicoestomatologicoCollection().remove(examenfisicoestomatologicoCollectionExamenfisicoestomatologico);
-                    oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionExamenfisicoestomatologico = em.merge(oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionExamenfisicoestomatologico);
+            for (Medico medicoListMedico : paciente.getMedicoList()) {
+                medicoListMedico.getPacienteList().add(paciente);
+                medicoListMedico = em.merge(medicoListMedico);
+            }
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListExamenfisicoestomatologico : paciente.getExamenfisicoestomatologicoList()) {
+                Paciente oldPacienteidpersonaOfExamenfisicoestomatologicoListExamenfisicoestomatologico = examenfisicoestomatologicoListExamenfisicoestomatologico.getPacienteidpersona();
+                examenfisicoestomatologicoListExamenfisicoestomatologico.setPacienteidpersona(paciente);
+                examenfisicoestomatologicoListExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoListExamenfisicoestomatologico);
+                if (oldPacienteidpersonaOfExamenfisicoestomatologicoListExamenfisicoestomatologico != null) {
+                    oldPacienteidpersonaOfExamenfisicoestomatologicoListExamenfisicoestomatologico.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologicoListExamenfisicoestomatologico);
+                    oldPacienteidpersonaOfExamenfisicoestomatologicoListExamenfisicoestomatologico = em.merge(oldPacienteidpersonaOfExamenfisicoestomatologicoListExamenfisicoestomatologico);
                 }
             }
-            for (Diagnostico diagnosticoCollectionDiagnostico : paciente.getDiagnosticoCollection()) {
-                Paciente oldPacienteIdpersonaOfDiagnosticoCollectionDiagnostico = diagnosticoCollectionDiagnostico.getPacienteIdpersona();
-                diagnosticoCollectionDiagnostico.setPacienteIdpersona(paciente);
-                diagnosticoCollectionDiagnostico = em.merge(diagnosticoCollectionDiagnostico);
-                if (oldPacienteIdpersonaOfDiagnosticoCollectionDiagnostico != null) {
-                    oldPacienteIdpersonaOfDiagnosticoCollectionDiagnostico.getDiagnosticoCollection().remove(diagnosticoCollectionDiagnostico);
-                    oldPacienteIdpersonaOfDiagnosticoCollectionDiagnostico = em.merge(oldPacienteIdpersonaOfDiagnosticoCollectionDiagnostico);
+            for (Diagnostico diagnosticoListDiagnostico : paciente.getDiagnosticoList()) {
+                Paciente oldPacienteIdpersonaOfDiagnosticoListDiagnostico = diagnosticoListDiagnostico.getPacienteIdpersona();
+                diagnosticoListDiagnostico.setPacienteIdpersona(paciente);
+                diagnosticoListDiagnostico = em.merge(diagnosticoListDiagnostico);
+                if (oldPacienteIdpersonaOfDiagnosticoListDiagnostico != null) {
+                    oldPacienteIdpersonaOfDiagnosticoListDiagnostico.getDiagnosticoList().remove(diagnosticoListDiagnostico);
+                    oldPacienteIdpersonaOfDiagnosticoListDiagnostico = em.merge(oldPacienteIdpersonaOfDiagnosticoListDiagnostico);
                 }
             }
-            for (Datosconsulta datosconsultaCollectionDatosconsulta : paciente.getDatosconsultaCollection()) {
-                Paciente oldPacienteIdpersonaOfDatosconsultaCollectionDatosconsulta = datosconsultaCollectionDatosconsulta.getPacienteIdpersona();
-                datosconsultaCollectionDatosconsulta.setPacienteIdpersona(paciente);
-                datosconsultaCollectionDatosconsulta = em.merge(datosconsultaCollectionDatosconsulta);
-                if (oldPacienteIdpersonaOfDatosconsultaCollectionDatosconsulta != null) {
-                    oldPacienteIdpersonaOfDatosconsultaCollectionDatosconsulta.getDatosconsultaCollection().remove(datosconsultaCollectionDatosconsulta);
-                    oldPacienteIdpersonaOfDatosconsultaCollectionDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaCollectionDatosconsulta);
+            for (Datosconsulta datosconsultaListDatosconsulta : paciente.getDatosconsultaList()) {
+                Paciente oldPacienteIdpersonaOfDatosconsultaListDatosconsulta = datosconsultaListDatosconsulta.getPacienteIdpersona();
+                datosconsultaListDatosconsulta.setPacienteIdpersona(paciente);
+                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
+                if (oldPacienteIdpersonaOfDatosconsultaListDatosconsulta != null) {
+                    oldPacienteIdpersonaOfDatosconsultaListDatosconsulta.getDatosconsultaList().remove(datosconsultaListDatosconsulta);
+                    oldPacienteIdpersonaOfDatosconsultaListDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaListDatosconsulta);
                 }
             }
             em.getTransaction().commit();
@@ -123,113 +131,127 @@ public class PacienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Paciente persistentPaciente = em.find(Paciente.class, paciente.getIdpersona());
-            Collection<Medico> medicoCollectionOld = persistentPaciente.getMedicoCollection();
-            Collection<Medico> medicoCollectionNew = paciente.getMedicoCollection();
-            Collection<Examenfisicoestomatologico> examenfisicoestomatologicoCollectionOld = persistentPaciente.getExamenfisicoestomatologicoCollection();
-            Collection<Examenfisicoestomatologico> examenfisicoestomatologicoCollectionNew = paciente.getExamenfisicoestomatologicoCollection();
-            Collection<Diagnostico> diagnosticoCollectionOld = persistentPaciente.getDiagnosticoCollection();
-            Collection<Diagnostico> diagnosticoCollectionNew = paciente.getDiagnosticoCollection();
-            Collection<Datosconsulta> datosconsultaCollectionOld = persistentPaciente.getDatosconsultaCollection();
-            Collection<Datosconsulta> datosconsultaCollectionNew = paciente.getDatosconsultaCollection();
+            Municipios municipiosCodigoOld = persistentPaciente.getMunicipiosCodigo();
+            Municipios municipiosCodigoNew = paciente.getMunicipiosCodigo();
+            List<Medico> medicoListOld = persistentPaciente.getMedicoList();
+            List<Medico> medicoListNew = paciente.getMedicoList();
+            List<Examenfisicoestomatologico> examenfisicoestomatologicoListOld = persistentPaciente.getExamenfisicoestomatologicoList();
+            List<Examenfisicoestomatologico> examenfisicoestomatologicoListNew = paciente.getExamenfisicoestomatologicoList();
+            List<Diagnostico> diagnosticoListOld = persistentPaciente.getDiagnosticoList();
+            List<Diagnostico> diagnosticoListNew = paciente.getDiagnosticoList();
+            List<Datosconsulta> datosconsultaListOld = persistentPaciente.getDatosconsultaList();
+            List<Datosconsulta> datosconsultaListNew = paciente.getDatosconsultaList();
             List<String> illegalOrphanMessages = null;
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionOldExamenfisicoestomatologico : examenfisicoestomatologicoCollectionOld) {
-                if (!examenfisicoestomatologicoCollectionNew.contains(examenfisicoestomatologicoCollectionOldExamenfisicoestomatologico)) {
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListOldExamenfisicoestomatologico : examenfisicoestomatologicoListOld) {
+                if (!examenfisicoestomatologicoListNew.contains(examenfisicoestomatologicoListOldExamenfisicoestomatologico)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Examenfisicoestomatologico " + examenfisicoestomatologicoCollectionOldExamenfisicoestomatologico + " since its pacienteidpersona field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Examenfisicoestomatologico " + examenfisicoestomatologicoListOldExamenfisicoestomatologico + " since its pacienteidpersona field is not nullable.");
                 }
             }
-            for (Diagnostico diagnosticoCollectionOldDiagnostico : diagnosticoCollectionOld) {
-                if (!diagnosticoCollectionNew.contains(diagnosticoCollectionOldDiagnostico)) {
+            for (Diagnostico diagnosticoListOldDiagnostico : diagnosticoListOld) {
+                if (!diagnosticoListNew.contains(diagnosticoListOldDiagnostico)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Diagnostico " + diagnosticoCollectionOldDiagnostico + " since its pacienteIdpersona field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Diagnostico " + diagnosticoListOldDiagnostico + " since its pacienteIdpersona field is not nullable.");
                 }
             }
-            for (Datosconsulta datosconsultaCollectionOldDatosconsulta : datosconsultaCollectionOld) {
-                if (!datosconsultaCollectionNew.contains(datosconsultaCollectionOldDatosconsulta)) {
+            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
+                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Datosconsulta " + datosconsultaCollectionOldDatosconsulta + " since its pacienteIdpersona field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Datosconsulta " + datosconsultaListOldDatosconsulta + " since its pacienteIdpersona field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Medico> attachedMedicoCollectionNew = new ArrayList<Medico>();
-            for (Medico medicoCollectionNewMedicoToAttach : medicoCollectionNew) {
-                medicoCollectionNewMedicoToAttach = em.getReference(medicoCollectionNewMedicoToAttach.getClass(), medicoCollectionNewMedicoToAttach.getIdmedico());
-                attachedMedicoCollectionNew.add(medicoCollectionNewMedicoToAttach);
+            if (municipiosCodigoNew != null) {
+                municipiosCodigoNew = em.getReference(municipiosCodigoNew.getClass(), municipiosCodigoNew.getCodigo());
+                paciente.setMunicipiosCodigo(municipiosCodigoNew);
             }
-            medicoCollectionNew = attachedMedicoCollectionNew;
-            paciente.setMedicoCollection(medicoCollectionNew);
-            Collection<Examenfisicoestomatologico> attachedExamenfisicoestomatologicoCollectionNew = new ArrayList<Examenfisicoestomatologico>();
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionNewExamenfisicoestomatologicoToAttach : examenfisicoestomatologicoCollectionNew) {
-                examenfisicoestomatologicoCollectionNewExamenfisicoestomatologicoToAttach = em.getReference(examenfisicoestomatologicoCollectionNewExamenfisicoestomatologicoToAttach.getClass(), examenfisicoestomatologicoCollectionNewExamenfisicoestomatologicoToAttach.getIdexamenFisicoEstomatologico());
-                attachedExamenfisicoestomatologicoCollectionNew.add(examenfisicoestomatologicoCollectionNewExamenfisicoestomatologicoToAttach);
+            List<Medico> attachedMedicoListNew = new ArrayList<Medico>();
+            for (Medico medicoListNewMedicoToAttach : medicoListNew) {
+                medicoListNewMedicoToAttach = em.getReference(medicoListNewMedicoToAttach.getClass(), medicoListNewMedicoToAttach.getIdmedico());
+                attachedMedicoListNew.add(medicoListNewMedicoToAttach);
             }
-            examenfisicoestomatologicoCollectionNew = attachedExamenfisicoestomatologicoCollectionNew;
-            paciente.setExamenfisicoestomatologicoCollection(examenfisicoestomatologicoCollectionNew);
-            Collection<Diagnostico> attachedDiagnosticoCollectionNew = new ArrayList<Diagnostico>();
-            for (Diagnostico diagnosticoCollectionNewDiagnosticoToAttach : diagnosticoCollectionNew) {
-                diagnosticoCollectionNewDiagnosticoToAttach = em.getReference(diagnosticoCollectionNewDiagnosticoToAttach.getClass(), diagnosticoCollectionNewDiagnosticoToAttach.getIddiagnostico());
-                attachedDiagnosticoCollectionNew.add(diagnosticoCollectionNewDiagnosticoToAttach);
+            medicoListNew = attachedMedicoListNew;
+            paciente.setMedicoList(medicoListNew);
+            List<Examenfisicoestomatologico> attachedExamenfisicoestomatologicoListNew = new ArrayList<Examenfisicoestomatologico>();
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListNewExamenfisicoestomatologicoToAttach : examenfisicoestomatologicoListNew) {
+                examenfisicoestomatologicoListNewExamenfisicoestomatologicoToAttach = em.getReference(examenfisicoestomatologicoListNewExamenfisicoestomatologicoToAttach.getClass(), examenfisicoestomatologicoListNewExamenfisicoestomatologicoToAttach.getIdexamenFisicoEstomatologico());
+                attachedExamenfisicoestomatologicoListNew.add(examenfisicoestomatologicoListNewExamenfisicoestomatologicoToAttach);
             }
-            diagnosticoCollectionNew = attachedDiagnosticoCollectionNew;
-            paciente.setDiagnosticoCollection(diagnosticoCollectionNew);
-            Collection<Datosconsulta> attachedDatosconsultaCollectionNew = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaCollectionNewDatosconsultaToAttach : datosconsultaCollectionNew) {
-                datosconsultaCollectionNewDatosconsultaToAttach = em.getReference(datosconsultaCollectionNewDatosconsultaToAttach.getClass(), datosconsultaCollectionNewDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaCollectionNew.add(datosconsultaCollectionNewDatosconsultaToAttach);
+            examenfisicoestomatologicoListNew = attachedExamenfisicoestomatologicoListNew;
+            paciente.setExamenfisicoestomatologicoList(examenfisicoestomatologicoListNew);
+            List<Diagnostico> attachedDiagnosticoListNew = new ArrayList<Diagnostico>();
+            for (Diagnostico diagnosticoListNewDiagnosticoToAttach : diagnosticoListNew) {
+                diagnosticoListNewDiagnosticoToAttach = em.getReference(diagnosticoListNewDiagnosticoToAttach.getClass(), diagnosticoListNewDiagnosticoToAttach.getIddiagnostico());
+                attachedDiagnosticoListNew.add(diagnosticoListNewDiagnosticoToAttach);
             }
-            datosconsultaCollectionNew = attachedDatosconsultaCollectionNew;
-            paciente.setDatosconsultaCollection(datosconsultaCollectionNew);
+            diagnosticoListNew = attachedDiagnosticoListNew;
+            paciente.setDiagnosticoList(diagnosticoListNew);
+            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
+                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
+            }
+            datosconsultaListNew = attachedDatosconsultaListNew;
+            paciente.setDatosconsultaList(datosconsultaListNew);
             paciente = em.merge(paciente);
-            for (Medico medicoCollectionOldMedico : medicoCollectionOld) {
-                if (!medicoCollectionNew.contains(medicoCollectionOldMedico)) {
-                    medicoCollectionOldMedico.getPacienteCollection().remove(paciente);
-                    medicoCollectionOldMedico = em.merge(medicoCollectionOldMedico);
+            if (municipiosCodigoOld != null && !municipiosCodigoOld.equals(municipiosCodigoNew)) {
+                municipiosCodigoOld.getPacienteList().remove(paciente);
+                municipiosCodigoOld = em.merge(municipiosCodigoOld);
+            }
+            if (municipiosCodigoNew != null && !municipiosCodigoNew.equals(municipiosCodigoOld)) {
+                municipiosCodigoNew.getPacienteList().add(paciente);
+                municipiosCodigoNew = em.merge(municipiosCodigoNew);
+            }
+            for (Medico medicoListOldMedico : medicoListOld) {
+                if (!medicoListNew.contains(medicoListOldMedico)) {
+                    medicoListOldMedico.getPacienteList().remove(paciente);
+                    medicoListOldMedico = em.merge(medicoListOldMedico);
                 }
             }
-            for (Medico medicoCollectionNewMedico : medicoCollectionNew) {
-                if (!medicoCollectionOld.contains(medicoCollectionNewMedico)) {
-                    medicoCollectionNewMedico.getPacienteCollection().add(paciente);
-                    medicoCollectionNewMedico = em.merge(medicoCollectionNewMedico);
+            for (Medico medicoListNewMedico : medicoListNew) {
+                if (!medicoListOld.contains(medicoListNewMedico)) {
+                    medicoListNewMedico.getPacienteList().add(paciente);
+                    medicoListNewMedico = em.merge(medicoListNewMedico);
                 }
             }
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico : examenfisicoestomatologicoCollectionNew) {
-                if (!examenfisicoestomatologicoCollectionOld.contains(examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico)) {
-                    Paciente oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico = examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico.getPacienteidpersona();
-                    examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico.setPacienteidpersona(paciente);
-                    examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico);
-                    if (oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico != null && !oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico.equals(paciente)) {
-                        oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico.getExamenfisicoestomatologicoCollection().remove(examenfisicoestomatologicoCollectionNewExamenfisicoestomatologico);
-                        oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico = em.merge(oldPacienteidpersonaOfExamenfisicoestomatologicoCollectionNewExamenfisicoestomatologico);
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListNewExamenfisicoestomatologico : examenfisicoestomatologicoListNew) {
+                if (!examenfisicoestomatologicoListOld.contains(examenfisicoestomatologicoListNewExamenfisicoestomatologico)) {
+                    Paciente oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico = examenfisicoestomatologicoListNewExamenfisicoestomatologico.getPacienteidpersona();
+                    examenfisicoestomatologicoListNewExamenfisicoestomatologico.setPacienteidpersona(paciente);
+                    examenfisicoestomatologicoListNewExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoListNewExamenfisicoestomatologico);
+                    if (oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico != null && !oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico.equals(paciente)) {
+                        oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologicoListNewExamenfisicoestomatologico);
+                        oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico = em.merge(oldPacienteidpersonaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico);
                     }
                 }
             }
-            for (Diagnostico diagnosticoCollectionNewDiagnostico : diagnosticoCollectionNew) {
-                if (!diagnosticoCollectionOld.contains(diagnosticoCollectionNewDiagnostico)) {
-                    Paciente oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico = diagnosticoCollectionNewDiagnostico.getPacienteIdpersona();
-                    diagnosticoCollectionNewDiagnostico.setPacienteIdpersona(paciente);
-                    diagnosticoCollectionNewDiagnostico = em.merge(diagnosticoCollectionNewDiagnostico);
-                    if (oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico != null && !oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico.equals(paciente)) {
-                        oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico.getDiagnosticoCollection().remove(diagnosticoCollectionNewDiagnostico);
-                        oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico = em.merge(oldPacienteIdpersonaOfDiagnosticoCollectionNewDiagnostico);
+            for (Diagnostico diagnosticoListNewDiagnostico : diagnosticoListNew) {
+                if (!diagnosticoListOld.contains(diagnosticoListNewDiagnostico)) {
+                    Paciente oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico = diagnosticoListNewDiagnostico.getPacienteIdpersona();
+                    diagnosticoListNewDiagnostico.setPacienteIdpersona(paciente);
+                    diagnosticoListNewDiagnostico = em.merge(diagnosticoListNewDiagnostico);
+                    if (oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico != null && !oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico.equals(paciente)) {
+                        oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico.getDiagnosticoList().remove(diagnosticoListNewDiagnostico);
+                        oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico = em.merge(oldPacienteIdpersonaOfDiagnosticoListNewDiagnostico);
                     }
                 }
             }
-            for (Datosconsulta datosconsultaCollectionNewDatosconsulta : datosconsultaCollectionNew) {
-                if (!datosconsultaCollectionOld.contains(datosconsultaCollectionNewDatosconsulta)) {
-                    Paciente oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta = datosconsultaCollectionNewDatosconsulta.getPacienteIdpersona();
-                    datosconsultaCollectionNewDatosconsulta.setPacienteIdpersona(paciente);
-                    datosconsultaCollectionNewDatosconsulta = em.merge(datosconsultaCollectionNewDatosconsulta);
-                    if (oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta != null && !oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta.equals(paciente)) {
-                        oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta.getDatosconsultaCollection().remove(datosconsultaCollectionNewDatosconsulta);
-                        oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaCollectionNewDatosconsulta);
+            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
+                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
+                    Paciente oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta = datosconsultaListNewDatosconsulta.getPacienteIdpersona();
+                    datosconsultaListNewDatosconsulta.setPacienteIdpersona(paciente);
+                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
+                    if (oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta != null && !oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta.equals(paciente)) {
+                        oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta.getDatosconsultaList().remove(datosconsultaListNewDatosconsulta);
+                        oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta);
                     }
                 }
             }
@@ -263,34 +285,39 @@ public class PacienteJpaController implements Serializable {
                 throw new NonexistentEntityException("The paciente with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Examenfisicoestomatologico> examenfisicoestomatologicoCollectionOrphanCheck = paciente.getExamenfisicoestomatologicoCollection();
-            for (Examenfisicoestomatologico examenfisicoestomatologicoCollectionOrphanCheckExamenfisicoestomatologico : examenfisicoestomatologicoCollectionOrphanCheck) {
+            List<Examenfisicoestomatologico> examenfisicoestomatologicoListOrphanCheck = paciente.getExamenfisicoestomatologicoList();
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListOrphanCheckExamenfisicoestomatologico : examenfisicoestomatologicoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Examenfisicoestomatologico " + examenfisicoestomatologicoCollectionOrphanCheckExamenfisicoestomatologico + " in its examenfisicoestomatologicoCollection field has a non-nullable pacienteidpersona field.");
+                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Examenfisicoestomatologico " + examenfisicoestomatologicoListOrphanCheckExamenfisicoestomatologico + " in its examenfisicoestomatologicoList field has a non-nullable pacienteidpersona field.");
             }
-            Collection<Diagnostico> diagnosticoCollectionOrphanCheck = paciente.getDiagnosticoCollection();
-            for (Diagnostico diagnosticoCollectionOrphanCheckDiagnostico : diagnosticoCollectionOrphanCheck) {
+            List<Diagnostico> diagnosticoListOrphanCheck = paciente.getDiagnosticoList();
+            for (Diagnostico diagnosticoListOrphanCheckDiagnostico : diagnosticoListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Diagnostico " + diagnosticoCollectionOrphanCheckDiagnostico + " in its diagnosticoCollection field has a non-nullable pacienteIdpersona field.");
+                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Diagnostico " + diagnosticoListOrphanCheckDiagnostico + " in its diagnosticoList field has a non-nullable pacienteIdpersona field.");
             }
-            Collection<Datosconsulta> datosconsultaCollectionOrphanCheck = paciente.getDatosconsultaCollection();
-            for (Datosconsulta datosconsultaCollectionOrphanCheckDatosconsulta : datosconsultaCollectionOrphanCheck) {
+            List<Datosconsulta> datosconsultaListOrphanCheck = paciente.getDatosconsultaList();
+            for (Datosconsulta datosconsultaListOrphanCheckDatosconsulta : datosconsultaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Datosconsulta " + datosconsultaCollectionOrphanCheckDatosconsulta + " in its datosconsultaCollection field has a non-nullable pacienteIdpersona field.");
+                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Datosconsulta " + datosconsultaListOrphanCheckDatosconsulta + " in its datosconsultaList field has a non-nullable pacienteIdpersona field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<Medico> medicoCollection = paciente.getMedicoCollection();
-            for (Medico medicoCollectionMedico : medicoCollection) {
-                medicoCollectionMedico.getPacienteCollection().remove(paciente);
-                medicoCollectionMedico = em.merge(medicoCollectionMedico);
+            Municipios municipiosCodigo = paciente.getMunicipiosCodigo();
+            if (municipiosCodigo != null) {
+                municipiosCodigo.getPacienteList().remove(paciente);
+                municipiosCodigo = em.merge(municipiosCodigo);
+            }
+            List<Medico> medicoList = paciente.getMedicoList();
+            for (Medico medicoListMedico : medicoList) {
+                medicoListMedico.getPacienteList().remove(paciente);
+                medicoListMedico = em.merge(medicoListMedico);
             }
             em.remove(paciente);
             em.getTransaction().commit();

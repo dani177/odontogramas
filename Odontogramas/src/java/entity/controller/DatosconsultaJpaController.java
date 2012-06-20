@@ -41,7 +41,7 @@ public class DatosconsultaJpaController implements Serializable {
             }
             em.persist(datosconsulta);
             if (pacienteIdpersona != null) {
-                pacienteIdpersona.getDatosconsultaCollection().add(datosconsulta);
+                pacienteIdpersona.getDatosconsultaList().add(datosconsulta);
                 pacienteIdpersona = em.merge(pacienteIdpersona);
             }
             em.getTransaction().commit();
@@ -66,11 +66,11 @@ public class DatosconsultaJpaController implements Serializable {
             }
             datosconsulta = em.merge(datosconsulta);
             if (pacienteIdpersonaOld != null && !pacienteIdpersonaOld.equals(pacienteIdpersonaNew)) {
-                pacienteIdpersonaOld.getDatosconsultaCollection().remove(datosconsulta);
+                pacienteIdpersonaOld.getDatosconsultaList().remove(datosconsulta);
                 pacienteIdpersonaOld = em.merge(pacienteIdpersonaOld);
             }
             if (pacienteIdpersonaNew != null && !pacienteIdpersonaNew.equals(pacienteIdpersonaOld)) {
-                pacienteIdpersonaNew.getDatosconsultaCollection().add(datosconsulta);
+                pacienteIdpersonaNew.getDatosconsultaList().add(datosconsulta);
                 pacienteIdpersonaNew = em.merge(pacienteIdpersonaNew);
             }
             em.getTransaction().commit();
@@ -104,7 +104,7 @@ public class DatosconsultaJpaController implements Serializable {
             }
             Paciente pacienteIdpersona = datosconsulta.getPacienteIdpersona();
             if (pacienteIdpersona != null) {
-                pacienteIdpersona.getDatosconsultaCollection().remove(datosconsulta);
+                pacienteIdpersona.getDatosconsultaList().remove(datosconsulta);
                 pacienteIdpersona = em.merge(pacienteIdpersona);
             }
             em.remove(datosconsulta);

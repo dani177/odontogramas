@@ -4,13 +4,18 @@
  */
 package controller;
 
+import entity.Departamentos;
+import entity.Municipios;
 import entity.Paciente;
+import entity.controller.DepartamentosJpaController;
+import entity.controller.MunicipiosJpaController;
 import entity.controller.PacienteJpaController;
 import entity.controller.exceptions.PreexistingEntityException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -38,8 +45,29 @@ public class formController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
         try {
+
+            if (request.getParameter("action").equals("municipios")) {
+                String codDe = ((String) request.getParameter("codDep"));
+                int codDep = Integer.parseInt(codDe);
+                Departamentos dep = new DepartamentosJpaController().findDepartamentos(codDep);
+                MunicipiosJpaController conMun = new MunicipiosJpaController();
+                ArrayList<Municipios> listaDeMunicipios = (ArrayList<Municipios>) conMun.findMunicipiosEntities();
+                ArrayList<Municipios> mun = new ArrayList<Municipios>();
+                for (Municipios m : listaDeMunicipios) {
+                    if (m.getDepartamentosCodigo1() == dep) {
+                    mun.add(m);
+                    }
+                }
+                
+                session.setAttribute("municipios", mun);
+                
+            }
+
+
+
             if (request.getParameter("action").equals("guardarDatosPer")) {
                 PacienteJpaController conPa = new PacienteJpaController();
                 Paciente pa = new Paciente();
@@ -48,11 +76,14 @@ public class formController extends HttpServlet {
                 pa.setIdpersona((String) request.getParameter("identificacion"));
                 pa.setNumAfiliacion((String) request.getParameter("afiliacion"));
                 pa.setTelefono((String) request.getParameter("telefono"));
-                pa.setCiudad((String) request.getParameter("ciudad"));
-
+                String codigomun = (String) (request.getParameter("municipio"));
+                int codMun = Integer.parseInt(codigomun);
+                MunicipiosJpaController ConMun = new MunicipiosJpaController();
+                Municipios mun = ConMun.findMunicipios(codMun);
+                pa.setMunicipiosCodigo(mun);
 
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-                String sFecha = (String)request.getParameter("fecha");
+                String sFecha = (String) request.getParameter("fecha");
                 Date fecha = null;
                 try {
 
@@ -68,7 +99,7 @@ public class formController extends HttpServlet {
                 pa.setSexo((String) request.getParameter("sexo"));
                 pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
                 pa.setOcupacion((String) request.getParameter("ocupacion"));
-                pa.setRemitidoA((String) request.getParameter("remitido"));
+
                 try {
                     conPa.create(pa);
                 } catch (PreexistingEntityException ex) {

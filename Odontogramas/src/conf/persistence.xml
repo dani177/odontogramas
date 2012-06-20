@@ -13,6 +13,8 @@
     <class>entity.Examenfisicoestomatologico</class>
     <class>entity.Diagnostico</class>
     <class>entity.Evolucion</class>
+    <class>entity.Municipios</class>
+    <class>entity.Departamentos</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/odontogramas"/>

@@ -6,7 +6,7 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -35,9 +35,9 @@ public class Diagnostico implements Serializable {
     @Column(name = "pronostico")
     private String pronostico;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "diagnosticoIddiagnostico")
-    private Collection<Evolucion> evolucionCollection;
+    private List<Evolucion> evolucionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "diagnosticoIddiagnostico")
-    private Collection<Tratamiento> tratamientoCollection;
+    private List<Tratamiento> tratamientoList;
     @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")
     @ManyToOne(optional = false)
     private Paciente pacienteIdpersona;
@@ -82,21 +82,21 @@ public class Diagnostico implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Evolucion> getEvolucionCollection() {
-        return evolucionCollection;
+    public List<Evolucion> getEvolucionList() {
+        return evolucionList;
     }
 
-    public void setEvolucionCollection(Collection<Evolucion> evolucionCollection) {
-        this.evolucionCollection = evolucionCollection;
+    public void setEvolucionList(List<Evolucion> evolucionList) {
+        this.evolucionList = evolucionList;
     }
 
     @XmlTransient
-    public Collection<Tratamiento> getTratamientoCollection() {
-        return tratamientoCollection;
+    public List<Tratamiento> getTratamientoList() {
+        return tratamientoList;
     }
 
-    public void setTratamientoCollection(Collection<Tratamiento> tratamientoCollection) {
-        this.tratamientoCollection = tratamientoCollection;
+    public void setTratamientoList(List<Tratamiento> tratamientoList) {
+        this.tratamientoList = tratamientoList;
     }
 
     public Paciente getPacienteIdpersona() {

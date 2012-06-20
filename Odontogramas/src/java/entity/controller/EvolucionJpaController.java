@@ -41,7 +41,7 @@ public class EvolucionJpaController implements Serializable {
             }
             em.persist(evolucion);
             if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getEvolucionCollection().add(evolucion);
+                diagnosticoIddiagnostico.getEvolucionList().add(evolucion);
                 diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
             }
             em.getTransaction().commit();
@@ -66,11 +66,11 @@ public class EvolucionJpaController implements Serializable {
             }
             evolucion = em.merge(evolucion);
             if (diagnosticoIddiagnosticoOld != null && !diagnosticoIddiagnosticoOld.equals(diagnosticoIddiagnosticoNew)) {
-                diagnosticoIddiagnosticoOld.getEvolucionCollection().remove(evolucion);
+                diagnosticoIddiagnosticoOld.getEvolucionList().remove(evolucion);
                 diagnosticoIddiagnosticoOld = em.merge(diagnosticoIddiagnosticoOld);
             }
             if (diagnosticoIddiagnosticoNew != null && !diagnosticoIddiagnosticoNew.equals(diagnosticoIddiagnosticoOld)) {
-                diagnosticoIddiagnosticoNew.getEvolucionCollection().add(evolucion);
+                diagnosticoIddiagnosticoNew.getEvolucionList().add(evolucion);
                 diagnosticoIddiagnosticoNew = em.merge(diagnosticoIddiagnosticoNew);
             }
             em.getTransaction().commit();
@@ -104,7 +104,7 @@ public class EvolucionJpaController implements Serializable {
             }
             Diagnostico diagnosticoIddiagnostico = evolucion.getDiagnosticoIddiagnostico();
             if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getEvolucionCollection().remove(evolucion);
+                diagnosticoIddiagnostico.getEvolucionList().remove(evolucion);
                 diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
             }
             em.remove(evolucion);
