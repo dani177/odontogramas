@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-06-2012 a las 17:05:45
+-- Tiempo de generación: 21-06-2012 a las 21:59:48
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -126,24 +126,8 @@ CREATE TABLE IF NOT EXISTS `diagnostico` (
   `codigo` varchar(45) DEFAULT NULL,
   `diagnostico` varchar(255) DEFAULT NULL,
   `pronostico` varchar(45) DEFAULT NULL,
-  `paciente_idpersona` varchar(45) NOT NULL,
-  PRIMARY KEY (`iddiagnostico`),
-  KEY `fk_diagnostico_paciente1` (`paciente_idpersona`)
+  PRIMARY KEY (`iddiagnostico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `diagnostico_has_plantratamiento`
---
-
-CREATE TABLE IF NOT EXISTS `diagnostico_has_plantratamiento` (
-  `diagnostico_iddiagnostico` int(11) NOT NULL,
-  `planTratamiento_idplanTratamiento` int(11) NOT NULL,
-  `valor` varchar(45) DEFAULT NULL,
-  KEY `fk_diagnostico_has_planTratamiento_planTratamiento1` (`planTratamiento_idplanTratamiento`),
-  KEY `fk_diagnostico_has_planTratamiento_diagnostico1` (`diagnostico_iddiagnostico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -172,12 +156,10 @@ CREATE TABLE IF NOT EXISTS `examenfisicoestomatologico` (
   `temperatura` varchar(45) DEFAULT NULL,
   `pulso` varchar(45) DEFAULT NULL,
   `tensionArterial` varchar(45) DEFAULT NULL,
-  `respiracion` varchar(45) DEFAULT NULL,
   `higieneOral` varchar(45) DEFAULT NULL,
   `sedaDental` varchar(45) DEFAULT NULL,
   `cepilloDentalUso` varchar(45) DEFAULT NULL,
   `vecesAlDia` varchar(45) DEFAULT NULL,
-  `tiempo` varchar(45) DEFAULT NULL,
   `enjuagesBsinFluor` varchar(45) DEFAULT NULL,
   `enjuagesBconFluor` varchar(45) DEFAULT NULL,
   `habitosYvicios` varchar(45) DEFAULT NULL,
@@ -218,6 +200,18 @@ CREATE TABLE IF NOT EXISTS `medico_has_paciente` (
   KEY `fk_medico_has_paciente_paciente1` (`paciente_idpersona`),
   KEY `fk_medico_has_paciente_medico1` (`medico_idmedico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `medico_has_paciente`
+--
+
+INSERT INTO `medico_has_paciente` (`medico_idmedico`, `paciente_idpersona`) VALUES
+(123456, '1014456'),
+(123456, '12312'),
+(123456, '456567'),
+(123456, '456567534'),
+(123456, '3455'),
+(123456, '12331');
 
 -- --------------------------------------------------------
 
@@ -1369,7 +1363,54 @@ CREATE TABLE IF NOT EXISTS `paciente` (
 --
 
 INSERT INTO `paciente` (`idpersona`, `nombre`, `direccion`, `num_afiliacion`, `telefono`, `edad`, `sexo`, `estadoCivil`, `fecha`, `municipios_codigo`, `profesiones_codigo`) VALUES
-('1243254', 'Diana Padilla', 'Campestre', '345345345', '67676767', 14, 'femenino', 'soltero', '2012-06-21', 13001, 2145);
+('1014456', 'Diana Padilla', 'Campestre', '8670956864', '67676767', 14, 'femenino', 'soltero', '2012-06-21', 13001, 5134),
+('12312', 'pedro', 'centro', '1212312', '676767', 67, 'masculino', 'soltero', '2012-06-21', 13001, 2145),
+('12331', 'lizet', 'aca', '342543', '345345', 34, 'masculino', 'soltero', '2012-06-21', 52254, 212),
+('3455', 'juan', 'ewt', '345454', '3455', 45, 'masculino', 'casado', '2012-06-21', 11001, 211),
+('456567', 'pedro', 'centro', '1212312', '676767', 67, 'masculino', 'soltero', '2012-06-21', 5001, 2145),
+('456567534', 'pedro', 'centro', '1212312', '676767', 67, 'masculino', 'soltero', '2012-06-21', 8001, 2145);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente_has_diagnostico`
+--
+
+CREATE TABLE IF NOT EXISTS `paciente_has_diagnostico` (
+  `paciente_idpersona` varchar(45) NOT NULL,
+  `diagnostico_iddiagnostico` int(11) NOT NULL,
+  PRIMARY KEY (`paciente_idpersona`,`diagnostico_iddiagnostico`),
+  KEY `fk_paciente_has_diagnostico_diagnostico1` (`diagnostico_iddiagnostico`),
+  KEY `fk_paciente_has_diagnostico_paciente1` (`paciente_idpersona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente_has_plantratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `paciente_has_plantratamiento` (
+  `paciente_idpersona` varchar(45) NOT NULL,
+  `planTratamiento_idplanTratamiento` int(11) NOT NULL,
+  PRIMARY KEY (`paciente_idpersona`,`planTratamiento_idplanTratamiento`),
+  KEY `fk_paciente_has_planTratamiento_planTratamiento1` (`planTratamiento_idplanTratamiento`),
+  KEY `fk_paciente_has_planTratamiento_paciente1` (`paciente_idpersona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente_has_tratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `paciente_has_tratamiento` (
+  `paciente_idpersona` varchar(45) NOT NULL,
+  `tratamiento_idtratamiento` int(11) NOT NULL,
+  PRIMARY KEY (`paciente_idpersona`,`tratamiento_idtratamiento`),
+  KEY `fk_paciente_has_tratamiento_tratamiento1` (`tratamiento_idtratamiento`),
+  KEY `fk_paciente_has_tratamiento_paciente1` (`paciente_idpersona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1847,9 +1888,7 @@ CREATE TABLE IF NOT EXISTS `tratamiento` (
   `idtratamiento` int(11) NOT NULL AUTO_INCREMENT,
   `tratamiento` varchar(255) DEFAULT NULL,
   `presupuesto` varchar(45) DEFAULT NULL,
-  `diagnostico_iddiagnostico` int(11) NOT NULL,
-  PRIMARY KEY (`idtratamiento`),
-  KEY `fk_tratamiento_diagnostico1` (`diagnostico_iddiagnostico`)
+  PRIMARY KEY (`idtratamiento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
@@ -1868,19 +1907,6 @@ ALTER TABLE `datosconsulta`
 ALTER TABLE `datosconsulta_has_datosbasicos`
   ADD CONSTRAINT `fk_datosConsulta_has_datosBasicos_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `datosconsulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_datosConsulta_has_datosBasicos_datosBasicos1` FOREIGN KEY (`datosBasicos_iddatosBasicos`) REFERENCES `datosbasicos` (`iddatosBasicos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `diagnostico`
---
-ALTER TABLE `diagnostico`
-  ADD CONSTRAINT `fk_diagnostico_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `diagnostico_has_plantratamiento`
---
-ALTER TABLE `diagnostico_has_plantratamiento`
-  ADD CONSTRAINT `fk_diagnostico_has_planTratamiento_diagnostico1` FOREIGN KEY (`diagnostico_iddiagnostico`) REFERENCES `diagnostico` (`iddiagnostico`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_diagnostico_has_planTratamiento_planTratamiento1` FOREIGN KEY (`planTratamiento_idplanTratamiento`) REFERENCES `plantratamiento` (`idplanTratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `evolucion`
@@ -1915,10 +1941,25 @@ ALTER TABLE `paciente`
   ADD CONSTRAINT `fk_paciente_profesiones1` FOREIGN KEY (`profesiones_codigo`) REFERENCES `profesiones` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `tratamiento`
+-- Filtros para la tabla `paciente_has_diagnostico`
 --
-ALTER TABLE `tratamiento`
-  ADD CONSTRAINT `fk_tratamiento_diagnostico1` FOREIGN KEY (`diagnostico_iddiagnostico`) REFERENCES `diagnostico` (`iddiagnostico`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `paciente_has_diagnostico`
+  ADD CONSTRAINT `fk_paciente_has_diagnostico_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_paciente_has_diagnostico_diagnostico1` FOREIGN KEY (`diagnostico_iddiagnostico`) REFERENCES `diagnostico` (`iddiagnostico`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `paciente_has_plantratamiento`
+--
+ALTER TABLE `paciente_has_plantratamiento`
+  ADD CONSTRAINT `fk_paciente_has_planTratamiento_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_paciente_has_planTratamiento_planTratamiento1` FOREIGN KEY (`planTratamiento_idplanTratamiento`) REFERENCES `plantratamiento` (`idplanTratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `paciente_has_tratamiento`
+--
+ALTER TABLE `paciente_has_tratamiento`
+  ADD CONSTRAINT `fk_paciente_has_tratamiento_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_paciente_has_tratamiento_tratamiento1` FOREIGN KEY (`tratamiento_idtratamiento`) REFERENCES `tratamiento` (`idtratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
