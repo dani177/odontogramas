@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +8,7 @@
         <title>Odontograma</title>
 
         <link href="assets/css/bootstrap.css" rel="stylesheet"> 
-        <link href="assets/css/docs.css" rel="stylesheet"> 
+        <link href="assets/css/docs2.css" rel="stylesheet"> 
 
 
         <style type="text/css">
@@ -40,6 +41,7 @@
         <script src="assets/js/bootstrap-datepicker.js"></script>
         <script src="assets/js/jquery.validate.js"></script>
         <script src="assets/js/jquery.metadata.js"></script>
+        <script src="assets/js/jquery.ba-hashchange.js"></script>
 
         <script type="text/javascript">
             $(function(){
@@ -87,23 +89,39 @@
                         +"</tr>  ");
                 })
                 
-                $("#formularioDatosPersonales").validate({
+                $("#DatosPersonales").validate({
                     submitHandler: function(){
                         $(".alert-success").alert();
                         $.ajax({
                             type: 'POST', 
                             url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
-                            data: $("#formularioDatosPersonales").serialize(),
+                            data: $("#DatosPersonales").serialize(),
                             success: function(){
-                                var html = ' <div class="alert alert-success fade in">'
-                                    +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
-                                    +'<strong>Bien hecho!</strong> Los datos han sido guardados con exito.'
-                                    +'</div>';
-
-                                $("#notificaciones").append($(html));
-                                $("#guardado").alert();
+                               location = "<%=request.getContextPath()%>/#listarPacientes"
                             } //fin success
                         }); //fin $.ajax    
+                    }
+                });
+                
+                
+                $(window).hashchange(function(){
+                      console.log("jajajaja");
+                    var hash = location.hash;
+                
+                    if(hash == "#listarPacientes"){
+                      
+                      $("div.ui-layout-center").empty();
+                                $.ajax({ 
+                                    type: "POST", 
+                                    url: "/Odontogramas/vista/listadoDePacientes.jsp", 
+                                    success: function(data) 
+                                    { 
+                                                                 
+                                        $("#formulario2").append(data);
+                                       
+                                    } //fin success
+                                }); //fin del $.ajax
+                      
                     }
                 });
                 
@@ -155,31 +173,79 @@
                 <div class="span3">
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
-                            <li class="nav-header">Sidebar</li>
-                            <li class="active"><a href="#formulario1">Formulario 1</a></li>
-                            <li><a href="#formulario2">Formulario 2</a></li>
-                            <li><a href="#formulario3">Formulario 3</a></li>
-                            <li><a href="#formulario4">Formulario 4</a></li>
+                            <li class="nav-header">Menu</li>
+                            <li class="active"><a href="#formulario2">Lista de Pacientes</a></li>
+                            <li ><a href="#formulario1">Nuevo Paciente</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->
-                <div class="span9" id="formulario1">
+               
+
+
+                <div class="span9" id="formulario2">
+                    <div class="hero-unit">    
+                        <div class="row">
+                            <div class="span10">
+                                <br/>
+                                <h2>Listado de  Pacientes</h2>
+                                <c:choose>
+                                    <c:when test="${fn:length(listaDePacientes)!= 0}">
+
+                                        <table class="table table-striped table-bordered table-condensed">
+                                            <thead>
+                                            <th>Cedula</th>    
+                                            <th>Paciente</th>
+                                            <th></th>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${listaDePacientes}" var="row" varStatus="iter">
+                                                    <tr>
+                                                        <td>   
+                                                            <c:out value="${row.idpersona}"/>
+                                                        </td>
+                                                        <td>   
+                                                            <c:out value="${row.nombre}"/>
+                                                        </td>
+                                                        <td class="action icon16">
+                                                            <a title="Ver" href="#verPaciente&${row.idpersona}" class="icon-eye-open"></a>
+                                                            <a title="Eliminar" class="delete" href=""></a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:when>
+                                    <c:otherwise>
+                                        No existen pacientes para este medico registrados en el sistema.
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>    
+                
+                
+                
+                
+                <div class="span9" id="formulario1" style="display: none;">
                     <div class="hero-unit">
                         <ul id="tab" class="nav nav-tabs">
-                            <li ><a href="#home" data-toggle="tab">I. Datos Personales</a></li>
-                            <li ><a href="#profile" data-toggle="tab">II. Datos Personales</a></li>
-                            <li class="active"><a href="#otro" data-toggle="tab">III. Examen Fisico Estomatologico</a></li>
+                            <li class="active"><a href="#home2" data-toggle="tab">I. Datos Personales</a></li>
+                            <li ><a href="#profile" data-toggle="tab">II. Datos Basicos</a></li>
+                            <li ><a href="#otro" data-toggle="tab">III. Examen Fisico Estomatologico</a></li>
+                            <li ><a href="#diag" data-toggle="tab">IV. Diagnostico Y Tratamiento </a></li>
                         </ul>
 
                         <!-------------PESTAÃ‘A 1--------------------------------------------->
                         <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade" id="home">
+                            <div class="tab-pane fade in active" id="home2">
 
                                 <!--nuevo-->
                                 <div class="row">
                                     <div class="span12">
 
-                                        <form id="formularioDatosPersonales" class="form-horizontal" >
+                                        <form id="DatosPersonales" class="form-horizontal">
                                             <fieldset>
                                                 <legend>I. Datos Personales</legend>
                                                 <div class="control-group">
@@ -279,7 +345,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                 <div class="control-group">
+                                                <div class="control-group">
                                                     <label for="profesion" class="control-label">Profesion/Ocupacion</label>
                                                     <div class="controls">
                                                         <select id="profesion" name="profesion" class="{required:true}">
@@ -486,7 +552,7 @@
 
 
                             <!-----------------PESTAÃ‘A 3---------------------------->
-                            <div class="tab-pane fade in active" id="otro">
+                            <div class="tab-pane fade" id="otro">
                                 <div class="row">
 
                                     <form class="form-horizontal">
@@ -511,12 +577,6 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label for="respiracion" class="control-label">Respiracion</label>
-                                                <div class="controls">
-                                                    <input id="respiracion"  type="text" >
-                                                </div>
-                                            </div>
-                                            <div class="control-group">
                                                 <label class="control-label">Higiene Oral</label>
                                                 <div class="controls">
                                                     <select id="seda">
@@ -527,7 +587,7 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">Seda Dental</label>
+                                                <label class="control-label">Uso de seda dental</label>
                                                 <div class="controls">
                                                     <select id="seda">
                                                         <option>Si</option>
@@ -548,17 +608,18 @@
                                             <div class="control-group">
                                                 <label class="control-label">Cuantas veces al dia</label>
                                                 <div class="controls">
-                                                    <input id="veces"  type="text" >
+                                                    <select id="veces">
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">Tiempo</label>
-                                                <div class="controls">
-                                                    <input id="tiempo"  type="text" >
-                                                </div>
-                                            </div>
-                                            <div class="control-group">
-                                                <label class="control-label">Enjuages Bucales sin fluor</label>
+                                                <label class="control-label">Uso de Enjuages Bucales sin fluor</label>
                                                 <div class="controls">
                                                     <select id="enjuages">
                                                         <option>Si</option>
@@ -568,7 +629,7 @@
                                                 </div>
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label">Enjuages Bucales con fluor</label>
+                                                <label class="control-label"> Uso de Enjuages Bucales con fluor</label>
                                                 <div class="controls">
                                                     <select id="enjuages">
                                                         <option>Si</option>
@@ -580,7 +641,16 @@
                                             <div class="control-group">
                                                 <label class="control-label">Habitos y vicios</label>
                                                 <div class="controls">
-                                                    <textarea rows="3" class="input-xxlarge" id="habitos"></textarea>
+                                                    <select id="habitosYvicios">
+                                                        <option></option>
+                                                        <option value="Tabacos">Tabacos</option>
+                                                        <option value="Alcohol">Alcohol</option>
+                                                        <option value="Caf&eacute;">Caf&eacute;</option>
+                                                        <option value="Drogas">Drogas</option>
+                                                        <option value="Otro">Otro</option>
+                                                        <option value="Ninguno">Ninguno</option>
+
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-actions">
@@ -595,150 +665,152 @@
                             </div>
 
 
+
+                            <!-----------------PESTAÃ‘A 4---------------------------->
+                            <div class="tab-pane fade" id="diag">
+                                <div class="row">
+                                    <form class="form-horizontal">
+                                        <fieldset>
+                                            <legend>Diagnosticos</legend>
+
+                                            <table class="table table-striped table-bordered table-condensed" id="tablaDiag" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Diagnosticos</th>
+                                                        <th>Codigo</th>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
+                                                        <td> <input type="text" name="codigo" class="input-medium"></td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+
+                                            <button class="btn" type="button" id="agregarDiag">Agregar Diagnostico</button>
+
+                                        </fieldset>        
+                                        <br> 
+                                        <fieldset>
+                                            <legend>Pronostico</legend>    
+                                            <div class="control-group">
+                                                <label class="control-label">Pronostico</label>
+                                                <div class="controls">
+                                                    <label class="radio inline">
+                                                        <input type="radio" value="option1" name="pronostico" >
+                                                        Bueno
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" value="option2" name="pronostico" >
+                                                        Regular
+                                                    </label>
+                                                    <label class="radio inline">
+                                                        <input type="radio" value="option2" name="pronostico" >
+                                                        Malo
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </fieldset>
+
+                                        <br> 
+                                        <fieldset>
+                                            <legend>Plan de tratamiento</legend>  
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Semiologia" name="tratamiento1"> Semiologia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Promocion y Prevencion" name="tratamiento2"> Promocion y Prevencion
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Operatoria" name="tratamiento3"> Operatoria
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Endodoncia" name="tratamiento4"> Endodoncia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Periodoncia" name="tratamiento5"> Periodoncia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Cirujia" name="tratamiento6"> Cirujia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Odontopedriatia" name="tratamiento7"> Odontopedriatia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Rehabilitacion" name="tratamiento8"> Rehabilitacion
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Ortodoncia" name="tratamiento9"> Ortodoncia
+                                            </label>
+                                            <label class="checkbox">
+                                                <input type="checkbox" value="Otros" name="tratamiento10"> Otros
+                                            </label>
+
+                                        </fieldset> 
+                                        <br>
+                                        <fieldset>
+                                            <legend>Tratamiento</legend>
+
+                                            <table class="table table-striped table-bordered table-condensed" id="tablaTrat" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tratamiento</th>
+                                                        <th>Presupuesto</th>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
+                                                        <td> <input type="text" name="codigo" class="input-medium"></td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+
+                                            <button class="btn" type="button" id="agregarTrat">Agregar Tratamiento</button>
+
+                                        </fieldset>   
+                                        <br>
+                                        <fieldset>
+                                            <legend>Evolucion</legend>
+
+                                            <table class="table table-striped table-bordered table-condensed" id="tablaTrat" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>#Recibo Pago</th>
+                                                        <th>Tratamiento Ejecutado</th>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" name="fecha" class="input-medium" data-datepicker="datepicker"></td>
+                                                        <td><input type="text" name="recibo" class="input-medium"></td>
+                                                        <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+
+                                            <button class="btn" type="button" id="agregarEvol">Agregar Evolucion</button>
+
+                                        </fieldset>
+
+                                        <div class="form-actions">
+                                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                                            <button class="btn" type="reset">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
                         </div>
 
                     </div>
 
 
                 </div><!--/span-->
-
-                <div class="span9" id="formulario2" style="display: none;">
-                    <div class="hero-unit">
-                        <div class="row">
-                            <div class="span12">
-                                <form class="form-horizontal">
-                                    <fieldset>
-                                        <legend>Diagnosticos</legend>
-
-                                        <table class="table table-striped table-bordered table-condensed" id="tablaDiag" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Diagnosticos</th>
-                                                    <th>Codigo</th>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
-                                                    <td> <input type="text" name="codigo" class="input-medium"></td>
-                                                </tr>    
-                                            </tbody>
-                                        </table>
-
-                                        <button class="btn" type="button" id="agregarDiag">Agregar Diagnostico</button>
-
-                                    </fieldset>        
-                                    <br> 
-                                    <fieldset>
-                                        <legend>Pronostico</legend>    
-                                        <div class="control-group">
-                                            <label class="control-label">Pronostico</label>
-                                            <div class="controls">
-                                                <label class="radio inline">
-                                                    <input type="radio" value="option1" name="pronostico" >
-                                                    Bueno
-                                                </label>
-                                                <label class="radio inline">
-                                                    <input type="radio" value="option2" name="pronostico" >
-                                                    Regular
-                                                </label>
-                                                <label class="radio inline">
-                                                    <input type="radio" value="option2" name="pronostico" >
-                                                    Malo
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                    </fieldset>
-
-                                    <br> 
-                                    <fieldset>
-                                        <legend>Plan de tratamiento</legend>  
-
-                                        <label class="checkbox">
-                                            <input type="checkbox"> Promocion y Prevencion
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> operatoria
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> endodoncia
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> periodoncia
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> cirujia
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> rehabilitacion
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> ortodoncia
-                                        </label>
-                                        <label class="checkbox">
-                                            <input type="checkbox"> Otros
-                                        </label>
-
-                                    </fieldset> 
-                                    <br>
-                                    <fieldset>
-                                        <legend>Tratamiento</legend>
-
-                                        <table class="table table-striped table-bordered table-condensed" id="tablaTrat" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Tratamiento</th>
-                                                    <th>Presupuesto</th>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
-                                                    <td> <input type="text" name="codigo" class="input-medium"></td>
-                                                </tr>    
-                                            </tbody>
-                                        </table>
-
-                                        <button class="btn" type="button" id="agregarTrat">Agregar Tratamiento</button>
-
-                                    </fieldset>   
-                                    <br>
-                                    <fieldset>
-                                        <legend>Evolucion</legend>
-
-                                        <table class="table table-striped table-bordered table-condensed" id="tablaTrat" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Fecha</th>
-                                                    <th>#Recibo Pago</th>
-                                                    <th>Tratamiento Ejecutado</th>
-
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><input type="text" name="fecha" class="input-medium" data-datepicker="datepicker"></td>
-                                                    <td><input type="text" name="recibo" class="input-medium"></td>
-                                                    <td><textarea rows="3" id="textarea02" class="input-xxlarge"></textarea></td>
-                                                </tr>    
-                                            </tbody>
-                                        </table>
-
-                                        <button class="btn" type="button" id="agregarEvol">Agregar Evolucion</button>
-
-                                    </fieldset>
-
-                                    <div class="form-actions">
-                                        <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                                        <button class="btn" type="reset">Cancelar</button>
-                                    </div>
-                                </form>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
             </div><!--/row-->
 

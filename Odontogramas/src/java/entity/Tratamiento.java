@@ -6,8 +6,10 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -29,9 +31,8 @@ public class Tratamiento implements Serializable {
     private String tratamiento;
     @Column(name = "presupuesto")
     private String presupuesto;
-    @JoinColumn(name = "diagnostico_iddiagnostico", referencedColumnName = "iddiagnostico")
-    @ManyToOne(optional = false)
-    private Diagnostico diagnosticoIddiagnostico;
+    @ManyToMany(mappedBy = "tratamientoList")
+    private List<Paciente> pacienteList;
 
     public Tratamiento() {
     }
@@ -64,12 +65,13 @@ public class Tratamiento implements Serializable {
         this.presupuesto = presupuesto;
     }
 
-    public Diagnostico getDiagnosticoIddiagnostico() {
-        return diagnosticoIddiagnostico;
+    @XmlTransient
+    public List<Paciente> getPacienteList() {
+        return pacienteList;
     }
 
-    public void setDiagnosticoIddiagnostico(Diagnostico diagnosticoIddiagnostico) {
-        this.diagnosticoIddiagnostico = diagnosticoIddiagnostico;
+    public void setPacienteList(List<Paciente> pacienteList) {
+        this.pacienteList = pacienteList;
     }
 
     @Override

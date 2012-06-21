@@ -10,9 +10,10 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Diagnostico;
+import entity.Paciente;
 import entity.Tratamiento;
 import entity.controller.exceptions.NonexistentEntityException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,19 +31,23 @@ public class TratamientoJpaController implements Serializable {
     }
 
     public void create(Tratamiento tratamiento) {
+        if (tratamiento.getPacienteList() == null) {
+            tratamiento.setPacienteList(new ArrayList<Paciente>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Diagnostico diagnosticoIddiagnostico = tratamiento.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico = em.getReference(diagnosticoIddiagnostico.getClass(), diagnosticoIddiagnostico.getIddiagnostico());
-                tratamiento.setDiagnosticoIddiagnostico(diagnosticoIddiagnostico);
+            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
+            for (Paciente pacienteListPacienteToAttach : tratamiento.getPacienteList()) {
+                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
+                attachedPacienteList.add(pacienteListPacienteToAttach);
             }
+            tratamiento.setPacienteList(attachedPacienteList);
             em.persist(tratamiento);
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getTratamientoList().add(tratamiento);
-                diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
+            for (Paciente pacienteListPaciente : tratamiento.getPacienteList()) {
+                pacienteListPaciente.getTratamientoList().add(tratamiento);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.getTransaction().commit();
         } finally {
@@ -58,20 +63,27 @@ public class TratamientoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Tratamiento persistentTratamiento = em.find(Tratamiento.class, tratamiento.getIdtratamiento());
-            Diagnostico diagnosticoIddiagnosticoOld = persistentTratamiento.getDiagnosticoIddiagnostico();
-            Diagnostico diagnosticoIddiagnosticoNew = tratamiento.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnosticoNew != null) {
-                diagnosticoIddiagnosticoNew = em.getReference(diagnosticoIddiagnosticoNew.getClass(), diagnosticoIddiagnosticoNew.getIddiagnostico());
-                tratamiento.setDiagnosticoIddiagnostico(diagnosticoIddiagnosticoNew);
+            List<Paciente> pacienteListOld = persistentTratamiento.getPacienteList();
+            List<Paciente> pacienteListNew = tratamiento.getPacienteList();
+            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
+            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
+                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
+                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
             }
+            pacienteListNew = attachedPacienteListNew;
+            tratamiento.setPacienteList(pacienteListNew);
             tratamiento = em.merge(tratamiento);
-            if (diagnosticoIddiagnosticoOld != null && !diagnosticoIddiagnosticoOld.equals(diagnosticoIddiagnosticoNew)) {
-                diagnosticoIddiagnosticoOld.getTratamientoList().remove(tratamiento);
-                diagnosticoIddiagnosticoOld = em.merge(diagnosticoIddiagnosticoOld);
+            for (Paciente pacienteListOldPaciente : pacienteListOld) {
+                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
+                    pacienteListOldPaciente.getTratamientoList().remove(tratamiento);
+                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
+                }
             }
-            if (diagnosticoIddiagnosticoNew != null && !diagnosticoIddiagnosticoNew.equals(diagnosticoIddiagnosticoOld)) {
-                diagnosticoIddiagnosticoNew.getTratamientoList().add(tratamiento);
-                diagnosticoIddiagnosticoNew = em.merge(diagnosticoIddiagnosticoNew);
+            for (Paciente pacienteListNewPaciente : pacienteListNew) {
+                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
+                    pacienteListNewPaciente.getTratamientoList().add(tratamiento);
+                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -102,10 +114,10 @@ public class TratamientoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The tratamiento with id " + id + " no longer exists.", enfe);
             }
-            Diagnostico diagnosticoIddiagnostico = tratamiento.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getTratamientoList().remove(tratamiento);
-                diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
+            List<Paciente> pacienteList = tratamiento.getPacienteList();
+            for (Paciente pacienteListPaciente : pacienteList) {
+                pacienteListPaciente.getTratamientoList().remove(tratamiento);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.remove(tratamiento);
             em.getTransaction().commit();

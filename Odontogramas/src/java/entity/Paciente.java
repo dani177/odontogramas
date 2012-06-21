@@ -52,6 +52,21 @@ public class Paciente implements Serializable {
     private Date fecha;
     @ManyToMany(mappedBy = "pacienteList")
     private List<Medico> medicoList;
+    @JoinTable(name = "paciente_has_plantratamiento", joinColumns = {
+        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
+        @JoinColumn(name = "planTratamiento_idplanTratamiento", referencedColumnName = "idplanTratamiento")})
+    @ManyToMany
+    private List<Plantratamiento> plantratamientoList;
+    @JoinTable(name = "paciente_has_tratamiento", joinColumns = {
+        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
+        @JoinColumn(name = "tratamiento_idtratamiento", referencedColumnName = "idtratamiento")})
+    @ManyToMany
+    private List<Tratamiento> tratamientoList;
+    @JoinTable(name = "paciente_has_diagnostico", joinColumns = {
+        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
+        @JoinColumn(name = "diagnostico_iddiagnostico", referencedColumnName = "iddiagnostico")})
+    @ManyToMany
+    private List<Diagnostico> diagnosticoList;
     @JoinColumn(name = "profesiones_codigo", referencedColumnName = "codigo")
     @ManyToOne(optional = false)
     private Profesiones profesionesCodigo;
@@ -60,8 +75,6 @@ public class Paciente implements Serializable {
     private Municipios municipiosCodigo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteidpersona")
     private List<Examenfisicoestomatologico> examenfisicoestomatologicoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteIdpersona")
-    private List<Diagnostico> diagnosticoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteIdpersona")
     private List<Datosconsulta> datosconsultaList;
 
@@ -153,6 +166,33 @@ public class Paciente implements Serializable {
         this.medicoList = medicoList;
     }
 
+    @XmlTransient
+    public List<Plantratamiento> getPlantratamientoList() {
+        return plantratamientoList;
+    }
+
+    public void setPlantratamientoList(List<Plantratamiento> plantratamientoList) {
+        this.plantratamientoList = plantratamientoList;
+    }
+
+    @XmlTransient
+    public List<Tratamiento> getTratamientoList() {
+        return tratamientoList;
+    }
+
+    public void setTratamientoList(List<Tratamiento> tratamientoList) {
+        this.tratamientoList = tratamientoList;
+    }
+
+    @XmlTransient
+    public List<Diagnostico> getDiagnosticoList() {
+        return diagnosticoList;
+    }
+
+    public void setDiagnosticoList(List<Diagnostico> diagnosticoList) {
+        this.diagnosticoList = diagnosticoList;
+    }
+
     public Profesiones getProfesionesCodigo() {
         return profesionesCodigo;
     }
@@ -176,15 +216,6 @@ public class Paciente implements Serializable {
 
     public void setExamenfisicoestomatologicoList(List<Examenfisicoestomatologico> examenfisicoestomatologicoList) {
         this.examenfisicoestomatologicoList = examenfisicoestomatologicoList;
-    }
-
-    @XmlTransient
-    public List<Diagnostico> getDiagnosticoList() {
-        return diagnosticoList;
-    }
-
-    public void setDiagnosticoList(List<Diagnostico> diagnosticoList) {
-        this.diagnosticoList = diagnosticoList;
     }
 
     @XmlTransient

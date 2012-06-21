@@ -4,14 +4,8 @@
  */
 package controller;
 
-import entity.Departamentos;
-import entity.Municipios;
-import entity.Paciente;
-import entity.Profesiones;
-import entity.controller.DepartamentosJpaController;
-import entity.controller.MunicipiosJpaController;
-import entity.controller.PacienteJpaController;
-import entity.controller.ProfesionesJpaController;
+import entity.*;
+import entity.controller.*;
 import entity.controller.exceptions.PreexistingEntityException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -127,9 +121,13 @@ public class formController extends HttpServlet {
                 int codPro = Integer.parseInt(prof);
                 Profesiones  profes = new ProfesionesJpaController().findProfesiones(codPro);
                 pa.setProfesionesCodigo(profes);
-
+                Medico m = (Medico)session.getAttribute("medico");
+                ArrayList<Medico> listMedico = new ArrayList<Medico>();
+                listMedico.add(m);
+                pa.setMedicoList(listMedico);
                 try {
                     conPa.create(pa);
+                    session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
                 } catch (PreexistingEntityException ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {

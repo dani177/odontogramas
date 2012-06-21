@@ -19,12 +19,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Examenfisicoestomatologico.findByTemperatura", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.temperatura = :temperatura"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByPulso", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.pulso = :pulso"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByTensionArterial", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.tensionArterial = :tensionArterial"),
-    @NamedQuery(name = "Examenfisicoestomatologico.findByRespiracion", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.respiracion = :respiracion"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByHigieneOral", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.higieneOral = :higieneOral"),
     @NamedQuery(name = "Examenfisicoestomatologico.findBySedaDental", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.sedaDental = :sedaDental"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByCepilloDentalUso", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.cepilloDentalUso = :cepilloDentalUso"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByVecesAlDia", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.vecesAlDia = :vecesAlDia"),
-    @NamedQuery(name = "Examenfisicoestomatologico.findByTiempo", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.tiempo = :tiempo"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByEnjuagesBsinFluor", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.enjuagesBsinFluor = :enjuagesBsinFluor"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByEnjuagesBconFluor", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.enjuagesBconFluor = :enjuagesBconFluor"),
     @NamedQuery(name = "Examenfisicoestomatologico.findByHabitosYvicios", query = "SELECT e FROM Examenfisicoestomatologico e WHERE e.habitosYvicios = :habitosYvicios")})
@@ -41,8 +39,6 @@ public class Examenfisicoestomatologico implements Serializable {
     private String pulso;
     @Column(name = "tensionArterial")
     private String tensionArterial;
-    @Column(name = "respiracion")
-    private String respiracion;
     @Column(name = "higieneOral")
     private String higieneOral;
     @Column(name = "sedaDental")
@@ -51,8 +47,6 @@ public class Examenfisicoestomatologico implements Serializable {
     private String cepilloDentalUso;
     @Column(name = "vecesAlDia")
     private String vecesAlDia;
-    @Column(name = "tiempo")
-    private String tiempo;
     @Column(name = "enjuagesBsinFluor")
     private String enjuagesBsinFluor;
     @Column(name = "enjuagesBconFluor")
@@ -102,14 +96,6 @@ public class Examenfisicoestomatologico implements Serializable {
         this.tensionArterial = tensionArterial;
     }
 
-    public String getRespiracion() {
-        return respiracion;
-    }
-
-    public void setRespiracion(String respiracion) {
-        this.respiracion = respiracion;
-    }
-
     public String getHigieneOral() {
         return higieneOral;
     }
@@ -140,14 +126,6 @@ public class Examenfisicoestomatologico implements Serializable {
 
     public void setVecesAlDia(String vecesAlDia) {
         this.vecesAlDia = vecesAlDia;
-    }
-
-    public String getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(String tiempo) {
-        this.tiempo = tiempo;
     }
 
     public String getEnjuagesBsinFluor() {

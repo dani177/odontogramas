@@ -44,8 +44,7 @@ public class loginController extends HttpServlet {
         
        try { 
         Medico medico = conMed.findMedico(Integer.parseInt(un));
-           System.out.println(""+medico.getClave());
-           session.setAttribute("Usuario", medico);
+           session.setAttribute("medico", medico);
            
         if (medico != null) {
             if (medico.getClave().equals(pw)) {
@@ -54,6 +53,7 @@ public class loginController extends HttpServlet {
                 session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
                 ProfesionesJpaController ConProf = new ProfesionesJpaController();
                 session.setAttribute("profesiones", ConProf.findProfesionesEntities());
+                session.setAttribute("listaDePacientes",medico.getPacienteList());
                 out.println(0);
             }else{
                 out.println(1);

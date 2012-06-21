@@ -34,13 +34,10 @@ public class Diagnostico implements Serializable {
     private String diagnostico;
     @Column(name = "pronostico")
     private String pronostico;
+    @ManyToMany(mappedBy = "diagnosticoList")
+    private List<Paciente> pacienteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "diagnosticoIddiagnostico")
     private List<Evolucion> evolucionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "diagnosticoIddiagnostico")
-    private List<Tratamiento> tratamientoList;
-    @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")
-    @ManyToOne(optional = false)
-    private Paciente pacienteIdpersona;
 
     public Diagnostico() {
     }
@@ -82,29 +79,21 @@ public class Diagnostico implements Serializable {
     }
 
     @XmlTransient
+    public List<Paciente> getPacienteList() {
+        return pacienteList;
+    }
+
+    public void setPacienteList(List<Paciente> pacienteList) {
+        this.pacienteList = pacienteList;
+    }
+
+    @XmlTransient
     public List<Evolucion> getEvolucionList() {
         return evolucionList;
     }
 
     public void setEvolucionList(List<Evolucion> evolucionList) {
         this.evolucionList = evolucionList;
-    }
-
-    @XmlTransient
-    public List<Tratamiento> getTratamientoList() {
-        return tratamientoList;
-    }
-
-    public void setTratamientoList(List<Tratamiento> tratamientoList) {
-        this.tratamientoList = tratamientoList;
-    }
-
-    public Paciente getPacienteIdpersona() {
-        return pacienteIdpersona;
-    }
-
-    public void setPacienteIdpersona(Paciente pacienteIdpersona) {
-        this.pacienteIdpersona = pacienteIdpersona;
     }
 
     @Override

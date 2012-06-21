@@ -12,10 +12,9 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entity.Paciente;
-import entity.Evolucion;
 import java.util.ArrayList;
 import java.util.List;
-import entity.Tratamiento;
+import entity.Evolucion;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
@@ -34,37 +33,32 @@ public class DiagnosticoJpaController implements Serializable {
     }
 
     public void create(Diagnostico diagnostico) {
+        if (diagnostico.getPacienteList() == null) {
+            diagnostico.setPacienteList(new ArrayList<Paciente>());
+        }
         if (diagnostico.getEvolucionList() == null) {
             diagnostico.setEvolucionList(new ArrayList<Evolucion>());
-        }
-        if (diagnostico.getTratamientoList() == null) {
-            diagnostico.setTratamientoList(new ArrayList<Tratamiento>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Paciente pacienteIdpersona = diagnostico.getPacienteIdpersona();
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona = em.getReference(pacienteIdpersona.getClass(), pacienteIdpersona.getIdpersona());
-                diagnostico.setPacienteIdpersona(pacienteIdpersona);
+            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
+            for (Paciente pacienteListPacienteToAttach : diagnostico.getPacienteList()) {
+                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
+                attachedPacienteList.add(pacienteListPacienteToAttach);
             }
+            diagnostico.setPacienteList(attachedPacienteList);
             List<Evolucion> attachedEvolucionList = new ArrayList<Evolucion>();
             for (Evolucion evolucionListEvolucionToAttach : diagnostico.getEvolucionList()) {
                 evolucionListEvolucionToAttach = em.getReference(evolucionListEvolucionToAttach.getClass(), evolucionListEvolucionToAttach.getIdevolucion());
                 attachedEvolucionList.add(evolucionListEvolucionToAttach);
             }
             diagnostico.setEvolucionList(attachedEvolucionList);
-            List<Tratamiento> attachedTratamientoList = new ArrayList<Tratamiento>();
-            for (Tratamiento tratamientoListTratamientoToAttach : diagnostico.getTratamientoList()) {
-                tratamientoListTratamientoToAttach = em.getReference(tratamientoListTratamientoToAttach.getClass(), tratamientoListTratamientoToAttach.getIdtratamiento());
-                attachedTratamientoList.add(tratamientoListTratamientoToAttach);
-            }
-            diagnostico.setTratamientoList(attachedTratamientoList);
             em.persist(diagnostico);
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona.getDiagnosticoList().add(diagnostico);
-                pacienteIdpersona = em.merge(pacienteIdpersona);
+            for (Paciente pacienteListPaciente : diagnostico.getPacienteList()) {
+                pacienteListPaciente.getDiagnosticoList().add(diagnostico);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             for (Evolucion evolucionListEvolucion : diagnostico.getEvolucionList()) {
                 Diagnostico oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion = evolucionListEvolucion.getDiagnosticoIddiagnostico();
@@ -73,15 +67,6 @@ public class DiagnosticoJpaController implements Serializable {
                 if (oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion != null) {
                     oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion.getEvolucionList().remove(evolucionListEvolucion);
                     oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion = em.merge(oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion);
-                }
-            }
-            for (Tratamiento tratamientoListTratamiento : diagnostico.getTratamientoList()) {
-                Diagnostico oldDiagnosticoIddiagnosticoOfTratamientoListTratamiento = tratamientoListTratamiento.getDiagnosticoIddiagnostico();
-                tratamientoListTratamiento.setDiagnosticoIddiagnostico(diagnostico);
-                tratamientoListTratamiento = em.merge(tratamientoListTratamiento);
-                if (oldDiagnosticoIddiagnosticoOfTratamientoListTratamiento != null) {
-                    oldDiagnosticoIddiagnosticoOfTratamientoListTratamiento.getTratamientoList().remove(tratamientoListTratamiento);
-                    oldDiagnosticoIddiagnosticoOfTratamientoListTratamiento = em.merge(oldDiagnosticoIddiagnosticoOfTratamientoListTratamiento);
                 }
             }
             em.getTransaction().commit();
@@ -98,12 +83,10 @@ public class DiagnosticoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Diagnostico persistentDiagnostico = em.find(Diagnostico.class, diagnostico.getIddiagnostico());
-            Paciente pacienteIdpersonaOld = persistentDiagnostico.getPacienteIdpersona();
-            Paciente pacienteIdpersonaNew = diagnostico.getPacienteIdpersona();
+            List<Paciente> pacienteListOld = persistentDiagnostico.getPacienteList();
+            List<Paciente> pacienteListNew = diagnostico.getPacienteList();
             List<Evolucion> evolucionListOld = persistentDiagnostico.getEvolucionList();
             List<Evolucion> evolucionListNew = diagnostico.getEvolucionList();
-            List<Tratamiento> tratamientoListOld = persistentDiagnostico.getTratamientoList();
-            List<Tratamiento> tratamientoListNew = diagnostico.getTratamientoList();
             List<String> illegalOrphanMessages = null;
             for (Evolucion evolucionListOldEvolucion : evolucionListOld) {
                 if (!evolucionListNew.contains(evolucionListOldEvolucion)) {
@@ -113,21 +96,16 @@ public class DiagnosticoJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain Evolucion " + evolucionListOldEvolucion + " since its diagnosticoIddiagnostico field is not nullable.");
                 }
             }
-            for (Tratamiento tratamientoListOldTratamiento : tratamientoListOld) {
-                if (!tratamientoListNew.contains(tratamientoListOldTratamiento)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Tratamiento " + tratamientoListOldTratamiento + " since its diagnosticoIddiagnostico field is not nullable.");
-                }
-            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (pacienteIdpersonaNew != null) {
-                pacienteIdpersonaNew = em.getReference(pacienteIdpersonaNew.getClass(), pacienteIdpersonaNew.getIdpersona());
-                diagnostico.setPacienteIdpersona(pacienteIdpersonaNew);
+            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
+            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
+                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
+                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
             }
+            pacienteListNew = attachedPacienteListNew;
+            diagnostico.setPacienteList(pacienteListNew);
             List<Evolucion> attachedEvolucionListNew = new ArrayList<Evolucion>();
             for (Evolucion evolucionListNewEvolucionToAttach : evolucionListNew) {
                 evolucionListNewEvolucionToAttach = em.getReference(evolucionListNewEvolucionToAttach.getClass(), evolucionListNewEvolucionToAttach.getIdevolucion());
@@ -135,21 +113,18 @@ public class DiagnosticoJpaController implements Serializable {
             }
             evolucionListNew = attachedEvolucionListNew;
             diagnostico.setEvolucionList(evolucionListNew);
-            List<Tratamiento> attachedTratamientoListNew = new ArrayList<Tratamiento>();
-            for (Tratamiento tratamientoListNewTratamientoToAttach : tratamientoListNew) {
-                tratamientoListNewTratamientoToAttach = em.getReference(tratamientoListNewTratamientoToAttach.getClass(), tratamientoListNewTratamientoToAttach.getIdtratamiento());
-                attachedTratamientoListNew.add(tratamientoListNewTratamientoToAttach);
-            }
-            tratamientoListNew = attachedTratamientoListNew;
-            diagnostico.setTratamientoList(tratamientoListNew);
             diagnostico = em.merge(diagnostico);
-            if (pacienteIdpersonaOld != null && !pacienteIdpersonaOld.equals(pacienteIdpersonaNew)) {
-                pacienteIdpersonaOld.getDiagnosticoList().remove(diagnostico);
-                pacienteIdpersonaOld = em.merge(pacienteIdpersonaOld);
+            for (Paciente pacienteListOldPaciente : pacienteListOld) {
+                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
+                    pacienteListOldPaciente.getDiagnosticoList().remove(diagnostico);
+                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
+                }
             }
-            if (pacienteIdpersonaNew != null && !pacienteIdpersonaNew.equals(pacienteIdpersonaOld)) {
-                pacienteIdpersonaNew.getDiagnosticoList().add(diagnostico);
-                pacienteIdpersonaNew = em.merge(pacienteIdpersonaNew);
+            for (Paciente pacienteListNewPaciente : pacienteListNew) {
+                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
+                    pacienteListNewPaciente.getDiagnosticoList().add(diagnostico);
+                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
+                }
             }
             for (Evolucion evolucionListNewEvolucion : evolucionListNew) {
                 if (!evolucionListOld.contains(evolucionListNewEvolucion)) {
@@ -159,17 +134,6 @@ public class DiagnosticoJpaController implements Serializable {
                     if (oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion != null && !oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion.equals(diagnostico)) {
                         oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion.getEvolucionList().remove(evolucionListNewEvolucion);
                         oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion = em.merge(oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion);
-                    }
-                }
-            }
-            for (Tratamiento tratamientoListNewTratamiento : tratamientoListNew) {
-                if (!tratamientoListOld.contains(tratamientoListNewTratamiento)) {
-                    Diagnostico oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento = tratamientoListNewTratamiento.getDiagnosticoIddiagnostico();
-                    tratamientoListNewTratamiento.setDiagnosticoIddiagnostico(diagnostico);
-                    tratamientoListNewTratamiento = em.merge(tratamientoListNewTratamiento);
-                    if (oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento != null && !oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento.equals(diagnostico)) {
-                        oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento.getTratamientoList().remove(tratamientoListNewTratamiento);
-                        oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento = em.merge(oldDiagnosticoIddiagnosticoOfTratamientoListNewTratamiento);
                     }
                 }
             }
@@ -210,20 +174,13 @@ public class DiagnosticoJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Diagnostico (" + diagnostico + ") cannot be destroyed since the Evolucion " + evolucionListOrphanCheckEvolucion + " in its evolucionList field has a non-nullable diagnosticoIddiagnostico field.");
             }
-            List<Tratamiento> tratamientoListOrphanCheck = diagnostico.getTratamientoList();
-            for (Tratamiento tratamientoListOrphanCheckTratamiento : tratamientoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Diagnostico (" + diagnostico + ") cannot be destroyed since the Tratamiento " + tratamientoListOrphanCheckTratamiento + " in its tratamientoList field has a non-nullable diagnosticoIddiagnostico field.");
-            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Paciente pacienteIdpersona = diagnostico.getPacienteIdpersona();
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona.getDiagnosticoList().remove(diagnostico);
-                pacienteIdpersona = em.merge(pacienteIdpersona);
+            List<Paciente> pacienteList = diagnostico.getPacienteList();
+            for (Paciente pacienteListPaciente : pacienteList) {
+                pacienteListPaciente.getDiagnosticoList().remove(diagnostico);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.remove(diagnostico);
             em.getTransaction().commit();

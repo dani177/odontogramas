@@ -5,16 +5,18 @@
 
 package entity.controller;
 
-import entity.Plantratamiento;
-import entity.controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entity.Paciente;
+import entity.Plantratamiento;
+import entity.controller.exceptions.NonexistentEntityException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 
 public class PlantratamientoJpaController implements Serializable {
@@ -29,11 +31,24 @@ public class PlantratamientoJpaController implements Serializable {
     }
 
     public void create(Plantratamiento plantratamiento) {
+        if (plantratamiento.getPacienteList() == null) {
+            plantratamiento.setPacienteList(new ArrayList<Paciente>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
+            for (Paciente pacienteListPacienteToAttach : plantratamiento.getPacienteList()) {
+                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
+                attachedPacienteList.add(pacienteListPacienteToAttach);
+            }
+            plantratamiento.setPacienteList(attachedPacienteList);
             em.persist(plantratamiento);
+            for (Paciente pacienteListPaciente : plantratamiento.getPacienteList()) {
+                pacienteListPaciente.getPlantratamientoList().add(plantratamiento);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -47,7 +62,29 @@ public class PlantratamientoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Plantratamiento persistentPlantratamiento = em.find(Plantratamiento.class, plantratamiento.getIdplanTratamiento());
+            List<Paciente> pacienteListOld = persistentPlantratamiento.getPacienteList();
+            List<Paciente> pacienteListNew = plantratamiento.getPacienteList();
+            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
+            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
+                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
+                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
+            }
+            pacienteListNew = attachedPacienteListNew;
+            plantratamiento.setPacienteList(pacienteListNew);
             plantratamiento = em.merge(plantratamiento);
+            for (Paciente pacienteListOldPaciente : pacienteListOld) {
+                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
+                    pacienteListOldPaciente.getPlantratamientoList().remove(plantratamiento);
+                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
+                }
+            }
+            for (Paciente pacienteListNewPaciente : pacienteListNew) {
+                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
+                    pacienteListNewPaciente.getPlantratamientoList().add(plantratamiento);
+                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -76,6 +113,11 @@ public class PlantratamientoJpaController implements Serializable {
                 plantratamiento.getIdplanTratamiento();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The plantratamiento with id " + id + " no longer exists.", enfe);
+            }
+            List<Paciente> pacienteList = plantratamiento.getPacienteList();
+            for (Paciente pacienteListPaciente : pacienteList) {
+                pacienteListPaciente.getPlantratamientoList().remove(plantratamiento);
+                pacienteListPaciente = em.merge(pacienteListPaciente);
             }
             em.remove(plantratamiento);
             em.getTransaction().commit();
