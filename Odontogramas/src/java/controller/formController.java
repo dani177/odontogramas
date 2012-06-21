@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -50,20 +51,42 @@ public class formController extends HttpServlet {
         try {
 
             if (request.getParameter("action").equals("municipios")) {
+                 response.setContentType("application/json;charset=UTF-8");
                 String codDe = ((String) request.getParameter("codDep"));
                 int codDep = Integer.parseInt(codDe);
                 Departamentos dep = new DepartamentosJpaController().findDepartamentos(codDep);
                 MunicipiosJpaController conMun = new MunicipiosJpaController();
-                ArrayList<Municipios> listaDeMunicipios = (ArrayList<Municipios>) conMun.findMunicipiosEntities();
+                 List<Municipios> listaDeMunicipios = conMun.findMunicipiosEntities();
                 ArrayList<Municipios> mun = new ArrayList<Municipios>();
                 for (Municipios m : listaDeMunicipios) {
-                    if (m.getDepartamentosCodigo1() == dep) {
+                    if (m.getDepartamentosCodigo1().getCodigo() == dep.getCodigo()) {
                     mun.add(m);
                     }
                 }
                 
-                session.setAttribute("municipios", mun);
-                
+               String aux4 = "{ \"municipios\":[";
+
+
+                    for (Municipios m : mun) {
+                            String aux5 = ""
+                                    + "{"
+                                    + "\"cod\": \"" + m.getCodigo() + "\" ," + " \"nombre\": \"" + m.getNombre()
+                                    + "\""
+                                    + "},"
+                                    + "";
+                            aux4 += aux5;
+
+                        }
+                    
+                    aux4 = aux4.substring(0,aux4.length()-1);
+                    aux4+="]}";
+                   
+
+
+
+                    out.println("[" + aux4 + "]");
+
+               
             }
 
 

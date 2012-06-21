@@ -60,52 +60,54 @@
                         type: 'POST', 
                         url: "<%=request.getContextPath()%>/formController?action=municipios",
                         data: 'codDep='+$('#departamentos option:selected').val(),
+                        dataType: "json",
                         success: function(data){
-                
-                $("#municipios").html("<option>seleccione municipio</option>");
-                
-                       
-                                
-                            } //fin success
-                        }); //fin $.ajax    
-                    });
+                            $("#municipios").html("<option></option>");
+                            $.each(data['0']["municipios"], function(index, value) {
+                                var b = data['0']["municipios"][index]['cod'];
+                                var a = data['0']["municipios"][index]['nombre'];
+                                $("#municipios").append("<option value='"+b+"'>"+a+"</option>");
+                            });
+                        } //fin success
+                    }); //fin $.ajax    
+                });
 
 
             
-                    $("#agregarDiag").click(function(){
-                        $("#tablaDiag").append("<tr>"
-                            +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
-                            +"<td> <input type='text' name='codigo' class='input-medium'></td>"
-                            +"</tr>  ");
-                    }) 
-                    $("#agregarTrat").click(function(){
-                        $("#tablaTrat").append("<tr>"
-                            +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
-                            +"<td> <input type='text' name='codigo' class='input-medium'></td>"
-                            +"</tr>  ");
-                    })
+                $("#agregarDiag").click(function(){
+                    $("#tablaDiag").append("<tr>"
+                        +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
+                        +"<td> <input type='text' name='codigo' class='input-medium'></td>"
+                        +"</tr>  ");
+                }) 
+                $("#agregarTrat").click(function(){
+                    $("#tablaTrat").append("<tr>"
+                        +"<td><textarea rows='3' id='textarea02' class='input-xxlarge'></textarea></td>"
+                        +"<td> <input type='text' name='codigo' class='input-medium'></td>"
+                        +"</tr>  ");
+                })
                 
-                    $("#formularioDatosPersonales").validate({
-                        submitHandler: function(){
-                            $(".alert-success").alert();
-                            $.ajax({
-                                type: 'POST', 
-                                url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
-                                data: $("#formularioDatosPersonales").serialize(),
-                                success: function(){
-                                    var html = ' <div class="alert alert-success fade in">'
-                                        +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
-                                        +'<strong>Bien hecho!</strong> Los datos han sido guardados con exito.'
-                                        +'</div>';
+                $("#formularioDatosPersonales").validate({
+                    submitHandler: function(){
+                        $(".alert-success").alert();
+                        $.ajax({
+                            type: 'POST', 
+                            url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
+                            data: $("#formularioDatosPersonales").serialize(),
+                            success: function(){
+                                var html = ' <div class="alert alert-success fade in">'
+                                    +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                                    +'<strong>Bien hecho!</strong> Los datos han sido guardados con exito.'
+                                    +'</div>';
 
-                                    $("#notificaciones").append($(html));
-                                    $("#guardado").alert();
-                                } //fin success
-                            }); //fin $.ajax    
-                        }
-                    });
-                
+                                $("#notificaciones").append($(html));
+                                $("#guardado").alert();
+                            } //fin success
+                        }); //fin $.ajax    
+                    }
                 });
+                
+            });
         </script>
 
     </head>
@@ -214,8 +216,8 @@
                                                 <div class="control-group">
                                                     <label for="input06" class="control-label">Departamento</label>
                                                     <div class="controls">
-                                                        <select id="departamentos">
-                                                            <option>seleccione departamento</option>  
+                                                        <select id="departamentos" name="departamentos" class="{required:true}">
+                                                            <option></option>  
                                                             <c:forEach items="${departamentos}" var="row" varStatus="iter">
                                                                 <option value="${row.codigo}">${row.nombre}</option>    
                                                             </c:forEach>
@@ -225,8 +227,8 @@
                                                 <div class="control-group">
                                                     <label for="input06" class="control-label">Ciudad/Municipio</label>
                                                     <div class="controls">
-                                                        <select id="municipios">
-                                                            <option>seleccione municipio</option>
+                                                        <select id="municipios" name="municipio" class="{required:true}">
+                                                            <option></option>
                                                         </select>
                                                     </div>
                                                 </div>
