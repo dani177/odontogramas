@@ -279,12 +279,17 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label for="input09" class="control-label">Ocupacion/Profesion</label>
+                                                 <div class="control-group">
+                                                    <label for="profesion" class="control-label">Profesion/Ocupacion</label>
                                                     <div class="controls">
-                                                        <input type="text" id="ocupacion" class="{required:true}">
+                                                        <select id="profesion" name="profesion" class="{required:true}">
+                                                            <option></option>  
+                                                            <c:forEach items="${profesiones}" var="row" varStatus="iter">
+                                                                <option value="${row.codigo}">${row.profesion}</option>    
+                                                            </c:forEach>
+                                                        </select>
                                                     </div>
-                                                </div> 
+                                                </div>
 
                                                 <div class="form-actions">
                                                     <button class="btn btn-primary" id="personales" type="submit">Guardar cambios</button>

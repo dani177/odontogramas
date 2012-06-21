@@ -31,7 +31,6 @@ public class DepartamentosJpaController implements Serializable {
         return jpaConnection.getEntityManager();
     }
 
-
     public void create(Departamentos departamentos) throws PreexistingEntityException, Exception {
         if (departamentos.getMunicipiosList() == null) {
             departamentos.setMunicipiosList(new ArrayList<Municipios>());

@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Paciente.findByEdad", query = "SELECT p FROM Paciente p WHERE p.edad = :edad"),
     @NamedQuery(name = "Paciente.findBySexo", query = "SELECT p FROM Paciente p WHERE p.sexo = :sexo"),
     @NamedQuery(name = "Paciente.findByEstadoCivil", query = "SELECT p FROM Paciente p WHERE p.estadoCivil = :estadoCivil"),
-    @NamedQuery(name = "Paciente.findByOcupacion", query = "SELECT p FROM Paciente p WHERE p.ocupacion = :ocupacion"),
     @NamedQuery(name = "Paciente.findByFecha", query = "SELECT p FROM Paciente p WHERE p.fecha = :fecha")})
 public class Paciente implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -48,13 +47,14 @@ public class Paciente implements Serializable {
     private String sexo;
     @Column(name = "estadoCivil")
     private String estadoCivil;
-    @Column(name = "ocupacion")
-    private String ocupacion;
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @ManyToMany(mappedBy = "pacienteList")
     private List<Medico> medicoList;
+    @JoinColumn(name = "profesiones_codigo", referencedColumnName = "codigo")
+    @ManyToOne(optional = false)
+    private Profesiones profesionesCodigo;
     @JoinColumn(name = "municipios_codigo", referencedColumnName = "codigo")
     @ManyToOne(optional = false)
     private Municipios municipiosCodigo;
@@ -136,14 +136,6 @@ public class Paciente implements Serializable {
         this.estadoCivil = estadoCivil;
     }
 
-    public String getOcupacion() {
-        return ocupacion;
-    }
-
-    public void setOcupacion(String ocupacion) {
-        this.ocupacion = ocupacion;
-    }
-
     public Date getFecha() {
         return fecha;
     }
@@ -159,6 +151,14 @@ public class Paciente implements Serializable {
 
     public void setMedicoList(List<Medico> medicoList) {
         this.medicoList = medicoList;
+    }
+
+    public Profesiones getProfesionesCodigo() {
+        return profesionesCodigo;
+    }
+
+    public void setProfesionesCodigo(Profesiones profesionesCodigo) {
+        this.profesionesCodigo = profesionesCodigo;
     }
 
     public Municipios getMunicipiosCodigo() {

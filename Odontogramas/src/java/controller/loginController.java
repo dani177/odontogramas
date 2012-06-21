@@ -7,6 +7,7 @@ package controller;
 import entity.Medico;
 import entity.controller.DepartamentosJpaController;
 import entity.controller.MedicoJpaController;
+import entity.controller.ProfesionesJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -51,6 +52,8 @@ public class loginController extends HttpServlet {
                 session.setAttribute("logueado", "ok");
                 DepartamentosJpaController ConDe = new DepartamentosJpaController();
                 session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
+                ProfesionesJpaController ConProf = new ProfesionesJpaController();
+                session.setAttribute("profesiones", ConProf.findProfesionesEntities());
                 out.println(0);
             }else{
                 out.println(1);

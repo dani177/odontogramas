@@ -18,8 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Municipios.findAll", query = "SELECT m FROM Municipios m"),
     @NamedQuery(name = "Municipios.findByCodigo", query = "SELECT m FROM Municipios m WHERE m.codigo = :codigo"),
-    @NamedQuery(name = "Municipios.findByNombre", query = "SELECT m FROM Municipios m WHERE m.nombre = :nombre"),
-    @NamedQuery(name = "Municipios.findByNombreDepartamento", query = "SELECT m FROM Municipios m WHERE m.nombreDepartamento = :nombreDepartamento")})
+    @NamedQuery(name = "Municipios.findByNombre", query = "SELECT m FROM Municipios m WHERE m.nombre = :nombre")})
 public class Municipios implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,8 +27,6 @@ public class Municipios implements Serializable {
     private Integer codigo;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "nombreDepartamento")
-    private String nombreDepartamento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipiosCodigo")
     private List<Paciente> pacienteList;
     @JoinColumn(name = "departamentos_codigo1", referencedColumnName = "codigo")
@@ -57,14 +54,6 @@ public class Municipios implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getNombreDepartamento() {
-        return nombreDepartamento;
-    }
-
-    public void setNombreDepartamento(String nombreDepartamento) {
-        this.nombreDepartamento = nombreDepartamento;
     }
 
     @XmlTransient

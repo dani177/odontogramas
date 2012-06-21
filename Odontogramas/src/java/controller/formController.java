@@ -7,9 +7,11 @@ package controller;
 import entity.Departamentos;
 import entity.Municipios;
 import entity.Paciente;
+import entity.Profesiones;
 import entity.controller.DepartamentosJpaController;
 import entity.controller.MunicipiosJpaController;
 import entity.controller.PacienteJpaController;
+import entity.controller.ProfesionesJpaController;
 import entity.controller.exceptions.PreexistingEntityException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -121,7 +123,10 @@ public class formController extends HttpServlet {
                 pa.setEdad(Integer.parseInt((String) request.getParameter("edad")));
                 pa.setSexo((String) request.getParameter("sexo"));
                 pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
-                pa.setOcupacion((String) request.getParameter("ocupacion"));
+                String prof= (String) request.getParameter("profesion");
+                int codPro = Integer.parseInt(prof);
+                Profesiones  profes = new ProfesionesJpaController().findProfesiones(codPro);
+                pa.setProfesionesCodigo(profes);
 
                 try {
                     conPa.create(pa);

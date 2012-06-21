@@ -18,9 +18,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Departamentos.findAll", query = "SELECT d FROM Departamentos d"),
     @NamedQuery(name = "Departamentos.findByCodigo", query = "SELECT d FROM Departamentos d WHERE d.codigo = :codigo"),
-    @NamedQuery(name = "Departamentos.findByNombre", query = "SELECT d FROM Departamentos d WHERE d.nombre = :nombre"),
-    @NamedQuery(name = "Departamentos.findByLatitud", query = "SELECT d FROM Departamentos d WHERE d.latitud = :latitud"),
-    @NamedQuery(name = "Departamentos.findByLogitud", query = "SELECT d FROM Departamentos d WHERE d.logitud = :logitud")})
+    @NamedQuery(name = "Departamentos.findByNombre", query = "SELECT d FROM Departamentos d WHERE d.nombre = :nombre")})
 public class Departamentos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,10 +27,6 @@ public class Departamentos implements Serializable {
     private Integer codigo;
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "latitud")
-    private String latitud;
-    @Column(name = "logitud")
-    private String logitud;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departamentosCodigo1")
     private List<Municipios> municipiosList;
 
@@ -57,22 +51,6 @@ public class Departamentos implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
-    }
-
-    public String getLogitud() {
-        return logitud;
-    }
-
-    public void setLogitud(String logitud) {
-        this.logitud = logitud;
     }
 
     @XmlTransient

@@ -47,6 +47,11 @@ public class PacienteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Profesiones profesionesCodigo = paciente.getProfesionesCodigo();
+            if (profesionesCodigo != null) {
+                profesionesCodigo = em.getReference(profesionesCodigo.getClass(), profesionesCodigo.getCodigo());
+                paciente.setProfesionesCodigo(profesionesCodigo);
+            }
             Municipios municipiosCodigo = paciente.getMunicipiosCodigo();
             if (municipiosCodigo != null) {
                 municipiosCodigo = em.getReference(municipiosCodigo.getClass(), municipiosCodigo.getCodigo());
@@ -77,6 +82,10 @@ public class PacienteJpaController implements Serializable {
             }
             paciente.setDatosconsultaList(attachedDatosconsultaList);
             em.persist(paciente);
+            if (profesionesCodigo != null) {
+                profesionesCodigo.getPacienteList().add(paciente);
+                profesionesCodigo = em.merge(profesionesCodigo);
+            }
             if (municipiosCodigo != null) {
                 municipiosCodigo.getPacienteList().add(paciente);
                 municipiosCodigo = em.merge(municipiosCodigo);
@@ -131,6 +140,8 @@ public class PacienteJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Paciente persistentPaciente = em.find(Paciente.class, paciente.getIdpersona());
+            Profesiones profesionesCodigoOld = persistentPaciente.getProfesionesCodigo();
+            Profesiones profesionesCodigoNew = paciente.getProfesionesCodigo();
             Municipios municipiosCodigoOld = persistentPaciente.getMunicipiosCodigo();
             Municipios municipiosCodigoNew = paciente.getMunicipiosCodigo();
             List<Medico> medicoListOld = persistentPaciente.getMedicoList();
@@ -169,6 +180,10 @@ public class PacienteJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (profesionesCodigoNew != null) {
+                profesionesCodigoNew = em.getReference(profesionesCodigoNew.getClass(), profesionesCodigoNew.getCodigo());
+                paciente.setProfesionesCodigo(profesionesCodigoNew);
+            }
             if (municipiosCodigoNew != null) {
                 municipiosCodigoNew = em.getReference(municipiosCodigoNew.getClass(), municipiosCodigoNew.getCodigo());
                 paciente.setMunicipiosCodigo(municipiosCodigoNew);
@@ -202,6 +217,14 @@ public class PacienteJpaController implements Serializable {
             datosconsultaListNew = attachedDatosconsultaListNew;
             paciente.setDatosconsultaList(datosconsultaListNew);
             paciente = em.merge(paciente);
+            if (profesionesCodigoOld != null && !profesionesCodigoOld.equals(profesionesCodigoNew)) {
+                profesionesCodigoOld.getPacienteList().remove(paciente);
+                profesionesCodigoOld = em.merge(profesionesCodigoOld);
+            }
+            if (profesionesCodigoNew != null && !profesionesCodigoNew.equals(profesionesCodigoOld)) {
+                profesionesCodigoNew.getPacienteList().add(paciente);
+                profesionesCodigoNew = em.merge(profesionesCodigoNew);
+            }
             if (municipiosCodigoOld != null && !municipiosCodigoOld.equals(municipiosCodigoNew)) {
                 municipiosCodigoOld.getPacienteList().remove(paciente);
                 municipiosCodigoOld = em.merge(municipiosCodigoOld);
@@ -308,6 +331,11 @@ public class PacienteJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Profesiones profesionesCodigo = paciente.getProfesionesCodigo();
+            if (profesionesCodigo != null) {
+                profesionesCodigo.getPacienteList().remove(paciente);
+                profesionesCodigo = em.merge(profesionesCodigo);
             }
             Municipios municipiosCodigo = paciente.getMunicipiosCodigo();
             if (municipiosCodigo != null) {
