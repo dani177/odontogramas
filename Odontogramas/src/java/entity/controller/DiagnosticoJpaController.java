@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.Diagnostico;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -23,13 +24,11 @@ import javax.persistence.EntityManagerFactory;
 
 public class DiagnosticoJpaController implements Serializable {
 
-    public DiagnosticoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
+    public DiagnosticoJpaController() {
 
+    }
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Diagnostico diagnostico) {

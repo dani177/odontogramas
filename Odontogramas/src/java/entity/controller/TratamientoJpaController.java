@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -21,13 +22,11 @@ import javax.persistence.EntityManagerFactory;
 
 public class TratamientoJpaController implements Serializable {
 
-    public TratamientoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
+    public TratamientoJpaController() {
 
+    }
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Tratamiento tratamiento) {

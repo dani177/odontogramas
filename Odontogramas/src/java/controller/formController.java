@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 import org.eclipse.persistence.sessions.Session;
 
 /**
@@ -47,42 +48,42 @@ public class formController extends HttpServlet {
         try {
 
             if (request.getParameter("action").equals("municipios")) {
-                 response.setContentType("application/json;charset=UTF-8");
+                response.setContentType("application/json;charset=UTF-8");
                 String codDe = ((String) request.getParameter("codDep"));
                 int codDep = Integer.parseInt(codDe);
                 Departamentos dep = new DepartamentosJpaController().findDepartamentos(codDep);
                 MunicipiosJpaController conMun = new MunicipiosJpaController();
-                 List<Municipios> listaDeMunicipios = conMun.findMunicipiosEntities();
+                List<Municipios> listaDeMunicipios = conMun.findMunicipiosEntities();
                 ArrayList<Municipios> mun = new ArrayList<Municipios>();
                 for (Municipios m : listaDeMunicipios) {
                     if (m.getDepartamentosCodigo1().getCodigo() == dep.getCodigo()) {
-                    mun.add(m);
+                        mun.add(m);
                     }
                 }
-                
-               String aux4 = "{ \"municipios\":[";
+
+                String aux4 = "{ \"municipios\":[";
 
 
-                    for (Municipios m : mun) {
-                            String aux5 = ""
-                                    + "{"
-                                    + "\"cod\": \"" + m.getCodigo() + "\" ," + " \"nombre\": \"" + m.getNombre()
-                                    + "\""
-                                    + "},"
-                                    + "";
-                            aux4 += aux5;
+                for (Municipios m : mun) {
+                    String aux5 = ""
+                            + "{"
+                            + "\"cod\": \"" + m.getCodigo() + "\" ," + " \"nombre\": \"" + m.getNombre()
+                            + "\""
+                            + "},"
+                            + "";
+                    aux4 += aux5;
 
-                        }
-                    
-                    aux4 = aux4.substring(0,aux4.length()-1);
-                    aux4+="]}";
-                   
+                }
 
+                aux4 = aux4.substring(0, aux4.length() - 1);
+                aux4 += "]}";
 
 
-                    out.println("[" + aux4 + "]");
 
-               
+
+                out.println("[" + aux4 + "]");
+
+
             }
 
 
@@ -117,11 +118,11 @@ public class formController extends HttpServlet {
                 pa.setEdad(Integer.parseInt((String) request.getParameter("edad")));
                 pa.setSexo((String) request.getParameter("sexo"));
                 pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
-                String prof= (String) request.getParameter("profesion");
+                String prof = (String) request.getParameter("profesion");
                 int codPro = Integer.parseInt(prof);
-                Profesiones  profes = new ProfesionesJpaController().findProfesiones(codPro);
+                Profesiones profes = new ProfesionesJpaController().findProfesiones(codPro);
                 pa.setProfesionesCodigo(profes);
-                Medico m = (Medico)session.getAttribute("medico");
+                Medico m = (Medico) session.getAttribute("medico");
                 ArrayList<Medico> listMedico = new ArrayList<Medico>();
                 listMedico.add(m);
                 pa.setMedicoList(listMedico);
@@ -134,6 +135,22 @@ public class formController extends HttpServlet {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
+            if (request.getParameter("action").equals("verPaciente")) {
+                String idPersona = request.getParameter("id");
+                DiagnosticoJpaController conDi = new DiagnosticoJpaController();
+                TratamientoJpaController conTra = new TratamientoJpaController();
+                PacienteJpaController conPa = new PacienteJpaController();
+                Paciente pa = conPa.findPaciente(idPersona);
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("paciente", pa);
+                session.setAttribute("diagnosticos", conDi.findDiagnosticoEntities());
+                session.setAttribute("tratamientos", conTra.findTratamientoEntities());
+                
+            }
+
+
+
         } finally {
             out.close();
         }
