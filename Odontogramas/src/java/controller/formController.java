@@ -148,6 +148,16 @@ public class formController extends HttpServlet {
                 session.setAttribute("tratamientos", conTra.findTratamientoEntities());
                 
             }
+            
+            if (request.getParameter("action").equals("subirRadiografias")) {
+                String idPersona = request.getParameter("id");
+                PacienteJpaController conPa = new PacienteJpaController();
+                Paciente pa = conPa.findPaciente(idPersona);
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("paciente", pa);
+                
+                
+            }
 
 
 

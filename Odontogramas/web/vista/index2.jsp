@@ -30,10 +30,11 @@
         <!-- Le javascript
            ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="assets/js/bootstrap-transition.js"></script>
         <script src="assets/js/bootstrap-alert.js"></script>
         <script src="assets/js/bootstrap-modal.js"></script>
+        <script src="assets/js/bootstrap-carousel.js"></script>
         <script src="assets/js/bootstrap-dropdown.js"></script>
         <script src="assets/js/bootstrap-tab.js"></script>
         <script src="assets/js/bootstrap-button.js"></script>
@@ -86,6 +87,7 @@
                             }); //fin del $.ajax
                       
                         }else{
+                           
                             if(hash.indexOf("#verPaciente")!=-1){
                                 var cual = hash.split("&");
                                 var url3 = "<%=request.getContextPath()%>/formController?action=";
@@ -108,7 +110,32 @@
                                         }); //fin del $.ajax
                                     } //fin success
                                 }); //fin del $.ajax
+                            }else{
+                                if(hash.indexOf("#subirRadiografias")!=-1){
+                                    var cual = hash.split("&");
+                                    var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                    url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                    $.ajax({ 
+                                        type: "POST", 
+                                        url: url3,
+                                        success: function(data) 
+                                        { 
+                                            $.ajax({ 
+                                                type: "POST", 
+                                                url: "/Odontogramas/upload.jsp",
+                                                success: function(data) 
+                                                {   
+                                                    $(this).parents("li").siblings().removeClass("active");
+                                                    $(this).parents("li").addClass("active");
+                                                    $("#contenido").html(data);
+                                       
+                                                } //fin success
+                                            }); //fin del $.ajax
+                                        } //fin success
+                                    }); //fin del $.ajax
+                                }
                             }
+                            
                         }   
                     }
                 });

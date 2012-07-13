@@ -11,6 +11,10 @@
         <servlet-name>formController</servlet-name>
         <servlet-class>controller.formController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Odontogramas</servlet-name>
+        <servlet-class>info.sudr.file.Odontogramas</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginController</servlet-name>
         <url-pattern>/loginController</url-pattern>
@@ -18,6 +22,10 @@
     <servlet-mapping>
         <servlet-name>formController</servlet-name>
         <url-pattern>/formController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Odontogramas</servlet-name>
+        <url-pattern>/Odontogramas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
