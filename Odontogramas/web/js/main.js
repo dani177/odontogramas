@@ -16,7 +16,7 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-      $('#fileupload').fileupload();
+    $('#fileupload').fileupload();
   
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
@@ -32,7 +32,7 @@ $(function () {
         
         // Demo settings:
         $('#fileupload').fileupload('option', {
-            url: '//Uploader/',
+            url: '//Odontogramas/',
             maxFileSize: 5000000,
             acceptFileTypes: /(\.|\/)(gif|jpg|png)$/i,
             process: [
@@ -54,7 +54,7 @@ $(function () {
         // Upload server status check for browsers with CORS support:
         if ($.support.cors) {
             $.ajax({
-                url: '//Uploader/',
+                url: '//Odontogramas/',
                 type: 'HEAD'
             }).fail(function () {
                 $('<span class="alert alert-error"/>')
@@ -67,7 +67,8 @@ $(function () {
         // Load existing files:
         $('#fileupload').each(function () {
             var that = this;
-            $.getJSON(this.action, function (result) {
+            $.getJSON("/Odontogramas/cargar", function (result) {
+                console.log("jajaja");
                 if (result && result.length) {
                     $(that).fileupload('option', 'done')
                     .call(that, null, {

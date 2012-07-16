@@ -46,8 +46,7 @@ public class Odontogramas extends HttpServlet {
         ServletFileUpload uploadHandler = new ServletFileUpload(new DiskFileItemFactory());
         PrintWriter writer = response.getWriter();
 
-        response.setContentType(
-                "text/plain");
+        response.setContentType("text/plain");
         try {
             List<FileItem> items = uploadHandler.parseRequest(request);
             for (FileItem item : items) {

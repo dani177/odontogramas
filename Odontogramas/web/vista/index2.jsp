@@ -6,8 +6,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Odontograma</title>
-        <link href="assets/css/bootstrap.css" rel="stylesheet"> 
-        <link href="assets/css/docs2.css" rel="stylesheet"> 
+       <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+        <!-- Bootstrap CSS fixes for IE6 -->
+        <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+        <!-- Bootstrap Image Gallery styles -->
+        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 
 
         <style type="text/css">
@@ -18,15 +22,9 @@
             .sidebar-nav {
                 padding: 9px 0;
             }
-            #notificaciones {
-                bottom: 5px;
-                position: fixed; 
-                right: 10px;
-                width: 250px;
-                z-index: 9999;
-            }
+        
         </style>
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+      
         <!-- Le javascript
            ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
@@ -54,7 +52,63 @@
                 
                 });
                 
-                location ="/Odontogramas/#inicio";
+                 var hash = location.hash;
+                 if(hash == "#inicio"){
+                        $("#contenido").html("estamos en la pagina de inicio!!");
+                    }
+                
+                    if(hash == "#listaPacientes"){
+                        $.ajax({ 
+                            type: "POST", 
+                            url: "/Odontogramas/vista/paciente/listar.jsp", 
+                            success: function(data) 
+                            { 
+                                $("#contenido").html(data);
+                                       
+                            } //fin success
+                        }); //fin del $.ajax
+                    }
+                    else{
+                        if(hash == "#nuevoPaciente"){
+                            $.ajax({ 
+                                type: "POST", 
+                                url: "/Odontogramas/vista/paciente/crear.jsp", 
+                                success: function(data) 
+                                { 
+                                    $("#contenido").html(data);
+                                       
+                                } //fin success
+                            }); //fin del $.ajax
+                      
+                        }else{
+                           
+                            if(hash.indexOf("#verPaciente")!=-1){
+                                var cual = hash.split("&");
+                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                $.ajax({ 
+                                    type: "POST", 
+                                    url: url3,
+                                    success: function(data) 
+                                    { 
+                                        $.ajax({ 
+                                            type: "POST", 
+                                            url: "/Odontogramas/vista/paciente/editar.jsp",
+                                            success: function(data) 
+                                            {   
+                                                $(this).parents("li").siblings().removeClass("active");
+                                                $(this).parents("li").addClass("active");
+                                                $("#contenido").html(data);
+                                       
+                                            } //fin success
+                                        }); //fin del $.ajax
+                                    } //fin success
+                                }); //fin del $.ajax
+                            }
+                            
+                        }   
+                    }
+               
                 $(window).hashchange(function(){
                     var hash = location.hash;
                     
@@ -110,30 +164,6 @@
                                         }); //fin del $.ajax
                                     } //fin success
                                 }); //fin del $.ajax
-                            }else{
-                                if(hash.indexOf("#subirRadiografias")!=-1){
-                                    var cual = hash.split("&");
-                                    var url3 = "<%=request.getContextPath()%>/formController?action=";
-                                    url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
-                                    $.ajax({ 
-                                        type: "POST", 
-                                        url: url3,
-                                        success: function(data) 
-                                        { 
-                                            $.ajax({ 
-                                                type: "POST", 
-                                                url: "/Odontogramas/upload.jsp",
-                                                success: function(data) 
-                                                {   
-                                                    $(this).parents("li").siblings().removeClass("active");
-                                                    $(this).parents("li").addClass("active");
-                                                    $("#contenido").html(data);
-                                       
-                                                } //fin success
-                                            }); //fin del $.ajax
-                                        } //fin success
-                                    }); //fin del $.ajax
-                                }
                             }
                             
                         }   

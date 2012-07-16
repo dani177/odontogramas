@@ -15,6 +15,14 @@
         <servlet-name>Odontogramas</servlet-name>
         <servlet-class>info.sudr.file.Odontogramas</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>subirRadiografia</servlet-name>
+        <servlet-class>controller.subirRadiografia</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>cargar</servlet-name>
+        <servlet-class>info.sudr.file.cargar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginController</servlet-name>
         <url-pattern>/loginController</url-pattern>
@@ -26,6 +34,14 @@
     <servlet-mapping>
         <servlet-name>Odontogramas</servlet-name>
         <url-pattern>/Odontogramas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>subirRadiografia</servlet-name>
+        <url-pattern>/subirRadiografia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cargar</servlet-name>
+        <url-pattern>/cargar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

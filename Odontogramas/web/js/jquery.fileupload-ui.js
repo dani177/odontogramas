@@ -45,14 +45,14 @@
             autoUpload: false,
             // The following option limits the number of files that are
             // allowed to be uploaded using this widget:
-            maxNumberOfFiles: undefined,
+            maxNumberOfFiles: 5,
             // The maximum allowed file size:
             maxFileSize: undefined,
             // The minimum allowed file size:
             minFileSize: undefined,
             // The regular expression for allowed file types, matches
             // against either file type or file name:
-            acceptFileTypes:  /.+$/i,
+            acceptFileTypes:  /(\.|\/)(gif|jpg|png)$/i,
             // The regular expression to define for which files a preview
             // image is shown, matched against the file type:
             previewSourceFileTypes: /^image\/(gif|jpeg|png)$/,
