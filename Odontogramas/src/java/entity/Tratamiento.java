@@ -32,7 +32,7 @@ public class Tratamiento implements Serializable {
     @Column(name = "presupuesto")
     private String presupuesto;
     @ManyToMany(mappedBy = "tratamientoList")
-    private List<Paciente> pacienteList;
+    private List<Datosconsulta> datosconsultaList;
 
     public Tratamiento() {
     }
@@ -66,12 +66,12 @@ public class Tratamiento implements Serializable {
     }
 
     @XmlTransient
-    public List<Paciente> getPacienteList() {
-        return pacienteList;
+    public List<Datosconsulta> getDatosconsultaList() {
+        return datosconsultaList;
     }
 
-    public void setPacienteList(List<Paciente> pacienteList) {
-        this.pacienteList = pacienteList;
+    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
+        this.datosconsultaList = datosconsultaList;
     }
 
     @Override

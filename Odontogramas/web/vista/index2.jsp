@@ -47,9 +47,7 @@
                 $(".nav-list >li > a").click(function(ev){
                     $(this).parents("li").siblings().removeClass("active");
                     $(this).parents("li").addClass("active");
-                    var div = $(this).attr("href");
-                    $(div).show();
-                
+                    location = $(this).attr("href");
                 });
                 
                  var hash = location.hash;

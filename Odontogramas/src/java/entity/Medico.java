@@ -19,7 +19,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Medico.findAll", query = "SELECT m FROM Medico m"),
     @NamedQuery(name = "Medico.findByIdmedico", query = "SELECT m FROM Medico m WHERE m.idmedico = :idmedico"),
     @NamedQuery(name = "Medico.findByNombreUsuario", query = "SELECT m FROM Medico m WHERE m.nombreUsuario = :nombreUsuario"),
-    @NamedQuery(name = "Medico.findByClave", query = "SELECT m FROM Medico m WHERE m.clave = :clave")})
+    @NamedQuery(name = "Medico.findByClave", query = "SELECT m FROM Medico m WHERE m.clave = :clave"),
+    @NamedQuery(name = "Medico.findByDireccion", query = "SELECT m FROM Medico m WHERE m.direccion = :direccion"),
+    @NamedQuery(name = "Medico.findByTelefono", query = "SELECT m FROM Medico m WHERE m.telefono = :telefono"),
+    @NamedQuery(name = "Medico.findByAnio", query = "SELECT m FROM Medico m WHERE m.anio = :anio"),
+    @NamedQuery(name = "Medico.findByPeriodo", query = "SELECT m FROM Medico m WHERE m.periodo = :periodo")})
 public class Medico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,11 +35,23 @@ public class Medico implements Serializable {
     private String nombreUsuario;
     @Column(name = "clave")
     private String clave;
+    @Column(name = "direccion")
+    private String direccion;
+    @Column(name = "telefono")
+    private String telefono;
+    @Column(name = "anio")
+    private String anio;
+    @Column(name = "periodo")
+    private String periodo;
     @JoinTable(name = "medico_has_paciente", joinColumns = {
         @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")}, inverseJoinColumns = {
         @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")})
     @ManyToMany
     private List<Paciente> pacienteList;
+    @ManyToMany(mappedBy = "medicoList")
+    private List<Docente> docenteList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoIdmedico")
+    private List<Datosconsulta> datosconsultaList;
 
     public Medico() {
     }
@@ -68,6 +84,38 @@ public class Medico implements Serializable {
         this.clave = clave;
     }
 
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
+    }
+
     @XmlTransient
     public List<Paciente> getPacienteList() {
         return pacienteList;
@@ -75,6 +123,24 @@ public class Medico implements Serializable {
 
     public void setPacienteList(List<Paciente> pacienteList) {
         this.pacienteList = pacienteList;
+    }
+
+    @XmlTransient
+    public List<Docente> getDocenteList() {
+        return docenteList;
+    }
+
+    public void setDocenteList(List<Docente> docenteList) {
+        this.docenteList = docenteList;
+    }
+
+    @XmlTransient
+    public List<Datosconsulta> getDatosconsultaList() {
+        return datosconsultaList;
+    }
+
+    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
+        this.datosconsultaList = datosconsultaList;
     }
 
     @Override

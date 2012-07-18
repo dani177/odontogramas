@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    <div class="row">
         <div class="span9">
             <br/>
             <h2>Listado de  Pacientes</h2>
@@ -37,6 +36,6 @@
                 </c:otherwise>
             </c:choose>
         </div>
-    </div>
+
 
 

@@ -34,9 +34,6 @@ public class Evolucion implements Serializable {
     private String reciboPago;
     @Column(name = "tratamientoEjecutado")
     private String tratamientoEjecutado;
-    @JoinColumn(name = "diagnostico_iddiagnostico", referencedColumnName = "iddiagnostico")
-    @ManyToOne(optional = false)
-    private Diagnostico diagnosticoIddiagnostico;
 
     public Evolucion() {
     }
@@ -75,14 +72,6 @@ public class Evolucion implements Serializable {
 
     public void setTratamientoEjecutado(String tratamientoEjecutado) {
         this.tratamientoEjecutado = tratamientoEjecutado;
-    }
-
-    public Diagnostico getDiagnosticoIddiagnostico() {
-        return diagnosticoIddiagnostico;
-    }
-
-    public void setDiagnosticoIddiagnostico(Diagnostico diagnosticoIddiagnostico) {
-        this.diagnosticoIddiagnostico = diagnosticoIddiagnostico;
     }
 
     @Override

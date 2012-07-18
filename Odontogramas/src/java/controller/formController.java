@@ -101,7 +101,6 @@ public class formController extends HttpServlet {
                 MunicipiosJpaController ConMun = new MunicipiosJpaController();
                 Municipios mun = ConMun.findMunicipios(codMun);
                 pa.setMunicipiosCodigo(mun);
-
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                 String sFecha = (String) request.getParameter("fecha");
                 Date fecha = null;
@@ -114,8 +113,7 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
-                pa.setFecha(fecha);
-                pa.setEdad(Integer.parseInt((String) request.getParameter("edad")));
+                pa.setFechaNacimiento(fecha);
                 pa.setSexo((String) request.getParameter("sexo"));
                 pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
                 String prof = (String) request.getParameter("profesion");
@@ -126,6 +124,7 @@ public class formController extends HttpServlet {
                 ArrayList<Medico> listMedico = new ArrayList<Medico>();
                 listMedico.add(m);
                 pa.setMedicoList(listMedico);
+              
                 try {
                     conPa.create(pa);
                     session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
@@ -134,6 +133,7 @@ public class formController extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+              
             }
 
             if (request.getParameter("action").equals("verPaciente")) {

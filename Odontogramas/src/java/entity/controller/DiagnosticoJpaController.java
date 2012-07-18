@@ -6,18 +6,16 @@
 package entity.controller;
 
 import conexion.jpaConnection;
-import entity.Diagnostico;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Paciente;
+import entity.Datosconsulta;
+import entity.Diagnostico;
+import entity.controller.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
-import entity.Evolucion;
-import entity.controller.exceptions.IllegalOrphanException;
-import entity.controller.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -32,41 +30,23 @@ public class DiagnosticoJpaController implements Serializable {
     }
 
     public void create(Diagnostico diagnostico) {
-        if (diagnostico.getPacienteList() == null) {
-            diagnostico.setPacienteList(new ArrayList<Paciente>());
-        }
-        if (diagnostico.getEvolucionList() == null) {
-            diagnostico.setEvolucionList(new ArrayList<Evolucion>());
+        if (diagnostico.getDatosconsultaList() == null) {
+            diagnostico.setDatosconsultaList(new ArrayList<Datosconsulta>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
-            for (Paciente pacienteListPacienteToAttach : diagnostico.getPacienteList()) {
-                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
-                attachedPacienteList.add(pacienteListPacienteToAttach);
+            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListDatosconsultaToAttach : diagnostico.getDatosconsultaList()) {
+                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
             }
-            diagnostico.setPacienteList(attachedPacienteList);
-            List<Evolucion> attachedEvolucionList = new ArrayList<Evolucion>();
-            for (Evolucion evolucionListEvolucionToAttach : diagnostico.getEvolucionList()) {
-                evolucionListEvolucionToAttach = em.getReference(evolucionListEvolucionToAttach.getClass(), evolucionListEvolucionToAttach.getIdevolucion());
-                attachedEvolucionList.add(evolucionListEvolucionToAttach);
-            }
-            diagnostico.setEvolucionList(attachedEvolucionList);
+            diagnostico.setDatosconsultaList(attachedDatosconsultaList);
             em.persist(diagnostico);
-            for (Paciente pacienteListPaciente : diagnostico.getPacienteList()) {
-                pacienteListPaciente.getDiagnosticoList().add(diagnostico);
-                pacienteListPaciente = em.merge(pacienteListPaciente);
-            }
-            for (Evolucion evolucionListEvolucion : diagnostico.getEvolucionList()) {
-                Diagnostico oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion = evolucionListEvolucion.getDiagnosticoIddiagnostico();
-                evolucionListEvolucion.setDiagnosticoIddiagnostico(diagnostico);
-                evolucionListEvolucion = em.merge(evolucionListEvolucion);
-                if (oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion != null) {
-                    oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion.getEvolucionList().remove(evolucionListEvolucion);
-                    oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion = em.merge(oldDiagnosticoIddiagnosticoOfEvolucionListEvolucion);
-                }
+            for (Datosconsulta datosconsultaListDatosconsulta : diagnostico.getDatosconsultaList()) {
+                datosconsultaListDatosconsulta.getDiagnosticoList().add(diagnostico);
+                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
             }
             em.getTransaction().commit();
         } finally {
@@ -76,64 +56,32 @@ public class DiagnosticoJpaController implements Serializable {
         }
     }
 
-    public void edit(Diagnostico diagnostico) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Diagnostico diagnostico) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Diagnostico persistentDiagnostico = em.find(Diagnostico.class, diagnostico.getIddiagnostico());
-            List<Paciente> pacienteListOld = persistentDiagnostico.getPacienteList();
-            List<Paciente> pacienteListNew = diagnostico.getPacienteList();
-            List<Evolucion> evolucionListOld = persistentDiagnostico.getEvolucionList();
-            List<Evolucion> evolucionListNew = diagnostico.getEvolucionList();
-            List<String> illegalOrphanMessages = null;
-            for (Evolucion evolucionListOldEvolucion : evolucionListOld) {
-                if (!evolucionListNew.contains(evolucionListOldEvolucion)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Evolucion " + evolucionListOldEvolucion + " since its diagnosticoIddiagnostico field is not nullable.");
-                }
+            List<Datosconsulta> datosconsultaListOld = persistentDiagnostico.getDatosconsultaList();
+            List<Datosconsulta> datosconsultaListNew = diagnostico.getDatosconsultaList();
+            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
+                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
-            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
-                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
-                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
-            }
-            pacienteListNew = attachedPacienteListNew;
-            diagnostico.setPacienteList(pacienteListNew);
-            List<Evolucion> attachedEvolucionListNew = new ArrayList<Evolucion>();
-            for (Evolucion evolucionListNewEvolucionToAttach : evolucionListNew) {
-                evolucionListNewEvolucionToAttach = em.getReference(evolucionListNewEvolucionToAttach.getClass(), evolucionListNewEvolucionToAttach.getIdevolucion());
-                attachedEvolucionListNew.add(evolucionListNewEvolucionToAttach);
-            }
-            evolucionListNew = attachedEvolucionListNew;
-            diagnostico.setEvolucionList(evolucionListNew);
+            datosconsultaListNew = attachedDatosconsultaListNew;
+            diagnostico.setDatosconsultaList(datosconsultaListNew);
             diagnostico = em.merge(diagnostico);
-            for (Paciente pacienteListOldPaciente : pacienteListOld) {
-                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
-                    pacienteListOldPaciente.getDiagnosticoList().remove(diagnostico);
-                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
+            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
+                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
+                    datosconsultaListOldDatosconsulta.getDiagnosticoList().remove(diagnostico);
+                    datosconsultaListOldDatosconsulta = em.merge(datosconsultaListOldDatosconsulta);
                 }
             }
-            for (Paciente pacienteListNewPaciente : pacienteListNew) {
-                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
-                    pacienteListNewPaciente.getDiagnosticoList().add(diagnostico);
-                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
-                }
-            }
-            for (Evolucion evolucionListNewEvolucion : evolucionListNew) {
-                if (!evolucionListOld.contains(evolucionListNewEvolucion)) {
-                    Diagnostico oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion = evolucionListNewEvolucion.getDiagnosticoIddiagnostico();
-                    evolucionListNewEvolucion.setDiagnosticoIddiagnostico(diagnostico);
-                    evolucionListNewEvolucion = em.merge(evolucionListNewEvolucion);
-                    if (oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion != null && !oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion.equals(diagnostico)) {
-                        oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion.getEvolucionList().remove(evolucionListNewEvolucion);
-                        oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion = em.merge(oldDiagnosticoIddiagnosticoOfEvolucionListNewEvolucion);
-                    }
+            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
+                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
+                    datosconsultaListNewDatosconsulta.getDiagnosticoList().add(diagnostico);
+                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
                 }
             }
             em.getTransaction().commit();
@@ -153,7 +101,7 @@ public class DiagnosticoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -165,21 +113,10 @@ public class DiagnosticoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The diagnostico with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Evolucion> evolucionListOrphanCheck = diagnostico.getEvolucionList();
-            for (Evolucion evolucionListOrphanCheckEvolucion : evolucionListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Diagnostico (" + diagnostico + ") cannot be destroyed since the Evolucion " + evolucionListOrphanCheckEvolucion + " in its evolucionList field has a non-nullable diagnosticoIddiagnostico field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Paciente> pacienteList = diagnostico.getPacienteList();
-            for (Paciente pacienteListPaciente : pacienteList) {
-                pacienteListPaciente.getDiagnosticoList().remove(diagnostico);
-                pacienteListPaciente = em.merge(pacienteListPaciente);
+            List<Datosconsulta> datosconsultaList = diagnostico.getDatosconsultaList();
+            for (Datosconsulta datosconsultaListDatosconsulta : datosconsultaList) {
+                datosconsultaListDatosconsulta.getDiagnosticoList().remove(diagnostico);
+                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
             }
             em.remove(diagnostico);
             em.getTransaction().commit();

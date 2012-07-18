@@ -7,8 +7,10 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -22,7 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Datosconsulta.findByObservaciones", query = "SELECT d FROM Datosconsulta d WHERE d.observaciones = :observaciones"),
     @NamedQuery(name = "Datosconsulta.findByOtros", query = "SELECT d FROM Datosconsulta d WHERE d.otros = :otros"),
     @NamedQuery(name = "Datosconsulta.findByUltimaVisitaOdon", query = "SELECT d FROM Datosconsulta d WHERE d.ultimaVisitaOdon = :ultimaVisitaOdon"),
-    @NamedQuery(name = "Datosconsulta.findByMotivo", query = "SELECT d FROM Datosconsulta d WHERE d.motivo = :motivo")})
+    @NamedQuery(name = "Datosconsulta.findByMotivo", query = "SELECT d FROM Datosconsulta d WHERE d.motivo = :motivo"),
+    @NamedQuery(name = "Datosconsulta.findByFechaConsulta", query = "SELECT d FROM Datosconsulta d WHERE d.fechaConsulta = :fechaConsulta"),
+    @NamedQuery(name = "Datosconsulta.findByPronostico", query = "SELECT d FROM Datosconsulta d WHERE d.pronostico = :pronostico")})
 public class Datosconsulta implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,9 +47,38 @@ public class Datosconsulta implements Serializable {
     private Date ultimaVisitaOdon;
     @Column(name = "motivo")
     private String motivo;
+    @Column(name = "fechaConsulta")
+    @Temporal(TemporalType.DATE)
+    private Date fechaConsulta;
+    @Column(name = "pronostico")
+    private String pronostico;
+    @JoinTable(name = "datosconsulta_has_tratamiento", joinColumns = {
+        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")}, inverseJoinColumns = {
+        @JoinColumn(name = "tratamiento_idtratamiento", referencedColumnName = "idtratamiento")})
+    @ManyToMany
+    private List<Tratamiento> tratamientoList;
+    @JoinTable(name = "datosconsulta_has_diagnostico", joinColumns = {
+        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")}, inverseJoinColumns = {
+        @JoinColumn(name = "diagnostico_iddiagnostico", referencedColumnName = "iddiagnostico")})
+    @ManyToMany
+    private List<Diagnostico> diagnosticoList;
+    @JoinTable(name = "datosconsulta_has_plantratamiento", joinColumns = {
+        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")}, inverseJoinColumns = {
+        @JoinColumn(name = "planTratamiento_idplanTratamiento", referencedColumnName = "idplanTratamiento")})
+    @ManyToMany
+    private List<Plantratamiento> plantratamientoList;
+    @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")
+    @ManyToOne(optional = false)
+    private Medico medicoIdmedico;
     @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")
     @ManyToOne(optional = false)
     private Paciente pacienteIdpersona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosconsulta")
+    private List<DatosconsultaHasDiente> datosconsultaHasDienteList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
+    private List<Examenfisicoestomatologico> examenfisicoestomatologicoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
+    private List<Radiografia> radiografiaList;
 
     public Datosconsulta() {
     }
@@ -110,12 +143,90 @@ public class Datosconsulta implements Serializable {
         this.motivo = motivo;
     }
 
+    public Date getFechaConsulta() {
+        return fechaConsulta;
+    }
+
+    public void setFechaConsulta(Date fechaConsulta) {
+        this.fechaConsulta = fechaConsulta;
+    }
+
+    public String getPronostico() {
+        return pronostico;
+    }
+
+    public void setPronostico(String pronostico) {
+        this.pronostico = pronostico;
+    }
+
+    @XmlTransient
+    public List<Tratamiento> getTratamientoList() {
+        return tratamientoList;
+    }
+
+    public void setTratamientoList(List<Tratamiento> tratamientoList) {
+        this.tratamientoList = tratamientoList;
+    }
+
+    @XmlTransient
+    public List<Diagnostico> getDiagnosticoList() {
+        return diagnosticoList;
+    }
+
+    public void setDiagnosticoList(List<Diagnostico> diagnosticoList) {
+        this.diagnosticoList = diagnosticoList;
+    }
+
+    @XmlTransient
+    public List<Plantratamiento> getPlantratamientoList() {
+        return plantratamientoList;
+    }
+
+    public void setPlantratamientoList(List<Plantratamiento> plantratamientoList) {
+        this.plantratamientoList = plantratamientoList;
+    }
+
+    public Medico getMedicoIdmedico() {
+        return medicoIdmedico;
+    }
+
+    public void setMedicoIdmedico(Medico medicoIdmedico) {
+        this.medicoIdmedico = medicoIdmedico;
+    }
+
     public Paciente getPacienteIdpersona() {
         return pacienteIdpersona;
     }
 
     public void setPacienteIdpersona(Paciente pacienteIdpersona) {
         this.pacienteIdpersona = pacienteIdpersona;
+    }
+
+    @XmlTransient
+    public List<DatosconsultaHasDiente> getDatosconsultaHasDienteList() {
+        return datosconsultaHasDienteList;
+    }
+
+    public void setDatosconsultaHasDienteList(List<DatosconsultaHasDiente> datosconsultaHasDienteList) {
+        this.datosconsultaHasDienteList = datosconsultaHasDienteList;
+    }
+
+    @XmlTransient
+    public List<Examenfisicoestomatologico> getExamenfisicoestomatologicoList() {
+        return examenfisicoestomatologicoList;
+    }
+
+    public void setExamenfisicoestomatologicoList(List<Examenfisicoestomatologico> examenfisicoestomatologicoList) {
+        this.examenfisicoestomatologicoList = examenfisicoestomatologicoList;
+    }
+
+    @XmlTransient
+    public List<Radiografia> getRadiografiaList() {
+        return radiografiaList;
+    }
+
+    public void setRadiografiaList(List<Radiografia> radiografiaList) {
+        this.radiografiaList = radiografiaList;
     }
 
     @Override

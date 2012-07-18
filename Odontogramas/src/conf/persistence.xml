@@ -16,6 +16,10 @@
     <class>entity.Municipios</class>
     <class>entity.Departamentos</class>
     <class>entity.Profesiones</class>
+    <class>entity.Docente</class>
+    <class>entity.Diente</class>
+    <class>entity.Radiografia</class>
+    <class>entity.DatosconsultaHasDiente</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/odontogramas"/>

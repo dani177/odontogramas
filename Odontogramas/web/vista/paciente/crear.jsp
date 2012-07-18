@@ -38,7 +38,7 @@
 
 
 <!--nuevo-->
-<div class="row">
+
     <div class="span9">
 
         <form id="DatosPersonales" class="form-horizontal">
@@ -95,16 +95,9 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="fecha" class="control-label">Fecha</label>
+                    <label for="fecha" class="control-label">Fecha de Nacimiento</label>
                     <div class="controls">
                         <input type="text" id="fecha" name="fecha" class="input-small {required:true}" data-datepicker="datepicker">
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label for="input08" class="control-label">Edad</label>
-                    <div class="controls">
-                        <input type="text" id="input08" name="edad" class="input-small {required:true}">
                     </div>
                 </div>
 
@@ -160,5 +153,5 @@
             </fieldset>
         </form>
     </div> <!--/span-->
-</div><!--/row-->  
+
 <!--/nuevo-->

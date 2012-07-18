@@ -49,6 +49,10 @@
 
         <script type="text/javascript">
             $(function(){
+                
+                ("a[href='']")
+                $("#myModalRegistro").modal();
+                
                 $('.dropdown-menu').find('form').click(function (e) {
                     var target = $(e.target);
                     if($(target).attr("class")!="close"){
@@ -107,6 +111,7 @@
                     </ul>
 
                     <ul class="nav pull-right">
+                        <li><a href="#registro">Crear cuenta</a></li>
                         <li id="fat-menu" class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Iniciar Sesion <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -172,9 +177,20 @@
                 <p class="left">&copy; Universidad de Cartagena 2012</p>
 
             </footer>
-
         </div> <!-- /container -->
-
-
+        <div class="modal hide fade" id="myModalRegistro">
+            <div class="modal-header">
+                <a data-dismiss="modal" class="close">×</a>
+                <h3>Atención!</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Evaluación información numérica.</h4>
+                <br>
+                    <p>La información numérica se ha evaluado satisfactoriamente .</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" data-dismiss="modal" href="#">Cerrar</a>
+            </div>
+        </div>
     </body>
 </html>

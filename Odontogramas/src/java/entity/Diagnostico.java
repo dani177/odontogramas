@@ -19,8 +19,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Diagnostico.findAll", query = "SELECT d FROM Diagnostico d"),
     @NamedQuery(name = "Diagnostico.findByIddiagnostico", query = "SELECT d FROM Diagnostico d WHERE d.iddiagnostico = :iddiagnostico"),
     @NamedQuery(name = "Diagnostico.findByCodigo", query = "SELECT d FROM Diagnostico d WHERE d.codigo = :codigo"),
-    @NamedQuery(name = "Diagnostico.findByDiagnostico", query = "SELECT d FROM Diagnostico d WHERE d.diagnostico = :diagnostico"),
-    @NamedQuery(name = "Diagnostico.findByPronostico", query = "SELECT d FROM Diagnostico d WHERE d.pronostico = :pronostico")})
+    @NamedQuery(name = "Diagnostico.findByDiagnostico", query = "SELECT d FROM Diagnostico d WHERE d.diagnostico = :diagnostico")})
 public class Diagnostico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,12 +31,8 @@ public class Diagnostico implements Serializable {
     private String codigo;
     @Column(name = "diagnostico")
     private String diagnostico;
-    @Column(name = "pronostico")
-    private String pronostico;
     @ManyToMany(mappedBy = "diagnosticoList")
-    private List<Paciente> pacienteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "diagnosticoIddiagnostico")
-    private List<Evolucion> evolucionList;
+    private List<Datosconsulta> datosconsultaList;
 
     public Diagnostico() {
     }
@@ -70,30 +65,13 @@ public class Diagnostico implements Serializable {
         this.diagnostico = diagnostico;
     }
 
-    public String getPronostico() {
-        return pronostico;
-    }
-
-    public void setPronostico(String pronostico) {
-        this.pronostico = pronostico;
-    }
-
     @XmlTransient
-    public List<Paciente> getPacienteList() {
-        return pacienteList;
+    public List<Datosconsulta> getDatosconsultaList() {
+        return datosconsultaList;
     }
 
-    public void setPacienteList(List<Paciente> pacienteList) {
-        this.pacienteList = pacienteList;
-    }
-
-    @XmlTransient
-    public List<Evolucion> getEvolucionList() {
-        return evolucionList;
-    }
-
-    public void setEvolucionList(List<Evolucion> evolucionList) {
-        this.evolucionList = evolucionList;
+    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
+        this.datosconsultaList = datosconsultaList;
     }
 
     @Override

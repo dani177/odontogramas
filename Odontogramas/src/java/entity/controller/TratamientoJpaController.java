@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Paciente;
+import entity.Datosconsulta;
 import entity.Tratamiento;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
@@ -30,23 +30,23 @@ public class TratamientoJpaController implements Serializable {
     }
 
     public void create(Tratamiento tratamiento) {
-        if (tratamiento.getPacienteList() == null) {
-            tratamiento.setPacienteList(new ArrayList<Paciente>());
+        if (tratamiento.getDatosconsultaList() == null) {
+            tratamiento.setDatosconsultaList(new ArrayList<Datosconsulta>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Paciente> attachedPacienteList = new ArrayList<Paciente>();
-            for (Paciente pacienteListPacienteToAttach : tratamiento.getPacienteList()) {
-                pacienteListPacienteToAttach = em.getReference(pacienteListPacienteToAttach.getClass(), pacienteListPacienteToAttach.getIdpersona());
-                attachedPacienteList.add(pacienteListPacienteToAttach);
+            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListDatosconsultaToAttach : tratamiento.getDatosconsultaList()) {
+                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
             }
-            tratamiento.setPacienteList(attachedPacienteList);
+            tratamiento.setDatosconsultaList(attachedDatosconsultaList);
             em.persist(tratamiento);
-            for (Paciente pacienteListPaciente : tratamiento.getPacienteList()) {
-                pacienteListPaciente.getTratamientoList().add(tratamiento);
-                pacienteListPaciente = em.merge(pacienteListPaciente);
+            for (Datosconsulta datosconsultaListDatosconsulta : tratamiento.getDatosconsultaList()) {
+                datosconsultaListDatosconsulta.getTratamientoList().add(tratamiento);
+                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
             }
             em.getTransaction().commit();
         } finally {
@@ -62,26 +62,26 @@ public class TratamientoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Tratamiento persistentTratamiento = em.find(Tratamiento.class, tratamiento.getIdtratamiento());
-            List<Paciente> pacienteListOld = persistentTratamiento.getPacienteList();
-            List<Paciente> pacienteListNew = tratamiento.getPacienteList();
-            List<Paciente> attachedPacienteListNew = new ArrayList<Paciente>();
-            for (Paciente pacienteListNewPacienteToAttach : pacienteListNew) {
-                pacienteListNewPacienteToAttach = em.getReference(pacienteListNewPacienteToAttach.getClass(), pacienteListNewPacienteToAttach.getIdpersona());
-                attachedPacienteListNew.add(pacienteListNewPacienteToAttach);
+            List<Datosconsulta> datosconsultaListOld = persistentTratamiento.getDatosconsultaList();
+            List<Datosconsulta> datosconsultaListNew = tratamiento.getDatosconsultaList();
+            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
+            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
+                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
+                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
             }
-            pacienteListNew = attachedPacienteListNew;
-            tratamiento.setPacienteList(pacienteListNew);
+            datosconsultaListNew = attachedDatosconsultaListNew;
+            tratamiento.setDatosconsultaList(datosconsultaListNew);
             tratamiento = em.merge(tratamiento);
-            for (Paciente pacienteListOldPaciente : pacienteListOld) {
-                if (!pacienteListNew.contains(pacienteListOldPaciente)) {
-                    pacienteListOldPaciente.getTratamientoList().remove(tratamiento);
-                    pacienteListOldPaciente = em.merge(pacienteListOldPaciente);
+            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
+                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
+                    datosconsultaListOldDatosconsulta.getTratamientoList().remove(tratamiento);
+                    datosconsultaListOldDatosconsulta = em.merge(datosconsultaListOldDatosconsulta);
                 }
             }
-            for (Paciente pacienteListNewPaciente : pacienteListNew) {
-                if (!pacienteListOld.contains(pacienteListNewPaciente)) {
-                    pacienteListNewPaciente.getTratamientoList().add(tratamiento);
-                    pacienteListNewPaciente = em.merge(pacienteListNewPaciente);
+            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
+                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
+                    datosconsultaListNewDatosconsulta.getTratamientoList().add(tratamiento);
+                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
                 }
             }
             em.getTransaction().commit();
@@ -113,10 +113,10 @@ public class TratamientoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The tratamiento with id " + id + " no longer exists.", enfe);
             }
-            List<Paciente> pacienteList = tratamiento.getPacienteList();
-            for (Paciente pacienteListPaciente : pacienteList) {
-                pacienteListPaciente.getTratamientoList().remove(tratamiento);
-                pacienteListPaciente = em.merge(pacienteListPaciente);
+            List<Datosconsulta> datosconsultaList = tratamiento.getDatosconsultaList();
+            for (Datosconsulta datosconsultaListDatosconsulta : datosconsultaList) {
+                datosconsultaListDatosconsulta.getTratamientoList().remove(tratamiento);
+                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
             }
             em.remove(tratamiento);
             em.getTransaction().commit();

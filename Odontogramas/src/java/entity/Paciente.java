@@ -23,10 +23,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Paciente.findByDireccion", query = "SELECT p FROM Paciente p WHERE p.direccion = :direccion"),
     @NamedQuery(name = "Paciente.findByNumAfiliacion", query = "SELECT p FROM Paciente p WHERE p.numAfiliacion = :numAfiliacion"),
     @NamedQuery(name = "Paciente.findByTelefono", query = "SELECT p FROM Paciente p WHERE p.telefono = :telefono"),
-    @NamedQuery(name = "Paciente.findByEdad", query = "SELECT p FROM Paciente p WHERE p.edad = :edad"),
     @NamedQuery(name = "Paciente.findBySexo", query = "SELECT p FROM Paciente p WHERE p.sexo = :sexo"),
     @NamedQuery(name = "Paciente.findByEstadoCivil", query = "SELECT p FROM Paciente p WHERE p.estadoCivil = :estadoCivil"),
-    @NamedQuery(name = "Paciente.findByFecha", query = "SELECT p FROM Paciente p WHERE p.fecha = :fecha")})
+    @NamedQuery(name = "Paciente.findByFechaNacimiento", query = "SELECT p FROM Paciente p WHERE p.fechaNacimiento = :fechaNacimiento")})
 public class Paciente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,40 +40,21 @@ public class Paciente implements Serializable {
     private String numAfiliacion;
     @Column(name = "telefono")
     private String telefono;
-    @Column(name = "edad")
-    private Integer edad;
     @Column(name = "sexo")
     private String sexo;
     @Column(name = "estadoCivil")
     private String estadoCivil;
-    @Column(name = "fecha")
+    @Column(name = "fechaNacimiento")
     @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private Date fechaNacimiento;
     @ManyToMany(mappedBy = "pacienteList")
     private List<Medico> medicoList;
-    @JoinTable(name = "paciente_has_plantratamiento", joinColumns = {
-        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
-        @JoinColumn(name = "planTratamiento_idplanTratamiento", referencedColumnName = "idplanTratamiento")})
-    @ManyToMany
-    private List<Plantratamiento> plantratamientoList;
-    @JoinTable(name = "paciente_has_tratamiento", joinColumns = {
-        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
-        @JoinColumn(name = "tratamiento_idtratamiento", referencedColumnName = "idtratamiento")})
-    @ManyToMany
-    private List<Tratamiento> tratamientoList;
-    @JoinTable(name = "paciente_has_diagnostico", joinColumns = {
-        @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")}, inverseJoinColumns = {
-        @JoinColumn(name = "diagnostico_iddiagnostico", referencedColumnName = "iddiagnostico")})
-    @ManyToMany
-    private List<Diagnostico> diagnosticoList;
     @JoinColumn(name = "profesiones_codigo", referencedColumnName = "codigo")
     @ManyToOne(optional = false)
     private Profesiones profesionesCodigo;
     @JoinColumn(name = "municipios_codigo", referencedColumnName = "codigo")
     @ManyToOne(optional = false)
     private Municipios municipiosCodigo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteidpersona")
-    private List<Examenfisicoestomatologico> examenfisicoestomatologicoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteIdpersona")
     private List<Datosconsulta> datosconsultaList;
 
@@ -125,14 +105,6 @@ public class Paciente implements Serializable {
         this.telefono = telefono;
     }
 
-    public Integer getEdad() {
-        return edad;
-    }
-
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
-
     public String getSexo() {
         return sexo;
     }
@@ -149,12 +121,12 @@ public class Paciente implements Serializable {
         this.estadoCivil = estadoCivil;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     @XmlTransient
@@ -164,33 +136,6 @@ public class Paciente implements Serializable {
 
     public void setMedicoList(List<Medico> medicoList) {
         this.medicoList = medicoList;
-    }
-
-    @XmlTransient
-    public List<Plantratamiento> getPlantratamientoList() {
-        return plantratamientoList;
-    }
-
-    public void setPlantratamientoList(List<Plantratamiento> plantratamientoList) {
-        this.plantratamientoList = plantratamientoList;
-    }
-
-    @XmlTransient
-    public List<Tratamiento> getTratamientoList() {
-        return tratamientoList;
-    }
-
-    public void setTratamientoList(List<Tratamiento> tratamientoList) {
-        this.tratamientoList = tratamientoList;
-    }
-
-    @XmlTransient
-    public List<Diagnostico> getDiagnosticoList() {
-        return diagnosticoList;
-    }
-
-    public void setDiagnosticoList(List<Diagnostico> diagnosticoList) {
-        this.diagnosticoList = diagnosticoList;
     }
 
     public Profesiones getProfesionesCodigo() {
@@ -207,15 +152,6 @@ public class Paciente implements Serializable {
 
     public void setMunicipiosCodigo(Municipios municipiosCodigo) {
         this.municipiosCodigo = municipiosCodigo;
-    }
-
-    @XmlTransient
-    public List<Examenfisicoestomatologico> getExamenfisicoestomatologicoList() {
-        return examenfisicoestomatologicoList;
-    }
-
-    public void setExamenfisicoestomatologicoList(List<Examenfisicoestomatologico> examenfisicoestomatologicoList) {
-        this.examenfisicoestomatologicoList = examenfisicoestomatologicoList;
     }
 
     @XmlTransient

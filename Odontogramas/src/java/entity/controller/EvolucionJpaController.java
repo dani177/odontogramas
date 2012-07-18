@@ -5,17 +5,16 @@
 
 package entity.controller;
 
+import entity.Evolucion;
+import entity.controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Diagnostico;
-import entity.Evolucion;
-import entity.controller.exceptions.NonexistentEntityException;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 
 public class EvolucionJpaController implements Serializable {
@@ -34,16 +33,7 @@ public class EvolucionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Diagnostico diagnosticoIddiagnostico = evolucion.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico = em.getReference(diagnosticoIddiagnostico.getClass(), diagnosticoIddiagnostico.getIddiagnostico());
-                evolucion.setDiagnosticoIddiagnostico(diagnosticoIddiagnostico);
-            }
             em.persist(evolucion);
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getEvolucionList().add(evolucion);
-                diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -57,22 +47,7 @@ public class EvolucionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Evolucion persistentEvolucion = em.find(Evolucion.class, evolucion.getIdevolucion());
-            Diagnostico diagnosticoIddiagnosticoOld = persistentEvolucion.getDiagnosticoIddiagnostico();
-            Diagnostico diagnosticoIddiagnosticoNew = evolucion.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnosticoNew != null) {
-                diagnosticoIddiagnosticoNew = em.getReference(diagnosticoIddiagnosticoNew.getClass(), diagnosticoIddiagnosticoNew.getIddiagnostico());
-                evolucion.setDiagnosticoIddiagnostico(diagnosticoIddiagnosticoNew);
-            }
             evolucion = em.merge(evolucion);
-            if (diagnosticoIddiagnosticoOld != null && !diagnosticoIddiagnosticoOld.equals(diagnosticoIddiagnosticoNew)) {
-                diagnosticoIddiagnosticoOld.getEvolucionList().remove(evolucion);
-                diagnosticoIddiagnosticoOld = em.merge(diagnosticoIddiagnosticoOld);
-            }
-            if (diagnosticoIddiagnosticoNew != null && !diagnosticoIddiagnosticoNew.equals(diagnosticoIddiagnosticoOld)) {
-                diagnosticoIddiagnosticoNew.getEvolucionList().add(evolucion);
-                diagnosticoIddiagnosticoNew = em.merge(diagnosticoIddiagnosticoNew);
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -101,11 +76,6 @@ public class EvolucionJpaController implements Serializable {
                 evolucion.getIdevolucion();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The evolucion with id " + id + " no longer exists.", enfe);
-            }
-            Diagnostico diagnosticoIddiagnostico = evolucion.getDiagnosticoIddiagnostico();
-            if (diagnosticoIddiagnostico != null) {
-                diagnosticoIddiagnostico.getEvolucionList().remove(evolucion);
-                diagnosticoIddiagnostico = em.merge(diagnosticoIddiagnostico);
             }
             em.remove(evolucion);
             em.getTransaction().commit();

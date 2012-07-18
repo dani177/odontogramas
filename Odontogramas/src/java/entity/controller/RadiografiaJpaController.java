@@ -11,16 +11,17 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entity.Datosconsulta;
-import entity.Examenfisicoestomatologico;
+import entity.Radiografia;
 import entity.controller.exceptions.NonexistentEntityException;
+import entity.controller.exceptions.PreexistingEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 
-public class ExamenfisicoestomatologicoJpaController implements Serializable {
+public class RadiografiaJpaController implements Serializable {
 
-    public ExamenfisicoestomatologicoJpaController(EntityManagerFactory emf) {
+    public RadiografiaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -29,22 +30,27 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Examenfisicoestomatologico examenfisicoestomatologico) {
+    public void create(Radiografia radiografia) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Datosconsulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Datosconsulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta = em.getReference(datosConsultaiddatosConsulta.getClass(), datosConsultaiddatosConsulta.getIddatosConsulta());
-                examenfisicoestomatologico.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsulta);
+                radiografia.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsulta);
             }
-            em.persist(examenfisicoestomatologico);
+            em.persist(radiografia);
             if (datosConsultaiddatosConsulta != null) {
-                datosConsultaiddatosConsulta.getExamenfisicoestomatologicoList().add(examenfisicoestomatologico);
+                datosConsultaiddatosConsulta.getRadiografiaList().add(radiografia);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findRadiografia(radiografia.getIdradiografia()) != null) {
+                throw new PreexistingEntityException("Radiografia " + radiografia + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -52,34 +58,34 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         }
     }
 
-    public void edit(Examenfisicoestomatologico examenfisicoestomatologico) throws NonexistentEntityException, Exception {
+    public void edit(Radiografia radiografia) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Examenfisicoestomatologico persistentExamenfisicoestomatologico = em.find(Examenfisicoestomatologico.class, examenfisicoestomatologico.getIdexamenFisicoEstomatologico());
-            Datosconsulta datosConsultaiddatosConsultaOld = persistentExamenfisicoestomatologico.getDatosConsultaiddatosConsulta();
-            Datosconsulta datosConsultaiddatosConsultaNew = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Radiografia persistentRadiografia = em.find(Radiografia.class, radiografia.getIdradiografia());
+            Datosconsulta datosConsultaiddatosConsultaOld = persistentRadiografia.getDatosConsultaiddatosConsulta();
+            Datosconsulta datosConsultaiddatosConsultaNew = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsultaNew != null) {
                 datosConsultaiddatosConsultaNew = em.getReference(datosConsultaiddatosConsultaNew.getClass(), datosConsultaiddatosConsultaNew.getIddatosConsulta());
-                examenfisicoestomatologico.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsultaNew);
+                radiografia.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsultaNew);
             }
-            examenfisicoestomatologico = em.merge(examenfisicoestomatologico);
+            radiografia = em.merge(radiografia);
             if (datosConsultaiddatosConsultaOld != null && !datosConsultaiddatosConsultaOld.equals(datosConsultaiddatosConsultaNew)) {
-                datosConsultaiddatosConsultaOld.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologico);
+                datosConsultaiddatosConsultaOld.getRadiografiaList().remove(radiografia);
                 datosConsultaiddatosConsultaOld = em.merge(datosConsultaiddatosConsultaOld);
             }
             if (datosConsultaiddatosConsultaNew != null && !datosConsultaiddatosConsultaNew.equals(datosConsultaiddatosConsultaOld)) {
-                datosConsultaiddatosConsultaNew.getExamenfisicoestomatologicoList().add(examenfisicoestomatologico);
+                datosConsultaiddatosConsultaNew.getRadiografiaList().add(radiografia);
                 datosConsultaiddatosConsultaNew = em.merge(datosConsultaiddatosConsultaNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = examenfisicoestomatologico.getIdexamenFisicoEstomatologico();
-                if (findExamenfisicoestomatologico(id) == null) {
-                    throw new NonexistentEntityException("The examenfisicoestomatologico with id " + id + " no longer exists.");
+                Integer id = radiografia.getIdradiografia();
+                if (findRadiografia(id) == null) {
+                    throw new NonexistentEntityException("The radiografia with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -95,19 +101,19 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Examenfisicoestomatologico examenfisicoestomatologico;
+            Radiografia radiografia;
             try {
-                examenfisicoestomatologico = em.getReference(Examenfisicoestomatologico.class, id);
-                examenfisicoestomatologico.getIdexamenFisicoEstomatologico();
+                radiografia = em.getReference(Radiografia.class, id);
+                radiografia.getIdradiografia();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The examenfisicoestomatologico with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The radiografia with id " + id + " no longer exists.", enfe);
             }
-            Datosconsulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Datosconsulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
-                datosConsultaiddatosConsulta.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologico);
+                datosConsultaiddatosConsulta.getRadiografiaList().remove(radiografia);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
             }
-            em.remove(examenfisicoestomatologico);
+            em.remove(radiografia);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -116,19 +122,19 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         }
     }
 
-    public List<Examenfisicoestomatologico> findExamenfisicoestomatologicoEntities() {
-        return findExamenfisicoestomatologicoEntities(true, -1, -1);
+    public List<Radiografia> findRadiografiaEntities() {
+        return findRadiografiaEntities(true, -1, -1);
     }
 
-    public List<Examenfisicoestomatologico> findExamenfisicoestomatologicoEntities(int maxResults, int firstResult) {
-        return findExamenfisicoestomatologicoEntities(false, maxResults, firstResult);
+    public List<Radiografia> findRadiografiaEntities(int maxResults, int firstResult) {
+        return findRadiografiaEntities(false, maxResults, firstResult);
     }
 
-    private List<Examenfisicoestomatologico> findExamenfisicoestomatologicoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Radiografia> findRadiografiaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Examenfisicoestomatologico.class));
+            cq.select(cq.from(Radiografia.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -140,20 +146,20 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         }
     }
 
-    public Examenfisicoestomatologico findExamenfisicoestomatologico(Integer id) {
+    public Radiografia findRadiografia(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Examenfisicoestomatologico.class, id);
+            return em.find(Radiografia.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getExamenfisicoestomatologicoCount() {
+    public int getRadiografiaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Examenfisicoestomatologico> rt = cq.from(Examenfisicoestomatologico.class);
+            Root<Radiografia> rt = cq.from(Radiografia.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

@@ -53,9 +53,9 @@ public class Examenfisicoestomatologico implements Serializable {
     private String enjuagesBconFluor;
     @Column(name = "habitosYvicios")
     private String habitosYvicios;
-    @JoinColumn(name = "Paciente_idpersona", referencedColumnName = "idpersona")
+    @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")
     @ManyToOne(optional = false)
-    private Paciente pacienteidpersona;
+    private Datosconsulta datosConsultaiddatosConsulta;
 
     public Examenfisicoestomatologico() {
     }
@@ -152,12 +152,12 @@ public class Examenfisicoestomatologico implements Serializable {
         this.habitosYvicios = habitosYvicios;
     }
 
-    public Paciente getPacienteidpersona() {
-        return pacienteidpersona;
+    public Datosconsulta getDatosConsultaiddatosConsulta() {
+        return datosConsultaiddatosConsulta;
     }
 
-    public void setPacienteidpersona(Paciente pacienteidpersona) {
-        this.pacienteidpersona = pacienteidpersona;
+    public void setDatosConsultaiddatosConsulta(Datosconsulta datosConsultaiddatosConsulta) {
+        this.datosConsultaiddatosConsulta = datosConsultaiddatosConsulta;
     }
 
     @Override

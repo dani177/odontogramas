@@ -29,7 +29,7 @@ public class Plantratamiento implements Serializable {
     @Column(name = "nombre")
     private String nombre;
     @ManyToMany(mappedBy = "plantratamientoList")
-    private List<Paciente> pacienteList;
+    private List<Datosconsulta> datosconsultaList;
 
     public Plantratamiento() {
     }
@@ -55,12 +55,12 @@ public class Plantratamiento implements Serializable {
     }
 
     @XmlTransient
-    public List<Paciente> getPacienteList() {
-        return pacienteList;
+    public List<Datosconsulta> getDatosconsultaList() {
+        return datosconsultaList;
     }
 
-    public void setPacienteList(List<Paciente> pacienteList) {
-        this.pacienteList = pacienteList;
+    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
+        this.datosconsultaList = datosconsultaList;
     }
 
     @Override
