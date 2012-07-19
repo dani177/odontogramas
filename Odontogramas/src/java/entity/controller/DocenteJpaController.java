@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.Docente;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -22,13 +23,11 @@ import javax.persistence.EntityManagerFactory;
 
 public class DocenteJpaController implements Serializable {
 
-    public DocenteJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public DocenteJpaController() {
     }
-    private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+         return jpaConnection.getEntityManager();
     }
 
     public void create(Docente docente) throws PreexistingEntityException, Exception {

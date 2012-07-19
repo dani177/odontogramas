@@ -20,8 +20,7 @@ public class DBConnectionListener implements ServletContextListener {
         try {
             ctx = new InitialContext();
             jpaConnection.createEntityManagerFactory();
-            System.out.println("++++++++++++++OKKKKKKKKKKKKKKKKKKKKKKK++++++++++++++++++");
-        } catch (Exception e) {
+         } catch (Exception e) {
             servletContext.log("No se puede obtener la fuente de datos ", e);
             System.out.println("++++++++++++++ERROR+++++++++++++++++++++++");
         }
