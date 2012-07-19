@@ -35,6 +35,9 @@
                                     padding-top: 60px;
                                     padding-bottom: 40px;
                                 }
+                                .modal{
+                                    max-height: 520px;
+                                }
                             </style>
                             <!-- Le javascript
                             ================================================== -->
@@ -63,6 +66,21 @@
                                         }
                     
                                     });	 
+                                    $("#btnRegistro").click(function(){
+                                        $("#registro").submit();
+                                   })
+                                    $("#registro").validate({
+                                        submitHandler: function(){
+                                            $.ajax({
+                                                type: 'POST', 
+                                                url: "<%=request.getContextPath()%>/formController?action=registrarM",
+                                                data: $("#registro").serialize(),
+                                                success: function(){
+                                                  
+                                                } //fin success
+                                            }); //fin $.ajax    
+                                        }
+                                    });
                 
                                     $("#formulario_login").validate({
                                         errorLabelContainer:".alert-error",
@@ -187,10 +205,10 @@
                                         <h3>Registro</h3>
                                     </div>
                                     <div class="modal-body">
-                                        <form id="DatosPersonales" class="form-horizontal">
+                                        <form id="registro" class="form-horizontal">
                                             <fieldset>
                                                 <div class="control-group">
-                                                    <label for="input01" class="control-label">Cedula</label>
+                                                    <label for="cedula" class="control-label">Cedula</label>
                                                     <div class="controls">
                                                         <input type="text" id="input01" class="input-xlarge {required:true}" name="cedula">
                                                     </div>
@@ -216,8 +234,8 @@
                                                 <div class="control-group">
                                                     <label for="anio" class="control-label">Año</label>
                                                     <div class="controls">
-                                                        <select>
-                                                            <option value=""></option>
+                                                        <select name="anio" class="{required:true}">
+                                                            <option selected="selected"></option>
                                                             <option value="1978">1978</option>
                                                             <option value="1979">1979</option>
                                                             <option value="1980">1980</option>
@@ -259,7 +277,8 @@
                                                 <div class="control-group">
                                                     <label for="periodo" class="control-label">Periodo</label>
                                                     <div class="controls">
-                                                        <select>
+                                                        <select name="periodo" class="{required:true}">
+                                                            <option selected="selected"></option> 
                                                             <option>01</option> 
                                                             <option>02</option> 
                                                         </select>
@@ -268,8 +287,8 @@
                                                 <div class="control-group">
                                                     <label for="docente" class="control-label">Docente</label>
                                                     <div class="controls">
-                                                        <select>
-                                                            <option></option> 
+                                                        <select name="docente" class="{required:true}">
+                                                            <option selected="selected"></option> 
                                                             <c:set var="docentes" value="<%=new DocenteJpaController().findDocenteEntities()%>"></c:set>
                                                             <c:forEach items="${docentes}" var="row" varStatus="iter">
                                                                 <option value="${row.iddocente}">${row.nombre}</option>    
@@ -279,16 +298,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="control-group">
-                                                    <label for="telefono" class="control-label">Codigo</label>
+                                                    <label for="codigo" class="control-label">Codigo</label>
                                                     <div class="controls">
-                                                        <input type="text" id="telefono" class="input-xlarge {required:true}" name="telefono">
+                                                        <input type="text" id="codigo" class="input-xlarge {required:true}" name="codigo"/>
                                                     </div>
                                                 </div>
                                             </fieldset>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <a class="btn btn-primary" data-dismiss="modal" href="#">Cerrar</a>
+                                        <button class="btn btn-primary" type="button" id="btnRegistro">Crear cuenta</button>
                                     </div>
 
                                 </div>
