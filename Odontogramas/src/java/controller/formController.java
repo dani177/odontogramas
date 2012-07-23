@@ -124,7 +124,7 @@ public class formController extends HttpServlet {
                 ArrayList<Medico> listMedico = new ArrayList<Medico>();
                 listMedico.add(m);
                 pa.setMedicoList(listMedico);
-              
+
                 try {
                     conPa.create(pa);
                     session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
@@ -133,7 +133,7 @@ public class formController extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              
+
             }
 
             if (request.getParameter("action").equals("verPaciente")) {
@@ -146,27 +146,60 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("paciente", pa);
                 session.setAttribute("diagnosticos", conDi.findDiagnosticoEntities());
                 session.setAttribute("tratamientos", conTra.findTratamientoEntities());
-                
+
             }
-            
+
             if (request.getParameter("action").equals("subirRadiografias")) {
                 String idPersona = request.getParameter("id");
                 PacienteJpaController conPa = new PacienteJpaController();
                 Paciente pa = conPa.findPaciente(idPersona);
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("paciente", pa);
-                
-                
+
+
             }
-            
+           
             if (request.getParameter("action").equals("registrarM")) {
-                String idPersona = request.getParameter("id");
-                PacienteJpaController conPa = new PacienteJpaController();
-                Paciente pa = conPa.findPaciente(idPersona);
-                HttpSession sesion = request.getSession();
-                sesion.setAttribute("paciente", pa);
-                
-                
+                String idPersona = request.getParameter("cedula");
+                String nombre = request.getParameter("nombre");
+                String direccion = request.getParameter("direccion");
+                String telefono = request.getParameter("telefono");
+                String anio = request.getParameter("anio");
+                String periodo = request.getParameter("periodo");
+                String docente = request.getParameter("docente");
+                String codigo = request.getParameter("codigo");
+
+
+                MedicoJpaController conMe = new MedicoJpaController();
+                DocenteJpaController conDo = new DocenteJpaController();
+                Medico me = new Medico();
+                me.setIdmedico(Integer.parseInt(idPersona));
+                me.setNombreUsuario(nombre);
+                me.setDireccion(direccion);
+                me.setTelefono(telefono);
+                me.setAnio(anio);
+                me.setPeriodo(periodo);
+                me.setClave(idPersona);
+                List<Docente> listDoc = new ArrayList<Docente>();
+                Docente doc = conDo.findDocente(Integer.parseInt(docente));
+                if (doc.getCodigo().equals(codigo)) {
+                    listDoc.add(doc);
+                    me.setDocenteList(listDoc);
+                    try {
+                        conMe.create(me);
+                    } catch (PreexistingEntityException ex) {
+                         out.print(1);
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    out.print(0);
+                } else {
+                    out.print(1);
+                }
+
+
+
             }
 
 

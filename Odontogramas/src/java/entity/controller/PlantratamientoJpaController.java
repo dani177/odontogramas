@@ -173,5 +173,5 @@ public class PlantratamientoJpaController implements Serializable {
             em.close();
         }
     }
-
+ 
 }

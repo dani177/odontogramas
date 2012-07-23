@@ -38,6 +38,13 @@
                                 .modal{
                                     max-height: 520px;
                                 }
+                                #notificaciones {
+                                    bottom: 5px;
+                                    position: fixed;
+                                    right: 10px;
+                                    width: 250px;
+                                    z-index: 9999;
+                                }
                             </style>
                             <!-- Le javascript
                             ================================================== -->
@@ -68,15 +75,37 @@
                                     });	 
                                     $("#btnRegistro").click(function(){
                                         $("#registro").submit();
-                                   })
+                                    })
                                     $("#registro").validate({
                                         submitHandler: function(){
                                             $.ajax({
                                                 type: 'POST', 
                                                 url: "<%=request.getContextPath()%>/formController?action=registrarM",
                                                 data: $("#registro").serialize(),
-                                                success: function(){
-                                                  
+                                                success: function(msg){
+                                                    if(msg==0){
+                                                        $("#registro").each (function(){
+                                                            this.reset();
+                                                        });
+                                                        $('#myModalRegistro').modal('hide');
+                                                        var html = '<div class="alert alert-success fade in">'
+                                                            +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                                                            +'<strong>Bien hecho!</strong> El registro se ha realizado con exito.'
+                                                            +'</div>';
+
+                                                        $("#notificaciones").html(html);
+                                                        
+                                                    }else{
+                                                        
+                                                        $('#myModalRegistro').modal('hide');
+                                                        var html2 = '<div class="alert alert-error fade in">'
+                                                            +'<a class="close" data-dismiss="alert" href="#">&times;</a>'
+                                                            +'<strong>Error!</strong> El registro no se pudo realizar debido a un error en el sistema.'
+                                                            +'</div>';
+
+                                                        $("#notificaciones").html(html2);
+                                                      
+                                                    }
                                                 } //fin success
                                             }); //fin $.ajax    
                                         }
@@ -311,5 +340,6 @@
                                     </div>
 
                                 </div>
+                                <div id="notificaciones"></div>
                             </body>
                             </html>

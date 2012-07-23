@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import entity.Evolucion;
@@ -16,7 +15,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-
+/**
+ *
+ * @author Oscar
+ */
 public class EvolucionJpaController implements Serializable {
 
     public EvolucionJpaController(EntityManagerFactory emf) {
@@ -131,5 +133,5 @@ public class EvolucionJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

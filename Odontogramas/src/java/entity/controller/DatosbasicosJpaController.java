@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import entity.Datosbasicos;
@@ -16,7 +15,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-
+/**
+ *
+ * @author Oscar
+ */
 public class DatosbasicosJpaController implements Serializable {
 
     public DatosbasicosJpaController(EntityManagerFactory emf) {
@@ -131,5 +133,5 @@ public class DatosbasicosJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

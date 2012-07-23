@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -19,10 +18,14 @@ import entity.Datosconsulta;
 import entity.Medico;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
+import entity.controller.exceptions.PreexistingEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author Oscar
+ */
 public class MedicoJpaController implements Serializable {
 
     public MedicoJpaController() {
@@ -32,7 +35,7 @@ public class MedicoJpaController implements Serializable {
         return jpaConnection.getEntityManager();
     }
 
-    public void create(Medico medico) {
+    public void create(Medico medico) throws PreexistingEntityException, Exception {
         if (medico.getPacienteList() == null) {
             medico.setPacienteList(new ArrayList<Paciente>());
         }
@@ -83,6 +86,11 @@ public class MedicoJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findMedico(medico.getIdmedico()) != null) {
+                throw new PreexistingEntityException("Medico " + medico + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -275,5 +283,5 @@ public class MedicoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

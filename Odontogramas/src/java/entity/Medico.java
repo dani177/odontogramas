@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -11,7 +10,10 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author Oscar
+ */
 @Entity
 @Table(name = "medico")
 @XmlRootElement
@@ -27,7 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Medico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idmedico")
     private Integer idmedico;
@@ -167,5 +168,5 @@ public class Medico implements Serializable {
     public String toString() {
         return "entity.Medico[ idmedico=" + idmedico + " ]";
     }
-
+    
 }

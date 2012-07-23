@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
@@ -10,7 +9,10 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author Oscar
+ */
 @Entity
 @Table(name = "evolucion")
 @XmlRootElement
@@ -98,5 +100,5 @@ public class Evolucion implements Serializable {
     public String toString() {
         return "entity.Evolucion[ idevolucion=" + idevolucion + " ]";
     }
-
+    
 }

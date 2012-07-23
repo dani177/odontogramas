@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -172,5 +171,5 @@ public class TratamientoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }
