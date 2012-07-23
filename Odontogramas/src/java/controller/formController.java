@@ -164,8 +164,6 @@ public class formController extends HttpServlet {
                 String nombre = request.getParameter("nombre");
                 String direccion = request.getParameter("direccion");
                 String telefono = request.getParameter("telefono");
-                String anio = request.getParameter("anio");
-                String periodo = request.getParameter("periodo");
                 String docente = request.getParameter("docente");
                 String codigo = request.getParameter("codigo");
 
@@ -177,8 +175,6 @@ public class formController extends HttpServlet {
                 me.setNombreUsuario(nombre);
                 me.setDireccion(direccion);
                 me.setTelefono(telefono);
-                me.setAnio(anio);
-                me.setPeriodo(periodo);
                 me.setClave(idPersona);
                 List<Docente> listDoc = new ArrayList<Docente>();
                 Docente doc = conDo.findDocente(Integer.parseInt(docente));

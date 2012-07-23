@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Datosconsulta;
+import entity.Consulta;
 import entity.Radiografia;
 import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
@@ -17,10 +18,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class RadiografiaJpaController implements Serializable {
 
     public RadiografiaJpaController(EntityManagerFactory emf) {
@@ -37,7 +35,7 @@ public class RadiografiaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Datosconsulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta = em.getReference(datosConsultaiddatosConsulta.getClass(), datosConsultaiddatosConsulta.getIddatosConsulta());
                 radiografia.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsulta);
@@ -66,8 +64,8 @@ public class RadiografiaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Radiografia persistentRadiografia = em.find(Radiografia.class, radiografia.getIdradiografia());
-            Datosconsulta datosConsultaiddatosConsultaOld = persistentRadiografia.getDatosConsultaiddatosConsulta();
-            Datosconsulta datosConsultaiddatosConsultaNew = radiografia.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsultaOld = persistentRadiografia.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsultaNew = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsultaNew != null) {
                 datosConsultaiddatosConsultaNew = em.getReference(datosConsultaiddatosConsultaNew.getClass(), datosConsultaiddatosConsultaNew.getIddatosConsulta());
                 radiografia.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsultaNew);
@@ -110,7 +108,7 @@ public class RadiografiaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The radiografia with id " + id + " no longer exists.", enfe);
             }
-            Datosconsulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsulta = radiografia.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta.getRadiografiaList().remove(radiografia);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
@@ -169,5 +167,5 @@ public class RadiografiaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

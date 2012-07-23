@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -9,10 +10,7 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "evolucion")
 @XmlRootElement
@@ -21,7 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evolucion.findByIdevolucion", query = "SELECT e FROM Evolucion e WHERE e.idevolucion = :idevolucion"),
     @NamedQuery(name = "Evolucion.findByFecha", query = "SELECT e FROM Evolucion e WHERE e.fecha = :fecha"),
     @NamedQuery(name = "Evolucion.findByReciboPago", query = "SELECT e FROM Evolucion e WHERE e.reciboPago = :reciboPago"),
-    @NamedQuery(name = "Evolucion.findByTratamientoEjecutado", query = "SELECT e FROM Evolucion e WHERE e.tratamientoEjecutado = :tratamientoEjecutado")})
+    @NamedQuery(name = "Evolucion.findByAbono", query = "SELECT e FROM Evolucion e WHERE e.abono = :abono"),
+    @NamedQuery(name = "Evolucion.findBySaldo", query = "SELECT e FROM Evolucion e WHERE e.saldo = :saldo")})
 public class Evolucion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,8 +33,13 @@ public class Evolucion implements Serializable {
     private Date fecha;
     @Column(name = "reciboPago")
     private String reciboPago;
-    @Column(name = "tratamientoEjecutado")
-    private String tratamientoEjecutado;
+    @Column(name = "abono")
+    private Integer abono;
+    @Column(name = "saldo")
+    private String saldo;
+    @JoinColumn(name = "tratamiento_idtratamiento", referencedColumnName = "idtratamiento")
+    @ManyToOne(optional = false)
+    private Tratamiento tratamientoIdtratamiento;
 
     public Evolucion() {
     }
@@ -68,12 +72,28 @@ public class Evolucion implements Serializable {
         this.reciboPago = reciboPago;
     }
 
-    public String getTratamientoEjecutado() {
-        return tratamientoEjecutado;
+    public Integer getAbono() {
+        return abono;
     }
 
-    public void setTratamientoEjecutado(String tratamientoEjecutado) {
-        this.tratamientoEjecutado = tratamientoEjecutado;
+    public void setAbono(Integer abono) {
+        this.abono = abono;
+    }
+
+    public String getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(String saldo) {
+        this.saldo = saldo;
+    }
+
+    public Tratamiento getTratamientoIdtratamiento() {
+        return tratamientoIdtratamiento;
+    }
+
+    public void setTratamientoIdtratamiento(Tratamiento tratamientoIdtratamiento) {
+        this.tratamientoIdtratamiento = tratamientoIdtratamiento;
     }
 
     @Override
@@ -100,5 +120,5 @@ public class Evolucion implements Serializable {
     public String toString() {
         return "entity.Evolucion[ idevolucion=" + idevolucion + " ]";
     }
-    
+
 }

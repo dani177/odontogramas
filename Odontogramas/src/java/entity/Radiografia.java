@@ -2,16 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "radiografia")
 @XmlRootElement
@@ -32,7 +30,7 @@ public class Radiografia implements Serializable {
     private String ruta;
     @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")
     @ManyToOne(optional = false)
-    private Datosconsulta datosConsultaiddatosConsulta;
+    private Consulta datosConsultaiddatosConsulta;
 
     public Radiografia() {
     }
@@ -65,11 +63,11 @@ public class Radiografia implements Serializable {
         this.ruta = ruta;
     }
 
-    public Datosconsulta getDatosConsultaiddatosConsulta() {
+    public Consulta getDatosConsultaiddatosConsulta() {
         return datosConsultaiddatosConsulta;
     }
 
-    public void setDatosConsultaiddatosConsulta(Datosconsulta datosConsultaiddatosConsulta) {
+    public void setDatosConsultaiddatosConsulta(Consulta datosConsultaiddatosConsulta) {
         this.datosConsultaiddatosConsulta = datosConsultaiddatosConsulta;
     }
 
@@ -97,5 +95,5 @@ public class Radiografia implements Serializable {
     public String toString() {
         return "entity.Radiografia[ idradiografia=" + idradiografia + " ]";
     }
-    
+
 }

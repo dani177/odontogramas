@@ -2,16 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "datosconsulta_has_diente")
 @XmlRootElement
@@ -34,7 +32,7 @@ public class DatosconsultaHasDiente implements Serializable {
     private Diente diente;
     @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private Datosconsulta datosconsulta;
+    private Consulta consulta;
 
     public DatosconsultaHasDiente() {
     }
@@ -79,12 +77,12 @@ public class DatosconsultaHasDiente implements Serializable {
         this.diente = diente;
     }
 
-    public Datosconsulta getDatosconsulta() {
-        return datosconsulta;
+    public Consulta getConsulta() {
+        return consulta;
     }
 
-    public void setDatosconsulta(Datosconsulta datosconsulta) {
-        this.datosconsulta = datosconsulta;
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 
     @Override
@@ -111,5 +109,5 @@ public class DatosconsultaHasDiente implements Serializable {
     public String toString() {
         return "entity.DatosconsultaHasDiente[ datosconsultaHasDientePK=" + datosconsultaHasDientePK + " ]";
     }
-    
+
 }

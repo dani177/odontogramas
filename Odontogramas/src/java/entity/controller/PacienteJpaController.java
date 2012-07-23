@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -33,8 +34,8 @@ public class PacienteJpaController implements Serializable {
         if (paciente.getMedicoList() == null) {
             paciente.setMedicoList(new ArrayList<Medico>());
         }
-        if (paciente.getDatosconsultaList() == null) {
-            paciente.setDatosconsultaList(new ArrayList<Datosconsulta>());
+        if (paciente.getConsultaList() == null) {
+            paciente.setConsultaList(new ArrayList<Consulta>());
         }
         EntityManager em = null;
         try {
@@ -56,12 +57,12 @@ public class PacienteJpaController implements Serializable {
                 attachedMedicoList.add(medicoListMedicoToAttach);
             }
             paciente.setMedicoList(attachedMedicoList);
-            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListDatosconsultaToAttach : paciente.getDatosconsultaList()) {
-                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
+            List<Consulta> attachedConsultaList = new ArrayList<Consulta>();
+            for (Consulta consultaListConsultaToAttach : paciente.getConsultaList()) {
+                consultaListConsultaToAttach = em.getReference(consultaListConsultaToAttach.getClass(), consultaListConsultaToAttach.getIddatosConsulta());
+                attachedConsultaList.add(consultaListConsultaToAttach);
             }
-            paciente.setDatosconsultaList(attachedDatosconsultaList);
+            paciente.setConsultaList(attachedConsultaList);
             em.persist(paciente);
             if (profesionesCodigo != null) {
                 profesionesCodigo.getPacienteList().add(paciente);
@@ -75,13 +76,13 @@ public class PacienteJpaController implements Serializable {
                 medicoListMedico.getPacienteList().add(paciente);
                 medicoListMedico = em.merge(medicoListMedico);
             }
-            for (Datosconsulta datosconsultaListDatosconsulta : paciente.getDatosconsultaList()) {
-                Paciente oldPacienteIdpersonaOfDatosconsultaListDatosconsulta = datosconsultaListDatosconsulta.getPacienteIdpersona();
-                datosconsultaListDatosconsulta.setPacienteIdpersona(paciente);
-                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
-                if (oldPacienteIdpersonaOfDatosconsultaListDatosconsulta != null) {
-                    oldPacienteIdpersonaOfDatosconsultaListDatosconsulta.getDatosconsultaList().remove(datosconsultaListDatosconsulta);
-                    oldPacienteIdpersonaOfDatosconsultaListDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaListDatosconsulta);
+            for (Consulta consultaListConsulta : paciente.getConsultaList()) {
+                Paciente oldPacienteIdpersonaOfConsultaListConsulta = consultaListConsulta.getPacienteIdpersona();
+                consultaListConsulta.setPacienteIdpersona(paciente);
+                consultaListConsulta = em.merge(consultaListConsulta);
+                if (oldPacienteIdpersonaOfConsultaListConsulta != null) {
+                    oldPacienteIdpersonaOfConsultaListConsulta.getConsultaList().remove(consultaListConsulta);
+                    oldPacienteIdpersonaOfConsultaListConsulta = em.merge(oldPacienteIdpersonaOfConsultaListConsulta);
                 }
             }
             em.getTransaction().commit();
@@ -109,15 +110,15 @@ public class PacienteJpaController implements Serializable {
             Municipios municipiosCodigoNew = paciente.getMunicipiosCodigo();
             List<Medico> medicoListOld = persistentPaciente.getMedicoList();
             List<Medico> medicoListNew = paciente.getMedicoList();
-            List<Datosconsulta> datosconsultaListOld = persistentPaciente.getDatosconsultaList();
-            List<Datosconsulta> datosconsultaListNew = paciente.getDatosconsultaList();
+            List<Consulta> consultaListOld = persistentPaciente.getConsultaList();
+            List<Consulta> consultaListNew = paciente.getConsultaList();
             List<String> illegalOrphanMessages = null;
-            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
-                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
+            for (Consulta consultaListOldConsulta : consultaListOld) {
+                if (!consultaListNew.contains(consultaListOldConsulta)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Datosconsulta " + datosconsultaListOldDatosconsulta + " since its pacienteIdpersona field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Consulta " + consultaListOldConsulta + " since its pacienteIdpersona field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -138,13 +139,13 @@ public class PacienteJpaController implements Serializable {
             }
             medicoListNew = attachedMedicoListNew;
             paciente.setMedicoList(medicoListNew);
-            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
-                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
+            List<Consulta> attachedConsultaListNew = new ArrayList<Consulta>();
+            for (Consulta consultaListNewConsultaToAttach : consultaListNew) {
+                consultaListNewConsultaToAttach = em.getReference(consultaListNewConsultaToAttach.getClass(), consultaListNewConsultaToAttach.getIddatosConsulta());
+                attachedConsultaListNew.add(consultaListNewConsultaToAttach);
             }
-            datosconsultaListNew = attachedDatosconsultaListNew;
-            paciente.setDatosconsultaList(datosconsultaListNew);
+            consultaListNew = attachedConsultaListNew;
+            paciente.setConsultaList(consultaListNew);
             paciente = em.merge(paciente);
             if (profesionesCodigoOld != null && !profesionesCodigoOld.equals(profesionesCodigoNew)) {
                 profesionesCodigoOld.getPacienteList().remove(paciente);
@@ -174,14 +175,14 @@ public class PacienteJpaController implements Serializable {
                     medicoListNewMedico = em.merge(medicoListNewMedico);
                 }
             }
-            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
-                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
-                    Paciente oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta = datosconsultaListNewDatosconsulta.getPacienteIdpersona();
-                    datosconsultaListNewDatosconsulta.setPacienteIdpersona(paciente);
-                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
-                    if (oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta != null && !oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta.equals(paciente)) {
-                        oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta.getDatosconsultaList().remove(datosconsultaListNewDatosconsulta);
-                        oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta = em.merge(oldPacienteIdpersonaOfDatosconsultaListNewDatosconsulta);
+            for (Consulta consultaListNewConsulta : consultaListNew) {
+                if (!consultaListOld.contains(consultaListNewConsulta)) {
+                    Paciente oldPacienteIdpersonaOfConsultaListNewConsulta = consultaListNewConsulta.getPacienteIdpersona();
+                    consultaListNewConsulta.setPacienteIdpersona(paciente);
+                    consultaListNewConsulta = em.merge(consultaListNewConsulta);
+                    if (oldPacienteIdpersonaOfConsultaListNewConsulta != null && !oldPacienteIdpersonaOfConsultaListNewConsulta.equals(paciente)) {
+                        oldPacienteIdpersonaOfConsultaListNewConsulta.getConsultaList().remove(consultaListNewConsulta);
+                        oldPacienteIdpersonaOfConsultaListNewConsulta = em.merge(oldPacienteIdpersonaOfConsultaListNewConsulta);
                     }
                 }
             }
@@ -215,12 +216,12 @@ public class PacienteJpaController implements Serializable {
                 throw new NonexistentEntityException("The paciente with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Datosconsulta> datosconsultaListOrphanCheck = paciente.getDatosconsultaList();
-            for (Datosconsulta datosconsultaListOrphanCheckDatosconsulta : datosconsultaListOrphanCheck) {
+            List<Consulta> consultaListOrphanCheck = paciente.getConsultaList();
+            for (Consulta consultaListOrphanCheckConsulta : consultaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Datosconsulta " + datosconsultaListOrphanCheckDatosconsulta + " in its datosconsultaList field has a non-nullable pacienteIdpersona field.");
+                illegalOrphanMessages.add("This Paciente (" + paciente + ") cannot be destroyed since the Consulta " + consultaListOrphanCheckConsulta + " in its consultaList field has a non-nullable pacienteIdpersona field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -294,5 +295,5 @@ public class PacienteJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

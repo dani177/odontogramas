@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -20,10 +21,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class DepartamentosJpaController implements Serializable {
 
      public DepartamentosJpaController() {
@@ -203,5 +201,5 @@ public class DepartamentosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

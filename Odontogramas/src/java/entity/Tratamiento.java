@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -10,10 +11,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "tratamiento")
 @XmlRootElement
@@ -34,7 +32,9 @@ public class Tratamiento implements Serializable {
     @Column(name = "presupuesto")
     private String presupuesto;
     @ManyToMany(mappedBy = "tratamientoList")
-    private List<Datosconsulta> datosconsultaList;
+    private List<Consulta> consultaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamientoIdtratamiento")
+    private List<Evolucion> evolucionList;
 
     public Tratamiento() {
     }
@@ -68,12 +68,21 @@ public class Tratamiento implements Serializable {
     }
 
     @XmlTransient
-    public List<Datosconsulta> getDatosconsultaList() {
-        return datosconsultaList;
+    public List<Consulta> getConsultaList() {
+        return consultaList;
     }
 
-    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
-        this.datosconsultaList = datosconsultaList;
+    public void setConsultaList(List<Consulta> consultaList) {
+        this.consultaList = consultaList;
+    }
+
+    @XmlTransient
+    public List<Evolucion> getEvolucionList() {
+        return evolucionList;
+    }
+
+    public void setEvolucionList(List<Evolucion> evolucionList) {
+        this.evolucionList = evolucionList;
     }
 
     @Override
@@ -100,5 +109,5 @@ public class Tratamiento implements Serializable {
     public String toString() {
         return "entity.Tratamiento[ idtratamiento=" + idtratamiento + " ]";
     }
-    
+
 }

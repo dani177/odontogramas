@@ -2,30 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import conexion.jpaConnection;
+import entity.*;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Paciente;
 import java.util.ArrayList;
 import java.util.List;
-import entity.Docente;
-import entity.Datosconsulta;
-import entity.Medico;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class MedicoJpaController implements Serializable {
 
     public MedicoJpaController() {
@@ -42,8 +37,11 @@ public class MedicoJpaController implements Serializable {
         if (medico.getDocenteList() == null) {
             medico.setDocenteList(new ArrayList<Docente>());
         }
-        if (medico.getDatosconsultaList() == null) {
-            medico.setDatosconsultaList(new ArrayList<Datosconsulta>());
+        if (medico.getCursoList() == null) {
+            medico.setCursoList(new ArrayList<Curso>());
+        }
+        if (medico.getConsultaList() == null) {
+            medico.setConsultaList(new ArrayList<Consulta>());
         }
         EntityManager em = null;
         try {
@@ -61,12 +59,18 @@ public class MedicoJpaController implements Serializable {
                 attachedDocenteList.add(docenteListDocenteToAttach);
             }
             medico.setDocenteList(attachedDocenteList);
-            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListDatosconsultaToAttach : medico.getDatosconsultaList()) {
-                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
+            List<Curso> attachedCursoList = new ArrayList<Curso>();
+            for (Curso cursoListCursoToAttach : medico.getCursoList()) {
+                cursoListCursoToAttach = em.getReference(cursoListCursoToAttach.getClass(), cursoListCursoToAttach.getIdcurso());
+                attachedCursoList.add(cursoListCursoToAttach);
             }
-            medico.setDatosconsultaList(attachedDatosconsultaList);
+            medico.setCursoList(attachedCursoList);
+            List<Consulta> attachedConsultaList = new ArrayList<Consulta>();
+            for (Consulta consultaListConsultaToAttach : medico.getConsultaList()) {
+                consultaListConsultaToAttach = em.getReference(consultaListConsultaToAttach.getClass(), consultaListConsultaToAttach.getIddatosConsulta());
+                attachedConsultaList.add(consultaListConsultaToAttach);
+            }
+            medico.setConsultaList(attachedConsultaList);
             em.persist(medico);
             for (Paciente pacienteListPaciente : medico.getPacienteList()) {
                 pacienteListPaciente.getMedicoList().add(medico);
@@ -76,13 +80,17 @@ public class MedicoJpaController implements Serializable {
                 docenteListDocente.getMedicoList().add(medico);
                 docenteListDocente = em.merge(docenteListDocente);
             }
-            for (Datosconsulta datosconsultaListDatosconsulta : medico.getDatosconsultaList()) {
-                Medico oldMedicoIdmedicoOfDatosconsultaListDatosconsulta = datosconsultaListDatosconsulta.getMedicoIdmedico();
-                datosconsultaListDatosconsulta.setMedicoIdmedico(medico);
-                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
-                if (oldMedicoIdmedicoOfDatosconsultaListDatosconsulta != null) {
-                    oldMedicoIdmedicoOfDatosconsultaListDatosconsulta.getDatosconsultaList().remove(datosconsultaListDatosconsulta);
-                    oldMedicoIdmedicoOfDatosconsultaListDatosconsulta = em.merge(oldMedicoIdmedicoOfDatosconsultaListDatosconsulta);
+            for (Curso cursoListCurso : medico.getCursoList()) {
+                cursoListCurso.getMedicoList().add(medico);
+                cursoListCurso = em.merge(cursoListCurso);
+            }
+            for (Consulta consultaListConsulta : medico.getConsultaList()) {
+                Medico oldMedicoIdmedicoOfConsultaListConsulta = consultaListConsulta.getMedicoIdmedico();
+                consultaListConsulta.setMedicoIdmedico(medico);
+                consultaListConsulta = em.merge(consultaListConsulta);
+                if (oldMedicoIdmedicoOfConsultaListConsulta != null) {
+                    oldMedicoIdmedicoOfConsultaListConsulta.getConsultaList().remove(consultaListConsulta);
+                    oldMedicoIdmedicoOfConsultaListConsulta = em.merge(oldMedicoIdmedicoOfConsultaListConsulta);
                 }
             }
             em.getTransaction().commit();
@@ -108,15 +116,17 @@ public class MedicoJpaController implements Serializable {
             List<Paciente> pacienteListNew = medico.getPacienteList();
             List<Docente> docenteListOld = persistentMedico.getDocenteList();
             List<Docente> docenteListNew = medico.getDocenteList();
-            List<Datosconsulta> datosconsultaListOld = persistentMedico.getDatosconsultaList();
-            List<Datosconsulta> datosconsultaListNew = medico.getDatosconsultaList();
+            List<Curso> cursoListOld = persistentMedico.getCursoList();
+            List<Curso> cursoListNew = medico.getCursoList();
+            List<Consulta> consultaListOld = persistentMedico.getConsultaList();
+            List<Consulta> consultaListNew = medico.getConsultaList();
             List<String> illegalOrphanMessages = null;
-            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
-                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
+            for (Consulta consultaListOldConsulta : consultaListOld) {
+                if (!consultaListNew.contains(consultaListOldConsulta)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Datosconsulta " + datosconsultaListOldDatosconsulta + " since its medicoIdmedico field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Consulta " + consultaListOldConsulta + " since its medicoIdmedico field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -136,13 +146,20 @@ public class MedicoJpaController implements Serializable {
             }
             docenteListNew = attachedDocenteListNew;
             medico.setDocenteList(docenteListNew);
-            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
-                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
+            List<Curso> attachedCursoListNew = new ArrayList<Curso>();
+            for (Curso cursoListNewCursoToAttach : cursoListNew) {
+                cursoListNewCursoToAttach = em.getReference(cursoListNewCursoToAttach.getClass(), cursoListNewCursoToAttach.getIdcurso());
+                attachedCursoListNew.add(cursoListNewCursoToAttach);
             }
-            datosconsultaListNew = attachedDatosconsultaListNew;
-            medico.setDatosconsultaList(datosconsultaListNew);
+            cursoListNew = attachedCursoListNew;
+            medico.setCursoList(cursoListNew);
+            List<Consulta> attachedConsultaListNew = new ArrayList<Consulta>();
+            for (Consulta consultaListNewConsultaToAttach : consultaListNew) {
+                consultaListNewConsultaToAttach = em.getReference(consultaListNewConsultaToAttach.getClass(), consultaListNewConsultaToAttach.getIddatosConsulta());
+                attachedConsultaListNew.add(consultaListNewConsultaToAttach);
+            }
+            consultaListNew = attachedConsultaListNew;
+            medico.setConsultaList(consultaListNew);
             medico = em.merge(medico);
             for (Paciente pacienteListOldPaciente : pacienteListOld) {
                 if (!pacienteListNew.contains(pacienteListOldPaciente)) {
@@ -168,14 +185,26 @@ public class MedicoJpaController implements Serializable {
                     docenteListNewDocente = em.merge(docenteListNewDocente);
                 }
             }
-            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
-                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
-                    Medico oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta = datosconsultaListNewDatosconsulta.getMedicoIdmedico();
-                    datosconsultaListNewDatosconsulta.setMedicoIdmedico(medico);
-                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
-                    if (oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta != null && !oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta.equals(medico)) {
-                        oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta.getDatosconsultaList().remove(datosconsultaListNewDatosconsulta);
-                        oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta = em.merge(oldMedicoIdmedicoOfDatosconsultaListNewDatosconsulta);
+            for (Curso cursoListOldCurso : cursoListOld) {
+                if (!cursoListNew.contains(cursoListOldCurso)) {
+                    cursoListOldCurso.getMedicoList().remove(medico);
+                    cursoListOldCurso = em.merge(cursoListOldCurso);
+                }
+            }
+            for (Curso cursoListNewCurso : cursoListNew) {
+                if (!cursoListOld.contains(cursoListNewCurso)) {
+                    cursoListNewCurso.getMedicoList().add(medico);
+                    cursoListNewCurso = em.merge(cursoListNewCurso);
+                }
+            }
+            for (Consulta consultaListNewConsulta : consultaListNew) {
+                if (!consultaListOld.contains(consultaListNewConsulta)) {
+                    Medico oldMedicoIdmedicoOfConsultaListNewConsulta = consultaListNewConsulta.getMedicoIdmedico();
+                    consultaListNewConsulta.setMedicoIdmedico(medico);
+                    consultaListNewConsulta = em.merge(consultaListNewConsulta);
+                    if (oldMedicoIdmedicoOfConsultaListNewConsulta != null && !oldMedicoIdmedicoOfConsultaListNewConsulta.equals(medico)) {
+                        oldMedicoIdmedicoOfConsultaListNewConsulta.getConsultaList().remove(consultaListNewConsulta);
+                        oldMedicoIdmedicoOfConsultaListNewConsulta = em.merge(oldMedicoIdmedicoOfConsultaListNewConsulta);
                     }
                 }
             }
@@ -209,12 +238,12 @@ public class MedicoJpaController implements Serializable {
                 throw new NonexistentEntityException("The medico with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            List<Datosconsulta> datosconsultaListOrphanCheck = medico.getDatosconsultaList();
-            for (Datosconsulta datosconsultaListOrphanCheckDatosconsulta : datosconsultaListOrphanCheck) {
+            List<Consulta> consultaListOrphanCheck = medico.getConsultaList();
+            for (Consulta consultaListOrphanCheckConsulta : consultaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Medico (" + medico + ") cannot be destroyed since the Datosconsulta " + datosconsultaListOrphanCheckDatosconsulta + " in its datosconsultaList field has a non-nullable medicoIdmedico field.");
+                illegalOrphanMessages.add("This Medico (" + medico + ") cannot be destroyed since the Consulta " + consultaListOrphanCheckConsulta + " in its consultaList field has a non-nullable medicoIdmedico field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -228,6 +257,11 @@ public class MedicoJpaController implements Serializable {
             for (Docente docenteListDocente : docenteList) {
                 docenteListDocente.getMedicoList().remove(medico);
                 docenteListDocente = em.merge(docenteListDocente);
+            }
+            List<Curso> cursoList = medico.getCursoList();
+            for (Curso cursoListCurso : cursoList) {
+                cursoListCurso.getMedicoList().remove(medico);
+                cursoListCurso = em.merge(cursoListCurso);
             }
             em.remove(medico);
             em.getTransaction().commit();
@@ -283,5 +317,5 @@ public class MedicoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -9,10 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-/**
- *
- * @author Oscar
- */
+
 @Embeddable
 public class DatosconsultaHasDientePK implements Serializable {
     @Basic(optional = false)
@@ -74,5 +72,5 @@ public class DatosconsultaHasDientePK implements Serializable {
     public String toString() {
         return "entity.DatosconsultaHasDientePK[ datosConsultaiddatosConsulta=" + datosConsultaiddatosConsulta + ", dienteIddiente=" + dienteIddiente + " ]";
     }
-    
+
 }

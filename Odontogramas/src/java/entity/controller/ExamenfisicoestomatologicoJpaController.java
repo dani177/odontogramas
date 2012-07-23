@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import java.io.Serializable;
@@ -9,17 +10,14 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Datosconsulta;
+import entity.Consulta;
 import entity.Examenfisicoestomatologico;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class ExamenfisicoestomatologicoJpaController implements Serializable {
 
     public ExamenfisicoestomatologicoJpaController(EntityManagerFactory emf) {
@@ -36,7 +34,7 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Datosconsulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta = em.getReference(datosConsultaiddatosConsulta.getClass(), datosConsultaiddatosConsulta.getIddatosConsulta());
                 examenfisicoestomatologico.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsulta);
@@ -60,8 +58,8 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Examenfisicoestomatologico persistentExamenfisicoestomatologico = em.find(Examenfisicoestomatologico.class, examenfisicoestomatologico.getIdexamenFisicoEstomatologico());
-            Datosconsulta datosConsultaiddatosConsultaOld = persistentExamenfisicoestomatologico.getDatosConsultaiddatosConsulta();
-            Datosconsulta datosConsultaiddatosConsultaNew = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsultaOld = persistentExamenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsultaNew = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsultaNew != null) {
                 datosConsultaiddatosConsultaNew = em.getReference(datosConsultaiddatosConsultaNew.getClass(), datosConsultaiddatosConsultaNew.getIddatosConsulta());
                 examenfisicoestomatologico.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsultaNew);
@@ -104,7 +102,7 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The examenfisicoestomatologico with id " + id + " no longer exists.", enfe);
             }
-            Datosconsulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
+            Consulta datosConsultaiddatosConsulta = examenfisicoestomatologico.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta.getExamenfisicoestomatologicoList().remove(examenfisicoestomatologico);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
@@ -163,5 +161,5 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

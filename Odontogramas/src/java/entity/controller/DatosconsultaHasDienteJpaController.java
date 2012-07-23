@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entity.Diente;
-import entity.Datosconsulta;
+import entity.Consulta;
 import entity.DatosconsultaHasDiente;
 import entity.DatosconsultaHasDientePK;
 import entity.controller.exceptions.NonexistentEntityException;
@@ -19,10 +20,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class DatosconsultaHasDienteJpaController implements Serializable {
 
     public DatosconsultaHasDienteJpaController(EntityManagerFactory emf) {
@@ -38,8 +36,8 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
         if (datosconsultaHasDiente.getDatosconsultaHasDientePK() == null) {
             datosconsultaHasDiente.setDatosconsultaHasDientePK(new DatosconsultaHasDientePK());
         }
-        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getDatosconsulta().getIddatosConsulta());
         datosconsultaHasDiente.getDatosconsultaHasDientePK().setDienteIddiente(datosconsultaHasDiente.getDiente().getIddiente());
+        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -49,19 +47,19 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
                 diente = em.getReference(diente.getClass(), diente.getIddiente());
                 datosconsultaHasDiente.setDiente(diente);
             }
-            Datosconsulta datosconsulta = datosconsultaHasDiente.getDatosconsulta();
-            if (datosconsulta != null) {
-                datosconsulta = em.getReference(datosconsulta.getClass(), datosconsulta.getIddatosConsulta());
-                datosconsultaHasDiente.setDatosconsulta(datosconsulta);
+            Consulta consulta = datosconsultaHasDiente.getConsulta();
+            if (consulta != null) {
+                consulta = em.getReference(consulta.getClass(), consulta.getIddatosConsulta());
+                datosconsultaHasDiente.setConsulta(consulta);
             }
             em.persist(datosconsultaHasDiente);
             if (diente != null) {
                 diente.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
                 diente = em.merge(diente);
             }
-            if (datosconsulta != null) {
-                datosconsulta.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
-                datosconsulta = em.merge(datosconsulta);
+            if (consulta != null) {
+                consulta.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
+                consulta = em.merge(consulta);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -77,8 +75,8 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
     }
 
     public void edit(DatosconsultaHasDiente datosconsultaHasDiente) throws NonexistentEntityException, Exception {
-        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getDatosconsulta().getIddatosConsulta());
         datosconsultaHasDiente.getDatosconsultaHasDientePK().setDienteIddiente(datosconsultaHasDiente.getDiente().getIddiente());
+        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -86,15 +84,15 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
             DatosconsultaHasDiente persistentDatosconsultaHasDiente = em.find(DatosconsultaHasDiente.class, datosconsultaHasDiente.getDatosconsultaHasDientePK());
             Diente dienteOld = persistentDatosconsultaHasDiente.getDiente();
             Diente dienteNew = datosconsultaHasDiente.getDiente();
-            Datosconsulta datosconsultaOld = persistentDatosconsultaHasDiente.getDatosconsulta();
-            Datosconsulta datosconsultaNew = datosconsultaHasDiente.getDatosconsulta();
+            Consulta consultaOld = persistentDatosconsultaHasDiente.getConsulta();
+            Consulta consultaNew = datosconsultaHasDiente.getConsulta();
             if (dienteNew != null) {
                 dienteNew = em.getReference(dienteNew.getClass(), dienteNew.getIddiente());
                 datosconsultaHasDiente.setDiente(dienteNew);
             }
-            if (datosconsultaNew != null) {
-                datosconsultaNew = em.getReference(datosconsultaNew.getClass(), datosconsultaNew.getIddatosConsulta());
-                datosconsultaHasDiente.setDatosconsulta(datosconsultaNew);
+            if (consultaNew != null) {
+                consultaNew = em.getReference(consultaNew.getClass(), consultaNew.getIddatosConsulta());
+                datosconsultaHasDiente.setConsulta(consultaNew);
             }
             datosconsultaHasDiente = em.merge(datosconsultaHasDiente);
             if (dienteOld != null && !dienteOld.equals(dienteNew)) {
@@ -105,13 +103,13 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
                 dienteNew.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
                 dienteNew = em.merge(dienteNew);
             }
-            if (datosconsultaOld != null && !datosconsultaOld.equals(datosconsultaNew)) {
-                datosconsultaOld.getDatosconsultaHasDienteList().remove(datosconsultaHasDiente);
-                datosconsultaOld = em.merge(datosconsultaOld);
+            if (consultaOld != null && !consultaOld.equals(consultaNew)) {
+                consultaOld.getDatosconsultaHasDienteList().remove(datosconsultaHasDiente);
+                consultaOld = em.merge(consultaOld);
             }
-            if (datosconsultaNew != null && !datosconsultaNew.equals(datosconsultaOld)) {
-                datosconsultaNew.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
-                datosconsultaNew = em.merge(datosconsultaNew);
+            if (consultaNew != null && !consultaNew.equals(consultaOld)) {
+                consultaNew.getDatosconsultaHasDienteList().add(datosconsultaHasDiente);
+                consultaNew = em.merge(consultaNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -147,10 +145,10 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
                 diente.getDatosconsultaHasDienteList().remove(datosconsultaHasDiente);
                 diente = em.merge(diente);
             }
-            Datosconsulta datosconsulta = datosconsultaHasDiente.getDatosconsulta();
-            if (datosconsulta != null) {
-                datosconsulta.getDatosconsultaHasDienteList().remove(datosconsultaHasDiente);
-                datosconsulta = em.merge(datosconsulta);
+            Consulta consulta = datosconsultaHasDiente.getConsulta();
+            if (consulta != null) {
+                consulta.getDatosconsultaHasDienteList().remove(datosconsultaHasDiente);
+                consulta = em.merge(consulta);
             }
             em.remove(datosconsultaHasDiente);
             em.getTransaction().commit();
@@ -206,5 +204,5 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

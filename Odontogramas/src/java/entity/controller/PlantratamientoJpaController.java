@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Datosconsulta;
+import entity.Consulta;
 import entity.Plantratamiento;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
@@ -31,23 +31,23 @@ public class PlantratamientoJpaController implements Serializable {
     }
 
     public void create(Plantratamiento plantratamiento) {
-        if (plantratamiento.getDatosconsultaList() == null) {
-            plantratamiento.setDatosconsultaList(new ArrayList<Datosconsulta>());
+        if (plantratamiento.getConsultaList() == null) {
+            plantratamiento.setConsultaList(new ArrayList<Consulta>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Datosconsulta> attachedDatosconsultaList = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListDatosconsultaToAttach : plantratamiento.getDatosconsultaList()) {
-                datosconsultaListDatosconsultaToAttach = em.getReference(datosconsultaListDatosconsultaToAttach.getClass(), datosconsultaListDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaList.add(datosconsultaListDatosconsultaToAttach);
+            List<Consulta> attachedConsultaList = new ArrayList<Consulta>();
+            for (Consulta consultaListConsultaToAttach : plantratamiento.getConsultaList()) {
+                consultaListConsultaToAttach = em.getReference(consultaListConsultaToAttach.getClass(), consultaListConsultaToAttach.getIddatosConsulta());
+                attachedConsultaList.add(consultaListConsultaToAttach);
             }
-            plantratamiento.setDatosconsultaList(attachedDatosconsultaList);
+            plantratamiento.setConsultaList(attachedConsultaList);
             em.persist(plantratamiento);
-            for (Datosconsulta datosconsultaListDatosconsulta : plantratamiento.getDatosconsultaList()) {
-                datosconsultaListDatosconsulta.getPlantratamientoList().add(plantratamiento);
-                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
+            for (Consulta consultaListConsulta : plantratamiento.getConsultaList()) {
+                consultaListConsulta.getPlantratamientoList().add(plantratamiento);
+                consultaListConsulta = em.merge(consultaListConsulta);
             }
             em.getTransaction().commit();
         } finally {
@@ -63,26 +63,26 @@ public class PlantratamientoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Plantratamiento persistentPlantratamiento = em.find(Plantratamiento.class, plantratamiento.getIdplanTratamiento());
-            List<Datosconsulta> datosconsultaListOld = persistentPlantratamiento.getDatosconsultaList();
-            List<Datosconsulta> datosconsultaListNew = plantratamiento.getDatosconsultaList();
-            List<Datosconsulta> attachedDatosconsultaListNew = new ArrayList<Datosconsulta>();
-            for (Datosconsulta datosconsultaListNewDatosconsultaToAttach : datosconsultaListNew) {
-                datosconsultaListNewDatosconsultaToAttach = em.getReference(datosconsultaListNewDatosconsultaToAttach.getClass(), datosconsultaListNewDatosconsultaToAttach.getIddatosConsulta());
-                attachedDatosconsultaListNew.add(datosconsultaListNewDatosconsultaToAttach);
+            List<Consulta> consultaListOld = persistentPlantratamiento.getConsultaList();
+            List<Consulta> consultaListNew = plantratamiento.getConsultaList();
+            List<Consulta> attachedConsultaListNew = new ArrayList<Consulta>();
+            for (Consulta consultaListNewConsultaToAttach : consultaListNew) {
+                consultaListNewConsultaToAttach = em.getReference(consultaListNewConsultaToAttach.getClass(), consultaListNewConsultaToAttach.getIddatosConsulta());
+                attachedConsultaListNew.add(consultaListNewConsultaToAttach);
             }
-            datosconsultaListNew = attachedDatosconsultaListNew;
-            plantratamiento.setDatosconsultaList(datosconsultaListNew);
+            consultaListNew = attachedConsultaListNew;
+            plantratamiento.setConsultaList(consultaListNew);
             plantratamiento = em.merge(plantratamiento);
-            for (Datosconsulta datosconsultaListOldDatosconsulta : datosconsultaListOld) {
-                if (!datosconsultaListNew.contains(datosconsultaListOldDatosconsulta)) {
-                    datosconsultaListOldDatosconsulta.getPlantratamientoList().remove(plantratamiento);
-                    datosconsultaListOldDatosconsulta = em.merge(datosconsultaListOldDatosconsulta);
+            for (Consulta consultaListOldConsulta : consultaListOld) {
+                if (!consultaListNew.contains(consultaListOldConsulta)) {
+                    consultaListOldConsulta.getPlantratamientoList().remove(plantratamiento);
+                    consultaListOldConsulta = em.merge(consultaListOldConsulta);
                 }
             }
-            for (Datosconsulta datosconsultaListNewDatosconsulta : datosconsultaListNew) {
-                if (!datosconsultaListOld.contains(datosconsultaListNewDatosconsulta)) {
-                    datosconsultaListNewDatosconsulta.getPlantratamientoList().add(plantratamiento);
-                    datosconsultaListNewDatosconsulta = em.merge(datosconsultaListNewDatosconsulta);
+            for (Consulta consultaListNewConsulta : consultaListNew) {
+                if (!consultaListOld.contains(consultaListNewConsulta)) {
+                    consultaListNewConsulta.getPlantratamientoList().add(plantratamiento);
+                    consultaListNewConsulta = em.merge(consultaListNewConsulta);
                 }
             }
             em.getTransaction().commit();
@@ -114,10 +114,10 @@ public class PlantratamientoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The plantratamiento with id " + id + " no longer exists.", enfe);
             }
-            List<Datosconsulta> datosconsultaList = plantratamiento.getDatosconsultaList();
-            for (Datosconsulta datosconsultaListDatosconsulta : datosconsultaList) {
-                datosconsultaListDatosconsulta.getPlantratamientoList().remove(plantratamiento);
-                datosconsultaListDatosconsulta = em.merge(datosconsultaListDatosconsulta);
+            List<Consulta> consultaList = plantratamiento.getConsultaList();
+            for (Consulta consultaListConsulta : consultaList) {
+                consultaListConsulta.getPlantratamientoList().remove(plantratamiento);
+                consultaListConsulta = em.merge(consultaListConsulta);
             }
             em.remove(plantratamiento);
             em.getTransaction().commit();
@@ -173,5 +173,5 @@ public class PlantratamientoJpaController implements Serializable {
             em.close();
         }
     }
- 
+
 }

@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -11,10 +12,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "paciente")
 @XmlRootElement
@@ -58,7 +56,7 @@ public class Paciente implements Serializable {
     @ManyToOne(optional = false)
     private Municipios municipiosCodigo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteIdpersona")
-    private List<Datosconsulta> datosconsultaList;
+    private List<Consulta> consultaList;
 
     public Paciente() {
     }
@@ -157,12 +155,12 @@ public class Paciente implements Serializable {
     }
 
     @XmlTransient
-    public List<Datosconsulta> getDatosconsultaList() {
-        return datosconsultaList;
+    public List<Consulta> getConsultaList() {
+        return consultaList;
     }
 
-    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
-        this.datosconsultaList = datosconsultaList;
+    public void setConsultaList(List<Consulta> consultaList) {
+        this.consultaList = consultaList;
     }
 
     @Override
@@ -189,5 +187,5 @@ public class Paciente implements Serializable {
     public String toString() {
         return "entity.Paciente[ idpersona=" + idpersona + " ]";
     }
-    
+
 }

@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -10,10 +11,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "docente")
 @XmlRootElement
@@ -40,6 +38,13 @@ public class Docente implements Serializable {
         @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")})
     @ManyToMany
     private List<Medico> medicoList;
+    @JoinTable(name = "docente_has_curso", joinColumns = {
+        @JoinColumn(name = "docente_iddocente", referencedColumnName = "iddocente")}, inverseJoinColumns = {
+        @JoinColumn(name = "curso_idcurso", referencedColumnName = "idcurso")})
+    @ManyToMany
+    private List<Curso> cursoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "docenteIddocente")
+    private List<Consulta> consultaList;
 
     public Docente() {
     }
@@ -89,6 +94,24 @@ public class Docente implements Serializable {
         this.medicoList = medicoList;
     }
 
+    @XmlTransient
+    public List<Curso> getCursoList() {
+        return cursoList;
+    }
+
+    public void setCursoList(List<Curso> cursoList) {
+        this.cursoList = cursoList;
+    }
+
+    @XmlTransient
+    public List<Consulta> getConsultaList() {
+        return consultaList;
+    }
+
+    public void setConsultaList(List<Consulta> consultaList) {
+        this.consultaList = consultaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -113,5 +136,5 @@ public class Docente implements Serializable {
     public String toString() {
         return "entity.Docente[ iddocente=" + iddocente + " ]";
     }
-    
+
 }

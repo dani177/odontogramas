@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -10,10 +11,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Oscar
- */
+
 @Entity
 @Table(name = "medico")
 @XmlRootElement
@@ -23,9 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Medico.findByNombreUsuario", query = "SELECT m FROM Medico m WHERE m.nombreUsuario = :nombreUsuario"),
     @NamedQuery(name = "Medico.findByClave", query = "SELECT m FROM Medico m WHERE m.clave = :clave"),
     @NamedQuery(name = "Medico.findByDireccion", query = "SELECT m FROM Medico m WHERE m.direccion = :direccion"),
-    @NamedQuery(name = "Medico.findByTelefono", query = "SELECT m FROM Medico m WHERE m.telefono = :telefono"),
-    @NamedQuery(name = "Medico.findByAnio", query = "SELECT m FROM Medico m WHERE m.anio = :anio"),
-    @NamedQuery(name = "Medico.findByPeriodo", query = "SELECT m FROM Medico m WHERE m.periodo = :periodo")})
+    @NamedQuery(name = "Medico.findByTelefono", query = "SELECT m FROM Medico m WHERE m.telefono = :telefono")})
 public class Medico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,10 +36,6 @@ public class Medico implements Serializable {
     private String direccion;
     @Column(name = "telefono")
     private String telefono;
-    @Column(name = "anio")
-    private String anio;
-    @Column(name = "periodo")
-    private String periodo;
     @JoinTable(name = "medico_has_paciente", joinColumns = {
         @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")}, inverseJoinColumns = {
         @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")})
@@ -51,8 +43,13 @@ public class Medico implements Serializable {
     private List<Paciente> pacienteList;
     @ManyToMany(mappedBy = "medicoList")
     private List<Docente> docenteList;
+    @JoinTable(name = "medico_has_curso", joinColumns = {
+        @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")}, inverseJoinColumns = {
+        @JoinColumn(name = "curso_idcurso", referencedColumnName = "idcurso")})
+    @ManyToMany
+    private List<Curso> cursoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoIdmedico")
-    private List<Datosconsulta> datosconsultaList;
+    private List<Consulta> consultaList;
 
     public Medico() {
     }
@@ -101,22 +98,6 @@ public class Medico implements Serializable {
         this.telefono = telefono;
     }
 
-    public String getAnio() {
-        return anio;
-    }
-
-    public void setAnio(String anio) {
-        this.anio = anio;
-    }
-
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
-
     @XmlTransient
     public List<Paciente> getPacienteList() {
         return pacienteList;
@@ -136,12 +117,21 @@ public class Medico implements Serializable {
     }
 
     @XmlTransient
-    public List<Datosconsulta> getDatosconsultaList() {
-        return datosconsultaList;
+    public List<Curso> getCursoList() {
+        return cursoList;
     }
 
-    public void setDatosconsultaList(List<Datosconsulta> datosconsultaList) {
-        this.datosconsultaList = datosconsultaList;
+    public void setCursoList(List<Curso> cursoList) {
+        this.cursoList = cursoList;
+    }
+
+    @XmlTransient
+    public List<Consulta> getConsultaList() {
+        return consultaList;
+    }
+
+    public void setConsultaList(List<Consulta> consultaList) {
+        this.consultaList = consultaList;
     }
 
     @Override
@@ -168,5 +158,5 @@ public class Medico implements Serializable {
     public String toString() {
         return "entity.Medico[ idmedico=" + idmedico + " ]";
     }
-    
+
 }

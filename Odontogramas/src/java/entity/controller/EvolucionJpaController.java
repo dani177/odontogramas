@@ -2,23 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import entity.Evolucion;
-import entity.controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entity.Tratamiento;
+import entity.controller.exceptions.NonexistentEntityException;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
-/**
- *
- * @author Oscar
- */
+
 public class EvolucionJpaController implements Serializable {
 
     public EvolucionJpaController(EntityManagerFactory emf) {
@@ -35,7 +34,16 @@ public class EvolucionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Tratamiento tratamientoIdtratamiento = evolucion.getTratamientoIdtratamiento();
+            if (tratamientoIdtratamiento != null) {
+                tratamientoIdtratamiento = em.getReference(tratamientoIdtratamiento.getClass(), tratamientoIdtratamiento.getIdtratamiento());
+                evolucion.setTratamientoIdtratamiento(tratamientoIdtratamiento);
+            }
             em.persist(evolucion);
+            if (tratamientoIdtratamiento != null) {
+                tratamientoIdtratamiento.getEvolucionList().add(evolucion);
+                tratamientoIdtratamiento = em.merge(tratamientoIdtratamiento);
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,7 +57,22 @@ public class EvolucionJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Evolucion persistentEvolucion = em.find(Evolucion.class, evolucion.getIdevolucion());
+            Tratamiento tratamientoIdtratamientoOld = persistentEvolucion.getTratamientoIdtratamiento();
+            Tratamiento tratamientoIdtratamientoNew = evolucion.getTratamientoIdtratamiento();
+            if (tratamientoIdtratamientoNew != null) {
+                tratamientoIdtratamientoNew = em.getReference(tratamientoIdtratamientoNew.getClass(), tratamientoIdtratamientoNew.getIdtratamiento());
+                evolucion.setTratamientoIdtratamiento(tratamientoIdtratamientoNew);
+            }
             evolucion = em.merge(evolucion);
+            if (tratamientoIdtratamientoOld != null && !tratamientoIdtratamientoOld.equals(tratamientoIdtratamientoNew)) {
+                tratamientoIdtratamientoOld.getEvolucionList().remove(evolucion);
+                tratamientoIdtratamientoOld = em.merge(tratamientoIdtratamientoOld);
+            }
+            if (tratamientoIdtratamientoNew != null && !tratamientoIdtratamientoNew.equals(tratamientoIdtratamientoOld)) {
+                tratamientoIdtratamientoNew.getEvolucionList().add(evolucion);
+                tratamientoIdtratamientoNew = em.merge(tratamientoIdtratamientoNew);
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -78,6 +101,11 @@ public class EvolucionJpaController implements Serializable {
                 evolucion.getIdevolucion();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The evolucion with id " + id + " no longer exists.", enfe);
+            }
+            Tratamiento tratamientoIdtratamiento = evolucion.getTratamientoIdtratamiento();
+            if (tratamientoIdtratamiento != null) {
+                tratamientoIdtratamiento.getEvolucionList().remove(evolucion);
+                tratamientoIdtratamiento = em.merge(tratamientoIdtratamiento);
             }
             em.remove(evolucion);
             em.getTransaction().commit();
@@ -133,5 +161,5 @@ public class EvolucionJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
