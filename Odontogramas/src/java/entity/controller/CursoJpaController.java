@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.Curso;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -23,13 +24,10 @@ import javax.persistence.EntityManagerFactory;
 
 public class CursoJpaController implements Serializable {
 
-    public CursoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    public CursoJpaController() {
+     }
+   public EntityManager getEntityManager() {
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Curso curso) throws PreexistingEntityException, Exception {

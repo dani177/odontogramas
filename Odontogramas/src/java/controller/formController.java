@@ -164,23 +164,23 @@ public class formController extends HttpServlet {
                 String nombre = request.getParameter("nombre");
                 String direccion = request.getParameter("direccion");
                 String telefono = request.getParameter("telefono");
-                String docente = request.getParameter("docente");
+                String curso = request.getParameter("curso");
                 String codigo = request.getParameter("codigo");
 
 
                 MedicoJpaController conMe = new MedicoJpaController();
-                DocenteJpaController conDo = new DocenteJpaController();
+                CursoJpaController conCu = new CursoJpaController();
                 Medico me = new Medico();
                 me.setIdmedico(Integer.parseInt(idPersona));
                 me.setNombreUsuario(nombre);
                 me.setDireccion(direccion);
                 me.setTelefono(telefono);
                 me.setClave(idPersona);
-                List<Docente> listDoc = new ArrayList<Docente>();
-                Docente doc = conDo.findDocente(Integer.parseInt(docente));
-                if (doc.getCodigo().equals(codigo)) {
-                    listDoc.add(doc);
-                    me.setDocenteList(listDoc);
+                List<Curso> listCur = new ArrayList<Curso>();
+                Curso cur = conCu.findCurso(Integer.parseInt(curso));
+                if (cur.getCodigo().equals(codigo)) {
+                    listCur.add(cur);
+                    me.setCursoList(listCur);
                     try {
                         conMe.create(me);
                     } catch (PreexistingEntityException ex) {
