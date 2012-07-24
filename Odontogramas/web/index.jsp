@@ -94,6 +94,9 @@
                                                             +'</div>';
 
                                                         $("#notificaciones").html(html);
+                                                        setTimeout(function(){
+                                                            $(".alert-success").alert("close");
+                                                        }, 5000);
                                                         
                                                     }else{
                                                         
@@ -104,6 +107,9 @@
                                                             +'</div>';
 
                                                         $("#notificaciones").html(html2);
+                                                        setTimeout(function(){
+                                                            $(".alert-error").alert("close");
+                                                        }, 5000);
                                                       
                                                     }
                                                 } //fin success
