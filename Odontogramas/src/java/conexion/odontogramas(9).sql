@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 3.4.5
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-07-2012 a las 11:39:31
--- Versión del servidor: 5.5.24-log
--- Versión de PHP: 5.3.13
+-- Tiempo de generación: 25-07-2012 a las 20:13:04
+-- Versión del servidor: 5.5.16
+-- Versión de PHP: 5.3.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -78,7 +78,32 @@ CREATE TABLE IF NOT EXISTS `datosbasicos` (
   `iddatosBasicos` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`iddatosBasicos`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+
+--
+-- Volcado de datos para la tabla `datosbasicos`
+--
+
+INSERT INTO `datosbasicos` (`iddatosBasicos`, `nombre`) VALUES
+(1, 'Tratamiento Medico '),
+(2, 'Ingestion Medicamentos '),
+(3, 'Reacciones Alergicas '),
+(4, 'Anestesia '),
+(5, 'Antibioticos '),
+(6, 'Hemorragias '),
+(7, 'Irradiaciones '),
+(8, 'Sinusitis '),
+(9, 'Enfermedades Respiratorias '),
+(10, 'Cardiopatias'),
+(11, 'Diabetes '),
+(12, 'Fiebre Reumatica '),
+(13, 'Hepatitia '),
+(14, 'Hipertension '),
+(15, 'Embarazo '),
+(16, 'Enfermedades Renales '),
+(17, 'Enfermedades Gastroinstestinales '),
+(18, 'Organos de los Sentidos '),
+(19, 'Enfermedades Infectocontagiosas ');
 
 -- --------------------------------------------------------
 
@@ -1828,7 +1853,7 @@ CREATE TABLE IF NOT EXISTS `paciente` (
 --
 
 INSERT INTO `paciente` (`idpersona`, `nombre`, `direccion`, `num_afiliacion`, `telefono`, `sexo`, `estadoCivil`, `fechaNacimiento`, `municipios_codigo`, `profesiones_codigo`) VALUES
-('1047565684', 'Pedro Jose Payares López', 'Bocagrande Avenida san martin Nº 15', '1047595684', '6812854', 'masculino', 'soltero', '1986-02-24', 13001, 2135);
+('1047565684', 'Pedro Jose Payares Mendez', 'Bocagrande Avenida san martin Nº 15 29', '104759568466', '6812555', 'masculino', 'soltero', '1986-02-24', 13001, 2135);
 
 -- --------------------------------------------------------
 
