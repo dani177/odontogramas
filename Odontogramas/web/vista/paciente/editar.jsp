@@ -25,7 +25,7 @@
             submitHandler: function(){
                 $.ajax({
                     type: 'POST', 
-                    url: "<%=request.getContextPath()%>/formController?action=guardarDatosPer",
+                    url: "<%=request.getContextPath()%>/formController?action=editarDatosPer",
                     data: $("#DatosPersonales").serialize(),
                     success: function(){
                         $("a[href='#listaPacientes']").click();
@@ -41,11 +41,11 @@
 
 <div class="span9">
 
-    <form id="DatosPersonales" class="form-horizontal">
+    <form id="DatosPersonales" class="form-horizontal" method="post">
         <fieldset>
             <legend>I. Datos Personales</legend>
             <div class="control-group">
-                <label for="input01" class="control-label">Nombre</label>
+                <label for="nombre" class="control-label">Nombre</label>
                 <div class="controls">
                     <input type="text" id="input01" class="input-xlarge {required:true}" name="nombre" value="${paciente.getNombre()}">
                 </div>
@@ -53,7 +53,7 @@
             <div class="control-group">
                 <label for="input04" class="control-label">Direccion</label>
                 <div class="controls">
-                    <input type="text" id="input04" name="direccion" class="input-xlarge {required:true}" value="${paciente.getDireccion()}">
+                    <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getDireccion()}">
                 </div>
             </div>
             <div class="control-group">
@@ -113,7 +113,7 @@
             <div class="control-group">
                 <label for="fecha" class="control-label">Fecha de Nacimiento</label>
                 <div class="controls">
-                    <input type="text" id="fecha" name="fecha" class="input-small {rquired:true}" data-datepicker="datepicker" value="${fecha}">
+                    <input type="text" id="fecha" name="fecha" class="input-small {required:true}" data-datepicker="datepicker" value="${fecha}">
                 </div>
             </div>
 
@@ -213,7 +213,7 @@
                                     <option value="${row.codigo}">${row.getProfesion()}</option>    
                                 </c:when>
                                 <c:otherwise>
-                                    <option selected="selected"value="${row.codigo}">${row.getProfesion()}</option>    
+                                    <option selected="selected" value="${row.codigo}">${row.getProfesion()}</option>    
                                 </c:otherwise>     
                             </c:choose>
                         </c:forEach>

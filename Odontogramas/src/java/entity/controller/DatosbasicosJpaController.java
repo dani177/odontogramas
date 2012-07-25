@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.Datosbasicos;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.io.Serializable;
@@ -19,13 +20,11 @@ import javax.persistence.criteria.Root;
 
 public class DatosbasicosJpaController implements Serializable {
 
-    public DatosbasicosJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
-    private EntityManagerFactory emf = null;
+    public DatosbasicosJpaController() {
+   }
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Datosbasicos datosbasicos) {

@@ -24,6 +24,7 @@
                             </td>
                             <td class="action icon16">
                                 <a title="Ver" href="#verPaciente&${row.idpersona}" class="icon-eye-open"></a>
+                                <a title="Consultas" href="#listaConsultas" class="icon-plus"></a>
                                 <a title="radiografias" href="<%=request.getContextPath()%>/subirRadiografia?${row.idpersona}" class="icon-share-alt"></a>
                             </td>
                             </tr>

@@ -234,6 +234,30 @@
                                     }); //fin del $.ajax
                                 } //fin success
                             }); //fin del $.ajax
+                        }else{
+                            if(hash.indexOf("#consulta")!=-1){
+                                var cual = hash.split("&");
+                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                $.ajax({ 
+                                    type: "POST", 
+                                    url: url3,
+                                    success: function(data) 
+                                    { 
+                                        $.ajax({ 
+                                            type: "POST", 
+                                            url: "/Odontogramas/vista/paciente/editar.jsp",
+                                            success: function(data) 
+                                            {   
+                                                // $(this).parents("li").siblings().removeClass("active");
+                                                //$(this).parents("li").addClass("active");
+                                                // $("#contenido").html(data);
+                                       
+                                            } //fin success
+                                        }); //fin del $.ajax
+                                    } //fin success
+                                }); //fin del $.ajax
+                            }
                         }
                             
                     }   
@@ -294,6 +318,56 @@
                                         }); //fin del $.ajax
                                     } //fin success
                                 }); //fin del $.ajax
+                            }else{
+                                if(hash=="#listaConsultas"){
+                                    
+                                    var url3 = "<%=request.getContextPath()%>/formController?action=listaConsultas";
+                                    $.ajax({ 
+                                        type: "POST", 
+                                        url: url3,
+                                        success: function(data) 
+                                        { 
+                                            $.ajax({ 
+                                                type: "POST", 
+                                                url: "/Odontogramas/vista/consulta/listar.jsp",
+                                                success: function(data) 
+                                                {   $(".nav-list").html('<li class="nav-header">Menu</li>'
+                                                        +'<li><a href="#nuevaConsulta">Nueva Consulta</a></li>'
+                                                        +'<li class="active"><a href="#listaConsultas">Lista de Consultas</a></li>');
+                                                    $("#contenido").html(data);
+                                                    $(".nav-list >li > a").click(function(ev){
+                                                        $(this).parents("li").siblings().removeClass("active");
+                                                        $(this).parents("li").addClass("active");
+                                                        location = $(this).attr("href");
+                                                    });
+                                       
+                                                } //fin success
+                                            }); //fin del $.ajax
+                                        } //fin success
+                                    }); //fin del $.ajax
+                                }
+                                
+                                else{
+                                    if(hash=="#nuevaConsulta"){
+                                    $.ajax({ 
+                                        type: "POST", 
+                                        url:  "<%=request.getContextPath()%>/formController?action=nuevaConsulta",
+                                        success: function() 
+                                        { 
+                                        $.ajax({ 
+                                            type: "POST", 
+                                            url: "/Odontogramas/vista/consulta/crear.jsp", 
+                                            success: function(data) 
+                                            { 
+                                                $("#contenido").html(data);
+                                       
+                                            } //fin success
+                                        }); //fin del $.ajax
+                                        }
+                                    });
+                                    }
+                                
+                                }
                             }
                             
                         }   

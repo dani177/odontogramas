@@ -164,7 +164,55 @@ public class formController extends HttpServlet {
 
 
             }
+            
+            if (request.getParameter("action").equals("editarDatosPer")) {
+                HttpSession sesion = request.getSession();
+                Paciente pa = (Paciente)sesion.getAttribute("paciente");
+                
+                PacienteJpaController conPa = new PacienteJpaController();
+                pa.setNombre((String) request.getParameter("nombre"));
+                pa.setDireccion((String) request.getParameter("direccion"));
+                pa.setNumAfiliacion((String) request.getParameter("afiliacion"));
+                pa.setTelefono((String) request.getParameter("telefono"));
+                String codigomun = (String) (request.getParameter("municipio"));
+                int codMun = Integer.parseInt(codigomun);
+                MunicipiosJpaController ConMun = new MunicipiosJpaController();
+                Municipios mun = ConMun.findMunicipios(codMun);
+                pa.setMunicipiosCodigo(mun);
+                SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                String sFecha = (String) request.getParameter("fecha");
+                Date fecha = null;
+                try {
 
+                    fecha = formatoDelTexto.parse(sFecha);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+                pa.setFechaNacimiento(fecha);
+                pa.setSexo((String) request.getParameter("sexo"));
+                pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
+                String prof = (String) request.getParameter("profesion");
+                int codPro = Integer.parseInt(prof);
+                Profesiones profes = new ProfesionesJpaController().findProfesiones(codPro);
+                pa.setProfesionesCodigo(profes);
+                Medico m = (Medico) session.getAttribute("medico");
+                ArrayList<Medico> listMedico = new ArrayList<Medico>();
+                listMedico.add(m);
+                pa.setMedicoList(listMedico);
+
+                try {
+                    conPa.edit(pa);
+                    session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
+                } catch (PreexistingEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             if (request.getParameter("action").equals("registrarM")) {
                 String idPersona = request.getParameter("cedula");
                 String nombre = request.getParameter("nombre");
@@ -203,7 +251,33 @@ public class formController extends HttpServlet {
 
 
             }
+            
+            
+            if (request.getParameter("action").equals("listaConsultas")) {
+                
+                
+                HttpSession sesion = request.getSession();
+                Paciente pa = (Paciente) session.getAttribute("paciente");
 
+                sesion.setAttribute("listaDeConsulta", pa.getConsultaList());
+                
+            }
+            if (request.getParameter("action").equals("nuevaConsulta")) {
+                HttpSession sesion = request.getSession();
+                DatosbasicosJpaController daCon = new DatosbasicosJpaController();
+                Paciente pa = (Paciente) session.getAttribute("paciente");
+                sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
+                
+            }
+            if (request.getParameter("action").equals("guardarDatosBasicos")) {
+                HttpSession sesion = request.getSession();
+                Datosbasicos db = (Datosbasicos) sesion.getAttribute("datosBasicos");
+                DatosbasicosJpaController daCon = new DatosbasicosJpaController();
+                Paciente pa = (Paciente) session.getAttribute("paciente");
+                sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
+                
+            }
+            
 
 
         } finally {

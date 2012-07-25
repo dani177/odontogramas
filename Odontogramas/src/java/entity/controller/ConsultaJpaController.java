@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.*;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -18,16 +18,13 @@ import entity.controller.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
 public class ConsultaJpaController implements Serializable {
 
-    public ConsultaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ConsultaJpaController() {
     }
-    private EntityManagerFactory emf = null;
-
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    
+public EntityManager getEntityManager() {
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Consulta consulta) {
@@ -580,5 +577,4 @@ public class ConsultaJpaController implements Serializable {
             em.close();
         }
     }
-
 }

@@ -41,7 +41,7 @@
 
     <div class="span9">
 
-        <form id="DatosPersonales" class="form-horizontal">
+        <form id="DatosPersonales" class="form-horizontal" method="post">
             <fieldset>
                 <legend>I. Datos Personales</legend>
                 <div class="control-group">
