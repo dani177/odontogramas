@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-07-2012 a las 22:00:09
--- Versión del servidor: 5.5.16
--- Versión de PHP: 5.3.8
+-- Tiempo de generación: 25-07-2012 a las 11:39:31
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.3.13
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `curso` (
 --
 
 INSERT INTO `curso` (`idcurso`, `nombre`, `codigo`, `estado`, `anio`, `periodo`) VALUES
-(1, 'Odontologia-I', '676767', 'activado', '2012', '02');
+(1, 'Endodoncia-I', '676767', 'activado', '2012', '02');
 
 -- --------------------------------------------------------
 
@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS `medico` (
 --
 
 INSERT INTO `medico` (`idmedico`, `nombreUsuario`, `clave`, `direccion`, `telefono`) VALUES
-(123456, 'Diana Padilla', '123456', 'Campestre', '686868');
+(123456, 'Julio Barcos', '123456', 'Blas de lezo', '686868');
 
 -- --------------------------------------------------------
 
@@ -671,6 +671,13 @@ CREATE TABLE IF NOT EXISTS `medico_has_paciente` (
   KEY `fk_medico_has_paciente_paciente1` (`paciente_idpersona`),
   KEY `fk_medico_has_paciente_medico1` (`medico_idmedico`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `medico_has_paciente`
+--
+
+INSERT INTO `medico_has_paciente` (`medico_idmedico`, `paciente_idpersona`) VALUES
+(123456, '1047565684');
 
 -- --------------------------------------------------------
 
@@ -1815,6 +1822,13 @@ CREATE TABLE IF NOT EXISTS `paciente` (
   KEY `fk_paciente_municipios1` (`municipios_codigo`),
   KEY `fk_paciente_profesiones1` (`profesiones_codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `paciente`
+--
+
+INSERT INTO `paciente` (`idpersona`, `nombre`, `direccion`, `num_afiliacion`, `telefono`, `sexo`, `estadoCivil`, `fechaNacimiento`, `municipios_codigo`, `profesiones_codigo`) VALUES
+('1047565684', 'Pedro Jose Payares López', 'Bocagrande Avenida san martin Nº 15', '1047595684', '6812854', 'masculino', 'soltero', '1986-02-24', 13001, 2135);
 
 -- --------------------------------------------------------
 
