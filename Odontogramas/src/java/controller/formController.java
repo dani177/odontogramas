@@ -144,7 +144,13 @@ public class formController extends HttpServlet {
                 Paciente pa = conPa.findPaciente(idPersona);
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("paciente", pa);
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                String fecha = sdf.format(pa.getFechaNacimiento());
+                sesion.setAttribute("fecha", fecha);
+                sesion.setAttribute("departamentos", new DepartamentosJpaController().findDepartamentosEntities());
+                sesion.setAttribute("municipios", new DepartamentosJpaController().findDepartamentos(pa.getMunicipiosCodigo().getDepartamentosCodigo1().getCodigo()).getMunicipiosList());
                 session.setAttribute("diagnosticos", conDi.findDiagnosticoEntities());
+                session.setAttribute("profesiones", new ProfesionesJpaController().findProfesionesEntities());
                 session.setAttribute("tratamientos", conTra.findTratamientoEntities());
 
             }
@@ -158,7 +164,7 @@ public class formController extends HttpServlet {
 
 
             }
-           
+
             if (request.getParameter("action").equals("registrarM")) {
                 String idPersona = request.getParameter("cedula");
                 String nombre = request.getParameter("nombre");
@@ -184,7 +190,7 @@ public class formController extends HttpServlet {
                     try {
                         conMe.create(me);
                     } catch (PreexistingEntityException ex) {
-                         out.print(1);
+                        out.print(1);
                         Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
                         Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
