@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import entity.Evolucion;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -20,13 +21,13 @@ import javax.persistence.EntityManagerFactory;
 
 public class EvolucionJpaController implements Serializable {
 
-    public EvolucionJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public EvolucionJpaController() {
+        
     }
-    private EntityManagerFactory emf = null;
+    
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Evolucion evolucion) {

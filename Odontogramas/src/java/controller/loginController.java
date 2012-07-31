@@ -5,10 +5,7 @@
 package controller;
 
 import entity.Medico;
-import entity.controller.DepartamentosJpaController;
-import entity.controller.DocenteJpaController;
-import entity.controller.MedicoJpaController;
-import entity.controller.ProfesionesJpaController;
+import entity.controller.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -43,32 +40,33 @@ public class loginController extends HttpServlet {
 
         MedicoJpaController conMed = new MedicoJpaController();
         DocenteJpaController conDoc = new DocenteJpaController();
-        
-       try { 
-        Medico medico = conMed.findMedico(Integer.parseInt(un));
-        
-           session.setAttribute("medico", medico);
-           session.setAttribute("docentes", conDoc.findDocenteEntities());
-           
-        if (medico != null) {
-            if (medico.getClave().equals(pw)) {
-                session.setAttribute("logueado", "ok");
-                DepartamentosJpaController ConDe = new DepartamentosJpaController();
-                session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
-                ProfesionesJpaController ConProf = new ProfesionesJpaController();
-                session.setAttribute("profesiones", ConProf.findProfesionesEntities());
-                session.setAttribute("listaDePacientes",medico.getPacienteList());
-                out.println(0);
-            }else{
+
+        try {
+            Medico medico = conMed.findMedico(Integer.parseInt(un));
+
+            session.setAttribute("medico", medico);
+            session.setAttribute("docentes", conDoc.findDocenteEntities());
+            session.setAttribute("diagnosticos", new DiagnosticoJpaController().findDiagnosticoEntities());
+            session.setAttribute("tratamientos", new TratamientoJpaController().findTratamientoEntities());
+
+            if (medico != null) {
+                if (medico.getClave().equals(pw)) {
+                    session.setAttribute("logueado", "ok");
+                    DepartamentosJpaController ConDe = new DepartamentosJpaController();
+                    session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
+                    ProfesionesJpaController ConProf = new ProfesionesJpaController();
+                    session.setAttribute("profesiones", ConProf.findProfesionesEntities());
+                    session.setAttribute("listaDePacientes", medico.getPacienteList());
+                    out.println(0);
+                } else {
+                    out.println(1);
+                }
+            } else {
                 out.println(1);
             }
-        }else{
-        out.println(1);
-        }
-       }catch(Exception e){
-       out.println(1);
-       }
-       finally {            
+        } catch (Exception e) {
+            out.println(1);
+        } finally {
             out.close();
         }
     }

@@ -6,6 +6,8 @@ package controller;
 
 import entity.*;
 import entity.controller.*;
+import entity.controller.exceptions.IllegalOrphanException;
+import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -318,22 +320,106 @@ public class formController extends HttpServlet {
 
             }
 
+            if (request.getParameter("action").equals("agregarDiagnostico")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+
+                String diagnostico = (String) request.getParameter("diagnostico");
+                String codigo = (String) request.getParameter("codigo");
+                Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
+                List<Diagnostico> listD = con.getDiagnosticoList();
+                listD.add(dia);
+                con.setDiagnosticoList(listD);
+                try {
+                    new ConsultaJpaController().edit(con);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+
+
+
+            }
+
+
+            if (request.getParameter("action").equals("agregarEvolucion")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+
+                String reciboE = (String) request.getParameter("reciboE");
+                String tratamientoE = (String) request.getParameter("tratamientoE");
+                String codigoTratE = (String) request.getParameter("codigoTratE");
+                
+                Tratamiento t = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigoTratE));
+                
+                SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                String fechaE = (String) request.getParameter("fechaE");
+                Date fecha = null;
+                try {
+
+                    fecha = formatoDelTexto.parse(fechaE);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+                
+                Evolucion ev = new Evolucion();
+                ev.setFecha(fecha);
+                ev.setReciboPago(reciboE);
+                ev.setTratamientoIdtratamiento(t);
+                new EvolucionJpaController().create(ev);
+                
+                
+            }
+
+
+
+            if (request.getParameter("action").equals("agregarTratamiento")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+
+                String codigoTrat = (String) request.getParameter("codigoTrat");
+                String tratamiento = (String) request.getParameter("tratamiento");
+                String presupuestoT = (String) request.getParameter("presupuestoT");
+                Tratamiento tra = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigoTrat));
+                List<Tratamiento> listT = con.getTratamientoList();
+                listT.add(tra);
+                con.setTratamientoList(listT);
+                try {
+                    new ConsultaJpaController().edit(con);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+
+
             if (request.getParameter("action").equals("guardarDatosBasicos2")) {
                 HttpSession sesion = request.getSession();
                 Consulta con = (Consulta) sesion.getAttribute("consulta");
-                Examenfisicoestomatologico ex= new Examenfisicoestomatologico();
+                Examenfisicoestomatologico ex = new Examenfisicoestomatologico();
                 ExamenfisicoestomatologicoJpaController conEx = new ExamenfisicoestomatologicoJpaController();
-                String temperatura = (String)request.getParameter("temperatura");
-                String pulso = (String)request.getParameter("pulso");
-                String tension = (String)request.getParameter("tension");
-                String higiene = (String)request.getParameter("higiene");
-                String usoSeda = (String)request.getParameter("usoSeda");
-                String cepillo = (String)request.getParameter("cepillo");
-                String veces = (String)request.getParameter("veces");
-                String enjuages1 = (String)request.getParameter("enjuages1");
-                String enjuages2 = (String)request.getParameter("enjuages2");
-                String habitosYvicios = (String)request.getParameter("habitosYvicios");
-                
+                String temperatura = (String) request.getParameter("temperatura");
+                String pulso = (String) request.getParameter("pulso");
+                String tension = (String) request.getParameter("tension");
+                String higiene = (String) request.getParameter("higiene");
+                String usoSeda = (String) request.getParameter("usoSeda");
+                String cepillo = (String) request.getParameter("cepillo");
+                String veces = (String) request.getParameter("veces");
+                String enjuages1 = (String) request.getParameter("enjuages1");
+                String enjuages2 = (String) request.getParameter("enjuages2");
+                String habitosYvicios = (String) request.getParameter("habitosYvicios");
+
                 ex.setTemperatura(temperatura);
                 ex.setPulso(pulso);
                 ex.setTensionArterial(tension);
@@ -346,8 +432,8 @@ public class formController extends HttpServlet {
                 ex.setHabitosYvicios(habitosYvicios);
                 ex.setDatosConsultaiddatosConsulta(con);
                 conEx.create(ex);
-                
-                
+
+
             }
 
 
