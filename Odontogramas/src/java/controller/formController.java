@@ -164,11 +164,11 @@ public class formController extends HttpServlet {
 
 
             }
-            
+
             if (request.getParameter("action").equals("editarDatosPer")) {
                 HttpSession sesion = request.getSession();
-                Paciente pa = (Paciente)sesion.getAttribute("paciente");
-                
+                Paciente pa = (Paciente) sesion.getAttribute("paciente");
+
                 PacienteJpaController conPa = new PacienteJpaController();
                 pa.setNombre((String) request.getParameter("nombre"));
                 pa.setDireccion((String) request.getParameter("direccion"));
@@ -212,7 +212,7 @@ public class formController extends HttpServlet {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             if (request.getParameter("action").equals("registrarM")) {
                 String idPersona = request.getParameter("cedula");
                 String nombre = request.getParameter("nombre");
@@ -251,33 +251,106 @@ public class formController extends HttpServlet {
 
 
             }
-            
-            
+
+
             if (request.getParameter("action").equals("listaConsultas")) {
-                
-                
+                String idPersona = request.getParameter("id");
+
                 HttpSession sesion = request.getSession();
-                Paciente pa = (Paciente) session.getAttribute("paciente");
+                Paciente pa = new PacienteJpaController().findPaciente(idPersona);
+                sesion.setAttribute("paciente", pa);
 
                 sesion.setAttribute("listaDeConsulta", pa.getConsultaList());
-                
+
             }
             if (request.getParameter("action").equals("nuevaConsulta")) {
                 HttpSession sesion = request.getSession();
                 DatosbasicosJpaController daCon = new DatosbasicosJpaController();
                 Paciente pa = (Paciente) session.getAttribute("paciente");
                 sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
-                
+
             }
+
+
             if (request.getParameter("action").equals("guardarDatosBasicos")) {
                 HttpSession sesion = request.getSession();
-                Datosbasicos db = (Datosbasicos) sesion.getAttribute("datosBasicos");
+                List<Datosbasicos> Listdb = (List<Datosbasicos>) sesion.getAttribute("datosBasicos");
                 DatosbasicosJpaController daCon = new DatosbasicosJpaController();
                 Paciente pa = (Paciente) session.getAttribute("paciente");
+                String iddoc = (String) request.getParameter("docente");
+                Docente doc = new DocenteJpaController().findDocente(Integer.parseInt(iddoc));
+                Medico me = (Medico) session.getAttribute("medico");
                 sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
+                String motivo = (String) request.getParameter("motivo");
+                String historia = (String) request.getParameter("historia");
+                String observaciones = (String) request.getParameter("observaciones");
+                String otros = (String) request.getParameter("otros");
+                String ultima = (String) request.getParameter("ultima");
+                SimpleDateFormat formatoDelTexto2 = new SimpleDateFormat("yyyy-MM-dd");
+                Date ultimaD = null;
+                try {
+
+                    ultimaD = formatoDelTexto2.parse(ultima);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+
+
+                String motivo2 = (String) request.getParameter("motivo2");
+
+                Consulta con = new Consulta();
+                ConsultaJpaController conCon = new ConsultaJpaController();
+                con.setMotivoConsulta(motivo);
+                con.setPacienteIdpersona(pa);
+                con.setObservaciones(observaciones);
+                con.setHistoriaActualEnfermedad(historia);
+                con.setMotivo(motivo2);
+                con.setOtros(otros);
+                con.setUltimaVisitaOdon(ultimaD);
+                con.setMedicoIdmedico(me);
+                con.setDocenteIddocente(doc);
+                conCon.create(con);
+
+                session.setAttribute("consulta", con);
+
+            }
+
+            if (request.getParameter("action").equals("guardarDatosBasicos2")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                Examenfisicoestomatologico ex= new Examenfisicoestomatologico();
+                ExamenfisicoestomatologicoJpaController conEx = new ExamenfisicoestomatologicoJpaController();
+                String temperatura = (String)request.getParameter("temperatura");
+                String pulso = (String)request.getParameter("pulso");
+                String tension = (String)request.getParameter("tension");
+                String higiene = (String)request.getParameter("higiene");
+                String usoSeda = (String)request.getParameter("usoSeda");
+                String cepillo = (String)request.getParameter("cepillo");
+                String veces = (String)request.getParameter("veces");
+                String enjuages1 = (String)request.getParameter("enjuages1");
+                String enjuages2 = (String)request.getParameter("enjuages2");
+                String habitosYvicios = (String)request.getParameter("habitosYvicios");
+                
+                ex.setTemperatura(temperatura);
+                ex.setPulso(pulso);
+                ex.setTensionArterial(tension);
+                ex.setHigieneOral(higiene);
+                ex.setSedaDental(usoSeda);
+                ex.setCepilloDentalUso(cepillo);
+                ex.setVecesAlDia(veces);
+                ex.setEnjuagesBsinFluor(enjuages1);
+                ex.setEnjuagesBconFluor(enjuages2);
+                ex.setHabitosYvicios(habitosYvicios);
+                ex.setDatosConsultaiddatosConsulta(con);
+                conEx.create(ex);
+                
                 
             }
-            
+
+
 
 
         } finally {

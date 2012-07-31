@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
+import conexion.jpaConnection;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -17,16 +17,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
 public class ExamenfisicoestomatologicoJpaController implements Serializable {
 
-    public ExamenfisicoestomatologicoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ExamenfisicoestomatologicoJpaController() {
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Examenfisicoestomatologico examenfisicoestomatologico) {
@@ -161,5 +158,4 @@ public class ExamenfisicoestomatologicoJpaController implements Serializable {
             em.close();
         }
     }
-
 }

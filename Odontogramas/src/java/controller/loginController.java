@@ -6,6 +6,7 @@ package controller;
 
 import entity.Medico;
 import entity.controller.DepartamentosJpaController;
+import entity.controller.DocenteJpaController;
 import entity.controller.MedicoJpaController;
 import entity.controller.ProfesionesJpaController;
 import java.io.IOException;
@@ -41,10 +42,13 @@ public class loginController extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         MedicoJpaController conMed = new MedicoJpaController();
+        DocenteJpaController conDoc = new DocenteJpaController();
         
        try { 
         Medico medico = conMed.findMedico(Integer.parseInt(un));
+        
            session.setAttribute("medico", medico);
+           session.setAttribute("docentes", conDoc.findDocenteEntities());
            
         if (medico != null) {
             if (medico.getClave().equals(pw)) {
