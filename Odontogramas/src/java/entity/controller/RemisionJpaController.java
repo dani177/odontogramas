@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -22,13 +23,13 @@ import javax.persistence.EntityManagerFactory;
 
 public class RemisionJpaController implements Serializable {
 
-    public RemisionJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public RemisionJpaController() {
+        
     }
-    private EntityManagerFactory emf = null;
+    
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+    return jpaConnection.getEntityManager();
     }
 
     public void create(Remision remision) throws PreexistingEntityException, Exception {

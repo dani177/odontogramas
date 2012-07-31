@@ -5,6 +5,7 @@
 
 package entity.controller;
 
+import conexion.jpaConnection;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -21,13 +22,13 @@ import javax.persistence.EntityManagerFactory;
 
 public class PlantratamientoJpaController implements Serializable {
 
-    public PlantratamientoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public PlantratamientoJpaController() {
+        
     }
-    private EntityManagerFactory emf = null;
+    
 
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return jpaConnection.getEntityManager();
     }
 
     public void create(Plantratamiento plantratamiento) {

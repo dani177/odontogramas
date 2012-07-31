@@ -274,6 +274,7 @@ public class formController extends HttpServlet {
             }
 
 
+
             if (request.getParameter("action").equals("guardarDatosBasicos")) {
                 HttpSession sesion = request.getSession();
                 List<Datosbasicos> Listdb = (List<Datosbasicos>) sesion.getAttribute("datosBasicos");
@@ -353,9 +354,9 @@ public class formController extends HttpServlet {
                 String reciboE = (String) request.getParameter("reciboE");
                 String tratamientoE = (String) request.getParameter("tratamientoE");
                 String codigoTratE = (String) request.getParameter("codigoTratE");
-                
+
                 Tratamiento t = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigoTratE));
-                
+
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaE = (String) request.getParameter("fechaE");
                 Date fecha = null;
@@ -368,14 +369,14 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
-                
+
                 Evolucion ev = new Evolucion();
                 ev.setFecha(fecha);
                 ev.setReciboPago(reciboE);
                 ev.setTratamientoIdtratamiento(t);
                 new EvolucionJpaController().create(ev);
-                
-                
+
+
             }
 
 
@@ -434,6 +435,62 @@ public class formController extends HttpServlet {
                 conEx.create(ex);
 
 
+            }
+
+
+            if (request.getParameter("action").equals("guardarPron")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                List<Remision> listR = (List<Remision>) sesion.getAttribute("remision");
+                List<Remision> listR2 = new ArrayList<Remision>();
+
+                for (int i = 0; i < listR.size(); i++) {
+                    if (request.getParameter("remision" + i) != null) {
+                        Remision remision = listR.get(i);
+                        listR2.add(remision);
+                    }
+
+
+                }
+
+                List<Interconsulta> listI = (List<Interconsulta>) sesion.getAttribute("interconsulta");
+                List<Interconsulta> listI2 = new ArrayList<Interconsulta>();
+                for (int i = 0; i < listI.size(); i++) {
+                    if (request.getParameter("interconsulta" + i) != null) {
+                        Interconsulta interconsulta = listI.get(i);
+                        listI2.add(interconsulta);
+                    }
+                }
+                List<Plantratamiento> listP = (List<Plantratamiento>) sesion.getAttribute("planTratamiento");
+                List<Plantratamiento> listP2 = new ArrayList<Plantratamiento>();
+
+                for (int i = 0; i < listP.size(); i++) {
+                    if (request.getParameter("plantratamiento" + i) != null) {
+                        Plantratamiento plantratamiento = listP.get(i);
+                        listP2.add(plantratamiento);
+                    }
+                    
+
+                }
+
+
+                String pronostico = (String) request.getParameter("pronostico");
+                con.setPronostico(pronostico);
+                con.setRemisionList(listR2);
+                con.setInterconsultaList(listI2);
+                con.setPlantratamientoList(listP2);
+
+
+
+                try {
+                    new ConsultaJpaController().edit(con);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
 

@@ -4,6 +4,9 @@
    
         $('.ultima').datepicker();        
         $('.fecha').datepicker();        
+        
+        
+        
         $("#agregarEvol").click(function(){
             $.ajax({
                 type: 'POST', 
@@ -99,6 +102,21 @@
                     }); //fin $.ajax    
                 }
             });    
+            
+            $("#formPron").validate({
+                submitHandler: function(){
+                    $.ajax({
+                        type: 'POST', 
+                        url: "<%=request.getContextPath()%>/formController?action=guardarPron",
+                        data: $("#formPron").serialize(),
+                        success: function(){
+                            // $("a[href='#otro']").click();
+                        } //fin success
+                    }); //fin $.ajax    
+                }
+            });    
+            
+            
             
             $("#datos3").validate({
                 submitHandler: function(){
@@ -593,7 +611,7 @@
                                     <td><input type="text" name="fechaE" id="fechaE" class="input-medium fecha" data-datepicker="datepicker"></td>
                                     <td><input type="text" name="reciboE" id="reciboE" class="input-medium"></td>
                                     <td><textarea rows="3" class="input-xlarge textareaTratamiento" name="tratamientoE" id="tratamientoE"></textarea></td>
-                                     <td><input type="text" name="codigoTratE" id="codigoTratE" class="input-medium"></td>
+                                    <td><input type="text" name="codigoTratE" id="codigoTratE" class="input-medium"></td>
                                 </tr>    
                             </tbody>
                         </table>
@@ -602,141 +620,71 @@
 
                     </fieldset>
                 </form>
-                
+                <form method="post" id="formPron">
                     <fieldset>
                         <legend>Pronostico</legend>    
                         <div class="control-group">
                             <label class="control-label">Pronostico</label>
                             <div class="controls">
                                 <label class="radio inline">
-                                    <input type="radio" value="option1" name="pronostico" >
+                                    <input type="radio" value="Bueno" name="pronostico" class="{required:true}" >
                                     Bueno
                                 </label>
                                 <label class="radio inline">
-                                    <input type="radio" value="option2" name="pronostico" >
+                                    <input type="radio" value="Regular" name="pronostico" >
                                     Regular
                                 </label>
                                 <label class="radio inline">
-                                    <input type="radio" value="option2" name="pronostico" >
+                                    <input type="radio" value="Malo" name="pronostico" >
                                     Malo
                                 </label>
                             </div>
                         </div>
 
+
+
+                        <br> 
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Plan de tratamiento</legend>  
+                                    <c:forEach items="${planTratamiento}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                        <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
+                                    </label>
+                                    </c:forEach>
+                                    
+                                </fieldset> 
+                            </div>
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Remision</legend>  
+                                    <c:forEach items="${remision}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                        <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
+                                    </label>
+                                    </c:forEach>
+                                </fieldset> 
+                            </div>
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Interconsulta</legend>  
+                                    <c:forEach items="${interconsulta}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                        <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
+                                    </label>
+                                    </c:forEach>
+                                </fieldset> 
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                            <button class="btn" type="reset">Cancelar</button>
+                        </div>
                     </fieldset>
+                </form>
 
-                    <br> 
-
-                    <div class="span3">
-                        <fieldset>
-                            <legend>Plan de tratamiento</legend>  
-                            <label class="checkbox">
-                                <input type="checkbox" value="Semiologia" name="tratamiento1"> Semiologia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Promocion y Prevencion" name="tratamiento2"> Promocion y Prevencion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Operatoria" name="tratamiento3"> Operatoria
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Endodoncia" name="tratamiento4"> Endodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Periodoncia" name="tratamiento5"> Periodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Cirujia" name="tratamiento6"> Cirugia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Odontopedriatia" name="tratamiento7"> Odontopedriatia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Rehabilitacion" name="tratamiento8"> Rehabilitacion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Ortodoncia" name="tratamiento9"> Ortodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Otros" name="tratamiento10"> Otros
-                            </label>    
-                        </fieldset> 
-                    </div>
-                    <div class="span3">
-                        <fieldset>
-                            <legend>Remision</legend>  
-                            <label class="checkbox">
-                                <input type="checkbox" value="Semiologia" name="tratamiento1"> Semiologia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Promocion y Prevencion" name="tratamiento2"> Promocion y Prevencion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Operatoria" name="tratamiento3"> Operatoria
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Endodoncia" name="tratamiento4"> Endodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Periodoncia" name="tratamiento5"> Periodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Cirujia" name="tratamiento6"> Cirugia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Odontopedriatia" name="tratamiento7"> Odontopedriatia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Rehabilitacion" name="tratamiento8"> Rehabilitacion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Ortodoncia" name="tratamiento9"> Ortodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Otros" name="tratamiento10"> Otros
-                            </label>    
-                        </fieldset> 
-                    </div>
-                    <div class="span3">
-                        <fieldset>
-                            <legend>Interconsulta</legend>  
-                            <label class="checkbox">
-                                <input type="checkbox" value="Semiologia" name="tratamiento1"> Semiologia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Promocion y Prevencion" name="tratamiento2"> Promocion y Prevencion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Operatoria" name="tratamiento3"> Operatoria
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Endodoncia" name="tratamiento4"> Endodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Periodoncia" name="tratamiento5"> Periodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Cirujia" name="tratamiento6"> Cirugia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Odontopedriatia" name="tratamiento7"> Odontopedriatia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Rehabilitacion" name="tratamiento8"> Rehabilitacion
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Ortodoncia" name="tratamiento9"> Ortodoncia
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" value="Otros" name="tratamiento10"> Otros
-                            </label>    
-                        </fieldset> 
-                    </div>
-
-                    <br>
-
-                    <br>
-                    
             </div>
         </div>
     </div>

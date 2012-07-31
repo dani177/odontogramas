@@ -48,6 +48,9 @@ public class loginController extends HttpServlet {
             session.setAttribute("docentes", conDoc.findDocenteEntities());
             session.setAttribute("diagnosticos", new DiagnosticoJpaController().findDiagnosticoEntities());
             session.setAttribute("tratamientos", new TratamientoJpaController().findTratamientoEntities());
+            session.setAttribute("planTratamiento", new PlantratamientoJpaController().findPlantratamientoEntities());
+            session.setAttribute("interconsulta", new InterconsultaJpaController().findInterconsultaEntities());
+            session.setAttribute("remision", new RemisionJpaController().findRemisionEntities());
 
             if (medico != null) {
                 if (medico.getClave().equals(pw)) {
