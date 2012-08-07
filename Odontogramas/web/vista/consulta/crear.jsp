@@ -1,11 +1,23 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src='<%=request.getContextPath()%>/js/jquery.reel-min.js' type='text/javascript'></script>
+<script src='<%=request.getContextPath()%>/js/jquery.disabletextselect-min.js' type='text/javascript'></script>
+<script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
+<script src='<%=request.getContextPath()%>/js/jquery.cookie-min.js' type='text/javascript'></script>
+<script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
+
 <script type="text/javascript">
     $(function(){
    
         $('.ultima').datepicker();        
         $('.fecha').datepicker();        
         
-        
+        $("#tablaOdontograma img").click(function(ev){
+            var nombre = $(this).attr("id");
+            $(".modal-header").html("");
+            $(".modal-header").append("<a data-dismiss='modal' class='close'>×</a>");
+            $(".modal-header").append("<h3>Diente "+nombre.substring(1)+"</h3>");
+            $("#myModalDiente").modal();
+        });
         
         $("#agregarEvol").click(function(){
             $.ajax({
@@ -131,6 +143,31 @@
                 }
             });    
             
+            
+            
+            $.reel.def.indicator= 5;
+
+            $('.sample img[id]').each(function(){
+
+                prepare_reel_sample('#' + $(this).attr('id'));
+                /*
+    This `prepare_reel_sample` essentialy uses each sample's options
+    and passes them to `.reel` call as a parameter when clicked.
+    It also adds some UI interactions like toggling samples, cookie persistence and such.
+    Definitely not needed for running Reel itself. You DON'T want to use it.
+
+    You simply do:
+      $('#my_image').reel({ ..your options.. });
+
+    Just like that.
+                 */
+            });
+
+            /*
+  Cookie persistence of last selected sample. You DON'T want to use this either.
+             */
+            $($.cookie('reel.test.sample') || '.sample:first').click();
+
             
             
         }); //fin function
@@ -368,7 +405,7 @@
 
                         <table>
                             <tbody><tr>
-                                    <td><table border="0">
+                                    <td><table id="tablaOdontograma" border="0">
                                             <!-- Primera fila -->
                                             <tbody><tr>
                                                     <td><img alt="" style="cursor:pointer" src="imagenes/d18.gif" name="18" id="d18"></td>
@@ -650,10 +687,10 @@
                                     <legend>Plan de tratamiento</legend>  
                                     <c:forEach items="${planTratamiento}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                        <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
-                                    </label>
+                                            <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
+                                        </label>
                                     </c:forEach>
-                                    
+
                                 </fieldset> 
                             </div>
                             <div class="span3">
@@ -661,8 +698,8 @@
                                     <legend>Remision</legend>  
                                     <c:forEach items="${remision}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                        <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
-                                    </label>
+                                            <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
+                                        </label>
                                     </c:forEach>
                                 </fieldset> 
                             </div>
@@ -671,8 +708,8 @@
                                     <legend>Interconsulta</legend>  
                                     <c:forEach items="${interconsulta}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                        <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
-                                    </label>
+                                            <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
+                                        </label>
                                     </c:forEach>
                                 </fieldset> 
                             </div>
@@ -689,3 +726,24 @@
         </div>
     </div>
 </div>
+
+<div class="modal hide fade" id="myModalDiente">
+    <div class="modal-header">
+        
+        
+    </div>
+    <div class="modal-body">
+        <div class="sample span6">
+            <img id='phone' src='diente.jpeg' width='200' height='200' />
+        </div>
+        <div class="span6">
+            <h4>Examen clinico</h4>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button">Guardar</button>
+    </div>
+
+</div>
+
+
