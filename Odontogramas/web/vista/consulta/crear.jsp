@@ -4,20 +4,22 @@
 <script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.cookie-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
-
+<style type="text/css">
+    .diente{
+        cursor: pointer;
+    }
+</style>
 <script type="text/javascript">
     $(function(){
    
         $('.ultima').datepicker();        
         $('.fecha').datepicker();        
         
-        $("#tablaOdontograma img").click(function(ev){
-            var nombre = $(this).attr("id");
-            $(".modal-header").html("");
-            $(".modal-header").append("<a data-dismiss='modal' class='close'>×</a>");
-            $(".modal-header").append("<h3>Diente "+nombre.substring(1)+"</h3>");
-            $("#myModalDiente").modal();
+        $(".diente").click(function(ev){
+            alert("click");
         });
+        
+        
         
         $("#agregarEvol").click(function(){
             $.ajax({
@@ -402,176 +404,122 @@
                 <form class="form-horizontal" id="odo" method="post">
                     <fieldset>
                         <legend>Odontograma</legend>
-
-                        <table>
-                            <tbody><tr>
-                                    <td><table id="tablaOdontograma" border="0">
-                                            <!-- Primera fila -->
-                                            <tbody><tr>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d18.gif" name="18" id="d18"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d17.gif" name="17" id="d17"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d16.gif" name="16" id="d16"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d15.gif" name="15" id="d15"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d14.gif" name="14" id="d14"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d13.gif" name="13" id="d13"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d12.gif" name="12" id="d12"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d11.gif" name="11" id="d11"></td>
-                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d21.gif" name="21" id="d21"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d22.gif" name="22" id="d22"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d23.gif" name="23" id="d23"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d24.gif" name="24" id="d24"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d25.gif" name="25" id="d25"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d26.gif" name="26" id="d26"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d27.gif" name="27" id="d27"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d28.gif" name="28" id="d28"></td>
-                                                </tr>
-                                                <!-- Segunda fila -->
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d55.gif" name="55" id="d55"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d54.gif" name="54" id="d54"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d53.gif" name="53" id="d53"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d52.gif" name="52" id="d52"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d51.gif" name="51" id="d51"></td>
-                                                    <td><b><b><b><b><b><b></b></b></b></b></b></b></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d61.gif" name="61" id="d61"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d62.gif" name="62" id="d62"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d63.gif" name="63" id="d63"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d64.gif" name="64" id="d64"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d65.gif" name="65" id="d65"></td>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                </tr>
-                                                <!-- Tercera fila -->
-                                                <tr>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d85.gif" name="85" id="d85"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d84.gif" name="84" id="d84"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d83.gif" name="83" id="d83"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d82.gif" name="82" id="d82"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d81.gif" name="81" id="d81"></td>
-                                                    <td></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d71.gif" name="71" id="d71"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d72.gif" name="72" id="d72"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d73.gif" name="73" id="d73"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d74.gif" name="74" id="d74"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d75.gif" name="75" id="d75"></td>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                    <td><b></b></td>
-                                                </tr>
-                                                <!-- Cuarta fila -->
-                                                <tr>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d48.gif" name="48" id="d48"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d47.gif" name="47" id="d47"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d46.gif" name="46" id="d46"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d45.gif" name="45" id="d45"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d44.gif" name="44" id="d44"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d43.gif" name="43" id="d432"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d42.gif" name="42" id="d42"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d41.gif" name="41" id="d41"></td>
-                                                    <td></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d31.gif" name="31" id="d31"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d32.gif" name="32" id="d32"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d33.gif" name="33" id="d33"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d34.gif" name="34" id="d34"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d35.gif" name="35" id="d35"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d36.gif" name="36" id="d36"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d37.gif" name="37" id="d37"></td>
-                                                    <td><img alt="" style="cursor:pointer" src="imagenes/d38.gif" name="38" id="d38"></td>
-                                                </tr>
-                                            </tbody></table>
-                                        <div>
-                                            <table border="0">
-                                                <tbody><tr style="height: 36px;">
-
-                                                        <td style="height: 36px;">
-                                                            <h2>
-                                                                <p id="estadodiente">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-                                                            </h2>
-
-                                                        </td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><table border="0">
-                                                                <tbody><tr>
-                                                                        <td><img alt="" src="imagenes/zonas.gif"></td>
-                                                                        <td><table border="0">
-                                                                                <tbody><tr>
-                                                                                        <td>Elija Zona</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td><table border="0">
-                                                                                                <tbody><tr>
-                                                                                                        <td><select id="zonaeditar" multiple="multiple" size="5" name="zonaeditar">
-                                                                                                                <option selected="selected" value="V">V</option>
-                                                                                                                <option value="M">M</option>
-                                                                                                                <option value="D">D</option>
-                                                                                                                <option value="P">P</option>
-                                                                                                                <option value="L">L</option>
-                                                                                                                <option value="O">O</option>
-                                                                                                                <option value="I">I</option>
-                                                                                                            </select>
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                </tbody></table></td>
-                                                                                    </tr>
-                                                                                </tbody></table></td>
-                                                                        <td><table border="0">
-                                                                                <tbody><tr>
-                                                                                        <td>Convenciones</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td><select id="enfermedadeditar" multiple="multiple" name="enfermedadeditar">
-                                                                                                <option selected="selected" value="1">Cariado</option>
-                                                                                                <option value="2">Obturado almagana</option>
-                                                                                                <option value="3">Obturado resina</option>
-                                                                                                <option value="4">Exodoncia realizada</option>
-                                                                                                <option value="5">Exodoncia simple indicada</option>
-                                                                                                <option value="6">Exodoncia quirurgica ind</option>
-                                                                                                <option value="7">Sin eruocionar</option>
-                                                                                                <option value="8">Endodoncia realizada</option>
-                                                                                                <option value="9">Endo indicada</option>
-                                                                                                <option value="10">Sellante presente</option>
-                                                                                                <option value="11">Sellante indicado</option>
-                                                                                                <option value="12">Erosion o abrasion</option>
-                                                                                                <option value="13">Procedimiento realizado</option>
-                                                                                                <option value="14">Corona buen estado</option>
-                                                                                                <option value="15">Corona mal estado</option>
-                                                                                                <option value="16">Provisional buen estado</option>
-                                                                                                <option value="17">Provisional mal estado</option>
-                                                                                                <option value="18">Nucleo buen estado</option>
-                                                                                                <option value="19">Nucleo mal estado</option>
-                                                                                            </select>
-                                                                                        </td>
-                                                                                        <td><input type="button" value="Agregar" id="agregar">
-                                                                                            <input type="button" value="Eliminar" id="eliminar"></td>
-                                                                                        <td>&nbsp;</td>
-                                                                                    </tr>
-                                                                                </tbody></table></td>
-                                                                    </tr>
-                                                                </tbody></table></td>
-                                                    </tr>
-                                                </tbody></table>
-                                        </div></td>
-                                    <td>
-                                    </td>
-                                </tr>
-                            </tbody></table>
+                        <div class="row">
+                            <div class="span6">   
+                                <svg style="width: 450px; height: 500px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                                <image xlink:href="<%=request.getContextPath()%>/images/diagrama.gif" height="479" width="340" y="20" x="20"/>
 
 
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
+
+
+
+                                <circle class="diente"style="fill:transparent" r="12" cy="222" cx="45"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="192" cx="45"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="162" cx="50"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="134" cx="63"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="109" cx="82"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="89" cx="107"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="75" cx="136"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="67" cx="169"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="67" cx="202"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="74" cx="233"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="87" cx="263"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="107" cx="288"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="131" cx="308"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="159" cx="322"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="189" cx="327"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="220" cx="330"></circle>
+
+
+                                <circle class="diente"style="fill:transparent" r="12" cy="218" cx="105"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="188" cx="105"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="159" cx="117"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="137" cx="140"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="124" cx="170"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="125" cx="203"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="138" cx="233"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="160" cx="256"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="190" cx="266"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="221" cx="268"></circle>
+
+                                <circle class="diente"style="fill:transparent" r="12" cy="295" cx="45"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="326" cx="46"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="357" cx="52"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="385" cx="65"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="409" cx="84"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="428" cx="110"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="442" cx="138"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="448" cx="171"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="448" cx="204"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="441" cx="236"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="428" cx="266"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="408" cx="290"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="384" cx="310"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="356" cx="323"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="326" cx="328"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="294" cx="328"></circle>
+
+
+                                <circle class="diente"style="fill:transparent" r="12" cy="296" cx="105"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="328" cx="106"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="356" cx="117"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="378" cx="140"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="391" cx="170"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="392" cx="203"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="380" cx="233"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="358" cx="255"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="329" cx="267"></circle>
+                                <circle class="diente"style="fill:transparent" r="12" cy="297" cx="269"></circle>
+
+                                </svg>
+                            </div>
+                            <div class="span6">
+                                <div class="row">
+                                    <div class="span6">
+                                        <h3>Elija Zona</h3>
+                                        <select id="zonaeditar" multiple="multiple" size="5" name="zonaeditar">
+                                            <option selected="selected" value="V">V</option>
+                                            <option value="M">M</option>
+                                            <option value="D">D</option>
+                                            <option value="P">P</option>
+                                            <option value="L">L</option>
+                                            <option value="O">O</option>
+                                            <option value="I">I</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="span6"> 
+                                         <h3>Elija Enfermedad</h3>
+                                        <select id="enfermedadeditar" multiple="multiple" name="enfermedadeditar">
+                                            <option selected="selected" value="1">Cariado</option>
+                                            <option value="2">Obturado almagana</option>
+                                            <option value="3">Obturado resina</option>
+                                            <option value="4">Exodoncia realizada</option>
+                                            <option value="5">Exodoncia simple indicada</option>
+                                            <option value="6">Exodoncia quirurgica ind</option>
+                                            <option value="7">Sin eruocionar</option>
+                                            <option value="8">Endodoncia realizada</option>
+                                            <option value="9">Endo indicada</option>
+                                            <option value="10">Sellante presente</option>
+                                            <option value="11">Sellante indicado</option>
+                                            <option value="12">Erosion o abrasion</option>
+                                            <option value="13">Procedimiento realizado</option>
+                                            <option value="14">Corona buen estado</option>
+                                            <option value="15">Corona mal estado</option>
+                                            <option value="16">Provisional buen estado</option>
+                                            <option value="17">Provisional mal estado</option>
+                                            <option value="18">Nucleo buen estado</option>
+                                            <option value="19">Nucleo mal estado</option>
+                                        </select>  
+                                    </div>    
+                                </div>
+                                <div class="row">
+                                    <div class="form-actions">
+                                        <button class="btn btn-primary" type="submit">Agregar</button>
+                                        <button class="btn" type="reset">Eliminar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </fieldset>
                 </form>
@@ -729,8 +677,8 @@
 
 <div class="modal hide fade" id="myModalDiente">
     <div class="modal-header">
-        
-        
+
+
     </div>
     <div class="modal-body">
         <div class="sample span6">
