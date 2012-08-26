@@ -16,9 +16,15 @@
         $('.fecha').datepicker();        
         
         $(".diente").click(function(ev){
-            alert("click");
+            if($("#derecha").css("display")=="none"){
+                $("#derecha").show();
+            }
+            $("#dienteSeleccionado").text("Diente "+ $(this).attr("id"));
         });
         
+        $(".parte").click(function(ev){
+            alert($(this).attr("id"));
+        });
         
         
         $("#agregarEvol").click(function(){
@@ -413,73 +419,92 @@
 
 
 
-                                <circle class="diente"style="fill:transparent" r="12" cy="222" cx="45"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="192" cx="45"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="162" cx="50"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="134" cx="63"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="109" cx="82"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="89" cx="107"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="75" cx="136"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="67" cx="169"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="67" cx="202"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="74" cx="233"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="87" cx="263"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="107" cx="288"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="131" cx="308"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="159" cx="322"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="189" cx="327"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="220" cx="330"></circle>
+                                <circle class="diente" id="1" style="fill:transparent" r="12" cy="222" cx="45"></circle>
+                                <circle class="diente" id="2" style="fill:transparent" r="12" cy="192" cx="45"></circle>
+                                <circle class="diente" id="3" style="fill:transparent" r="12" cy="162" cx="50"></circle>
+                                <circle class="diente" id="4" style="fill:transparent" r="12" cy="134" cx="63"></circle>
+                                <circle class="diente" id="5" style="fill:transparent" r="12" cy="109" cx="82"></circle>
+                                <circle class="diente" id="6" style="fill:transparent" r="12" cy="89" cx="107"></circle>
+                                <circle class="diente" id="7" style="fill:transparent" r="12" cy="75" cx="136"></circle>
+                                <circle class="diente" id="8" style="fill:transparent" r="12" cy="67" cx="169"></circle>
+                                <circle class="diente" id="9" style="fill:transparent" r="12" cy="67" cx="202"></circle>
+                                <circle class="diente" id="10" style="fill:transparent" r="12" cy="74" cx="233"></circle>
+                                <circle class="diente" id="11" style="fill:transparent" r="12" cy="87" cx="263"></circle>
+                                <circle class="diente" id="12" style="fill:transparent" r="12" cy="107" cx="288"></circle>
+                                <circle class="diente" id="13" style="fill:transparent" r="12" cy="131" cx="308"></circle>
+                                <circle class="diente" id="14" style="fill:transparent" r="12" cy="159" cx="322"></circle>
+                                <circle class="diente" id="15" style="fill:transparent" r="12" cy="189" cx="327"></circle>
+                                <circle class="diente" id="16" style="fill:transparent" r="12" cy="220" cx="330"></circle>
 
 
-                                <circle class="diente"style="fill:transparent" r="12" cy="218" cx="105"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="188" cx="105"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="159" cx="117"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="137" cx="140"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="124" cx="170"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="125" cx="203"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="138" cx="233"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="160" cx="256"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="190" cx="266"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="221" cx="268"></circle>
+                                <circle class="diente" id="A" style="fill:transparent" r="12" cy="218" cx="105"></circle>
+                                <circle class="diente" id="B" style="fill:transparent" r="12" cy="188" cx="105"></circle>
+                                <circle class="diente" id="C" style="fill:transparent" r="12" cy="159" cx="117"></circle>
+                                <circle class="diente" id="D" style="fill:transparent" r="12" cy="137" cx="140"></circle>
+                                <circle class="diente" id="E" style="fill:transparent" r="12" cy="124" cx="170"></circle>
+                                <circle class="diente" id="F" style="fill:transparent" r="12" cy="125" cx="203"></circle>
+                                <circle class="diente" id="G" style="fill:transparent" r="12" cy="138" cx="233"></circle>
+                                <circle class="diente" id="H" style="fill:transparent" r="12" cy="160" cx="256"></circle>
+                                <circle class="diente" id="I" style="fill:transparent" r="12" cy="190" cx="266"></circle>
+                                <circle class="diente" id="J" style="fill:transparent" r="12" cy="221" cx="268"></circle>
 
-                                <circle class="diente"style="fill:transparent" r="12" cy="295" cx="45"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="326" cx="46"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="357" cx="52"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="385" cx="65"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="409" cx="84"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="428" cx="110"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="442" cx="138"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="448" cx="171"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="448" cx="204"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="441" cx="236"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="428" cx="266"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="408" cx="290"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="384" cx="310"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="356" cx="323"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="326" cx="328"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="294" cx="328"></circle>
+                                <circle class="diente" id="32" style="fill:transparent" r="12" cy="295" cx="45"></circle>
+                                <circle class="diente" id="31" style="fill:transparent" r="12" cy="326" cx="46"></circle>
+                                <circle class="diente" id="30" style="fill:transparent" r="12" cy="357" cx="52"></circle>
+                                <circle class="diente" id="29" style="fill:transparent" r="12" cy="385" cx="65"></circle>
+                                <circle class="diente" id="28" style="fill:transparent" r="12" cy="409" cx="84"></circle>
+                                <circle class="diente" id="27" style="fill:transparent" r="12" cy="428" cx="110"></circle>
+                                <circle class="diente" id="26" style="fill:transparent" r="12" cy="442" cx="138"></circle>
+                                <circle class="diente" id="25" style="fill:transparent" r="12" cy="448" cx="171"></circle>
+                                <circle class="diente" id="24" style="fill:transparent" r="12" cy="448" cx="204"></circle>
+                                <circle class="diente" id="23" style="fill:transparent" r="12" cy="441" cx="236"></circle>
+                                <circle class="diente" id="22" style="fill:transparent" r="12" cy="428" cx="266"></circle>
+                                <circle class="diente" id="21" style="fill:transparent" r="12" cy="408" cx="290"></circle>
+                                <circle class="diente" id="20" style="fill:transparent" r="12" cy="384" cx="310"></circle>
+                                <circle class="diente" id="19" style="fill:transparent" r="12" cy="356" cx="323"></circle>
+                                <circle class="diente" id="18" style="fill:transparent" r="12" cy="326" cx="328"></circle>
+                                <circle class="diente" id="17" style="fill:transparent" r="12" cy="294" cx="328"></circle>
 
 
-                                <circle class="diente"style="fill:transparent" r="12" cy="296" cx="105"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="328" cx="106"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="356" cx="117"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="378" cx="140"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="391" cx="170"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="392" cx="203"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="380" cx="233"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="358" cx="255"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="329" cx="267"></circle>
-                                <circle class="diente"style="fill:transparent" r="12" cy="297" cx="269"></circle>
+                                <circle class="diente" id="T" style="fill:transparent" r="12" cy="296" cx="105"></circle>
+                                <circle class="diente" id="S" style="fill:transparent" r="12" cy="328" cx="106"></circle>
+                                <circle class="diente" id="R" style="fill:transparent" r="12" cy="356" cx="117"></circle>
+                                <circle class="diente" id="Q" style="fill:transparent" r="12" cy="378" cx="140"></circle>
+                                <circle class="diente" id="P" style="fill:transparent" r="12" cy="391" cx="170"></circle>
+                                <circle class="diente" id="O" style="fill:transparent" r="12" cy="392" cx="203"></circle>
+                                <circle class="diente" id="N" style="fill:transparent" r="12" cy="380" cx="233"></circle>
+                                <circle class="diente" id="M" style="fill:transparent" r="12" cy="358" cx="255"></circle>
+                                <circle class="diente" id="L" style="fill:transparent" r="12" cy="329" cx="267"></circle>
+                                <circle class="diente" id="K" style="fill:transparent" r="12" cy="297" cx="269"></circle>
 
                                 </svg>
                             </div>
-                            <div class="span6">
+                            <div class="span6" id="derecha" style="display: none;">
+                                <div class="row" style="text-align: center;">
+                                    <h3 style="margin-left: -65px;" id="dienteSeleccionado"></h3>
+                                    <svg style="width: 150px; height: 100px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                                    <image xlink:href="<%=request.getContextPath()%>/images/diente.png" height="84" width="86" y="0" x="0"/> 
+
+                                    <polygon class="parte" id="arriba" points="10,6,70,6,55,25,30,25" 
+                                             style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" />
+                                    <polygon class="parte" id="izq" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="5,13,24,32,24,57,5,80"/>
+
+                                    <polygon class="parte" id="abajo" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="10,80,30,60,57,60,70,80"/>
+
+                                    <polygon class="parte" id="der" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="82,2,60,35,60,50,78,85"/>
+                                    
+                                    <circle class="parte" id="centro" style="fill:transparent" r="11" cy="43" cx="42"></circle>
+
+                                    </svg>
+                                </div>
                                 <div class="row">
                                     <div class="span6">
                                         <h3>Elija Zona</h3>
-                                        <select id="zonaeditar" multiple="multiple" size="5" name="zonaeditar">
-                                            <option selected="selected" value="V">V</option>
-                                            <option value="M">M</option>
+                                        <select id="zonaeditar" multiple="multiple" size="9" name="zonaeditar">
+                                            <option selected="selected" value=""></option>
+                                            <option value="V">V</option>
+                                            <option value="M">M</option>0"></option>
+                                            <option value="V">V</option>
                                             <option value="D">D</option>
                                             <option value="P">P</option>
                                             <option value="L">L</option>
@@ -487,11 +512,12 @@
                                             <option value="I">I</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="span6"> 
-                                         <h3>Elija Enfermedad</h3>
-                                        <select id="enfermedadeditar" multiple="multiple" name="enfermedadeditar">
-                                            <option selected="selected" value="1">Cariado</option>
+                                        <h3>Elija Enfermedad</h3>
+                                        <select id="enfermedadeditar" multiple="multiple" size="9" name="enfermedadeditar">
+                                            <option selected="selected" value=""></option>
+                                            <option value="1">Cariado</option>
                                             <option value="2">Obturado almagana</option>
                                             <option value="3">Obturado resina</option>
                                             <option value="4">Exodoncia realizada</option>
