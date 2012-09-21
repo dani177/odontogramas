@@ -4,6 +4,8 @@
 <script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.cookie-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
+<script src='<%=request.getContextPath()%>/js/bootstrap-tagmanager.js' type='text/javascript'></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
 <style type="text/css">
     .diente{
         cursor: pointer;
@@ -95,9 +97,19 @@
             miArray2[${iter2.index}] = "${item2.getTratamiento()}";
     </c:forEach> 
         
-            $(".textareaTratamiento").typeahead({
-                source:miArray2 
+            $(".tagManager").tagsManager({
+                prefilled: null,
+                CapitalizeFirstLetter: false,
+                preventSubmitOnEnter: true,
+                typeahead: true,
+                typeaheadAjaxSource: null,
+                typeaheadSource: miArray2,
+                delimeters: [44, 188, 13],
+                backspace: [8],
+                blinkBGColor_1: '#FFFF9C',
+                blinkBGColor_2: '#CDE69C'
             });
+            
             
         
             var miArray = new Array(${diagnosticos.size()});
@@ -492,7 +504,7 @@
                                     <polygon class="parte" id="abajo" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="10,80,30,60,57,60,70,80"/>
 
                                     <polygon class="parte" id="der" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="82,2,60,35,60,50,78,85"/>
-                                    
+
                                     <circle class="parte" id="centro" style="fill:transparent" r="11" cy="43" cx="42"></circle>
 
                                     </svg>
@@ -559,7 +571,7 @@
                     <fieldset>
                         <legend>Diagnosticos</legend>
 
-                        <table class="table table-striped table-bordered table-condensed" id="tablaDiag" >
+                        <!--<table class="table table-striped table-bordered table-condensed" id="tablaDiag" >
                             <thead>
                                 <tr>
                                     <th>Diagnosticos</th>
@@ -572,9 +584,12 @@
                                     <td> <input type="text" id="inputCodigoDiag" name="codigo" class="input-medium"></td>
                                 </tr>    
                             </tbody>
-                        </table>
+                        </table>-->
+                       <div class="span12">
+                            <input type="text" name="tags" autocomplete="off" placeholder="tags" class="tagManager"/>
+                       </div>
 
-                        <button class="btn" type="button" id="agregarDiag">Agregar Diagnostico</button>
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag">Guardar Diagnosticos</button>
                     </fieldset>        
                 </form>
                 <br> 
