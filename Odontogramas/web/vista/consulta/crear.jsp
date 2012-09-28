@@ -585,9 +585,9 @@
                                 </tr>    
                             </tbody>
                         </table>-->
-                       <div class="span12">
-                            <input type="text" name="tags" autocomplete="off" placeholder="tags" class="tagManager"/>
-                       </div>
+                        <div class="span12">
+                            <input type="text" name="tags" autocomplete="off" placeholder="Diagnostico" class="tagManager"/>
+                        </div>
 
                         <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag">Guardar Diagnosticos</button>
                     </fieldset>        

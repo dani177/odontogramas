@@ -196,7 +196,15 @@
 
       if (alreadyInList) {
          var pTagId = tlid[p];
-         jQuery("#myTag_" + pTagId).stop().animate({ backgroundColor: tagManagerOptions.blinkBGColor_1 }, 100).animate({ backgroundColor: tagManagerOptions.blinkBGColor_2 }, 100).animate({ backgroundColor: tagManagerOptions.blinkBGColor_1 }, 100).animate({ backgroundColor: tagManagerOptions.blinkBGColor_2 }, 100).animate({ backgroundColor: tagManagerOptions.blinkBGColor_1 }, 100).animate({ backgroundColor: tagManagerOptions.blinkBGColor_2 }, 100);
+         jQuery("#myTag_" + pTagId).stop()
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_1}, 100)
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_2}, 100)
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_1}, 100)
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_2}, 100)
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_1}, 100)
+         .animate({backgroundColor: tagManagerOptions.blinkBGColor_2}, 100);
+         
+         
       } else {
          var TagId = lastTagId++;
          tlis.push(tag);
@@ -219,7 +227,10 @@
          obj.refreshHiddenTagList(obj);
 
       }
-      obj.val("");
+      setTimeout(function(){
+          obj.val("");
+      }, 200);
+      
 
    };
 
