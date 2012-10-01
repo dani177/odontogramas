@@ -4,8 +4,6 @@
 <script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.cookie-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
-<script src='<%=request.getContextPath()%>/js/bootstrap-tagmanager.js' type='text/javascript'></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
 <style type="text/css">
     .diente{
         cursor: pointer;
@@ -56,12 +54,6 @@
                 url: "<%=request.getContextPath()%>/formController?action=agregarDiagnostico",
                 data: $("#formDiag").serialize(),
                 success: function(){
-                    $("#tablaDiag").prepend("<tr>"
-                        +"<td>"+$(".textareaDiagnostico").val()+"</td>"
-                        +"<td>"+$("#inputCodigoDiag").val()+"</td>"
-                        +"</tr>  ");
-                    $(".textareaDiagnostico").val("");
-                    $("#inputCodigoDiag").val("");
                     
                 } //fin success
             }); //fin $.ajax    
@@ -97,29 +89,23 @@
             miArray2[${iter2.index}] = "${item2.getTratamiento()}";
     </c:forEach> 
         
+            var miArray = new Array(${diagnosticos.size()});
+        
+    <c:forEach items="${diagnosticos}" var="item" varStatus="iter">
+            miArray[${iter.index}] = "${item.getDiagnostico()} - ${item.getCodigo()}";
+    </c:forEach> 
+        
             $(".tagManager").tagsManager({
                 prefilled: null,
                 CapitalizeFirstLetter: false,
                 preventSubmitOnEnter: true,
                 typeahead: true,
                 typeaheadAjaxSource: null,
-                typeaheadSource: miArray2,
+                typeaheadSource: miArray,
                 delimeters: [44, 188, 13],
                 backspace: [8],
                 blinkBGColor_1: '#FFFF9C',
                 blinkBGColor_2: '#CDE69C'
-            });
-            
-            
-        
-            var miArray = new Array(${diagnosticos.size()});
-        
-    <c:forEach items="${diagnosticos}" var="item" varStatus="iter">
-            miArray[${iter.index}] = '${item.getDiagnostico()}';
-    </c:forEach> 
-        
-            $(".textareaDiagnostico").typeahead({
-                source:miArray 
             });
             
             $("#datos2").validate({
@@ -188,7 +174,8 @@
              */
             $($.cookie('reel.test.sample') || '.sample:first').click();
 
-            
+            var tlis = $("input:hidden").val();
+            alert("mi valor es :p"+tlis+" :p");
             
         }); //fin function
 </script>
@@ -570,21 +557,6 @@
                 <form class="form-horizontal" method="post" id="formDiag">
                     <fieldset>
                         <legend>Diagnosticos</legend>
-
-                        <!--<table class="table table-striped table-bordered table-condensed" id="tablaDiag" >
-                            <thead>
-                                <tr>
-                                    <th>Diagnosticos</th>
-                                    <th>Codigo</th>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><textarea rows="3" class="input-xxlarge textareaDiagnostico" name="diagnostico"></textarea></td>
-                                    <td> <input type="text" id="inputCodigoDiag" name="codigo" class="input-medium"></td>
-                                </tr>    
-                            </tbody>
-                        </table>-->
                         <div class="span12">
                             <input type="text" name="tags" autocomplete="off" placeholder="Diagnostico" class="tagManager"/>
                         </div>

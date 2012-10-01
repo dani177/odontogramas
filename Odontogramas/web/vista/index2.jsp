@@ -12,7 +12,7 @@
         <!-- Bootstrap Image Gallery styles -->
         <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-        
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
 
         <style type="text/css">
             body {
@@ -161,6 +161,7 @@
            ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
         <script src="assets/js/bootstrap-transition.js"></script>
         <script src="assets/js/bootstrap-alert.js"></script>
         <script src="assets/js/bootstrap-modal.js"></script>
@@ -173,7 +174,7 @@
         <script src="assets/js/jquery.metadata.js"></script>
         <script src="assets/js/jquery.ba-hashchange.js"></script>
         <script src="assets/js/bootstrap-typeahead.js"></script>
-        
+        <script src='<%=request.getContextPath()%>/js/bootstrap-tagmanager.js' type='text/javascript'></script>
         <script type="text/javascript">
             $(function(){
                 
