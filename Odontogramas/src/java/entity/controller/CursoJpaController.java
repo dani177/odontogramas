@@ -25,8 +25,8 @@ import javax.persistence.EntityManagerFactory;
 public class CursoJpaController implements Serializable {
 
     public CursoJpaController() {
-     }
-   public EntityManager getEntityManager() {
+    }
+    public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();
     }
 

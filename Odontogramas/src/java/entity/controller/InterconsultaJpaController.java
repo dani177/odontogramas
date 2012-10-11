@@ -26,7 +26,6 @@ public class InterconsultaJpaController implements Serializable {
     public InterconsultaJpaController() {
         
     }
-    
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();

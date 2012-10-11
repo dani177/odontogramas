@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity.controller;
 
 import conexion.jpaConnection;
@@ -18,12 +19,13 @@ import entity.controller.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+
 public class ConsultaJpaController implements Serializable {
 
     public ConsultaJpaController() {
     }
-    
-public EntityManager getEntityManager() {
+
+    public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();
     }
 
@@ -42,6 +44,9 @@ public EntityManager getEntityManager() {
         }
         if (consulta.getRemisionList() == null) {
             consulta.setRemisionList(new ArrayList<Remision>());
+        }
+        if (consulta.getDatosconsultaHasDatosbasicosList() == null) {
+            consulta.setDatosconsultaHasDatosbasicosList(new ArrayList<DatosconsultaHasDatosbasicos>());
         }
         if (consulta.getDatosconsultaHasDienteList() == null) {
             consulta.setDatosconsultaHasDienteList(new ArrayList<DatosconsultaHasDiente>());
@@ -101,6 +106,12 @@ public EntityManager getEntityManager() {
                 attachedRemisionList.add(remisionListRemisionToAttach);
             }
             consulta.setRemisionList(attachedRemisionList);
+            List<DatosconsultaHasDatosbasicos> attachedDatosconsultaHasDatosbasicosList = new ArrayList<DatosconsultaHasDatosbasicos>();
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicosToAttach : consulta.getDatosconsultaHasDatosbasicosList()) {
+                datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicosToAttach = em.getReference(datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicosToAttach.getClass(), datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicosToAttach.getIdConsultadatosBasicos());
+                attachedDatosconsultaHasDatosbasicosList.add(datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicosToAttach);
+            }
+            consulta.setDatosconsultaHasDatosbasicosList(attachedDatosconsultaHasDatosbasicosList);
             List<DatosconsultaHasDiente> attachedDatosconsultaHasDienteList = new ArrayList<DatosconsultaHasDiente>();
             for (DatosconsultaHasDiente datosconsultaHasDienteListDatosconsultaHasDienteToAttach : consulta.getDatosconsultaHasDienteList()) {
                 datosconsultaHasDienteListDatosconsultaHasDienteToAttach = em.getReference(datosconsultaHasDienteListDatosconsultaHasDienteToAttach.getClass(), datosconsultaHasDienteListDatosconsultaHasDienteToAttach.getDatosconsultaHasDientePK());
@@ -151,6 +162,15 @@ public EntityManager getEntityManager() {
             for (Remision remisionListRemision : consulta.getRemisionList()) {
                 remisionListRemision.getConsultaList().add(consulta);
                 remisionListRemision = em.merge(remisionListRemision);
+            }
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos : consulta.getDatosconsultaHasDatosbasicosList()) {
+                Consulta oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos = datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
+                datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos.setDatosConsultaiddatosConsulta(consulta);
+                datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos = em.merge(datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos);
+                if (oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos != null) {
+                    oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos);
+                    oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos = em.merge(oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListDatosconsultaHasDatosbasicos);
+                }
             }
             for (DatosconsultaHasDiente datosconsultaHasDienteListDatosconsultaHasDiente : consulta.getDatosconsultaHasDienteList()) {
                 Consulta oldConsultaOfDatosconsultaHasDienteListDatosconsultaHasDiente = datosconsultaHasDienteListDatosconsultaHasDiente.getConsulta();
@@ -209,6 +229,8 @@ public EntityManager getEntityManager() {
             List<Interconsulta> interconsultaListNew = consulta.getInterconsultaList();
             List<Remision> remisionListOld = persistentConsulta.getRemisionList();
             List<Remision> remisionListNew = consulta.getRemisionList();
+            List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosListOld = persistentConsulta.getDatosconsultaHasDatosbasicosList();
+            List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosListNew = consulta.getDatosconsultaHasDatosbasicosList();
             List<DatosconsultaHasDiente> datosconsultaHasDienteListOld = persistentConsulta.getDatosconsultaHasDienteList();
             List<DatosconsultaHasDiente> datosconsultaHasDienteListNew = consulta.getDatosconsultaHasDienteList();
             List<Examenfisicoestomatologico> examenfisicoestomatologicoListOld = persistentConsulta.getExamenfisicoestomatologicoList();
@@ -216,6 +238,14 @@ public EntityManager getEntityManager() {
             List<Radiografia> radiografiaListOld = persistentConsulta.getRadiografiaList();
             List<Radiografia> radiografiaListNew = consulta.getRadiografiaList();
             List<String> illegalOrphanMessages = null;
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListOldDatosconsultaHasDatosbasicos : datosconsultaHasDatosbasicosListOld) {
+                if (!datosconsultaHasDatosbasicosListNew.contains(datosconsultaHasDatosbasicosListOldDatosconsultaHasDatosbasicos)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain DatosconsultaHasDatosbasicos " + datosconsultaHasDatosbasicosListOldDatosconsultaHasDatosbasicos + " since its datosConsultaiddatosConsulta field is not nullable.");
+                }
+            }
             for (DatosconsultaHasDiente datosconsultaHasDienteListOldDatosconsultaHasDiente : datosconsultaHasDienteListOld) {
                 if (!datosconsultaHasDienteListNew.contains(datosconsultaHasDienteListOldDatosconsultaHasDiente)) {
                     if (illegalOrphanMessages == null) {
@@ -290,6 +320,13 @@ public EntityManager getEntityManager() {
             }
             remisionListNew = attachedRemisionListNew;
             consulta.setRemisionList(remisionListNew);
+            List<DatosconsultaHasDatosbasicos> attachedDatosconsultaHasDatosbasicosListNew = new ArrayList<DatosconsultaHasDatosbasicos>();
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicosToAttach : datosconsultaHasDatosbasicosListNew) {
+                datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicosToAttach = em.getReference(datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicosToAttach.getClass(), datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicosToAttach.getIdConsultadatosBasicos());
+                attachedDatosconsultaHasDatosbasicosListNew.add(datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicosToAttach);
+            }
+            datosconsultaHasDatosbasicosListNew = attachedDatosconsultaHasDatosbasicosListNew;
+            consulta.setDatosconsultaHasDatosbasicosList(datosconsultaHasDatosbasicosListNew);
             List<DatosconsultaHasDiente> attachedDatosconsultaHasDienteListNew = new ArrayList<DatosconsultaHasDiente>();
             for (DatosconsultaHasDiente datosconsultaHasDienteListNewDatosconsultaHasDienteToAttach : datosconsultaHasDienteListNew) {
                 datosconsultaHasDienteListNewDatosconsultaHasDienteToAttach = em.getReference(datosconsultaHasDienteListNewDatosconsultaHasDienteToAttach.getClass(), datosconsultaHasDienteListNewDatosconsultaHasDienteToAttach.getDatosconsultaHasDientePK());
@@ -396,6 +433,17 @@ public EntityManager getEntityManager() {
                     remisionListNewRemision = em.merge(remisionListNewRemision);
                 }
             }
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos : datosconsultaHasDatosbasicosListNew) {
+                if (!datosconsultaHasDatosbasicosListOld.contains(datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos)) {
+                    Consulta oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos = datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
+                    datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos.setDatosConsultaiddatosConsulta(consulta);
+                    datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos = em.merge(datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos);
+                    if (oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos != null && !oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos.equals(consulta)) {
+                        oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos);
+                        oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos = em.merge(oldDatosConsultaiddatosConsultaOfDatosconsultaHasDatosbasicosListNewDatosconsultaHasDatosbasicos);
+                    }
+                }
+            }
             for (DatosconsultaHasDiente datosconsultaHasDienteListNewDatosconsultaHasDiente : datosconsultaHasDienteListNew) {
                 if (!datosconsultaHasDienteListOld.contains(datosconsultaHasDienteListNewDatosconsultaHasDiente)) {
                     Consulta oldConsultaOfDatosconsultaHasDienteListNewDatosconsultaHasDiente = datosconsultaHasDienteListNewDatosconsultaHasDiente.getConsulta();
@@ -459,6 +507,13 @@ public EntityManager getEntityManager() {
                 throw new NonexistentEntityException("The consulta with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
+            List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosListOrphanCheck = consulta.getDatosconsultaHasDatosbasicosList();
+            for (DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicosListOrphanCheckDatosconsultaHasDatosbasicos : datosconsultaHasDatosbasicosListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Consulta (" + consulta + ") cannot be destroyed since the DatosconsultaHasDatosbasicos " + datosconsultaHasDatosbasicosListOrphanCheckDatosconsultaHasDatosbasicos + " in its datosconsultaHasDatosbasicosList field has a non-nullable datosConsultaiddatosConsulta field.");
+            }
             List<DatosconsultaHasDiente> datosconsultaHasDienteListOrphanCheck = consulta.getDatosconsultaHasDienteList();
             for (DatosconsultaHasDiente datosconsultaHasDienteListOrphanCheckDatosconsultaHasDiente : datosconsultaHasDienteListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -577,4 +632,5 @@ public EntityManager getEntityManager() {
             em.close();
         }
     }
+
 }

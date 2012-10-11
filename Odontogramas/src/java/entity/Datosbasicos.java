@@ -6,8 +6,10 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @Entity
@@ -26,6 +28,8 @@ public class Datosbasicos implements Serializable {
     private Integer iddatosBasicos;
     @Column(name = "nombre")
     private String nombre;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosBasicosiddatosBasicos")
+    private List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosList;
 
     public Datosbasicos() {
     }
@@ -48,6 +52,15 @@ public class Datosbasicos implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @XmlTransient
+    public List<DatosconsultaHasDatosbasicos> getDatosconsultaHasDatosbasicosList() {
+        return datosconsultaHasDatosbasicosList;
+    }
+
+    public void setDatosconsultaHasDatosbasicosList(List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosList) {
+        this.datosconsultaHasDatosbasicosList = datosconsultaHasDatosbasicosList;
     }
 
     @Override

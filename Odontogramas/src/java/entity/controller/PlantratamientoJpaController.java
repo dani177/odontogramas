@@ -25,7 +25,6 @@ public class PlantratamientoJpaController implements Serializable {
     public PlantratamientoJpaController() {
         
     }
-    
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();

@@ -24,7 +24,6 @@ public class EvolucionJpaController implements Serializable {
     public EvolucionJpaController() {
         
     }
-    
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();

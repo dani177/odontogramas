@@ -80,6 +80,8 @@ public class Consulta implements Serializable {
     @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")
     @ManyToOne(optional = false)
     private Paciente pacienteIdpersona;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
+    private List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "consulta")
     private List<DatosconsultaHasDiente> datosconsultaHasDienteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
@@ -233,6 +235,15 @@ public class Consulta implements Serializable {
 
     public void setPacienteIdpersona(Paciente pacienteIdpersona) {
         this.pacienteIdpersona = pacienteIdpersona;
+    }
+
+    @XmlTransient
+    public List<DatosconsultaHasDatosbasicos> getDatosconsultaHasDatosbasicosList() {
+        return datosconsultaHasDatosbasicosList;
+    }
+
+    public void setDatosconsultaHasDatosbasicosList(List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosList) {
+        this.datosconsultaHasDatosbasicosList = datosconsultaHasDatosbasicosList;
     }
 
     @XmlTransient

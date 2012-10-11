@@ -26,7 +26,6 @@ public class RemisionJpaController implements Serializable {
     public RemisionJpaController() {
         
     }
-    
 
     public EntityManager getEntityManager() {
     return jpaConnection.getEntityManager();

@@ -48,11 +48,11 @@
             }); //fin $.ajax    
             
         }) ;
-        $("#agregarDiag").click(function(){
+        $("#guardarDiag").click(function(){
             $.ajax({
                 type: 'POST', 
                 url: "<%=request.getContextPath()%>/formController?action=agregarDiagnostico",
-                data: $("#formDiag").serialize(),
+                data: "diagnosticos="+$("input:hidden").val(),
                 success: function(){
                     
                 } //fin success
@@ -174,8 +174,7 @@
              */
             $($.cookie('reel.test.sample') || '.sample:first').click();
 
-            var tlis = $("input:hidden").val();
-            alert("mi valor es :p"+tlis+" :p");
+            
             
         }); //fin function
 </script>
@@ -230,9 +229,9 @@
                                 <c:forEach items="${datosBasicos}" var="row">
                                     <tr>
                                         <td>${row.nombre}</td>
-                                        <td> <input type="radio" value="si" name="${row.nombre}" ></td>
-                                        <td> <input type="radio" value="no" name="${row.nombre}" ></td>
-                                        <td> <input type="radio" value="no sabe" name="${row.nombre}" checked></td>
+                                        <td> <input type="radio" value="si" name="db${row.iddatosBasicos }" ></td>
+                                        <td> <input type="radio" value="no" name="db${row.iddatosBasicos}" ></td>
+                                        <td> <input type="radio" value="no sabe" name="db${row.iddatosBasicos}" checked></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

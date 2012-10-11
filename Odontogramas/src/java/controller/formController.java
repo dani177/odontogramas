@@ -278,17 +278,19 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("guardarDatosBasicos")) {
                 HttpSession sesion = request.getSession();
                 List<Datosbasicos> Listdb = (List<Datosbasicos>) sesion.getAttribute("datosBasicos");
-                DatosbasicosJpaController daCon = new DatosbasicosJpaController();
                 Paciente pa = (Paciente) session.getAttribute("paciente");
-                String iddoc = (String) request.getParameter("docente");
-                Docente doc = new DocenteJpaController().findDocente(Integer.parseInt(iddoc));
                 Medico me = (Medico) session.getAttribute("medico");
-                sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
+
+                List<DatosconsultaHasDatosbasicos> dcdb = new ArrayList<DatosconsultaHasDatosbasicos>();
                 String motivo = (String) request.getParameter("motivo");
                 String historia = (String) request.getParameter("historia");
                 String observaciones = (String) request.getParameter("observaciones");
                 String otros = (String) request.getParameter("otros");
                 String ultima = (String) request.getParameter("ultima");
+                String motivo2 = (String) request.getParameter("motivo2");
+                String iddoc = (String) request.getParameter("docente");
+                Docente doc = new DocenteJpaController().findDocente(Integer.parseInt(iddoc));
+
                 SimpleDateFormat formatoDelTexto2 = new SimpleDateFormat("yyyy-MM-dd");
                 Date ultimaD = null;
                 try {
@@ -302,7 +304,7 @@ public class formController extends HttpServlet {
                 }
 
 
-                String motivo2 = (String) request.getParameter("motivo2");
+
 
                 Consulta con = new Consulta();
                 ConsultaJpaController conCon = new ConsultaJpaController();
@@ -317,7 +319,43 @@ public class formController extends HttpServlet {
                 con.setDocenteIddocente(doc);
                 conCon.create(con);
 
-                session.setAttribute("consulta", con);
+
+                List<Consulta> consultas = conCon.findConsultaEntities();
+                int mayor = -1;
+                for (int j = 0; j < consultas.size(); j++) {
+                    if (consultas.get(j).getIddatosConsulta() > mayor) {
+                    mayor=consultas.get(j).getIddatosConsulta();
+                            
+                    }
+                }
+                
+                Consulta conRecienCreada = conCon.findConsulta(mayor);
+                
+                 for (int i = 0; i < Listdb.size(); i++) {
+                    String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
+                    DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
+                    aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
+                    aux.setDatosConsultaiddatosConsulta(conRecienCreada);
+                    aux.setValor(valor);
+                    new DatosconsultaHasDatosbasicosJpaController().create(aux);
+                   dcdb.add(aux);
+
+                }
+                      
+                conRecienCreada.setDatosconsultaHasDatosbasicosList(dcdb);
+                try {
+                    conCon.edit(conRecienCreada);
+                    
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                session.setAttribute("consulta", conRecienCreada);
+
+               
 
             }
 
@@ -469,7 +507,7 @@ public class formController extends HttpServlet {
                         Plantratamiento plantratamiento = listP.get(i);
                         listP2.add(plantratamiento);
                     }
-                    
+
 
                 }
 
