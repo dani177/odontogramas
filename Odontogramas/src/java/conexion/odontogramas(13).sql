@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-10-2012 a las 16:30:47
+-- Tiempo de generación: 19-10-2012 a las 16:04:32
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -20,18 +20,46 @@ SET time_zone = "+00:00";
 -- Base de datos: `odontogramas`
 --
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `consulta`
+-- Estructura de tabla para la tabla `consulta`
 --
 
-INSERT INTO `consulta` (`iddatosConsulta`, `motivoConsulta`, `historiaActualEnfermedad`, `observaciones`, `otros`, `ultimaVisitaOdon`, `motivo`, `paciente_idpersona`, `fechaConsulta`, `pronostico`, `medico_idmedico`, `docente_iddocente`) VALUES
-(1, 'xcvgdfs', 'fdgdfg', 'dfgdfg', 'fdgdfg', '2012-07-11', 'dfgdfg', '1047565684', NULL, NULL, 123456, 76675665),
-(2, 'otra consulta', 'klads', 'dsafads', 'adsfds', '2012-07-11', 'dsfdsf', '1047565684', NULL, NULL, 123456, 76675665),
-(3, 'dsd', 'dsfdfs', 'dfgfgfddfff', 'dfgdg', '2012-07-25', 'dfsdfs', '1047565684', NULL, NULL, 123456, 76675665),
-(4, 'gfddfgdf', 'dfgfdg', 'dsfdsfds', 'dsfdsfsdf', '2012-07-24', 'dsfds', '1047565684', NULL, NULL, 123456, 8656445),
-(5, 'klh', 'jj', 'ewrere', 'errwe', '2012-07-03', 'ewerwer', '1047565684', NULL, 'Regular', 123456, 8656445),
-(6, 'ergfref', 'werewr', 'dsf', 'dsfs', '2012-07-26', 'dsfsd', '1047565684', NULL, 'Bueno', 123456, 76675665),
-(7, 'un motivo', 'asjfkas', 'jskdfj', 'f asdf', '2012-10-03', 'jjjkj', '1047565684', NULL, NULL, 123456, 8656445);
+CREATE TABLE IF NOT EXISTS `consulta` (
+  `iddatosConsulta` int(11) NOT NULL AUTO_INCREMENT,
+  `motivoConsulta` varchar(1000) DEFAULT NULL,
+  `historiaActualEnfermedad` varchar(1000) DEFAULT NULL,
+  `observaciones` varchar(255) DEFAULT NULL,
+  `otros` varchar(255) DEFAULT NULL,
+  `ultimaVisitaOdon` date DEFAULT NULL,
+  `motivo` varchar(255) DEFAULT NULL,
+  `paciente_idpersona` varchar(45) NOT NULL,
+  `fechaConsulta` date DEFAULT NULL,
+  `pronostico` varchar(45) DEFAULT NULL,
+  `medico_idmedico` int(11) NOT NULL,
+  `docente_iddocente` int(11) NOT NULL,
+  PRIMARY KEY (`iddatosConsulta`),
+  KEY `fk_datosConsulta_paciente1` (`paciente_idpersona`),
+  KEY `fk_datosConsulta_medico1` (`medico_idmedico`),
+  KEY `fk_Consulta_docente1` (`docente_iddocente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `curso`
+--
+
+CREATE TABLE IF NOT EXISTS `curso` (
+  `idcurso` int(11) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `codigo` varchar(45) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
+  `anio` varchar(45) DEFAULT NULL,
+  `periodo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idcurso`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `curso`
@@ -39,6 +67,18 @@ INSERT INTO `consulta` (`iddatosConsulta`, `motivoConsulta`, `historiaActualEnfe
 
 INSERT INTO `curso` (`idcurso`, `nombre`, `codigo`, `estado`, `anio`, `periodo`) VALUES
 (1, 'Endodoncia-I', '676767', 'activado', '2012', '02');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datosbasicos`
+--
+
+CREATE TABLE IF NOT EXISTS `datosbasicos` (
+  `iddatosBasicos` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`iddatosBasicos`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `datosbasicos`
@@ -65,20 +105,91 @@ INSERT INTO `datosbasicos` (`iddatosBasicos`, `nombre`) VALUES
 (18, 'Organos de los Sentidos '),
 (19, 'Enfermedades Infectocontagiosas ');
 
---
--- Volcado de datos para la tabla `datosconsulta_has_diagnostico`
---
-
-INSERT INTO `datosconsulta_has_diagnostico` (`datosConsulta_iddatosConsulta`, `diagnostico_iddiagnostico`) VALUES
-(4, 237101),
-(4, 237102);
+-- --------------------------------------------------------
 
 --
--- Volcado de datos para la tabla `datosconsulta_has_plantratamiento`
+-- Estructura de tabla para la tabla `datosconsulta_has_datosbasicos`
 --
 
-INSERT INTO `datosconsulta_has_plantratamiento` (`datosConsulta_iddatosConsulta`, `planTratamiento_idplanTratamiento`) VALUES
-(6, 1);
+CREATE TABLE IF NOT EXISTS `datosconsulta_has_datosbasicos` (
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  `datosBasicos_iddatosBasicos` int(11) NOT NULL,
+  `valor` varchar(45) DEFAULT NULL,
+  `idConsulta_datosBasicos` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idConsulta_datosBasicos`),
+  KEY `fk_datosConsulta_has_datosBasicos_datosBasicos1` (`datosBasicos_iddatosBasicos`),
+  KEY `fk_datosConsulta_has_datosBasicos_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datosconsulta_has_diagnostico`
+--
+
+CREATE TABLE IF NOT EXISTS `datosconsulta_has_diagnostico` (
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  `diagnostico_iddiagnostico` int(11) NOT NULL,
+  PRIMARY KEY (`datosConsulta_iddatosConsulta`,`diagnostico_iddiagnostico`),
+  KEY `fk_datosConsulta_has_diagnostico_diagnostico1` (`diagnostico_iddiagnostico`),
+  KEY `fk_datosConsulta_has_diagnostico_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datosconsulta_has_diente`
+--
+
+CREATE TABLE IF NOT EXISTS `datosconsulta_has_diente` (
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  `diente_iddiente` int(11) NOT NULL,
+  `cara` varchar(45) DEFAULT NULL,
+  `enfermedad` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`datosConsulta_iddatosConsulta`,`diente_iddiente`),
+  KEY `fk_datosConsulta_has_diente_diente1` (`diente_iddiente`),
+  KEY `fk_datosConsulta_has_diente_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datosconsulta_has_plantratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `datosconsulta_has_plantratamiento` (
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  `planTratamiento_idplanTratamiento` int(11) NOT NULL,
+  PRIMARY KEY (`datosConsulta_iddatosConsulta`,`planTratamiento_idplanTratamiento`),
+  KEY `fk_datosConsulta_has_planTratamiento_planTratamiento1` (`planTratamiento_idplanTratamiento`),
+  KEY `fk_datosConsulta_has_planTratamiento_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datosconsulta_has_tratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `datosconsulta_has_tratamiento` (
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  `tratamiento_idtratamiento` int(11) NOT NULL,
+  PRIMARY KEY (`datosConsulta_iddatosConsulta`,`tratamiento_idtratamiento`),
+  KEY `fk_datosConsulta_has_tratamiento_tratamiento1` (`tratamiento_idtratamiento`),
+  KEY `fk_datosConsulta_has_tratamiento_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `departamentos`
+--
+
+CREATE TABLE IF NOT EXISTS `departamentos` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `departamentos`
@@ -118,23 +229,37 @@ INSERT INTO `departamentos` (`codigo`, `nombre`) VALUES
 (97, 'Vaupés'),
 (99, 'Vichada');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `diagnostico`
+--
+
+CREATE TABLE IF NOT EXISTS `diagnostico` (
+  `iddiagnostico` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(45) DEFAULT NULL,
+  `diagnostico` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`iddiagnostico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=973401 ;
+
 --
 -- Volcado de datos para la tabla `diagnostico`
 --
 
 INSERT INTO `diagnostico` (`iddiagnostico`, `codigo`, `diagnostico`) VALUES
-(237101, '237101', 'PULPOTOMÍA '),
-(237102, '237102', 'PULPECTOMIA'),
-(237200, '237200', 'APEXIFICACIÓN O APEXOGENESIS  '),
-(237301, '237301', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES UNIRRADICULARES PERMANENTES'),
-(237302, '237302', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES BIRRADICULARES PERMANENTES'),
-(237303, '237303', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES MULTIRRADICULARES PERMANENTES'),
-(237304, '237304', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES TEMPORALES UNIRRADICULARES'),
-(237305, '237305', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES TEMPORALES MULTIRRADICULARES'),
-(237501, '237501', 'PROCEDIMIENTO CORRECTIVO EN RESORCION RADICULAR (INTERNA Y EXTERNA)'),
-(237503, '237503', 'RECUBRIMIENTO PULPAR DIRECTO'),
-(237504, '237504', 'RECUBRIMIENTO PULPAR INDIRECTO'),
-(237505, '237505', 'PRUEBAS DE VITALIDAD PULPAR'),
+(227101, '227101', 'REPARACION DE FISTULA  OROANTRAL Y/U ORONASAL'),
+(227200, '227200', 'ELEVACION DEL PISO DEL SENO MAXILAR  '),
+(230101, '230101', 'EXODONCIA DE DIENTES PERMANENTES UNIRRADICULARES.'),
+(230102, '230102', 'EXODONCIA DE DIENTES PERMANENTES MULTIRRADICULARES.'),
+(230201, '230201', 'EXODONCIA DE DIENTES TEMPORALES UNIRRADICULARES.'),
+(230202, '230202', 'EXODONCIA DE DIENTES TEMPORALES MULTIRRADICULARES.'),
+(231100, '231100', 'EXODONCIA QUIRURGICA UNIRRADICULAR  '),
+(231200, '231200', 'EXODONCIA QUIRURGICA MULTIRRADICULAR.  '),
+(231301, '231301', 'EXODONCIA DE DIENTE  INCLUIDO'),
+(231302, '231302', 'EXODONCIA DE INCLUIDOS EN POSICIÓN ECTÓPICA CON ABORDAJE INTRAORAL   (POR DIENTE)'),
+(231303, '231303', 'EXODONCIA DE INCLUIDOS EN POSICIÓN ECTÓPICA CON ABORDAJE EXTRAORAL(POR DIENTE)'),
+(231400, '231400', 'EXODONCIAS  MÚLTIPLES CON ALVEOLOPLASTIA POR CUADRANTE  '),
+(231500, '231500', 'COLGAJO DESPLAZADO PARA ABORDAJE DE DIENTE RETENIDO (VENTANA QUIRURGICA)  '),
 (232101, '232101', 'OBTURACIÓN DENTAL POR SUPERFICIE  CON  AMALGAMA'),
 (232102, '232102', 'OBTURACIÓN DENTAL POR SUPERFICIE CON  RESINA DE FOTOCURADO'),
 (232103, '232103', 'OBTURACIÓN DENTAL POR SUPERFICIE CON  IONÓMERO DE VIDRIO'),
@@ -148,36 +273,27 @@ INSERT INTO `diagnostico` (`iddiagnostico`, `codigo`, `diagnostico`) VALUES
 (234102, '234102', 'COLOCACION O APLICACIÓN DE CORONA EN POLICARBOXILATO  (PARA DIENTES TEMPORALES)'),
 (234103, '234103', 'COLOCACION O APLICACIÓN DE CORONA EN FORMA PLÁSTICA'),
 (234104, '234104', 'COLOCACION O APLICACIÓN DE CORONA ACRÍLICA TERMOCURADA'),
-(237901, '237901', 'BLANQUEAMIENTO DENTAL [INTRINSECO] POR CAUSAS ENDODONTICAS (POR DIENTE)'),
-(240500, '240500', 'ADAPTACION DE PLACA NEURO MIORELAJANTE  '),
-(247100, '247100', 'COLOCACIÓN DE APARATOLOGÍA  FIJA PARA ORTODONCIA (ARCADA)  '),
-(247201, '247201', 'COLOCACIÓN DE APARATOLOGÍA REMOVIBLE INTRAORAL PARA  ORTODONCIA  (ARCADA)'),
-(247202, '247202', 'COLOCACIÓN DE APARATOLOGÍA REMOVIBLE  EXTRAORAL PARA  ORTODONCIA  (ARCADA)'),
-(247300, '247300', 'COLOCACION DE APARATOS DE RETENCION  '),
-(248100, '248100', 'CIERRE DE DIASTEMA (ALVEOLAR; DENTAL)  '),
-(248200, '248200', 'AJUSTAMIENTO OCLUSAL  '),
-(248400, '248400', 'REPARACIÓN DE APARATOLOGIA FIJA O REMOVIBLE  '),
-(248800, '248800', 'MASCARA FACIAL TERAPEUTICA NCOC'),
-(893106, '893106', 'CONTROL DE ORTODONCIA FIJA/REMOVIBLE  O TRATAMIENTO ORTOPÉDICO FUNCIONAL  Y  MECÁNICO'),
-(893107, '893107', 'ELABORACIÓN Y ADAPTACIÓN DE APARATO ORTOPEDICO'),
-(893108, '893108', 'SESION DE CONTROL DE CRECIMIENTO Y DESARROLLO DENTO-MAXILOFACIAL'),
-(935500, '935500', 'APLICACIÓN DE ALAMBRE DENTAL  '),
-(973400, '973400', 'EXTRACCION DE  APARATOLOGIA ORTODONTICA FIJA  '),
-(230101, '230101', 'EXODONCIA DE DIENTES PERMANENTES UNIRRADICULARES.'),
-(230102, '230102', 'EXODONCIA DE DIENTES PERMANENTES MULTIRRADICULARES.'),
-(230201, '230201', 'EXODONCIA DE DIENTES TEMPORALES UNIRRADICULARES.'),
-(230202, '230202', 'EXODONCIA DE DIENTES TEMPORALES MULTIRRADICULARES.'),
-(231100, '231100', 'EXODONCIA QUIRURGICA UNIRRADICULAR  '),
-(231200, '231200', 'EXODONCIA QUIRURGICA MULTIRRADICULAR.  '),
-(231301, '231301', 'EXODONCIA DE DIENTE  INCLUIDO'),
-(231302, '231302', 'EXODONCIA DE INCLUIDOS EN POSICIÓN ECTÓPICA CON ABORDAJE INTRAORAL   (POR DIENTE)'),
-(231303, '231303', 'EXODONCIA DE INCLUIDOS EN POSICIÓN ECTÓPICA CON ABORDAJE EXTRAORAL(POR DIENTE)'),
-(231400, '231400', 'EXODONCIAS  MÚLTIPLES CON ALVEOLOPLASTIA POR CUADRANTE  '),
-(231500, '231500', 'COLGAJO DESPLAZADO PARA ABORDAJE DE DIENTE RETENIDO (VENTANA QUIRURGICA)  '),
 (236300, '236300', 'IMPLANTE DENTAL ALOPLASTICO (OSEOINTEGRACION)  '),
+(237101, '237101', 'PULPOTOMÍA '),
+(237102, '237102', 'PULPECTOMIA'),
+(237200, '237200', 'APEXIFICACIÓN O APEXOGENESIS  '),
+(237301, '237301', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES UNIRRADICULARES PERMANENTES'),
+(237302, '237302', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES BIRRADICULARES PERMANENTES'),
+(237303, '237303', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES MULTIRRADICULARES PERMANENTES'),
+(237304, '237304', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES TEMPORALES UNIRRADICULARES'),
+(237305, '237305', 'TERAPIA DE CONDUCTO RADICULAR EN DIENTES TEMPORALES MULTIRRADICULARES'),
 (237401, '237401', 'CURETAJE APICAL CON APICECTOMIA Y OBTURACION RETROGADA [CIRUGIA PERIRRADICULAR]'),
+(237501, '237501', 'PROCEDIMIENTO CORRECTIVO EN RESORCION RADICULAR (INTERNA Y EXTERNA)'),
+(237503, '237503', 'RECUBRIMIENTO PULPAR DIRECTO'),
+(237504, '237504', 'RECUBRIMIENTO PULPAR INDIRECTO'),
+(237505, '237505', 'PRUEBAS DE VITALIDAD PULPAR'),
 (237601, '237601', 'FISTULIZACION QUIRURGICA POR TREPANACION Y DRENAJE'),
 (237602, '237602', 'FISTULIZACION QUIRURGICA POR INCISION'),
+(237901, '237901', 'BLANQUEAMIENTO DENTAL [INTRINSECO] POR CAUSAS ENDODONTICAS (POR DIENTE)'),
+(240200, '240200', 'DETARTRAJE SUBGINGIVAL  (POR CUADRANTE)  '),
+(240300, '240300', 'ALISADO RADICULAR CAMPO CERRADO ( POR SEXTANTE )  '),
+(240500, '240500', 'ADAPTACION DE PLACA NEURO MIORELAJANTE  '),
+(242201, '242201', 'CURETAJE A CAMPO ABIERTO POR SEXTANTE'),
 (242204, '242204', 'AUMENTO DE REBORDE PARCIALMENTE EDENTULO ( SIN MATERIAL)'),
 (242205, '242205', 'AUMENTO DE REBORDE PARCIALMENTE EDENTULO ( CON MATERIAL)'),
 (242300, '242300', 'PLASTIAS PREPROTESICAS ( AUMENTO DE CORONA CLINICA )  '),
@@ -189,8 +305,16 @@ INSERT INTO `diagnostico` (`iddiagnostico`, `codigo`, `diagnostico`) VALUES
 (244103, '244103', 'RESECCIÓN DE TUMOR BENIGNO  O MALIGNO ODONTOGÉNICO'),
 (245100, '245100', 'REGULARIZACIÓN DE REBORDES POR CUADRANTE  '),
 (245200, '245200', 'ALVEOLECTOMÍA (INTERRADICULAR - INTRASEPTAL - RADICAL - SIMPLE CON INJERTO O IMPLANTE) NCOC'),
+(247100, '247100', 'COLOCACIÓN DE APARATOLOGÍA  FIJA PARA ORTODONCIA (ARCADA)  '),
+(247201, '247201', 'COLOCACIÓN DE APARATOLOGÍA REMOVIBLE INTRAORAL PARA  ORTODONCIA  (ARCADA)'),
+(247202, '247202', 'COLOCACIÓN DE APARATOLOGÍA REMOVIBLE  EXTRAORAL PARA  ORTODONCIA  (ARCADA)'),
+(247300, '247300', 'COLOCACION DE APARATOS DE RETENCION  '),
 (247401, '247401', 'FERULIZACION RIGIDA ( SUPERIOR Y/O INFERIOR)'),
 (247402, '247402', 'FERULIZACION SEMIRIGIDA ( SUPERIOR Y/O INFERIOR)'),
+(248100, '248100', 'CIERRE DE DIASTEMA (ALVEOLAR; DENTAL)  '),
+(248200, '248200', 'AJUSTAMIENTO OCLUSAL  '),
+(248400, '248400', 'REPARACIÓN DE APARATOLOGIA FIJA O REMOVIBLE  '),
+(248800, '248800', 'MASCARA FACIAL TERAPEUTICA NCOC'),
 (249101, '249101', 'CONTROL DE HEMORRAGIA DENTAL POS QUIRURGICA  '),
 (250201, '250201', 'BIOPSIA EN CUÑA O POR TRUCUT DE LENGUA'),
 (251000, '251000', 'RESECCIÓN DE LESIÓN SUPERFICIAL EN LA LENGUA  '),
@@ -210,33 +334,125 @@ INSERT INTO `diagnostico` (`iddiagnostico`, `codigo`, `diagnostico`) VALUES
 (275901, '275901', 'PROFUNDIZACION  DE SURCO VESTIBULAR CON INJERTO MUCOSO'),
 (767705, '767705', 'REDUCCION Y FIJACION DE LUXACION  DENTO ALVEOLAR QUE COMPROMETE HASTA TRES DIENTES'),
 (767706, '767706', 'REDUCCION Y FIJACION DE LUXACION DENTO ALVEOLAR QUE COMPROMETE MAS DE TRES DIENTES'),
-(240200, '240200', 'DETARTRAJE SUBGINGIVAL  (POR CUADRANTE)  '),
-(240300, '240300', 'ALISADO RADICULAR CAMPO CERRADO ( POR SEXTANTE )  '),
-(242201, '242201', 'CURETAJE A CAMPO ABIERTO POR SEXTANTE'),
-(227101, '227101', 'REPARACION DE FISTULA  OROANTRAL Y/U ORONASAL'),
-(227200, '227200', 'ELEVACION DEL PISO DEL SENO MAXILAR  ');
+(893106, '893106', 'CONTROL DE ORTODONCIA FIJA/REMOVIBLE  O TRATAMIENTO ORTOPÉDICO FUNCIONAL  Y  MECÁNICO'),
+(893107, '893107', 'ELABORACIÓN Y ADAPTACIÓN DE APARATO ORTOPEDICO'),
+(893108, '893108', 'SESION DE CONTROL DE CRECIMIENTO Y DESARROLLO DENTO-MAXILOFACIAL'),
+(935500, '935500', 'APLICACIÓN DE ALAMBRE DENTAL  '),
+(973400, '973400', 'EXTRACCION DE  APARATOLOGIA ORTODONTICA FIJA  ');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `diente`
+--
+
+CREATE TABLE IF NOT EXISTS `diente` (
+  `iddiente` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`iddiente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `docente`
+--
+
+CREATE TABLE IF NOT EXISTS `docente` (
+  `iddocente` int(11) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `clave` varchar(45) DEFAULT NULL,
+  `codigo` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`iddocente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `docente`
 --
 
 INSERT INTO `docente` (`iddocente`, `nombre`, `clave`, `codigo`) VALUES
-(76675665, 'docenteA', '123456', '1232344'),
-(8656445, 'docenteB', '123456', 'wre');
+(8656445, 'docenteB', '123456', 'wre'),
+(76675665, 'docenteA', '123456', '1232344');
+
+-- --------------------------------------------------------
 
 --
--- Volcado de datos para la tabla `evolucion`
+-- Estructura de tabla para la tabla `docente_has_curso`
 --
 
-INSERT INTO `evolucion` (`idevolucion`, `fecha`, `reciboPago`, `abono`, `saldo`, `tratamiento_idtratamiento`) VALUES
-(1, '2012-07-11', '32435', NULL, NULL, 101);
+CREATE TABLE IF NOT EXISTS `docente_has_curso` (
+  `docente_iddocente` int(11) NOT NULL,
+  `curso_idcurso` int(11) NOT NULL,
+  PRIMARY KEY (`docente_iddocente`,`curso_idcurso`),
+  KEY `fk_docente_has_curso_curso1` (`curso_idcurso`),
+  KEY `fk_docente_has_curso_docente1` (`docente_iddocente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 --
--- Volcado de datos para la tabla `examenfisicoestomatologico`
+-- Estructura de tabla para la tabla `docente_has_medico`
 --
 
-INSERT INTO `examenfisicoestomatologico` (`idexamenFisicoEstomatologico`, `temperatura`, `pulso`, `tensionArterial`, `higieneOral`, `sedaDental`, `cepilloDentalUso`, `vecesAlDia`, `enjuagesBsinFluor`, `enjuagesBconFluor`, `habitosYvicios`, `datosConsulta_iddatosConsulta`) VALUES
-(1, '40', '45', '45', 'Buena', 'Si', 'Si', '3', 'Si', 'Si', 'Drogas', 1);
+CREATE TABLE IF NOT EXISTS `docente_has_medico` (
+  `docente_iddocente` int(11) NOT NULL,
+  `medico_idmedico` int(11) NOT NULL,
+  PRIMARY KEY (`docente_iddocente`,`medico_idmedico`),
+  KEY `fk_docente_has_medico_medico1` (`medico_idmedico`),
+  KEY `fk_docente_has_medico_docente1` (`docente_iddocente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `evolucion`
+--
+
+CREATE TABLE IF NOT EXISTS `evolucion` (
+  `idevolucion` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` date DEFAULT NULL,
+  `reciboPago` varchar(45) DEFAULT NULL,
+  `abono` int(11) DEFAULT NULL,
+  `saldo` varchar(45) DEFAULT NULL,
+  `tratamiento_idtratamiento` int(11) NOT NULL,
+  PRIMARY KEY (`idevolucion`),
+  KEY `fk_evolucion_tratamiento1` (`tratamiento_idtratamiento`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `examenfisicoestomatologico`
+--
+
+CREATE TABLE IF NOT EXISTS `examenfisicoestomatologico` (
+  `idexamenFisicoEstomatologico` int(11) NOT NULL AUTO_INCREMENT,
+  `temperatura` varchar(45) DEFAULT NULL,
+  `pulso` varchar(45) DEFAULT NULL,
+  `tensionArterial` varchar(45) DEFAULT NULL,
+  `higieneOral` varchar(45) DEFAULT NULL,
+  `sedaDental` varchar(45) DEFAULT NULL,
+  `cepilloDentalUso` varchar(45) DEFAULT NULL,
+  `vecesAlDia` varchar(45) DEFAULT NULL,
+  `enjuagesBsinFluor` varchar(45) DEFAULT NULL,
+  `enjuagesBconFluor` varchar(45) DEFAULT NULL,
+  `habitosYvicios` varchar(45) DEFAULT NULL,
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  PRIMARY KEY (`idexamenFisicoEstomatologico`),
+  KEY `fk_examenFisicoEstomatologico_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `interconsulta`
+--
+
+CREATE TABLE IF NOT EXISTS `interconsulta` (
+  `idinterconsulta` int(11) NOT NULL,
+  `interconsulta` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idinterconsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `interconsulta`
@@ -254,12 +470,34 @@ INSERT INTO `interconsulta` (`idinterconsulta`, `interconsulta`) VALUES
 (9, 'Ortodoncia'),
 (10, 'Otros');
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `interconsulta_has_datosconsulta`
+-- Estructura de tabla para la tabla `interconsulta_has_datosconsulta`
 --
 
-INSERT INTO `interconsulta_has_datosconsulta` (`interconsulta_idinterconsulta`, `datosConsulta_iddatosConsulta`) VALUES
-(10, 6);
+CREATE TABLE IF NOT EXISTS `interconsulta_has_datosconsulta` (
+  `interconsulta_idinterconsulta` int(11) NOT NULL,
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  PRIMARY KEY (`interconsulta_idinterconsulta`,`datosConsulta_iddatosConsulta`),
+  KEY `fk_interconsulta_has_datosConsulta_datosConsulta1` (`datosConsulta_iddatosConsulta`),
+  KEY `fk_interconsulta_has_datosConsulta_interconsulta1` (`interconsulta_idinterconsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico`
+--
+
+CREATE TABLE IF NOT EXISTS `medico` (
+  `idmedico` int(11) NOT NULL,
+  `nombreUsuario` varchar(45) DEFAULT NULL,
+  `clave` varchar(45) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idmedico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `medico`
@@ -268,6 +506,20 @@ INSERT INTO `interconsulta_has_datosconsulta` (`interconsulta_idinterconsulta`, 
 INSERT INTO `medico` (`idmedico`, `nombreUsuario`, `clave`, `direccion`, `telefono`) VALUES
 (123456, 'Julio Barcos', '123456', 'Blas de lezo', '686868');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_has_curso`
+--
+
+CREATE TABLE IF NOT EXISTS `medico_has_curso` (
+  `medico_idmedico` int(11) NOT NULL,
+  `curso_idcurso` int(11) NOT NULL,
+  PRIMARY KEY (`medico_idmedico`,`curso_idcurso`),
+  KEY `fk_medico_has_curso_curso1` (`curso_idcurso`),
+  KEY `fk_medico_has_curso_medico1` (`medico_idmedico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Volcado de datos para la tabla `medico_has_curso`
 --
@@ -275,12 +527,39 @@ INSERT INTO `medico` (`idmedico`, `nombreUsuario`, `clave`, `direccion`, `telefo
 INSERT INTO `medico_has_curso` (`medico_idmedico`, `curso_idcurso`) VALUES
 (123456, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_has_paciente`
+--
+
+CREATE TABLE IF NOT EXISTS `medico_has_paciente` (
+  `medico_idmedico` int(11) NOT NULL,
+  `paciente_idpersona` varchar(45) NOT NULL,
+  KEY `fk_medico_has_paciente_paciente1` (`paciente_idpersona`),
+  KEY `fk_medico_has_paciente_medico1` (`medico_idmedico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Volcado de datos para la tabla `medico_has_paciente`
 --
 
 INSERT INTO `medico_has_paciente` (`medico_idmedico`, `paciente_idpersona`) VALUES
 (123456, '1047565684');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `municipios`
+--
+
+CREATE TABLE IF NOT EXISTS `municipios` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `departamentos_codigo1` int(11) NOT NULL,
+  PRIMARY KEY (`codigo`),
+  KEY `fk_municipios_departamentos1` (`departamentos_codigo1`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `municipios`
@@ -1390,12 +1669,46 @@ INSERT INTO `municipios` (`codigo`, `nombre`, `departamentos_codigo1`) VALUES
 (99624, 'Santa Rosalía', 99),
 (99773, 'Cumaribo', 99);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente`
+--
+
+CREATE TABLE IF NOT EXISTS `paciente` (
+  `idpersona` varchar(45) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `direccion` varchar(45) DEFAULT NULL,
+  `num_afiliacion` varchar(45) DEFAULT NULL,
+  `telefono` varchar(45) DEFAULT NULL,
+  `sexo` varchar(45) DEFAULT NULL,
+  `estadoCivil` varchar(45) DEFAULT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
+  `municipios_codigo` int(11) NOT NULL,
+  `profesiones_codigo` int(11) NOT NULL,
+  PRIMARY KEY (`idpersona`),
+  KEY `fk_paciente_municipios1` (`municipios_codigo`),
+  KEY `fk_paciente_profesiones1` (`profesiones_codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Volcado de datos para la tabla `paciente`
 --
 
 INSERT INTO `paciente` (`idpersona`, `nombre`, `direccion`, `num_afiliacion`, `telefono`, `sexo`, `estadoCivil`, `fechaNacimiento`, `municipios_codigo`, `profesiones_codigo`) VALUES
 ('1047565684', 'Pedro Jose Payares Mendez', 'Bocagrande Avenida san martin Nº 15 29', '104759568466', '6812555', 'masculino', 'soltero', '1986-02-24', 13001, 2135);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `plantratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `plantratamiento` (
+  `idplanTratamiento` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idplanTratamiento`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Volcado de datos para la tabla `plantratamiento`
@@ -1412,6 +1725,18 @@ INSERT INTO `plantratamiento` (`idplanTratamiento`, `nombre`) VALUES
 (8, 'Rehabilitacion'),
 (9, 'Ortodoncia'),
 (10, 'Otros');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesiones`
+--
+
+CREATE TABLE IF NOT EXISTS `profesiones` (
+  `profesion` varchar(255) DEFAULT NULL,
+  `codigo` int(11) NOT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `profesiones`
@@ -1855,6 +2180,33 @@ INSERT INTO `profesiones` (`profesion`, `codigo`) VALUES
 ('Obreros y Ayudantes en el Procesamiento de la Madera y Producción de Pulpa y Papel', 9614),
 ('Obreros y Ayudantes en la Elaboración de Alimentos y Bebidas', 9615);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `radiografia`
+--
+
+CREATE TABLE IF NOT EXISTS `radiografia` (
+  `idradiografia` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `ruta` varchar(255) DEFAULT NULL,
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  PRIMARY KEY (`idradiografia`),
+  KEY `fk_radiografia_datosConsulta1` (`datosConsulta_iddatosConsulta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `remision`
+--
+
+CREATE TABLE IF NOT EXISTS `remision` (
+  `idremision` int(11) NOT NULL,
+  `remision` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idremision`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Volcado de datos para la tabla `remision`
 --
@@ -1871,13 +2223,32 @@ INSERT INTO `remision` (`idremision`, `remision`) VALUES
 (9, 'Ortodoncia'),
 (10, 'Otros');
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `remision_has_datosconsulta`
+-- Estructura de tabla para la tabla `remision_has_datosconsulta`
 --
 
-INSERT INTO `remision_has_datosconsulta` (`remision_idremision`, `datosConsulta_iddatosConsulta`) VALUES
-(2, 6),
-(3, 6);
+CREATE TABLE IF NOT EXISTS `remision_has_datosconsulta` (
+  `remision_idremision` int(11) NOT NULL,
+  `datosConsulta_iddatosConsulta` int(11) NOT NULL,
+  PRIMARY KEY (`remision_idremision`,`datosConsulta_iddatosConsulta`),
+  KEY `fk_remision_has_datosConsulta_datosConsulta1` (`datosConsulta_iddatosConsulta`),
+  KEY `fk_remision_has_datosConsulta_remision1` (`remision_idremision`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tratamiento`
+--
+
+CREATE TABLE IF NOT EXISTS `tratamiento` (
+  `idtratamiento` int(11) NOT NULL AUTO_INCREMENT,
+  `tratamiento` varchar(255) DEFAULT NULL,
+  `presupuesto` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idtratamiento`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2104 ;
 
 --
 -- Volcado de datos para la tabla `tratamiento`
@@ -2028,6 +2399,126 @@ INSERT INTO `tratamiento` (`idtratamiento`, `tratamiento`, `presupuesto`) VALUES
 (2101, 'TRATAMIENTO COMPLETO HIPERSENSIBILIDAD DENTINARIA (HASTA 3 ORGANOS DENTARIOS) POR 3 SESIONES', '40000'),
 (2102, 'TRATAMIENTO COMPLETO DE HERPES SIMPLE POR 4 SESIONES', '60000'),
 (2103, 'TRATAMIENTO COMPLETO POR AFTAS POR 4 SESIONES', '60000');
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `consulta`
+--
+ALTER TABLE `consulta`
+  ADD CONSTRAINT `fk_Consulta_docente1` FOREIGN KEY (`docente_iddocente`) REFERENCES `docente` (`iddocente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_medico1` FOREIGN KEY (`medico_idmedico`) REFERENCES `medico` (`idmedico`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `datosconsulta_has_datosbasicos`
+--
+ALTER TABLE `datosconsulta_has_datosbasicos`
+  ADD CONSTRAINT `fk_datosConsulta_has_datosBasicos_datosBasicos1` FOREIGN KEY (`datosBasicos_iddatosBasicos`) REFERENCES `datosbasicos` (`iddatosBasicos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_has_datosBasicos_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `datosconsulta_has_diagnostico`
+--
+ALTER TABLE `datosconsulta_has_diagnostico`
+  ADD CONSTRAINT `fk_datosConsulta_has_diagnostico_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_has_diagnostico_diagnostico1` FOREIGN KEY (`diagnostico_iddiagnostico`) REFERENCES `diagnostico` (`iddiagnostico`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `datosconsulta_has_diente`
+--
+ALTER TABLE `datosconsulta_has_diente`
+  ADD CONSTRAINT `fk_datosConsulta_has_diente_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_has_diente_diente1` FOREIGN KEY (`diente_iddiente`) REFERENCES `diente` (`iddiente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `datosconsulta_has_plantratamiento`
+--
+ALTER TABLE `datosconsulta_has_plantratamiento`
+  ADD CONSTRAINT `fk_datosConsulta_has_planTratamiento_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_has_planTratamiento_planTratamiento1` FOREIGN KEY (`planTratamiento_idplanTratamiento`) REFERENCES `plantratamiento` (`idplanTratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `datosconsulta_has_tratamiento`
+--
+ALTER TABLE `datosconsulta_has_tratamiento`
+  ADD CONSTRAINT `fk_datosConsulta_has_tratamiento_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_datosConsulta_has_tratamiento_tratamiento1` FOREIGN KEY (`tratamiento_idtratamiento`) REFERENCES `tratamiento` (`idtratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `docente_has_curso`
+--
+ALTER TABLE `docente_has_curso`
+  ADD CONSTRAINT `fk_docente_has_curso_curso1` FOREIGN KEY (`curso_idcurso`) REFERENCES `curso` (`idcurso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_docente_has_curso_docente1` FOREIGN KEY (`docente_iddocente`) REFERENCES `docente` (`iddocente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `docente_has_medico`
+--
+ALTER TABLE `docente_has_medico`
+  ADD CONSTRAINT `fk_docente_has_medico_docente1` FOREIGN KEY (`docente_iddocente`) REFERENCES `docente` (`iddocente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_docente_has_medico_medico1` FOREIGN KEY (`medico_idmedico`) REFERENCES `medico` (`idmedico`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `evolucion`
+--
+ALTER TABLE `evolucion`
+  ADD CONSTRAINT `fk_evolucion_tratamiento1` FOREIGN KEY (`tratamiento_idtratamiento`) REFERENCES `tratamiento` (`idtratamiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `examenfisicoestomatologico`
+--
+ALTER TABLE `examenfisicoestomatologico`
+  ADD CONSTRAINT `fk_examenFisicoEstomatologico_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `interconsulta_has_datosconsulta`
+--
+ALTER TABLE `interconsulta_has_datosconsulta`
+  ADD CONSTRAINT `fk_interconsulta_has_datosConsulta_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_interconsulta_has_datosConsulta_interconsulta1` FOREIGN KEY (`interconsulta_idinterconsulta`) REFERENCES `interconsulta` (`idinterconsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `medico_has_curso`
+--
+ALTER TABLE `medico_has_curso`
+  ADD CONSTRAINT `fk_medico_has_curso_curso1` FOREIGN KEY (`curso_idcurso`) REFERENCES `curso` (`idcurso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_medico_has_curso_medico1` FOREIGN KEY (`medico_idmedico`) REFERENCES `medico` (`idmedico`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `medico_has_paciente`
+--
+ALTER TABLE `medico_has_paciente`
+  ADD CONSTRAINT `fk_medico_has_paciente_medico1` FOREIGN KEY (`medico_idmedico`) REFERENCES `medico` (`idmedico`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_medico_has_paciente_paciente1` FOREIGN KEY (`paciente_idpersona`) REFERENCES `paciente` (`idpersona`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `municipios`
+--
+ALTER TABLE `municipios`
+  ADD CONSTRAINT `fk_municipios_departamentos1` FOREIGN KEY (`departamentos_codigo1`) REFERENCES `departamentos` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `paciente`
+--
+ALTER TABLE `paciente`
+  ADD CONSTRAINT `fk_paciente_municipios1` FOREIGN KEY (`municipios_codigo`) REFERENCES `municipios` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_paciente_profesiones1` FOREIGN KEY (`profesiones_codigo`) REFERENCES `profesiones` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `radiografia`
+--
+ALTER TABLE `radiografia`
+  ADD CONSTRAINT `fk_radiografia_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `remision_has_datosconsulta`
+--
+ALTER TABLE `remision_has_datosconsulta`
+  ADD CONSTRAINT `fk_remision_has_datosConsulta_datosConsulta1` FOREIGN KEY (`datosConsulta_iddatosConsulta`) REFERENCES `consulta` (`iddatosConsulta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_remision_has_datosConsulta_remision1` FOREIGN KEY (`remision_idremision`) REFERENCES `remision` (`idremision`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

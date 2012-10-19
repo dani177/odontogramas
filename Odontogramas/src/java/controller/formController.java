@@ -362,12 +362,21 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("agregarDiagnostico")) {
                 HttpSession sesion = request.getSession();
                 Consulta con = (Consulta) sesion.getAttribute("consulta");
-
-                String diagnostico = (String) request.getParameter("diagnostico");
-                String codigo = (String) request.getParameter("codigo");
-                Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
                 List<Diagnostico> listD = con.getDiagnosticoList();
-                listD.add(dia);
+                String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
+                String diagnosticos[] = diagnosticosJuntos.split(",");
+                
+                for (int i = 0; i < diagnosticos.length; i++) {
+                    String dia_cod[]= diagnosticos[i].split(" - ");
+                    String codigo = dia_cod[1];
+                    Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
+                    listD.add(dia);
+                }
+                
+               
+                
+                
+                
                 con.setDiagnosticoList(listD);
                 try {
                     new ConsultaJpaController().edit(con);

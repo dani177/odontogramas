@@ -49,15 +49,19 @@
             
         }) ;
         $("#guardarDiag").click(function(){
+            $(this).button('loading');
             $.ajax({
                 type: 'POST', 
                 url: "<%=request.getContextPath()%>/formController?action=agregarDiagnostico",
-                data: "diagnosticos="+$("input:hidden").val(),
+                data: "diagnosticos="+$("#formDiag input[name='hiddenTagList']").val(),
                 success: function(){
+                    setTimeout(function(){
+                        $("#guardarDiag").button('reset');
+                    }, 500);
                     
                 } //fin success
             }); //fin $.ajax    
-            
+        
         }) ;
         
         
@@ -86,15 +90,30 @@
         var miArray2 = new Array(${tratamientos.size()});
         
     <c:forEach items="${tratamientos}" var="item2" varStatus="iter2">
-            miArray2[${iter2.index}] = "${item2.getTratamiento()}";
+            miArray2[${iter2.index}] = "${item2.getTratamiento()} - ${item2.getIdtratamiento()} - ${item2.getPresupuesto()}";
     </c:forEach> 
+        
+            $(".tagManager2").tagsManager({
+                prefilled: null,
+                CapitalizeFirstLetter: false,
+                preventSubmitOnEnter: true,
+                typeahead: true,
+                typeaheadAjaxSource: null,
+                typeaheadSource: miArray2,
+                delimeters: [44, 188, 13],
+                backspace: [8],
+                blinkBGColor_1: '#FFFF9C',
+                blinkBGColor_2: '#CDE69C'
+            });
+    
+        
         
             var miArray = new Array(${diagnosticos.size()});
         
     <c:forEach items="${diagnosticos}" var="item" varStatus="iter">
             miArray[${iter.index}] = "${item.getDiagnostico()} - ${item.getCodigo()}";
     </c:forEach> 
-        
+    
             $(".tagManager").tagsManager({
                 prefilled: null,
                 CapitalizeFirstLetter: false,
@@ -560,33 +579,18 @@
                             <input type="text" name="tags" autocomplete="off" placeholder="Diagnostico" class="tagManager"/>
                         </div>
 
-                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag">Guardar Diagnosticos</button>
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag" data-original-title="Guardar diagnosticos" data-loading-text="Guardando diagnosticos..." autocomplete="off">Guardar diagnosticos</button>
                     </fieldset>        
                 </form>
                 <br> 
                 <form method="post" id="formTrata">
                     <fieldset>
                         <legend>Tratamiento</legend>
+                        <div class="span12">
+                            <input type="text" name="tags2" autocomplete="off" placeholder="Tratamiento" class="tagManager2"/>
+                        </div>
 
-                        <table class="table table-striped table-bordered table-condensed" id="tablaTrat" >
-                            <thead>
-                                <tr>
-                                    <th>Codigo</th>
-                                    <th>Tratamiento</th>
-                                    <th>Presupuesto</th>
-
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> <input type="text" name="codigoTrat" id="codTrat" class="input-medium"></td>
-                                    <td><textarea rows="3" class="input-xxlarge textareaTratamiento" name="tratamiento"></textarea></td>
-                                    <td> <input type="text" name="presupuestoT" id="presTrat" class="input-medium"></td>
-                                </tr>    
-                            </tbody>
-                        </table>
-
-                        <button class="btn" type="button" id="agregarTrat">Agregar Tratamiento</button>
-
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarTrat" data-original-title="Guardar tratamientos" data-loading-text="Guardando tratamientos..." autocomplete="off">Guardar tratamientos</button>
                     </fieldset>   
                 </form>
                 <br>
