@@ -123,7 +123,7 @@
                                             setTimeout(function () {
                                                 $.ajax({
                                                     url: '/Odontogramas/loginController',
-                                                    data: 'un='+ $('#codigo').val() +'&pw=' + $('#pass').val(),
+                                                    data: 'un='+ $('#codigo').val() +'&pw=' + $('#pass').val() + '&perfil='+ $('#tipo :selected').val(),
                                                     type: 'post',
                                                     success: function(msg){
                                    
@@ -176,6 +176,12 @@
                                                                 <a data-dismiss='alert' class='close'>×</a>  
                                                                 <strong>Error!</strong>Usuario y/o Contrase&ntilde;a incorrecto(s)
                                                             </div>
+                                                            <label style="margin-top: 15px;">Perfil de ingreso</label>
+                                                            <select id="tipo" name="tipo" class="span3">
+                                                                <option>Estudiante</option>
+                                                                <option>Docente</option>
+                                                                <option>Administrador</option>
+                                                            </select>
                                                             <label>Usuario</label>
                                                             <input type="text" id="codigo" name="codigo" class="span3 {required:true}" />
                                                             <label>Contrase&ntilde;a</label>

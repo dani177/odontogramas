@@ -324,28 +324,28 @@ public class formController extends HttpServlet {
                 int mayor = -1;
                 for (int j = 0; j < consultas.size(); j++) {
                     if (consultas.get(j).getIddatosConsulta() > mayor) {
-                    mayor=consultas.get(j).getIddatosConsulta();
-                            
+                        mayor = consultas.get(j).getIddatosConsulta();
+
                     }
                 }
-                
+
                 Consulta conRecienCreada = conCon.findConsulta(mayor);
-                
-                 for (int i = 0; i < Listdb.size(); i++) {
+
+                for (int i = 0; i < Listdb.size(); i++) {
                     String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
                     DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
                     aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
                     aux.setDatosConsultaiddatosConsulta(conRecienCreada);
                     aux.setValor(valor);
                     new DatosconsultaHasDatosbasicosJpaController().create(aux);
-                   dcdb.add(aux);
+                    dcdb.add(aux);
 
                 }
-                      
+
                 conRecienCreada.setDatosconsultaHasDatosbasicosList(dcdb);
                 try {
                     conCon.edit(conRecienCreada);
-                    
+
                 } catch (IllegalOrphanException ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NonexistentEntityException ex) {
@@ -355,7 +355,7 @@ public class formController extends HttpServlet {
                 }
                 session.setAttribute("consulta", conRecienCreada);
 
-               
+
 
             }
 
@@ -365,18 +365,18 @@ public class formController extends HttpServlet {
                 List<Diagnostico> listD = con.getDiagnosticoList();
                 String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
                 String diagnosticos[] = diagnosticosJuntos.split(",");
-                
+
                 for (int i = 0; i < diagnosticos.length; i++) {
-                    String dia_cod[]= diagnosticos[i].split(" - ");
+                    String dia_cod[] = diagnosticos[i].split(" - ");
                     String codigo = dia_cod[1];
                     Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
                     listD.add(dia);
                 }
-                
-               
-                
-                
-                
+
+
+
+
+
                 con.setDiagnosticoList(listD);
                 try {
                     new ConsultaJpaController().edit(con);
@@ -392,6 +392,78 @@ public class formController extends HttpServlet {
 
 
             }
+
+
+            if (request.getParameter("action").equals("agregarPronostico")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                String pronostico = (String) request.getParameter("pronostico");
+                ConsultaJpaController coC = new ConsultaJpaController();
+                con.setPronostico(pronostico);
+                try {
+                    coC.edit(con);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (request.getParameter("action").equals("agregarOtros")) {
+                HttpSession sesion = request.getSession();
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                List<Remision> listRe = new RemisionJpaController().findRemisionEntities();
+                List<Interconsulta> listInt = new InterconsultaJpaController().findInterconsultaEntities();
+                List<Plantratamiento> listPlan = new PlantratamientoJpaController().findPlantratamientoEntities();
+
+                List<Interconsulta> listIntAux = new ArrayList<Interconsulta>();
+                List<Remision> listRemAux = new ArrayList<Remision>();
+                List<Plantratamiento> listPlanAux = new ArrayList<Plantratamiento>();
+
+                for (int i = 0; i < listInt.size(); i++) {
+                    String aux = (String) request.getParameter("interconsulta" + i);
+
+                    if (aux != null && !aux.equals("")) {
+                        Interconsulta Iaux = new InterconsultaJpaController().findInterconsulta(Integer.parseInt(aux));
+                        listIntAux.add(Iaux);
+                    }
+
+
+
+                }
+                for (int i = 0; i < listRe.size(); i++) {
+                    String aux = (String) request.getParameter("remision" + i);
+                    if (aux != null && !aux.equals("")) {
+                        Remision Raux = new RemisionJpaController().findRemision(Integer.parseInt(aux));
+                        listRemAux.add(Raux);
+                    }
+                }
+                for (int i = 0; i < listPlan.size(); i++) {
+                    String aux = (String) request.getParameter("plantratamiento" + i);
+                    if (aux != null && !aux.equals("")) {
+                        Plantratamiento Paux = new PlantratamientoJpaController().findPlantratamiento(Integer.parseInt(aux));
+                        listPlanAux.add(Paux);
+                    }
+
+                }
+                
+                con.setInterconsultaList(listIntAux);
+                con.setRemisionList(listRemAux);
+                con.setPlantratamientoList(listPlanAux);
+                try {
+                    new ConsultaJpaController().edit(con);
+                } catch (IllegalOrphanException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+
 
 
             if (request.getParameter("action").equals("agregarEvolucion")) {

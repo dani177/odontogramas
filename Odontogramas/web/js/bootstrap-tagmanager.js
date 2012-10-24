@@ -119,6 +119,7 @@
          return;
 
       jQuery(lhiddenTagList).val(tlis.join(","));
+      obj.change();
    };
 
    jQuery.fn.spliceTag = function (TagId,robj) {
@@ -349,7 +350,7 @@
             e.returnValue = false;
             e.stopPropagation();
             e.preventDefault();
-
+            
             var is_chrome = navigator.userAgent.indexOf('Chrome') > -1;
             var is_explorer = navigator.userAgent.indexOf('MSIE') > -1;
             var is_firefox = navigator.userAgent.indexOf('Firefox') > -1;

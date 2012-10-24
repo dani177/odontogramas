@@ -63,7 +63,43 @@
             }); //fin $.ajax    
         
         }) ;
+
+      
         
+        
+        $("#guardarProno").click(function(){
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST', 
+                url: "<%=request.getContextPath()%>/formController?action=agregarPronostico",
+                data: $("#formPron").serialize(),
+                success: function(){
+                    setTimeout(function(){
+                        $("#guardarProno").button('reset');
+                    }, 500);
+                    
+                } //fin success
+            }); //fin $.ajax    
+        
+        }) ;
+
+
+        $("#guardarOtros").click(function(){
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST', 
+                url: "<%=request.getContextPath()%>/formController?action=agregarOtros",
+                data: ""+$("#formOtros").serialize(),
+                success: function(){
+                    setTimeout(function(){
+                        $("#guardarOtros").button('reset');
+                    }, 500);
+                    
+                } //fin success
+            }); //fin $.ajax    
+        
+        }) ;
+
         
         $("#agregarTrat").click(function(){
             $.ajax({
@@ -582,6 +618,73 @@
                         <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag" data-original-title="Guardar diagnosticos" data-loading-text="Guardando diagnosticos..." autocomplete="off">Guardar diagnosticos</button>
                     </fieldset>        
                 </form>
+                <form method="post" id="formPron">
+                    <fieldset>
+                        <legend>Pronostico</legend>    
+                        <div class="control-group">
+                            <label class="control-label">Pronostico</label>
+                            <div class="controls">
+                                <label class="radio inline">
+                                    <input type="radio" value="Bueno" name="pronostico" class="{required:true}" >
+                                    Bueno
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" value="Regular" name="pronostico" >
+                                    Regular
+                                </label>
+                                <label class="radio inline">
+                                    <input type="radio" value="Malo" name="pronostico" >
+                                    Malo
+                                </label>
+                            </div>
+                        </div>
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarProno" data-original-title="Guardar pronostico" data-loading-text="Guardando pronostico..." autocomplete="off">Guardar pronostico</button>
+                    </fieldset>
+                </form>
+                <br> 
+                <form method="post" id="formOtros">
+                    <fieldset>
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Interconsulta</legend>  
+                                    <c:forEach items="${interconsulta}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
+                                        </label>
+                                    </c:forEach>
+                                </fieldset> 
+                            </div>
+
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Plan de tratamiento</legend>  
+                                    <c:forEach items="${planTratamiento}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
+                                        </label>
+                                    </c:forEach>
+
+                                </fieldset> 
+                            </div>
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Remision</legend>  
+                                    <c:forEach items="${remision}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
+                                        </label>
+                                    </c:forEach>
+                                </fieldset> 
+                            </div>
+
+                        </div>
+
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarOtros" data-original-title="Guardar cambios" data-loading-text="Guardando cambios..." autocomplete="off">Guardar cambios</button>
+                            
+                        
+                    </fieldset>
+                </form>
                 <br> 
                 <form method="post" id="formTrata">
                     <fieldset>
@@ -589,7 +692,7 @@
                         <div class="span12">
                             <input type="text" name="tags2" autocomplete="off" placeholder="Tratamiento" class="tagManager2"/>
                         </div>
-
+                        <input type="text" name="tagpresupuesto" id="tagpresupuesto"  value=""/>
                         <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarTrat" data-original-title="Guardar tratamientos" data-loading-text="Guardando tratamientos..." autocomplete="off">Guardar tratamientos</button>
                     </fieldset>   
                 </form>
@@ -621,71 +724,6 @@
 
                     </fieldset>
                 </form>
-                <form method="post" id="formPron">
-                    <fieldset>
-                        <legend>Pronostico</legend>    
-                        <div class="control-group">
-                            <label class="control-label">Pronostico</label>
-                            <div class="controls">
-                                <label class="radio inline">
-                                    <input type="radio" value="Bueno" name="pronostico" class="{required:true}" >
-                                    Bueno
-                                </label>
-                                <label class="radio inline">
-                                    <input type="radio" value="Regular" name="pronostico" >
-                                    Regular
-                                </label>
-                                <label class="radio inline">
-                                    <input type="radio" value="Malo" name="pronostico" >
-                                    Malo
-                                </label>
-                            </div>
-                        </div>
-
-
-
-                        <br> 
-                        <div class="row-fluid">
-                            <div class="span3">
-                                <fieldset>
-                                    <legend>Plan de tratamiento</legend>  
-                                    <c:forEach items="${planTratamiento}" var="row" varStatus="sta">
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
-                                        </label>
-                                    </c:forEach>
-
-                                </fieldset> 
-                            </div>
-                            <div class="span3">
-                                <fieldset>
-                                    <legend>Remision</legend>  
-                                    <c:forEach items="${remision}" var="row" varStatus="sta">
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
-                                        </label>
-                                    </c:forEach>
-                                </fieldset> 
-                            </div>
-                            <div class="span3">
-                                <fieldset>
-                                    <legend>Interconsulta</legend>  
-                                    <c:forEach items="${interconsulta}" var="row" varStatus="sta">
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
-                                        </label>
-                                    </c:forEach>
-                                </fieldset> 
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
-                        </div>
-                    </fieldset>
-                </form>
-
             </div>
         </div>
     </div>
