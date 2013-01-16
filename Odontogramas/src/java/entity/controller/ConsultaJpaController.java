@@ -2,24 +2,38 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import conexion.jpaConnection;
-import entity.*;
+import entity.Consulta;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entity.Paciente;
+import entity.Medico;
+import entity.Docente;
+import entity.Tratamiento;
 import java.util.ArrayList;
 import java.util.List;
+import entity.Diagnostico;
+import entity.Plantratamiento;
+import entity.Interconsulta;
+import entity.Remision;
+import entity.DatosconsultaHasDatosbasicos;
+import entity.DatosconsultaHasDiente;
+import entity.Examenfisicoestomatologico;
+import entity.Radiografia;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 public class ConsultaJpaController implements Serializable {
 
     public ConsultaJpaController() {
@@ -61,20 +75,20 @@ public class ConsultaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Docente docenteIddocente = consulta.getDocenteIddocente();
-            if (docenteIddocente != null) {
-                docenteIddocente = em.getReference(docenteIddocente.getClass(), docenteIddocente.getIddocente());
-                consulta.setDocenteIddocente(docenteIddocente);
+            Paciente pacienteIdpersona = consulta.getPacienteIdpersona();
+            if (pacienteIdpersona != null) {
+                pacienteIdpersona = em.getReference(pacienteIdpersona.getClass(), pacienteIdpersona.getIdpersona());
+                consulta.setPacienteIdpersona(pacienteIdpersona);
             }
             Medico medicoIdmedico = consulta.getMedicoIdmedico();
             if (medicoIdmedico != null) {
                 medicoIdmedico = em.getReference(medicoIdmedico.getClass(), medicoIdmedico.getIdmedico());
                 consulta.setMedicoIdmedico(medicoIdmedico);
             }
-            Paciente pacienteIdpersona = consulta.getPacienteIdpersona();
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona = em.getReference(pacienteIdpersona.getClass(), pacienteIdpersona.getIdpersona());
-                consulta.setPacienteIdpersona(pacienteIdpersona);
+            Docente docenteIddocente = consulta.getDocenteIddocente();
+            if (docenteIddocente != null) {
+                docenteIddocente = em.getReference(docenteIddocente.getClass(), docenteIddocente.getIddocente());
+                consulta.setDocenteIddocente(docenteIddocente);
             }
             List<Tratamiento> attachedTratamientoList = new ArrayList<Tratamiento>();
             for (Tratamiento tratamientoListTratamientoToAttach : consulta.getTratamientoList()) {
@@ -131,17 +145,17 @@ public class ConsultaJpaController implements Serializable {
             }
             consulta.setRadiografiaList(attachedRadiografiaList);
             em.persist(consulta);
-            if (docenteIddocente != null) {
-                docenteIddocente.getConsultaList().add(consulta);
-                docenteIddocente = em.merge(docenteIddocente);
+            if (pacienteIdpersona != null) {
+                pacienteIdpersona.getConsultaList().add(consulta);
+                pacienteIdpersona = em.merge(pacienteIdpersona);
             }
             if (medicoIdmedico != null) {
                 medicoIdmedico.getConsultaList().add(consulta);
                 medicoIdmedico = em.merge(medicoIdmedico);
             }
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona.getConsultaList().add(consulta);
-                pacienteIdpersona = em.merge(pacienteIdpersona);
+            if (docenteIddocente != null) {
+                docenteIddocente.getConsultaList().add(consulta);
+                docenteIddocente = em.merge(docenteIddocente);
             }
             for (Tratamiento tratamientoListTratamiento : consulta.getTratamientoList()) {
                 tratamientoListTratamiento.getConsultaList().add(consulta);
@@ -213,12 +227,12 @@ public class ConsultaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Consulta persistentConsulta = em.find(Consulta.class, consulta.getIddatosConsulta());
-            Docente docenteIddocenteOld = persistentConsulta.getDocenteIddocente();
-            Docente docenteIddocenteNew = consulta.getDocenteIddocente();
-            Medico medicoIdmedicoOld = persistentConsulta.getMedicoIdmedico();
-            Medico medicoIdmedicoNew = consulta.getMedicoIdmedico();
             Paciente pacienteIdpersonaOld = persistentConsulta.getPacienteIdpersona();
             Paciente pacienteIdpersonaNew = consulta.getPacienteIdpersona();
+            Medico medicoIdmedicoOld = persistentConsulta.getMedicoIdmedico();
+            Medico medicoIdmedicoNew = consulta.getMedicoIdmedico();
+            Docente docenteIddocenteOld = persistentConsulta.getDocenteIddocente();
+            Docente docenteIddocenteNew = consulta.getDocenteIddocente();
             List<Tratamiento> tratamientoListOld = persistentConsulta.getTratamientoList();
             List<Tratamiento> tratamientoListNew = consulta.getTratamientoList();
             List<Diagnostico> diagnosticoListOld = persistentConsulta.getDiagnosticoList();
@@ -254,14 +268,6 @@ public class ConsultaJpaController implements Serializable {
                     illegalOrphanMessages.add("You must retain DatosconsultaHasDiente " + datosconsultaHasDienteListOldDatosconsultaHasDiente + " since its consulta field is not nullable.");
                 }
             }
-            for (Examenfisicoestomatologico examenfisicoestomatologicoListOldExamenfisicoestomatologico : examenfisicoestomatologicoListOld) {
-                if (!examenfisicoestomatologicoListNew.contains(examenfisicoestomatologicoListOldExamenfisicoestomatologico)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Examenfisicoestomatologico " + examenfisicoestomatologicoListOldExamenfisicoestomatologico + " since its datosConsultaiddatosConsulta field is not nullable.");
-                }
-            }
             for (Radiografia radiografiaListOldRadiografia : radiografiaListOld) {
                 if (!radiografiaListNew.contains(radiografiaListOldRadiografia)) {
                     if (illegalOrphanMessages == null) {
@@ -273,17 +279,17 @@ public class ConsultaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (docenteIddocenteNew != null) {
-                docenteIddocenteNew = em.getReference(docenteIddocenteNew.getClass(), docenteIddocenteNew.getIddocente());
-                consulta.setDocenteIddocente(docenteIddocenteNew);
+            if (pacienteIdpersonaNew != null) {
+                pacienteIdpersonaNew = em.getReference(pacienteIdpersonaNew.getClass(), pacienteIdpersonaNew.getIdpersona());
+                consulta.setPacienteIdpersona(pacienteIdpersonaNew);
             }
             if (medicoIdmedicoNew != null) {
                 medicoIdmedicoNew = em.getReference(medicoIdmedicoNew.getClass(), medicoIdmedicoNew.getIdmedico());
                 consulta.setMedicoIdmedico(medicoIdmedicoNew);
             }
-            if (pacienteIdpersonaNew != null) {
-                pacienteIdpersonaNew = em.getReference(pacienteIdpersonaNew.getClass(), pacienteIdpersonaNew.getIdpersona());
-                consulta.setPacienteIdpersona(pacienteIdpersonaNew);
+            if (docenteIddocenteNew != null) {
+                docenteIddocenteNew = em.getReference(docenteIddocenteNew.getClass(), docenteIddocenteNew.getIddocente());
+                consulta.setDocenteIddocente(docenteIddocenteNew);
             }
             List<Tratamiento> attachedTratamientoListNew = new ArrayList<Tratamiento>();
             for (Tratamiento tratamientoListNewTratamientoToAttach : tratamientoListNew) {
@@ -349,13 +355,13 @@ public class ConsultaJpaController implements Serializable {
             radiografiaListNew = attachedRadiografiaListNew;
             consulta.setRadiografiaList(radiografiaListNew);
             consulta = em.merge(consulta);
-            if (docenteIddocenteOld != null && !docenteIddocenteOld.equals(docenteIddocenteNew)) {
-                docenteIddocenteOld.getConsultaList().remove(consulta);
-                docenteIddocenteOld = em.merge(docenteIddocenteOld);
+            if (pacienteIdpersonaOld != null && !pacienteIdpersonaOld.equals(pacienteIdpersonaNew)) {
+                pacienteIdpersonaOld.getConsultaList().remove(consulta);
+                pacienteIdpersonaOld = em.merge(pacienteIdpersonaOld);
             }
-            if (docenteIddocenteNew != null && !docenteIddocenteNew.equals(docenteIddocenteOld)) {
-                docenteIddocenteNew.getConsultaList().add(consulta);
-                docenteIddocenteNew = em.merge(docenteIddocenteNew);
+            if (pacienteIdpersonaNew != null && !pacienteIdpersonaNew.equals(pacienteIdpersonaOld)) {
+                pacienteIdpersonaNew.getConsultaList().add(consulta);
+                pacienteIdpersonaNew = em.merge(pacienteIdpersonaNew);
             }
             if (medicoIdmedicoOld != null && !medicoIdmedicoOld.equals(medicoIdmedicoNew)) {
                 medicoIdmedicoOld.getConsultaList().remove(consulta);
@@ -365,13 +371,13 @@ public class ConsultaJpaController implements Serializable {
                 medicoIdmedicoNew.getConsultaList().add(consulta);
                 medicoIdmedicoNew = em.merge(medicoIdmedicoNew);
             }
-            if (pacienteIdpersonaOld != null && !pacienteIdpersonaOld.equals(pacienteIdpersonaNew)) {
-                pacienteIdpersonaOld.getConsultaList().remove(consulta);
-                pacienteIdpersonaOld = em.merge(pacienteIdpersonaOld);
+            if (docenteIddocenteOld != null && !docenteIddocenteOld.equals(docenteIddocenteNew)) {
+                docenteIddocenteOld.getConsultaList().remove(consulta);
+                docenteIddocenteOld = em.merge(docenteIddocenteOld);
             }
-            if (pacienteIdpersonaNew != null && !pacienteIdpersonaNew.equals(pacienteIdpersonaOld)) {
-                pacienteIdpersonaNew.getConsultaList().add(consulta);
-                pacienteIdpersonaNew = em.merge(pacienteIdpersonaNew);
+            if (docenteIddocenteNew != null && !docenteIddocenteNew.equals(docenteIddocenteOld)) {
+                docenteIddocenteNew.getConsultaList().add(consulta);
+                docenteIddocenteNew = em.merge(docenteIddocenteNew);
             }
             for (Tratamiento tratamientoListOldTratamiento : tratamientoListOld) {
                 if (!tratamientoListNew.contains(tratamientoListOldTratamiento)) {
@@ -455,6 +461,12 @@ public class ConsultaJpaController implements Serializable {
                     }
                 }
             }
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListOldExamenfisicoestomatologico : examenfisicoestomatologicoListOld) {
+                if (!examenfisicoestomatologicoListNew.contains(examenfisicoestomatologicoListOldExamenfisicoestomatologico)) {
+                    examenfisicoestomatologicoListOldExamenfisicoestomatologico.setDatosConsultaiddatosConsulta(null);
+                    examenfisicoestomatologicoListOldExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoListOldExamenfisicoestomatologico);
+                }
+            }
             for (Examenfisicoestomatologico examenfisicoestomatologicoListNewExamenfisicoestomatologico : examenfisicoestomatologicoListNew) {
                 if (!examenfisicoestomatologicoListOld.contains(examenfisicoestomatologicoListNewExamenfisicoestomatologico)) {
                     Consulta oldDatosConsultaiddatosConsultaOfExamenfisicoestomatologicoListNewExamenfisicoestomatologico = examenfisicoestomatologicoListNewExamenfisicoestomatologico.getDatosConsultaiddatosConsulta();
@@ -521,13 +533,6 @@ public class ConsultaJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Consulta (" + consulta + ") cannot be destroyed since the DatosconsultaHasDiente " + datosconsultaHasDienteListOrphanCheckDatosconsultaHasDiente + " in its datosconsultaHasDienteList field has a non-nullable consulta field.");
             }
-            List<Examenfisicoestomatologico> examenfisicoestomatologicoListOrphanCheck = consulta.getExamenfisicoestomatologicoList();
-            for (Examenfisicoestomatologico examenfisicoestomatologicoListOrphanCheckExamenfisicoestomatologico : examenfisicoestomatologicoListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Consulta (" + consulta + ") cannot be destroyed since the Examenfisicoestomatologico " + examenfisicoestomatologicoListOrphanCheckExamenfisicoestomatologico + " in its examenfisicoestomatologicoList field has a non-nullable datosConsultaiddatosConsulta field.");
-            }
             List<Radiografia> radiografiaListOrphanCheck = consulta.getRadiografiaList();
             for (Radiografia radiografiaListOrphanCheckRadiografia : radiografiaListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
@@ -538,20 +543,20 @@ public class ConsultaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Docente docenteIddocente = consulta.getDocenteIddocente();
-            if (docenteIddocente != null) {
-                docenteIddocente.getConsultaList().remove(consulta);
-                docenteIddocente = em.merge(docenteIddocente);
+            Paciente pacienteIdpersona = consulta.getPacienteIdpersona();
+            if (pacienteIdpersona != null) {
+                pacienteIdpersona.getConsultaList().remove(consulta);
+                pacienteIdpersona = em.merge(pacienteIdpersona);
             }
             Medico medicoIdmedico = consulta.getMedicoIdmedico();
             if (medicoIdmedico != null) {
                 medicoIdmedico.getConsultaList().remove(consulta);
                 medicoIdmedico = em.merge(medicoIdmedico);
             }
-            Paciente pacienteIdpersona = consulta.getPacienteIdpersona();
-            if (pacienteIdpersona != null) {
-                pacienteIdpersona.getConsultaList().remove(consulta);
-                pacienteIdpersona = em.merge(pacienteIdpersona);
+            Docente docenteIddocente = consulta.getDocenteIddocente();
+            if (docenteIddocente != null) {
+                docenteIddocente.getConsultaList().remove(consulta);
+                docenteIddocente = em.merge(docenteIddocente);
             }
             List<Tratamiento> tratamientoList = consulta.getTratamientoList();
             for (Tratamiento tratamientoListTratamiento : tratamientoList) {
@@ -577,6 +582,11 @@ public class ConsultaJpaController implements Serializable {
             for (Remision remisionListRemision : remisionList) {
                 remisionListRemision.getConsultaList().remove(consulta);
                 remisionListRemision = em.merge(remisionListRemision);
+            }
+            List<Examenfisicoestomatologico> examenfisicoestomatologicoList = consulta.getExamenfisicoestomatologicoList();
+            for (Examenfisicoestomatologico examenfisicoestomatologicoListExamenfisicoestomatologico : examenfisicoestomatologicoList) {
+                examenfisicoestomatologicoListExamenfisicoestomatologico.setDatosConsultaiddatosConsulta(null);
+                examenfisicoestomatologicoListExamenfisicoestomatologico = em.merge(examenfisicoestomatologicoListExamenfisicoestomatologico);
             }
             em.remove(consulta);
             em.getTransaction().commit();
@@ -632,5 +642,5 @@ public class ConsultaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

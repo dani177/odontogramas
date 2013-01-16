@@ -2,16 +2,25 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 @Entity
 @Table(name = "interconsulta")
 @XmlRootElement
@@ -27,10 +36,7 @@ public class Interconsulta implements Serializable {
     private Integer idinterconsulta;
     @Column(name = "interconsulta")
     private String interconsulta;
-    @JoinTable(name = "interconsulta_has_datosconsulta", joinColumns = {
-        @JoinColumn(name = "interconsulta_idinterconsulta", referencedColumnName = "idinterconsulta")}, inverseJoinColumns = {
-        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "interconsultaList")
     private List<Consulta> consultaList;
 
     public Interconsulta() {
@@ -89,5 +95,5 @@ public class Interconsulta implements Serializable {
     public String toString() {
         return "entity.Interconsulta[ idinterconsulta=" + idinterconsulta + " ]";
     }
-
+    
 }

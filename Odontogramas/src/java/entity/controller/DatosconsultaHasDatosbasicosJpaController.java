@@ -10,8 +10,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.Datosbasicos;
 import entity.Consulta;
+import entity.Datosbasicos;
 import entity.DatosconsultaHasDatosbasicos;
 import entity.controller.exceptions.NonexistentEntityException;
 import java.util.List;
@@ -32,24 +32,24 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Datosbasicos datosBasicosiddatosBasicos = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
-            if (datosBasicosiddatosBasicos != null) {
-                datosBasicosiddatosBasicos = em.getReference(datosBasicosiddatosBasicos.getClass(), datosBasicosiddatosBasicos.getIddatosBasicos());
-                datosconsultaHasDatosbasicos.setDatosBasicosiddatosBasicos(datosBasicosiddatosBasicos);
-            }
             Consulta datosConsultaiddatosConsulta = datosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta = em.getReference(datosConsultaiddatosConsulta.getClass(), datosConsultaiddatosConsulta.getIddatosConsulta());
                 datosconsultaHasDatosbasicos.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsulta);
             }
-            em.persist(datosconsultaHasDatosbasicos);
+            Datosbasicos datosBasicosiddatosBasicos = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
             if (datosBasicosiddatosBasicos != null) {
-                datosBasicosiddatosBasicos.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
-                datosBasicosiddatosBasicos = em.merge(datosBasicosiddatosBasicos);
+                datosBasicosiddatosBasicos = em.getReference(datosBasicosiddatosBasicos.getClass(), datosBasicosiddatosBasicos.getIddatosBasicos());
+                datosconsultaHasDatosbasicos.setDatosBasicosiddatosBasicos(datosBasicosiddatosBasicos);
             }
+            em.persist(datosconsultaHasDatosbasicos);
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
+            }
+            if (datosBasicosiddatosBasicos != null) {
+                datosBasicosiddatosBasicos.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
+                datosBasicosiddatosBasicos = em.merge(datosBasicosiddatosBasicos);
             }
             em.getTransaction().commit();
         } finally {
@@ -65,27 +65,19 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             DatosconsultaHasDatosbasicos persistentDatosconsultaHasDatosbasicos = em.find(DatosconsultaHasDatosbasicos.class, datosconsultaHasDatosbasicos.getIdConsultadatosBasicos());
-            Datosbasicos datosBasicosiddatosBasicosOld = persistentDatosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
-            Datosbasicos datosBasicosiddatosBasicosNew = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
             Consulta datosConsultaiddatosConsultaOld = persistentDatosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
             Consulta datosConsultaiddatosConsultaNew = datosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
-            if (datosBasicosiddatosBasicosNew != null) {
-                datosBasicosiddatosBasicosNew = em.getReference(datosBasicosiddatosBasicosNew.getClass(), datosBasicosiddatosBasicosNew.getIddatosBasicos());
-                datosconsultaHasDatosbasicos.setDatosBasicosiddatosBasicos(datosBasicosiddatosBasicosNew);
-            }
+            Datosbasicos datosBasicosiddatosBasicosOld = persistentDatosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
+            Datosbasicos datosBasicosiddatosBasicosNew = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
             if (datosConsultaiddatosConsultaNew != null) {
                 datosConsultaiddatosConsultaNew = em.getReference(datosConsultaiddatosConsultaNew.getClass(), datosConsultaiddatosConsultaNew.getIddatosConsulta());
                 datosconsultaHasDatosbasicos.setDatosConsultaiddatosConsulta(datosConsultaiddatosConsultaNew);
             }
+            if (datosBasicosiddatosBasicosNew != null) {
+                datosBasicosiddatosBasicosNew = em.getReference(datosBasicosiddatosBasicosNew.getClass(), datosBasicosiddatosBasicosNew.getIddatosBasicos());
+                datosconsultaHasDatosbasicos.setDatosBasicosiddatosBasicos(datosBasicosiddatosBasicosNew);
+            }
             datosconsultaHasDatosbasicos = em.merge(datosconsultaHasDatosbasicos);
-            if (datosBasicosiddatosBasicosOld != null && !datosBasicosiddatosBasicosOld.equals(datosBasicosiddatosBasicosNew)) {
-                datosBasicosiddatosBasicosOld.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
-                datosBasicosiddatosBasicosOld = em.merge(datosBasicosiddatosBasicosOld);
-            }
-            if (datosBasicosiddatosBasicosNew != null && !datosBasicosiddatosBasicosNew.equals(datosBasicosiddatosBasicosOld)) {
-                datosBasicosiddatosBasicosNew.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
-                datosBasicosiddatosBasicosNew = em.merge(datosBasicosiddatosBasicosNew);
-            }
             if (datosConsultaiddatosConsultaOld != null && !datosConsultaiddatosConsultaOld.equals(datosConsultaiddatosConsultaNew)) {
                 datosConsultaiddatosConsultaOld.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
                 datosConsultaiddatosConsultaOld = em.merge(datosConsultaiddatosConsultaOld);
@@ -93,6 +85,14 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
             if (datosConsultaiddatosConsultaNew != null && !datosConsultaiddatosConsultaNew.equals(datosConsultaiddatosConsultaOld)) {
                 datosConsultaiddatosConsultaNew.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
                 datosConsultaiddatosConsultaNew = em.merge(datosConsultaiddatosConsultaNew);
+            }
+            if (datosBasicosiddatosBasicosOld != null && !datosBasicosiddatosBasicosOld.equals(datosBasicosiddatosBasicosNew)) {
+                datosBasicosiddatosBasicosOld.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
+                datosBasicosiddatosBasicosOld = em.merge(datosBasicosiddatosBasicosOld);
+            }
+            if (datosBasicosiddatosBasicosNew != null && !datosBasicosiddatosBasicosNew.equals(datosBasicosiddatosBasicosOld)) {
+                datosBasicosiddatosBasicosNew.getDatosconsultaHasDatosbasicosList().add(datosconsultaHasDatosbasicos);
+                datosBasicosiddatosBasicosNew = em.merge(datosBasicosiddatosBasicosNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -123,15 +123,15 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The datosconsultaHasDatosbasicos with id " + id + " no longer exists.", enfe);
             }
-            Datosbasicos datosBasicosiddatosBasicos = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
-            if (datosBasicosiddatosBasicos != null) {
-                datosBasicosiddatosBasicos.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
-                datosBasicosiddatosBasicos = em.merge(datosBasicosiddatosBasicos);
-            }
             Consulta datosConsultaiddatosConsulta = datosconsultaHasDatosbasicos.getDatosConsultaiddatosConsulta();
             if (datosConsultaiddatosConsulta != null) {
                 datosConsultaiddatosConsulta.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
                 datosConsultaiddatosConsulta = em.merge(datosConsultaiddatosConsulta);
+            }
+            Datosbasicos datosBasicosiddatosBasicos = datosconsultaHasDatosbasicos.getDatosBasicosiddatosBasicos();
+            if (datosBasicosiddatosBasicos != null) {
+                datosBasicosiddatosBasicos.getDatosconsultaHasDatosbasicosList().remove(datosconsultaHasDatosbasicos);
+                datosBasicosiddatosBasicos = em.merge(datosBasicosiddatosBasicos);
             }
             em.remove(datosconsultaHasDatosbasicos);
             em.getTransaction().commit();
@@ -187,4 +187,5 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

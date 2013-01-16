@@ -6,11 +6,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Odontograma</title>
-        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/bootstrap-responsive.min.css">
         <!-- Bootstrap CSS fixes for IE6 -->
         <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
         <!-- Bootstrap Image Gallery styles -->
-        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
 
@@ -177,7 +177,7 @@
         <script src='<%=request.getContextPath()%>/js/bootstrap-tagmanager.js' type='text/javascript'></script>
         <script type="text/javascript">
             $(function(){
-                
+                location = "/Odontogramas/#inicio";
                 $(".nav-list >li > a").click(function(ev){
                     $(this).parents("li").siblings().removeClass("active");
                     $(this).parents("li").addClass("active");
@@ -186,8 +186,10 @@
                 
                 var hash = location.hash;
                 if(hash == "#inicio"){
-                    $("#contenido").html("estamos en la pagina de inicio!!");
+                    $("a[href='#listaPacientes']").click();
                 }
+                
+                
                 
                 if(hash == "#listaPacientes"){
                     $.ajax({ 
@@ -259,6 +261,13 @@
                                         }); //fin del $.ajax
                                     } //fin success
                                 }); //fin del $.ajax
+                            }else{
+                                if(hash == "#menuPacientes"){
+                                    $(".nav-list >li >a").show();
+                                    $(".nav-list >li").slice(3).remove();
+                                    $("a[href='#listaPacientes']").click();
+                                    
+                                }
                             }
                         }
                             
@@ -270,7 +279,7 @@
                     
                     
                     if(hash == "#inicio"){
-                        $("#contenido").html("estamos en la pagina de inicio!!");
+                        $("a[href='#listaPacientes']").click();
                     }
                 
                     if(hash == "#listaPacientes"){
@@ -336,9 +345,11 @@
                                                 type: "POST", 
                                                 url: "/Odontogramas/vista/consulta/listar.jsp",
                                                 success: function(data) 
-                                                {   $(".nav-list").html('<li class="nav-header">Menu</li>'
+                                                {  $(".nav-list >li > a").hide();
+                                                    $(".nav-list").append('<li><a href="#menuPacientes" title="Menú de pacientes">...</a></li>'                                                        
                                                         +'<li><a href="#nuevaConsulta">Nueva Consulta</a></li>'
                                                         +'<li class="active"><a href="#listaConsultas">Lista de Consultas</a></li>');
+                                                    
                                                     $("#contenido").html(data);
                                                     $(".nav-list >li > a").click(function(ev){
                                                         $(this).parents("li").siblings().removeClass("active");
@@ -370,6 +381,34 @@
                                                 }); //fin del $.ajax
                                             }
                                         });
+                                    }else{
+                                        if(hash == "#menuPacientes"){
+                                            $(".nav-list >li >a").show();
+                                            $(".nav-list >li").slice(3).remove();
+                                            $("a[href='#listaPacientes']").click();
+                                            
+                                        }else{
+                                            if(hash.indexOf("#verConsulta")!=-1){
+                                                var cual = hash.split("&");
+                                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                                $.ajax({ 
+                                                    type: "POST", 
+                                                    url: url3,
+                                                    success: function() 
+                                                    { 
+                                                        $.ajax({ 
+                                                            type: "POST", 
+                                                            url: "/Odontogramas/vista/consulta/ver.jsp",
+                                                            success: function(data) 
+                                                            {   $("#contenido").html(data);
+                                                            } //fin success
+                                                        }); //fin del $.ajax
+                                                    }//fin success
+                                                })//fin ajax
+                                            }//fin if
+                                        }
+                                        
                                     }
                                 
                                 }
@@ -400,7 +439,7 @@
                     <a class="brand" href="#">Odontogramas</a>
 
                     <ul class="nav">
-                        <li class="active"><a href="#">Inicio</a></li>
+                        <li class="active"><a href="#inicio">Inicio</a></li>
                         <li><a href="#about">Acerca de</a></li>
                         <li><a href="#contact">Contactenos</a></li>
                     </ul>
@@ -427,14 +466,14 @@
                 <div class="span3">
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
-                            <li class="nav-header">Menu</li>
+                            <li class="nav-header">Men&uacute;</li>
                             <li><a href="#nuevoPaciente">Nuevo Paciente</a></li>
                             <li><a href="#listaPacientes">Lista de Pacientes</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->
                 <div id="contenido" class="span9">
-                    estamos en la pagina de inicio!!
+
                 </div>
             </div><!--/row-->
 

@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src='<%=request.getContextPath()%>/js/jquery.reel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.disabletextselect-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
@@ -272,13 +273,13 @@
                         <div class="control-group">
                             <label for="motivo" class="control-label">Motivo de la consulta</label>
                             <div class="controls">
-                                <textarea rows="3" id="motivo" name="motivo" class="input-xxlarge {required:true}"></textarea>
+                                <textarea rows="3" id="motivo" name="motivo" class="input-xxlarge {required:true}">${consulta.motivoConsulta}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="historia" class="control-label">Historia de la enfermedad actual</label>
                             <div class="controls">
-                                <textarea rows="3" id="historia" name="historia" class="input-xxlarge {required:true}"></textarea>
+                                <textarea rows="3" id="historia" name="historia" class="input-xxlarge {required:true}">${consulta.historiaActualEnfermedad}</textarea>
                             </div>
                         </div>       
                         <table class="table table-striped table-bordered table-condensed">
@@ -291,12 +292,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${datosBasicos}" var="row">
+                                <c:forEach items="${consulta.datosconsultaHasDatosbasicosList}" var="row">
                                     <tr>
-                                        <td>${row.nombre}</td>
-                                        <td> <input type="radio" value="si" name="db${row.iddatosBasicos }" ></td>
-                                        <td> <input type="radio" value="no" name="db${row.iddatosBasicos}" ></td>
-                                        <td> <input type="radio" value="no sabe" name="db${row.iddatosBasicos}" checked></td>
+                                        <td>${row.datosBasicosiddatosBasicos.nombre}</td>
+                                        <c:choose>
+                                            <c:when test="${row.valor=='si'}">
+                                                <td> <input type="radio" value="si" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos }" checked=""></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                <td> <input type="radio" value="si" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos }"></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${row.valor=='no'}">
+                                                <td> <input type="radio" value="no" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" checked=""></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                <td> <input type="radio" value="no" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" ></td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test='${row.valor=="no sabe"}'>
+                                                <td> <input type="radio" value="no sabe" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" checked=""></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                <td> <input type="radio" value="no sabe" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}"></td>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -306,26 +329,26 @@
                         <div class="control-group">
                             <label for="observaciones" class="control-label">Observaciones</label>
                             <div class="controls">
-                                <textarea rows="3" id="observaciones" name="observaciones" class="input-xxlarge  {required:true}"></textarea>
+                                <textarea rows="3" id="observaciones" name="observaciones" class="input-xxlarge  {required:true}">${consulta.observaciones}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="otros" class="control-label">Otros</label>
                             <div class="controls">
-                                <textarea rows="3" id="otros" name="otros" class="input-xxlarge"></textarea>
+                                <textarea rows="3" id="otros" name="otros" class="input-xxlarge">${consulta.otros}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
-                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker">
+                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.ultimaVisitaOdon}'></fmt:formatDate>" />
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label for="motivo2" class="control-label">Motivo</label>
                             <div class="controls">
-                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge"></textarea>
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.motivo}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -334,15 +357,19 @@
                                 <select name="docente" class="{required:true}">
                                     <option selected="selected"></option> 
                                     <c:forEach items="${docentes}" var="row" varStatus="iter">
-                                        <option value="${row.iddocente}">${row.nombre}</option>    
+                                        <c:choose>
+                                            <c:when test="${consulta.docenteIddocente.iddocente==row.iddocente}">
+                                                <option selected="selected" value="${row.iddocente}">${row.nombre}</option>            
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${row.iddocente}">${row.nombre}</option>            
+                                            </c:otherwise>
+                                        </c:choose>
+
                                     </c:forEach>
 
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
                         </div>
                     </fieldset>
                 </form>
@@ -364,28 +391,53 @@
                         <div class="control-group">
                             <label for="temperatura" class="control-label">Temperatura</label>
                             <div class="controls">
-                                <input id="temperatura"  name="temperatura" type="text" >
+                                <input id="temperatura"  name="temperatura" type="text" value="${consulta.examenfisicoestomatologicoList[0].temperatura}">
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="pulso" class="control-label">Pulso</label>
                             <div class="controls">
-                                <input id="pulso" name="pulso"  type="text" >
+                                <input id="pulso" name="pulso"  type="text" value="${consulta.examenfisicoestomatologicoList[0].pulso}">
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="tension" class="control-label">Tension A.</label>
                             <div class="controls">
-                                <input id="tension" name="tension" type="text" >
+                                <input id="tension" name="tension" type="text" value="${consulta.examenfisicoestomatologicoList[0].tensionArterial}" >
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Higiene Oral</label>
                             <div class="controls">
                                 <select id="higiene" name="higiene">
-                                    <option value="Buena">Buena</option>
-                                    <option value="Regular">Regular</option>
-                                    <option value="Mala">Mala</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Buena"}'>
+                                            <option selected="selected" value="Buena">Buena</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Buena">Buena</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Regular"}'>
+                                            <option selected="selected" value="Regular">Regular</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Regular">Regular</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Mala"}'>
+                                            <option selected="selected" value="Mala">Mala</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Mala">Mala</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+
                                 </select>
                             </div>
                         </div>
@@ -393,9 +445,34 @@
                             <label class="control-label">Uso de seda dental</label>
                             <div class="controls">
                                 <select id="usoSeda" name="usoSeda">
-                                    <option value="Si">Si</option>
-                                    <option value="No">No</option>
-                                    <option value="Aveces">Aveces</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "Si"}'>
+                                            <option selected="selected" value="Si">Si</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Si">Si</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "No"}'>
+                                            <option selected="selected" value="No">No</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="No">No</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "Aveces"}'>
+                                            <option selected="selected" value="Aveces">Aveces</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Aveces">Aveces</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+
                                 </select>
                             </div>
                         </div>
@@ -403,8 +480,23 @@
                             <label class="control-label">Cepillo dental:Uso</label>
                             <div class="controls">
                                 <select id="cepillo" name="cepillo">
-                                    <option value="Si">Si</option>
-                                    <option value="No">No</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].cepilloDentalUso == "Si"}'>
+                                            <option selected="selected" value="Si">Si</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Si">Si</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].cepilloDentalUso == "No"}'>
+                                            <option selected="selected" value="No">No</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="No">No</option>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </select>
                             </div>
                         </div>
@@ -412,12 +504,56 @@
                             <label class="control-label">Cuantas veces al dia</label>
                             <div class="controls">
                                 <select id="veces" name="veces">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "0"}'>
+                                            <option selected="" value="0">0</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="0">0</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "1"}'>
+                                            <option selected="" value="1">1</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="1">1</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "2"}'>
+                                            <option selected="" value="2">2</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="2">2</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "3"}'>
+                                            <option selected="" value="3">3</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="3">3</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "4"}'>
+                                            <option selected="" value="4">4</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="4">4</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "5"}'>
+                                            <option selected="" value="5">5</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                          <option value="5">5</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    
+                                   
                                 </select>
                             </div>
                         </div>
@@ -425,9 +561,33 @@
                             <label class="control-label">Uso de Enjuages Bucales sin fluor</label>
                             <div class="controls">
                                 <select id="enjuages1" name="enjuages1">
-                                    <option value="Si">Si</option>
-                                    <option value="No">No</option>
-                                    <option value="Aveces">Aveces</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "Si"}'>
+                                            <option selected="selected" value="Si">Si</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Si">Si</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "No"}'>
+                                            <option selected="selected" value="No">No</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="No">No</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "Aveces"}'>
+                                            <option selected="selected" value="Aveces">Aveces</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Aveces">Aveces</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
                                 </select>
                             </div>
                         </div>
@@ -435,9 +595,33 @@
                             <label class="control-label"> Uso de Enjuages Bucales con fluor</label>
                             <div class="controls">
                                 <select id="enjuages2" name="enjuages2">
-                                    <option value="Si">Si</option>
-                                    <option value="No">No</option>
-                                    <option value="Aveces">Aveces</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "Si"}'>
+                                            <option selected="selected" value="Si">Si</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Si">Si</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "No"}'>
+                                            <option selected="selected" value="No">No</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="No">No</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "Aveces"}'>
+                                            <option selected="selected" value="Aveces">Aveces</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Aveces">Aveces</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
                                 </select>
                             </div>
                         </div>
@@ -446,20 +630,65 @@
                             <div class="controls">
                                 <select id="habitosYvicios" name="habitosYvicios">
                                     <option></option>
-                                    <option value="Tabacos">Tabacos</option>
-                                    <option value="Alcohol">Alcohol</option>
-                                    <option value="Caf&eacute;">Caf&eacute;</option>
-                                    <option value="Drogas">Drogas</option>
-                                    <option value="Otro">Otro</option>
-                                    <option value="Ninguno">Ninguno</option>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Tabacos"}'>
+                                            <option selected="selected" value="Tabacos">Tabacos</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Tabacos">Tabacos</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Alcohol"}'>
+                                            <option selected="selected" value="Alcohol">Alcohol</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Alcohol">Alcohol</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Caf&eacute;"}'>
+                                            <option selected="selected" value="Caf&eacute;">Caf&eacute;</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Caf&eacute;">Caf&eacute;</option>
+                                        </c:otherwise>
+
+                                    </c:choose>
+
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Drogas"}'>
+                                            <option selected="selected" value="Drogas">Drogas</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Drogas">Drogas</option>
+                                        </c:otherwise>
+
+                                    </c:choose>      
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Otro"}'>
+                                            <option selected="selected" value="Otro">Otro</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Otro">Otro</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Ninguno"}'>
+                                            <option selected="selected" value="Ninguno">Ninguno</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Ninguno">Ninguno</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+
 
                                 </select>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
-                        </div>
+
                     </fieldset>
                 </form>
 
@@ -704,7 +933,7 @@
                         </div>
                         <label style="margin-top: 18px;margin-left: 20px;">Presupuesto</label>
                         <input style="margin-top: 18px;margin-left: 20px;" type="text" name="tagpresupuesto" id="tagpresupuesto"  value="0"/>
-                         <br>
+                        <br>
                         <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarTrat" data-original-title="Guardar tratamientos" data-loading-text="Guardando tratamientos..." autocomplete="off">Guardar tratamientos</button>
                     </fieldset>   
                 </form>

@@ -2,14 +2,26 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 @Entity
 @Table(name = "examenfisicoestomatologico")
 @XmlRootElement
@@ -54,7 +66,7 @@ public class Examenfisicoestomatologico implements Serializable {
     @Column(name = "habitosYvicios")
     private String habitosYvicios;
     @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Consulta datosConsultaiddatosConsulta;
 
     public Examenfisicoestomatologico() {
@@ -184,5 +196,5 @@ public class Examenfisicoestomatologico implements Serializable {
     public String toString() {
         return "entity.Examenfisicoestomatologico[ idexamenFisicoEstomatologico=" + idexamenFisicoEstomatologico + " ]";
     }
-
+    
 }

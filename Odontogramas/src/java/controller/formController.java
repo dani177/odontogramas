@@ -291,7 +291,21 @@ public class formController extends HttpServlet {
                 String iddoc = (String) request.getParameter("docente");
                 Docente doc = new DocenteJpaController().findDocente(Integer.parseInt(iddoc));
 
+                Date todaysDate = new java.util.Date();
                 SimpleDateFormat formatoDelTexto2 = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = formatoDelTexto2.format(todaysDate);
+
+                Date hoy = null;
+                try {
+
+                    hoy = formatoDelTexto2.parse(formattedDate);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+
                 Date ultimaD = null;
                 try {
 
@@ -314,6 +328,7 @@ public class formController extends HttpServlet {
                 con.setHistoriaActualEnfermedad(historia);
                 con.setMotivo(motivo2);
                 con.setOtros(otros);
+                con.setFechaConsulta(hoy);
                 con.setUltimaVisitaOdon(ultimaD);
                 con.setMedicoIdmedico(me);
                 con.setDocenteIddocente(doc);
@@ -362,16 +377,19 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("agregarDiagnostico")) {
                 HttpSession sesion = request.getSession();
                 Consulta con = (Consulta) sesion.getAttribute("consulta");
-                List<Diagnostico> listD = con.getDiagnosticoList();
+                ConsultaJpaController conC = new ConsultaJpaController();
+                List<Diagnostico> listD = new ArrayList<Diagnostico>();
                 String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
-                String diagnosticos[] = diagnosticosJuntos.split(",");
-
-                for (int i = 0; i < diagnosticos.length; i++) {
-                    String dia_cod[] = diagnosticos[i].split(" - ");
-                    String codigo = dia_cod[1];
-                    Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
-                    listD.add(dia);
+                if (!diagnosticosJuntos.equals("")) {
+                    String diagnosticos[] = diagnosticosJuntos.split(",");
+                    for (int i = 0; i < diagnosticos.length; i++) {
+                        String dia_cod[] = diagnosticos[i].split(" - ");
+                        String codigo = dia_cod[1];
+                        Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
+                        listD.add(dia);
+                    }
                 }
+
 
 
 
@@ -379,7 +397,7 @@ public class formController extends HttpServlet {
 
                 con.setDiagnosticoList(listD);
                 try {
-                    new ConsultaJpaController().edit(con);
+                    conC.edit(con);
                 } catch (IllegalOrphanException ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NonexistentEntityException ex) {
@@ -448,7 +466,7 @@ public class formController extends HttpServlet {
                     }
 
                 }
-                
+
                 con.setInterconsultaList(listIntAux);
                 con.setRemisionList(listRemAux);
                 con.setPlantratamientoList(listPlanAux);
@@ -461,7 +479,7 @@ public class formController extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
 
 
@@ -500,16 +518,34 @@ public class formController extends HttpServlet {
 
 
 
+            if (request.getParameter("action").equals("verConsulta")) {
+                String idConsulta = (String)request.getParameter("id");
+                 Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
+                 HttpSession sesion = request.getSession();
+                 sesion.setAttribute("consulta", con);
+            }
             if (request.getParameter("action").equals("agregarTratamiento")) {
                 HttpSession sesion = request.getSession();
                 Consulta con = (Consulta) sesion.getAttribute("consulta");
+                List<Tratamiento> listT = new ArrayList<Tratamiento>();
+                String tratamientosJuntos = (String) request.getParameter("tratamientos");
+                if (!tratamientosJuntos.equals("")) {
+                    String tratamientos[] = tratamientosJuntos.split(",");
 
-                String codigoTrat = (String) request.getParameter("codigoTrat");
-                String tratamiento = (String) request.getParameter("tratamiento");
-                String presupuestoT = (String) request.getParameter("presupuestoT");
-                Tratamiento tra = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigoTrat));
-                List<Tratamiento> listT = con.getTratamientoList();
-                listT.add(tra);
+                    for (int i = 0; i < tratamientos.length; i++) {
+                        String tra_cod[] = tratamientos[i].split(" - ");
+                        String codigo = tra_cod[1];
+                        Tratamiento dia = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigo));
+                        listT.add(dia);
+                    }
+                }
+
+
+
+
+
+
+
                 con.setTratamientoList(listT);
                 try {
                     new ConsultaJpaController().edit(con);

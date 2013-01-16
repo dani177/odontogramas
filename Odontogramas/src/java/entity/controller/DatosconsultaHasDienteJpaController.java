@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import java.io.Serializable;
@@ -20,7 +19,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 public class DatosconsultaHasDienteJpaController implements Serializable {
 
     public DatosconsultaHasDienteJpaController(EntityManagerFactory emf) {
@@ -36,8 +38,8 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
         if (datosconsultaHasDiente.getDatosconsultaHasDientePK() == null) {
             datosconsultaHasDiente.setDatosconsultaHasDientePK(new DatosconsultaHasDientePK());
         }
-        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         datosconsultaHasDiente.getDatosconsultaHasDientePK().setDienteIddiente(datosconsultaHasDiente.getDiente().getIddiente());
+        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -75,8 +77,8 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
     }
 
     public void edit(DatosconsultaHasDiente datosconsultaHasDiente) throws NonexistentEntityException, Exception {
-        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         datosconsultaHasDiente.getDatosconsultaHasDientePK().setDienteIddiente(datosconsultaHasDiente.getDiente().getIddiente());
+        datosconsultaHasDiente.getDatosconsultaHasDientePK().setDatosConsultaiddatosConsulta(datosconsultaHasDiente.getConsulta().getIddatosConsulta());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -204,5 +206,5 @@ public class DatosconsultaHasDienteJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

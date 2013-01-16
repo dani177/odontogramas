@@ -2,18 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity.controller;
 
 import conexion.jpaConnection;
-import entity.*;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import entity.Paciente;
 import java.util.ArrayList;
 import java.util.List;
+import entity.Docente;
+import entity.Curso;
+import entity.Consulta;
+import entity.Medico;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
@@ -317,5 +320,5 @@ public class MedicoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

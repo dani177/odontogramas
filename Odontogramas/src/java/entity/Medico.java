@@ -2,16 +2,29 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 @Entity
 @Table(name = "medico")
 @XmlRootElement
@@ -43,10 +56,7 @@ public class Medico implements Serializable {
     private List<Paciente> pacienteList;
     @ManyToMany(mappedBy = "medicoList")
     private List<Docente> docenteList;
-    @JoinTable(name = "medico_has_curso", joinColumns = {
-        @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")}, inverseJoinColumns = {
-        @JoinColumn(name = "curso_idcurso", referencedColumnName = "idcurso")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "medicoList")
     private List<Curso> cursoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "medicoIdmedico")
     private List<Consulta> consultaList;
@@ -158,5 +168,5 @@ public class Medico implements Serializable {
     public String toString() {
         return "entity.Medico[ idmedico=" + idmedico + " ]";
     }
-
+    
 }

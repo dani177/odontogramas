@@ -2,15 +2,29 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 @Entity
 @Table(name = "evolucion")
 @XmlRootElement
@@ -120,5 +134,5 @@ public class Evolucion implements Serializable {
     public String toString() {
         return "entity.Evolucion[ idevolucion=" + idevolucion + " ]";
     }
-
+    
 }

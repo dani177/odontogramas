@@ -2,13 +2,28 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -67,24 +82,30 @@ public class Consulta implements Serializable {
         @JoinColumn(name = "planTratamiento_idplanTratamiento", referencedColumnName = "idplanTratamiento")})
     @ManyToMany
     private List<Plantratamiento> plantratamientoList;
-    @ManyToMany(mappedBy = "consultaList")
+    @JoinTable(name = "interconsulta_has_datosconsulta", joinColumns = {
+        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")}, inverseJoinColumns = {
+        @JoinColumn(name = "interconsulta_idinterconsulta", referencedColumnName = "idinterconsulta")})
+    @ManyToMany
     private List<Interconsulta> interconsultaList;
-    @ManyToMany(mappedBy = "consultaList")
+    @JoinTable(name = "remision_has_datosconsulta", joinColumns = {
+        @JoinColumn(name = "datosConsulta_iddatosConsulta", referencedColumnName = "iddatosConsulta")}, inverseJoinColumns = {
+        @JoinColumn(name = "remision_idremision", referencedColumnName = "idremision")})
+    @ManyToMany
     private List<Remision> remisionList;
-    @JoinColumn(name = "docente_iddocente", referencedColumnName = "iddocente")
-    @ManyToOne(optional = false)
-    private Docente docenteIddocente;
-    @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")
-    @ManyToOne(optional = false)
-    private Medico medicoIdmedico;
     @JoinColumn(name = "paciente_idpersona", referencedColumnName = "idpersona")
     @ManyToOne(optional = false)
     private Paciente pacienteIdpersona;
+    @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")
+    @ManyToOne(optional = false)
+    private Medico medicoIdmedico;
+    @JoinColumn(name = "docente_iddocente", referencedColumnName = "iddocente")
+    @ManyToOne(optional = false)
+    private Docente docenteIddocente;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
     private List<DatosconsultaHasDatosbasicos> datosconsultaHasDatosbasicosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "consulta")
     private List<DatosconsultaHasDiente> datosconsultaHasDienteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
+    @OneToMany(mappedBy = "datosConsultaiddatosConsulta")
     private List<Examenfisicoestomatologico> examenfisicoestomatologicoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosConsultaiddatosConsulta")
     private List<Radiografia> radiografiaList;
@@ -213,12 +234,12 @@ public class Consulta implements Serializable {
         this.remisionList = remisionList;
     }
 
-    public Docente getDocenteIddocente() {
-        return docenteIddocente;
+    public Paciente getPacienteIdpersona() {
+        return pacienteIdpersona;
     }
 
-    public void setDocenteIddocente(Docente docenteIddocente) {
-        this.docenteIddocente = docenteIddocente;
+    public void setPacienteIdpersona(Paciente pacienteIdpersona) {
+        this.pacienteIdpersona = pacienteIdpersona;
     }
 
     public Medico getMedicoIdmedico() {
@@ -229,12 +250,12 @@ public class Consulta implements Serializable {
         this.medicoIdmedico = medicoIdmedico;
     }
 
-    public Paciente getPacienteIdpersona() {
-        return pacienteIdpersona;
+    public Docente getDocenteIddocente() {
+        return docenteIddocente;
     }
 
-    public void setPacienteIdpersona(Paciente pacienteIdpersona) {
-        this.pacienteIdpersona = pacienteIdpersona;
+    public void setDocenteIddocente(Docente docenteIddocente) {
+        this.docenteIddocente = docenteIddocente;
     }
 
     @XmlTransient
@@ -297,5 +318,5 @@ public class Consulta implements Serializable {
     public String toString() {
         return "entity.Consulta[ iddatosConsulta=" + iddatosConsulta + " ]";
     }
-
+    
 }

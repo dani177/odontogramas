@@ -2,16 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
+/**
+ *
+ * @author Oscar Ballesteros
+ */
 @Entity
 @Table(name = "curso")
 @XmlRootElement
@@ -39,9 +50,15 @@ public class Curso implements Serializable {
     private String anio;
     @Column(name = "periodo")
     private String periodo;
-    @ManyToMany(mappedBy = "cursoList")
+    @JoinTable(name = "medico_has_curso", joinColumns = {
+        @JoinColumn(name = "curso_idcurso", referencedColumnName = "idcurso")}, inverseJoinColumns = {
+        @JoinColumn(name = "medico_idmedico", referencedColumnName = "idmedico")})
+    @ManyToMany
     private List<Medico> medicoList;
-    @ManyToMany(mappedBy = "cursoList")
+    @JoinTable(name = "docente_has_curso", joinColumns = {
+        @JoinColumn(name = "curso_idcurso", referencedColumnName = "idcurso")}, inverseJoinColumns = {
+        @JoinColumn(name = "docente_iddocente", referencedColumnName = "iddocente")})
+    @ManyToMany
     private List<Docente> docenteList;
 
     public Curso() {
@@ -141,5 +158,5 @@ public class Curso implements Serializable {
     public String toString() {
         return "entity.Curso[ idcurso=" + idcurso + " ]";
     }
-
+    
 }
