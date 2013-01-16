@@ -23,7 +23,10 @@ import entity.controller.exceptions.PreexistingEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author jubarcos
+ */
 public class MedicoJpaController implements Serializable {
 
     public MedicoJpaController() {

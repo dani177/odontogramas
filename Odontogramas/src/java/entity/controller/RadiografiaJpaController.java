@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Oscar Ballesteros
+ * @author jubarcos
  */
 public class RadiografiaJpaController implements Serializable {
 

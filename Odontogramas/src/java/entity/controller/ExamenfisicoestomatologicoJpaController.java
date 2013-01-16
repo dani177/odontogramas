@@ -17,7 +17,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author jubarcos
+ */
 public class ExamenfisicoestomatologicoJpaController implements Serializable {
 
     public ExamenfisicoestomatologicoJpaController() {

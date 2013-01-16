@@ -22,7 +22,10 @@ import entity.controller.exceptions.PreexistingEntityException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author jubarcos
+ */
 public class DocenteJpaController implements Serializable {
 
     public DocenteJpaController() {

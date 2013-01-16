@@ -20,7 +20,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Oscar Ballesteros
+ * @author jubarcos
  */
 public class DiagnosticoJpaController implements Serializable {
 

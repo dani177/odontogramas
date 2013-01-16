@@ -18,6 +18,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+/**
+ *
+ * @author jubarcos
+ */
 public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
 
     public DatosconsultaHasDatosbasicosJpaController() {
@@ -25,6 +29,22 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
 
     public EntityManager getEntityManager() {
         return jpaConnection.getEntityManager();
+    }
+
+    public void borrarOrphan(Consulta con) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            Query q = em.createQuery("Delete FROM DatosconsultaHasDatosbasicos p where p.datosConsultaiddatosConsulta=:con");
+            q.setParameter("con", con);
+            q.executeUpdate();
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
     }
 
     public void create(DatosconsultaHasDatosbasicos datosconsultaHasDatosbasicos) {
@@ -187,5 +207,4 @@ public class DatosconsultaHasDatosbasicosJpaController implements Serializable {
             em.close();
         }
     }
-    
 }

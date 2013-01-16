@@ -20,7 +20,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-
+/**
+ *
+ * @author jubarcos
+ */
 public class ProfesionesJpaController implements Serializable {
 
     public ProfesionesJpaController() {

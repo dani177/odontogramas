@@ -32,7 +32,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Oscar Ballesteros
+ * @author jubarcos
  */
 public class ConsultaJpaController implements Serializable {
 

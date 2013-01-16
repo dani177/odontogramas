@@ -256,19 +256,21 @@ public class formController extends HttpServlet {
 
 
             if (request.getParameter("action").equals("listaConsultas")) {
-                String idPersona = request.getParameter("id");
-
                 HttpSession sesion = request.getSession();
-                Paciente pa = new PacienteJpaController().findPaciente(idPersona);
+                String idPersona = request.getParameter("id");
+                Paciente pa;
+                if(idPersona==null || idPersona.equals("") || idPersona.equals("undefined")){
+                pa=(Paciente)sesion.getAttribute("paciente");
+                }else{
+                pa = new PacienteJpaController().findPaciente(idPersona);
                 sesion.setAttribute("paciente", pa);
-
+                }
                 sesion.setAttribute("listaDeConsulta", pa.getConsultaList());
 
             }
             if (request.getParameter("action").equals("nuevaConsulta")) {
                 HttpSession sesion = request.getSession();
                 DatosbasicosJpaController daCon = new DatosbasicosJpaController();
-                Paciente pa = (Paciente) session.getAttribute("paciente");
                 sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
 
             }
@@ -277,10 +279,10 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("guardarDatosBasicos")) {
                 HttpSession sesion = request.getSession();
-                List<Datosbasicos> Listdb = (List<Datosbasicos>) sesion.getAttribute("datosBasicos");
+                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                List<Datosbasicos> Listdb = new DatosbasicosJpaController().findDatosbasicosEntities();
                 Paciente pa = (Paciente) session.getAttribute("paciente");
                 Medico me = (Medico) session.getAttribute("medico");
-
                 List<DatosconsultaHasDatosbasicos> dcdb = new ArrayList<DatosconsultaHasDatosbasicos>();
                 String motivo = (String) request.getParameter("motivo");
                 String historia = (String) request.getParameter("historia");
@@ -316,62 +318,91 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
+                if (con == null) {
 
+                    con = new Consulta();
+                    ConsultaJpaController conCon = new ConsultaJpaController();
+                    con.setMotivoConsulta(motivo);
+                    con.setPacienteIdpersona(pa);
+                    con.setObservaciones(observaciones);
+                    con.setHistoriaActualEnfermedad(historia);
+                    con.setMotivo(motivo2);
+                    con.setOtros(otros);
+                    con.setFechaConsulta(hoy);
+                    con.setUltimaVisitaOdon(ultimaD);
+                    con.setMedicoIdmedico(me);
+                    con.setDocenteIddocente(doc);
+                    conCon.create(con);
+                    List<Consulta> consultas = conCon.findConsultaEntities();
+                    int mayor = -1;
+                    for (int j = 0; j < consultas.size(); j++) {
+                        if (consultas.get(j).getIddatosConsulta() > mayor) {
+                            mayor = consultas.get(j).getIddatosConsulta();
 
-
-
-                Consulta con = new Consulta();
-                ConsultaJpaController conCon = new ConsultaJpaController();
-                con.setMotivoConsulta(motivo);
-                con.setPacienteIdpersona(pa);
-                con.setObservaciones(observaciones);
-                con.setHistoriaActualEnfermedad(historia);
-                con.setMotivo(motivo2);
-                con.setOtros(otros);
-                con.setFechaConsulta(hoy);
-                con.setUltimaVisitaOdon(ultimaD);
-                con.setMedicoIdmedico(me);
-                con.setDocenteIddocente(doc);
-                conCon.create(con);
-
-
-                List<Consulta> consultas = conCon.findConsultaEntities();
-                int mayor = -1;
-                for (int j = 0; j < consultas.size(); j++) {
-                    if (consultas.get(j).getIddatosConsulta() > mayor) {
-                        mayor = consultas.get(j).getIddatosConsulta();
+                        }
+                    }
+                    Consulta conRecienCreada = conCon.findConsulta(mayor);
+                    for (int i = 0; i < Listdb.size(); i++) {
+                        String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
+                        DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
+                        aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
+                        aux.setDatosConsultaiddatosConsulta(conRecienCreada);
+                        aux.setValor(valor);
+                        new DatosconsultaHasDatosbasicosJpaController().create(aux);
+                        dcdb.add(aux);
 
                     }
+
+                    conRecienCreada.setDatosconsultaHasDatosbasicosList(dcdb);
+                    try {
+                        conCon.edit(conRecienCreada);
+
+                    } catch (IllegalOrphanException ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    session.setAttribute("consulta", conRecienCreada);
+
+                } else {
+                    ConsultaJpaController conCon = new ConsultaJpaController();
+                    for (int i = 0; i < Listdb.size(); i++) {
+                        String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
+                        DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
+                        aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
+                        aux.setDatosConsultaiddatosConsulta(con);
+                        aux.setValor(valor);
+                        new DatosconsultaHasDatosbasicosJpaController().create(aux);
+                        dcdb.add(aux);
+
+                    }
+                    con.setMotivoConsulta(motivo);
+                    con.setPacienteIdpersona(pa);
+                    con.setObservaciones(observaciones);
+                    con.setHistoriaActualEnfermedad(historia);
+                    con.setMotivo(motivo2);
+                    con.setOtros(otros);
+                    con.setFechaConsulta(hoy);
+                    con.setUltimaVisitaOdon(ultimaD);
+                    con.setMedicoIdmedico(me);
+                    con.setDocenteIddocente(doc);
+                    try {
+                        conCon.edit(con);
+                    } catch (IllegalOrphanException ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NonexistentEntityException ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    DatosconsultaHasDatosbasicosJpaController conXX = new DatosconsultaHasDatosbasicosJpaController();
+                    conXX.borrarOrphan(con);
+                    System.out.println("++++++++++++++++++LLEGÓ+++++++++++++++++++++");
+                    con.setDatosconsultaHasDatosbasicosList(dcdb);
+                    
                 }
-
-                Consulta conRecienCreada = conCon.findConsulta(mayor);
-
-                for (int i = 0; i < Listdb.size(); i++) {
-                    String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
-                    DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
-                    aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
-                    aux.setDatosConsultaiddatosConsulta(conRecienCreada);
-                    aux.setValor(valor);
-                    new DatosconsultaHasDatosbasicosJpaController().create(aux);
-                    dcdb.add(aux);
-
-                }
-
-                conRecienCreada.setDatosconsultaHasDatosbasicosList(dcdb);
-                try {
-                    conCon.edit(conRecienCreada);
-
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                session.setAttribute("consulta", conRecienCreada);
-
-
-
             }
 
             if (request.getParameter("action").equals("agregarDiagnostico")) {
@@ -519,11 +550,18 @@ public class formController extends HttpServlet {
 
 
             if (request.getParameter("action").equals("verConsulta")) {
-                String idConsulta = (String)request.getParameter("id");
-                 Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
-                 HttpSession sesion = request.getSession();
-                 sesion.setAttribute("consulta", con);
+                String idConsulta = (String) request.getParameter("id");
+                Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("consulta", con);
             }
+            if (request.getParameter("action").equals("editarConsulta")) {
+                String idConsulta = (String) request.getParameter("id");
+                Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("consulta", con);
+            }
+
             if (request.getParameter("action").equals("agregarTratamiento")) {
                 HttpSession sesion = request.getSession();
                 Consulta con = (Consulta) sesion.getAttribute("consulta");
