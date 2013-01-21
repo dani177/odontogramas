@@ -346,7 +346,7 @@
                                                 url: "/Odontogramas/vista/consulta/listar.jsp",
                                                 success: function(data) 
                                                 {  $(".nav-list >li > a").hide();
-                                                    $(".nav-list").append('<li><a href="#menuPacientes" title="Menú de pacientes">...</a></li>'                                                        
+                                                    $(".nav-list").append('<li><a href="#menuPacientes" title="Menú de pacientes">Atras</a></li>'                                                        
                                                         +'<li><a href="#nuevaConsulta">Nueva Consulta</a></li>'
                                                         +'<li class="active"><a href="#listaConsultas">Lista de Consultas</a></li>');
                                                     
@@ -367,20 +367,14 @@
                                     if(hash=="#nuevaConsulta"){
                                         $.ajax({ 
                                             type: "POST", 
-                                            url:  "<%=request.getContextPath()%>/formController?action=nuevaConsulta",
-                                            success: function() 
+                                            url: "/Odontogramas/vista/consulta/crear.jsp", 
+                                            success: function(data) 
                                             { 
-                                                $.ajax({ 
-                                                    type: "POST", 
-                                                    url: "/Odontogramas/vista/consulta/crear.jsp", 
-                                                    success: function(data) 
-                                                    { 
-                                                        $("#contenido").html(data);
+                                                $("#contenido").html(data);
                                        
-                                                    } //fin success
-                                                }); //fin del $.ajax
-                                            }
-                                        });
+                                            } //fin success
+                                        }); //fin del $.ajax
+                                            
                                     }else{
                                         if(hash == "#menuPacientes"){
                                             $(".nav-list >li >a").show();

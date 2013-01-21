@@ -4,6 +4,7 @@
  */
 package controller;
 
+import conexion.sqlController;
 import entity.*;
 import entity.controller.*;
 import entity.controller.exceptions.IllegalOrphanException;
@@ -11,6 +12,8 @@ import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.sql.Result;
 import javax.swing.JOptionPane;
 import org.eclipse.persistence.sessions.Session;
 
@@ -53,29 +57,32 @@ public class formController extends HttpServlet {
                 response.setContentType("application/json;charset=UTF-8");
                 String codDe = ((String) request.getParameter("codDep"));
                 int codDep = Integer.parseInt(codDe);
-                Departamentos dep = new DepartamentosJpaController().findDepartamentos(codDep);
-                MunicipiosJpaController conMun = new MunicipiosJpaController();
-                List<Municipios> listaDeMunicipios = conMun.findMunicipiosEntities();
-                ArrayList<Municipios> mun = new ArrayList<Municipios>();
-                for (Municipios m : listaDeMunicipios) {
-                    if (m.getDepartamentosCodigo1().getCodigo() == dep.getCodigo()) {
-                        mun.add(m);
-                    }
-                }
+                ResultSet listaDeMunicipios = new sqlController().CargarSql("SELECT * FROM `municipios` WHERE `departamentos_codigo1`=" + codDe);
+
+
+
 
                 String aux4 = "{ \"municipios\":[";
+                try {
+                    while (listaDeMunicipios.next()) {
 
+                        String aux5 = ""
+                                + "{"
+                                + "\"cod\": \"" + listaDeMunicipios.getInt(1) + "\" ," + " \"nombre\": \"" + listaDeMunicipios.getString(2)
+                                + "\""
+                                + "},"
+                                + "";
+                        aux4 += aux5;
 
-                for (Municipios m : mun) {
-                    String aux5 = ""
-                            + "{"
-                            + "\"cod\": \"" + m.getCodigo() + "\" ," + " \"nombre\": \"" + m.getNombre()
-                            + "\""
-                            + "},"
-                            + "";
-                    aux4 += aux5;
-
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+
+
+
+
 
                 aux4 = aux4.substring(0, aux4.length() - 1);
                 aux4 += "]}";
@@ -90,19 +97,37 @@ public class formController extends HttpServlet {
 
 
 
+            if (request.getParameter("action").equals("agregarEnfermedad")) {
+                HttpSession sesion = request.getSession();
+                Result consulta = (Result) sesion.getAttribute("consulta");
+                String idDiente = ((String) request.getParameter("diente"));
+                String zonas = ((String) request.getParameter("zonas"));
+                String enfermedades = ((String) request.getParameter("enfermedades"));
+                String zonas2[] = zonas.split(",");
+                String enfermedades2[] = enfermedades.split(",");
+
+                for (int i = 0; i < zonas2.length; i++) {
+                    for (int j = 0; j < enfermedades2.length; j++) {
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diente` (`Iddatosconsulta_has_diente` ,`datosConsulta_iddatosConsulta` ,`diente_iddiente` ,`cara` ,`enfermedad`) "
+                                + "VALUES (NULL , '"+consulta.getRowsByIndex()[0][0]+"', '"+idDiente+"', '"+zonas2[i]+"', '"+enfermedades2[j]+"')");
+                    }
+
+                }
+
+
+
+
+
+
+            }
             if (request.getParameter("action").equals("guardarDatosPer")) {
-                PacienteJpaController conPa = new PacienteJpaController();
-                Paciente pa = new Paciente();
-                pa.setNombre((String) request.getParameter("nombre"));
-                pa.setDireccion((String) request.getParameter("direccion"));
-                pa.setIdpersona((String) request.getParameter("identificacion"));
-                pa.setNumAfiliacion((String) request.getParameter("afiliacion"));
-                pa.setTelefono((String) request.getParameter("telefono"));
+                HttpSession sesion = request.getSession();
+                String Nombre = ((String) request.getParameter("nombre"));
+                String Direccion = ((String) request.getParameter("direccion"));
+                String Idpersona = ((String) request.getParameter("identificacion"));
+                String NumAfiliacion = ((String) request.getParameter("afiliacion"));
+                String Telefono = ((String) request.getParameter("telefono"));
                 String codigomun = (String) (request.getParameter("municipio"));
-                int codMun = Integer.parseInt(codigomun);
-                MunicipiosJpaController ConMun = new MunicipiosJpaController();
-                Municipios mun = ConMun.findMunicipios(codMun);
-                pa.setMunicipiosCodigo(mun);
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                 String sFecha = (String) request.getParameter("fecha");
                 Date fecha = null;
@@ -115,52 +140,52 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
-                pa.setFechaNacimiento(fecha);
-                pa.setSexo((String) request.getParameter("sexo"));
-                pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
-                String prof = (String) request.getParameter("profesion");
-                int codPro = Integer.parseInt(prof);
-                Profesiones profes = new ProfesionesJpaController().findProfesiones(codPro);
-                pa.setProfesionesCodigo(profes);
-                Medico m = (Medico) session.getAttribute("medico");
-                ArrayList<Medico> listMedico = new ArrayList<Medico>();
-                listMedico.add(m);
-                pa.setMedicoList(listMedico);
 
-                try {
-                    conPa.create(pa);
-                    session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
-                } catch (PreexistingEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                String Sexo = ((String) request.getParameter("sexo"));
+                String EstadoCivil = ((String) request.getParameter("estadoCivil"));
+                String prof = (String) request.getParameter("profesion");
+
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`paciente` (`idpersona` ,`nombre` ,`direccion` ,`num_afiliacion` ,`telefono` ,`sexo` ,`estadoCivil` ,`fechaNacimiento` ,`municipios_codigo` ,`profesiones_codigo`) "
+                        + "VALUES ('" + Idpersona + "', '" + Nombre + "', '" + Direccion + "', '" + NumAfiliacion + "', '" + Telefono + "', '" + Sexo + "', '" + EstadoCivil + "', '" + sFecha + "', '" + codigomun + "', '" + prof + "')");
+
+                Result medico = (Result) sesion.getAttribute("medico");
+
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`medico_has_paciente` (`medico_idmedico` ,`paciente_idpersona`) VALUES ('" + medico.getRowsByIndex()[0][0] + "', '" + Idpersona + "')");
+                session.setAttribute("listaDePacientes", new sqlController().CargarSql2("SELECT paciente.* FROM `medico` "
+                        + "inner join medico_has_paciente on medico.idmedico= medico_has_paciente.`medico_idmedico` "
+                        + "inner join paciente on medico_has_paciente.`paciente_idpersona`=paciente.idpersona "
+                        + "where medico.idmedico=" + medico.getRowsByIndex()[0][0]));
+
 
             }
 
             if (request.getParameter("action").equals("verPaciente")) {
                 String idPersona = request.getParameter("id");
-                DiagnosticoJpaController conDi = new DiagnosticoJpaController();
-                TratamientoJpaController conTra = new TratamientoJpaController();
-                PacienteJpaController conPa = new PacienteJpaController();
-                Paciente pa = conPa.findPaciente(idPersona);
+                Result pa = new sqlController().CargarSql2("SELECT * FROM `paciente` WHERE `idpersona`=" + idPersona);
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("paciente", pa);
                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-                String fecha = sdf.format(pa.getFechaNacimiento());
+                String fecha = sdf.format(pa.getRowsByIndex()[0][7]);
                 sesion.setAttribute("fecha", fecha);
-                sesion.setAttribute("departamentos", new DepartamentosJpaController().findDepartamentosEntities());
-                sesion.setAttribute("municipios", new DepartamentosJpaController().findDepartamentos(pa.getMunicipiosCodigo().getDepartamentosCodigo1().getCodigo()).getMunicipiosList());
-                session.setAttribute("diagnosticos", conDi.findDiagnosticoEntities());
-                session.setAttribute("profesiones", new ProfesionesJpaController().findProfesionesEntities());
-                session.setAttribute("tratamientos", conTra.findTratamientoEntities());
+                sesion.setAttribute("departamentos", new sqlController().CargarSql2("SELECT * FROM `departamentos`"));
+                Result departamento = new sqlController().CargarSql2("SELECT * from paciente inner join municipios on paciente.municipios_codigo=municipios.codigo where paciente.idpersona=" + pa.getRowsByIndex()[0][0]);
+                sesion.setAttribute("departamento", departamento);
+                ResultSet rs = new sqlController().CargarSql("SELECT * from paciente inner join municipios on paciente.municipios_codigo=municipios.codigo where paciente.idpersona=" + pa.getRowsByIndex()[0][0]);
+                try {
+                    while (rs.next()) {
+                        sesion.setAttribute("municipios", new sqlController().CargarSql2("select * from municipios where municipios.departamentos_codigo1=" + rs.getInt(13)));
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                session.setAttribute("profesiones", new sqlController().CargarSql2("SELECT * FROM `profesiones`"));
+
 
             }
 
             if (request.getParameter("action").equals("subirRadiografias")) {
                 String idPersona = request.getParameter("id");
-                PacienteJpaController conPa = new PacienteJpaController();
-                Paciente pa = conPa.findPaciente(idPersona);
+                Result pa = new sqlController().CargarSql2(idPersona);
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("paciente", pa);
 
@@ -169,18 +194,13 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("editarDatosPer")) {
                 HttpSession sesion = request.getSession();
-                Paciente pa = (Paciente) sesion.getAttribute("paciente");
-
-                PacienteJpaController conPa = new PacienteJpaController();
-                pa.setNombre((String) request.getParameter("nombre"));
-                pa.setDireccion((String) request.getParameter("direccion"));
-                pa.setNumAfiliacion((String) request.getParameter("afiliacion"));
-                pa.setTelefono((String) request.getParameter("telefono"));
+                Result pa = (Result) sesion.getAttribute("paciente");
+                String nombre = ((String) request.getParameter("nombre"));
+                String direccion = ((String) request.getParameter("direccion"));
+                String numeroAfiliacion = ((String) request.getParameter("afiliacion"));
+                String telefono = ((String) request.getParameter("telefono"));
                 String codigomun = (String) (request.getParameter("municipio"));
-                int codMun = Integer.parseInt(codigomun);
-                MunicipiosJpaController ConMun = new MunicipiosJpaController();
-                Municipios mun = ConMun.findMunicipios(codMun);
-                pa.setMunicipiosCodigo(mun);
+
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                 String sFecha = (String) request.getParameter("fecha");
                 Date fecha = null;
@@ -193,26 +213,19 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
-                pa.setFechaNacimiento(fecha);
-                pa.setSexo((String) request.getParameter("sexo"));
-                pa.setEstadoCivil((String) request.getParameter("estadoCivil"));
-                String prof = (String) request.getParameter("profesion");
-                int codPro = Integer.parseInt(prof);
-                Profesiones profes = new ProfesionesJpaController().findProfesiones(codPro);
-                pa.setProfesionesCodigo(profes);
-                Medico m = (Medico) session.getAttribute("medico");
-                ArrayList<Medico> listMedico = new ArrayList<Medico>();
-                listMedico.add(m);
-                pa.setMedicoList(listMedico);
 
-                try {
-                    conPa.edit(pa);
-                    session.setAttribute("listaDePacientes", new MedicoJpaController().findMedico(m.getIdmedico()).getPacienteList());
-                } catch (PreexistingEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                String Sexo = ((String) request.getParameter("sexo"));
+                String EstadoCivil = ((String) request.getParameter("estadoCivil"));
+                String prof = (String) request.getParameter("profesion");
+
+                new sqlController().UpdateSql("UPDATE `odontogramas`.`paciente` SET `nombre` = '" + nombre + "',`direccion` = '" + direccion + "',`num_afiliacion` = '" + numeroAfiliacion + "',`telefono` = '" + telefono + "',`sexo` = '" + Sexo + "',`estadoCivil` = '" + EstadoCivil + "',`fechaNacimiento` = '" + sFecha + "',`municipios_codigo` = '" + codigomun + "',`profesiones_codigo` = '" + prof + "' WHERE `paciente`.`idpersona`= '" + pa.getRowsByIndex()[0][0] + "'");
+
+                Result medico = (Result) session.getAttribute("medico");
+                session.setAttribute("listaDePacientes", new sqlController().CargarSql2("SELECT paciente.* FROM `medico` "
+                        + "inner join medico_has_paciente on medico.idmedico= medico_has_paciente.`medico_idmedico` "
+                        + "inner join paciente on medico_has_paciente.`paciente_idpersona`=paciente.idpersona "
+                        + "where medico.idmedico=" + medico.getRowsByIndex()[0][0]));
+
             }
 
             if (request.getParameter("action").equals("registrarM")) {
@@ -224,25 +237,17 @@ public class formController extends HttpServlet {
                 String codigo = request.getParameter("codigo");
 
 
-                MedicoJpaController conMe = new MedicoJpaController();
-                CursoJpaController conCu = new CursoJpaController();
-                Medico me = new Medico();
-                me.setIdmedico(Integer.parseInt(idPersona));
-                me.setNombreUsuario(nombre);
-                me.setDireccion(direccion);
-                me.setTelefono(telefono);
-                me.setClave(idPersona);
-                List<Curso> listCur = new ArrayList<Curso>();
-                Curso cur = conCu.findCurso(Integer.parseInt(curso));
-                if (cur.getCodigo().equals(codigo)) {
-                    listCur.add(cur);
-                    me.setCursoList(listCur);
+                Result cur = new sqlController().CargarSql2("SELECT * FROM `curso` WHERE `idcurso`=" + curso);
+
+                if (cur.getRowsByIndex()[0][2].equals(codigo)) {
+
                     try {
-                        conMe.create(me);
-                    } catch (PreexistingEntityException ex) {
-                        out.print(1);
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`medico` (`idmedico` ,`nombreUsuario` ,`clave` ,`direccion` ,`telefono`) "
+                                + "VALUES ('" + idPersona + "', '" + nombre + "', '" + idPersona + "', '" + direccion + "', '" + telefono + "')");
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`medico_has_curso` (`medico_idmedico` ,`curso_idcurso`) "
+                                + "VALUES ('" + idPersona + "', '" + cur.getRowsByIndex()[0][0] + "')");
                     } catch (Exception ex) {
+                        out.print(1);
                         Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     out.print(0);
@@ -258,32 +263,25 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("listaConsultas")) {
                 HttpSession sesion = request.getSession();
                 String idPersona = request.getParameter("id");
-                Paciente pa;
-                if(idPersona==null || idPersona.equals("") || idPersona.equals("undefined")){
-                pa=(Paciente)sesion.getAttribute("paciente");
-                }else{
-                pa = new PacienteJpaController().findPaciente(idPersona);
-                sesion.setAttribute("paciente", pa);
+                Result pa;
+                if (idPersona == null || idPersona.equals("") || idPersona.equals("undefined")) {
+                    pa = (Result) sesion.getAttribute("paciente");
+                } else {
+                    pa = new sqlController().CargarSql2("SELECT * FROM `paciente` WHERE `idpersona`=" + idPersona);
+                    sesion.setAttribute("paciente", pa);
                 }
-                sesion.setAttribute("listaDeConsulta", pa.getConsultaList());
+                session.setAttribute("tratamientos", new sqlController().CargarSql2("SELECT * FROM `tratamiento`"));
+                session.setAttribute("diagnosticos", new sqlController().CargarSql2("SELECT * FROM `diagnostico`"));
+                sesion.setAttribute("listaDeConsulta", new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `paciente_idpersona`=" + pa.getRowsByIndex()[0][0]));
+                sesion.setAttribute("datosBasicos", new sqlController().CargarSql2("SELECT * FROM `datosbasicos`"));
 
             }
-            if (request.getParameter("action").equals("nuevaConsulta")) {
-                HttpSession sesion = request.getSession();
-                DatosbasicosJpaController daCon = new DatosbasicosJpaController();
-                sesion.setAttribute("datosBasicos", daCon.findDatosbasicosEntities());
-
-            }
-
-
 
             if (request.getParameter("action").equals("guardarDatosBasicos")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                List<Datosbasicos> Listdb = new DatosbasicosJpaController().findDatosbasicosEntities();
-                Paciente pa = (Paciente) session.getAttribute("paciente");
-                Medico me = (Medico) session.getAttribute("medico");
-                List<DatosconsultaHasDatosbasicos> dcdb = new ArrayList<DatosconsultaHasDatosbasicos>();
+                Result Listdb = new sqlController().CargarSql2("SELECT * FROM `datosbasicos`");
+                Result pa = (Result) session.getAttribute("paciente");
+                Result me = (Result) session.getAttribute("medico");
                 String motivo = (String) request.getParameter("motivo");
                 String historia = (String) request.getParameter("historia");
                 String observaciones = (String) request.getParameter("observaciones");
@@ -291,8 +289,7 @@ public class formController extends HttpServlet {
                 String ultima = (String) request.getParameter("ultima");
                 String motivo2 = (String) request.getParameter("motivo2");
                 String iddoc = (String) request.getParameter("docente");
-                Docente doc = new DocenteJpaController().findDocente(Integer.parseInt(iddoc));
-
+                Result doc = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + iddoc);
                 Date todaysDate = new java.util.Date();
                 SimpleDateFormat formatoDelTexto2 = new SimpleDateFormat("yyyy-MM-dd");
                 String formattedDate = formatoDelTexto2.format(todaysDate);
@@ -318,197 +315,69 @@ public class formController extends HttpServlet {
                     ex.printStackTrace();
 
                 }
-                if (con == null) {
 
-                    con = new Consulta();
-                    ConsultaJpaController conCon = new ConsultaJpaController();
-                    con.setMotivoConsulta(motivo);
-                    con.setPacienteIdpersona(pa);
-                    con.setObservaciones(observaciones);
-                    con.setHistoriaActualEnfermedad(historia);
-                    con.setMotivo(motivo2);
-                    con.setOtros(otros);
-                    con.setFechaConsulta(hoy);
-                    con.setUltimaVisitaOdon(ultimaD);
-                    con.setMedicoIdmedico(me);
-                    con.setDocenteIddocente(doc);
-                    conCon.create(con);
-                    List<Consulta> consultas = conCon.findConsultaEntities();
-                    int mayor = -1;
-                    for (int j = 0; j < consultas.size(); j++) {
-                        if (consultas.get(j).getIddatosConsulta() > mayor) {
-                            mayor = consultas.get(j).getIddatosConsulta();
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`consulta` (`iddatosConsulta` ,`motivoConsulta` ,`historiaActualEnfermedad` ,`observaciones` ,`otros` ,`ultimaVisitaOdon` ,`motivo` ,`paciente_idpersona` ,`fechaConsulta` ,`pronostico` ,`medico_idmedico` ,`docente_iddocente`) "
+                        + "VALUES (NULL , '" + motivo + "', '" + historia + "', '" + observaciones + "', '" + otros + "', '" + ultima + "', '" + motivo2 + "', '" + pa.getRowsByIndex()[0][0] + "', '" + formattedDate + "', NULL , '" + me.getRowsByIndex()[0][0] + "', '" + doc.getRowsByIndex()[0][0] + "')");
 
-                        }
-                    }
-                    Consulta conRecienCreada = conCon.findConsulta(mayor);
-                    for (int i = 0; i < Listdb.size(); i++) {
-                        String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
-                        DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
-                        aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
-                        aux.setDatosConsultaiddatosConsulta(conRecienCreada);
-                        aux.setValor(valor);
-                        new DatosconsultaHasDatosbasicosJpaController().create(aux);
-                        dcdb.add(aux);
+                Result consultaRecienCreada = new sqlController().CargarSql2("SELECT * FROM consulta ORDER BY `iddatosConsulta` DESC LIMIT 1");
 
-                    }
-
-                    conRecienCreada.setDatosconsultaHasDatosbasicosList(dcdb);
-                    try {
-                        conCon.edit(conRecienCreada);
-
-                    } catch (IllegalOrphanException ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    session.setAttribute("consulta", conRecienCreada);
-
-                } else {
-                    ConsultaJpaController conCon = new ConsultaJpaController();
-                    for (int i = 0; i < Listdb.size(); i++) {
-                        String valor = (String) request.getParameter("db" + Listdb.get(i).getIddatosBasicos());
-                        DatosconsultaHasDatosbasicos aux = new DatosconsultaHasDatosbasicos();
-                        aux.setDatosBasicosiddatosBasicos(Listdb.get(i));
-                        aux.setDatosConsultaiddatosConsulta(con);
-                        aux.setValor(valor);
-                        new DatosconsultaHasDatosbasicosJpaController().create(aux);
-                        dcdb.add(aux);
-
-                    }
-                    con.setMotivoConsulta(motivo);
-                    con.setPacienteIdpersona(pa);
-                    con.setObservaciones(observaciones);
-                    con.setHistoriaActualEnfermedad(historia);
-                    con.setMotivo(motivo2);
-                    con.setOtros(otros);
-                    con.setFechaConsulta(hoy);
-                    con.setUltimaVisitaOdon(ultimaD);
-                    con.setMedicoIdmedico(me);
-                    con.setDocenteIddocente(doc);
-                    try {
-                        conCon.edit(con);
-                    } catch (IllegalOrphanException ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NonexistentEntityException ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    DatosconsultaHasDatosbasicosJpaController conXX = new DatosconsultaHasDatosbasicosJpaController();
-                    conXX.borrarOrphan(con);
-                    System.out.println("++++++++++++++++++LLEGÓ+++++++++++++++++++++");
-                    con.setDatosconsultaHasDatosbasicosList(dcdb);
-                    
+                for (int i = 0; i < Listdb.getRowCount(); i++) {
+                    String valor = (String) request.getParameter("db" + Listdb.getRowsByIndex()[i][0]);
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_datosbasicos` (`datosConsulta_iddatosConsulta` ,`datosBasicos_iddatosBasicos` ,`valor` ,`idConsulta_datosBasicos`)"
+                            + "VALUES ('" + consultaRecienCreada.getRowsByIndex()[0][0] + "', '" + Listdb.getRowsByIndex()[i][0] + "', '" + valor + "', NULL)");
                 }
+
+                session.setAttribute("consulta", consultaRecienCreada);
+
             }
 
-            if (request.getParameter("action").equals("agregarDiagnostico")) {
-                HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                ConsultaJpaController conC = new ConsultaJpaController();
-                List<Diagnostico> listD = new ArrayList<Diagnostico>();
-                String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
-                if (!diagnosticosJuntos.equals("")) {
-                    String diagnosticos[] = diagnosticosJuntos.split(",");
-                    for (int i = 0; i < diagnosticos.length; i++) {
-                        String dia_cod[] = diagnosticos[i].split(" - ");
-                        String codigo = dia_cod[1];
-                        Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
-                        listD.add(dia);
-                    }
-                }
 
 
-
-
-
-
-                con.setDiagnosticoList(listD);
-                try {
-                    conC.edit(con);
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-
-
-
-            }
 
 
             if (request.getParameter("action").equals("agregarPronostico")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                Result con = (Result) sesion.getAttribute("consulta");
                 String pronostico = (String) request.getParameter("pronostico");
-                ConsultaJpaController coC = new ConsultaJpaController();
-                con.setPronostico(pronostico);
-                try {
-                    coC.edit(con);
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+                new sqlController().UpdateSql("UPDATE `odontogramas`.`consulta` SET `pronostico` = '" + pronostico + "' WHERE `consulta`.`iddatosConsulta` =" + con.getRowsByIndex()[0][0] + "");
             }
 
             if (request.getParameter("action").equals("agregarOtros")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                List<Remision> listRe = new RemisionJpaController().findRemisionEntities();
-                List<Interconsulta> listInt = new InterconsultaJpaController().findInterconsultaEntities();
-                List<Plantratamiento> listPlan = new PlantratamientoJpaController().findPlantratamientoEntities();
+                Result con = (Result) sesion.getAttribute("consulta");
+                Result listRe = new sqlController().CargarSql2("SELECT * FROM `remision`");
+                Result listInt = new sqlController().CargarSql2("SELECT * FROM `interconsulta`");
+                Result listPlan = new sqlController().CargarSql2("SELECT * FROM `plantratamiento`");
 
-                List<Interconsulta> listIntAux = new ArrayList<Interconsulta>();
-                List<Remision> listRemAux = new ArrayList<Remision>();
-                List<Plantratamiento> listPlanAux = new ArrayList<Plantratamiento>();
+                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_plantratamiento` WHERE `datosconsulta_has_plantratamiento`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+                new sqlController().UpdateSql("DELETE FROM `remision_has_datosconsulta` WHERE `remision_has_datosconsulta`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+                new sqlController().UpdateSql("DELETE FROM `interconsulta_has_datosconsulta` WHERE `interconsulta_has_datosconsulta`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
 
-                for (int i = 0; i < listInt.size(); i++) {
+
+
+                for (int i = 0; i < listInt.getRowCount(); i++) {
                     String aux = (String) request.getParameter("interconsulta" + i);
 
                     if (aux != null && !aux.equals("")) {
-                        Interconsulta Iaux = new InterconsultaJpaController().findInterconsulta(Integer.parseInt(aux));
-                        listIntAux.add(Iaux);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`interconsulta_has_datosconsulta` (`interconsulta_idinterconsulta` ,`datosConsulta_iddatosConsulta`) "
+                                + "VALUES ('" + aux + "', '" + con.getRowsByIndex()[0][0] + "')");
                     }
-
-
-
                 }
-                for (int i = 0; i < listRe.size(); i++) {
+                for (int i = 0; i < listRe.getRowCount(); i++) {
                     String aux = (String) request.getParameter("remision" + i);
                     if (aux != null && !aux.equals("")) {
-                        Remision Raux = new RemisionJpaController().findRemision(Integer.parseInt(aux));
-                        listRemAux.add(Raux);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`remision_has_datosconsulta` (`remision_idremision` ,`datosConsulta_iddatosConsulta`) "
+                                + "VALUES ('" + aux + "', '" + con.getRowsByIndex()[0][0] + "')");
                     }
                 }
-                for (int i = 0; i < listPlan.size(); i++) {
+                for (int i = 0; i < listPlan.getRowCount(); i++) {
                     String aux = (String) request.getParameter("plantratamiento" + i);
                     if (aux != null && !aux.equals("")) {
-                        Plantratamiento Paux = new PlantratamientoJpaController().findPlantratamiento(Integer.parseInt(aux));
-                        listPlanAux.add(Paux);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_plantratamiento` (`datosConsulta_iddatosConsulta` ,`planTratamiento_idplanTratamiento`) "
+                                + "VALUES ('" + con.getRowsByIndex()[0][0] + "', '" + aux + "')");
                     }
 
-                }
-
-                con.setInterconsultaList(listIntAux);
-                con.setRemisionList(listRemAux);
-                con.setPlantratamientoList(listPlanAux);
-                try {
-                    new ConsultaJpaController().edit(con);
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
@@ -517,14 +386,12 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("agregarEvolucion")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
+                Result con = (Result) sesion.getAttribute("consulta");
 
                 String reciboE = (String) request.getParameter("reciboE");
                 String tratamientoE = (String) request.getParameter("tratamientoE");
                 String codigoTratE = (String) request.getParameter("codigoTratE");
-
-                Tratamiento t = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigoTratE));
-
+                Result t = new sqlController().CargarSql2("SELECT * FROM `tratamiento` WHERE `idtratamiento`=" + codigoTratE + "");
                 SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
                 String fechaE = (String) request.getParameter("fechaE");
                 Date fecha = null;
@@ -538,12 +405,8 @@ public class formController extends HttpServlet {
 
                 }
 
-                Evolucion ev = new Evolucion();
-                ev.setFecha(fecha);
-                ev.setReciboPago(reciboE);
-                ev.setTratamientoIdtratamiento(t);
-                new EvolucionJpaController().create(ev);
-
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`evolucion` (`idevolucion` ,`fecha` ,`reciboPago` ,`abono` ,`saldo` ,`tratamiento_idtratamiento`) "
+                        + "VALUES (NULL , '" + fechaE + "', '" + reciboE + "', NULL , NULL , '" + codigoTratE + "')");
 
             }
 
@@ -551,21 +414,48 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("verConsulta")) {
                 String idConsulta = (String) request.getParameter("id");
-                Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
+                Result con = new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `iddatosConsulta`=" + idConsulta + "");
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("consulta", con);
+                sesion.setAttribute("datosconsultaHasDatosbasicos", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_datosbasicos` inner join datosbasicos on datosbasicos.iddatosBasicos=datosconsulta_has_datosbasicos.`datosBasicos_iddatosBasicos` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
+                sesion.setAttribute("examenfisicoestomatologicoList", new sqlController().CargarSql2("SELECT * FROM `examenfisicoestomatologico` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
             }
             if (request.getParameter("action").equals("editarConsulta")) {
                 String idConsulta = (String) request.getParameter("id");
-                Consulta con = new ConsultaJpaController().findConsulta(Integer.parseInt(idConsulta));
+                Result con = new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `iddatosConsulta`=" + idConsulta + "");
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("consulta", con);
+                sesion.setAttribute("datosconsultaHasDatosbasicos", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_datosbasicos` inner join datosbasicos on datosbasicos.iddatosBasicos=datosconsulta_has_datosbasicos.`datosBasicos_iddatosBasicos` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
+                sesion.setAttribute("examenfisicoestomatologicoList", new sqlController().CargarSql2("SELECT * FROM `examenfisicoestomatologico` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
+
             }
+
+            if (request.getParameter("action").equals("agregarDiagnostico")) {
+                HttpSession sesion = request.getSession();
+                Result con = (Result) sesion.getAttribute("consulta");
+                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diagnostico` WHERE `datosconsulta_has_diagnostico`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+
+
+                String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
+                if (!diagnosticosJuntos.equals("")) {
+                    String diagnosticos[] = diagnosticosJuntos.split(",");
+                    for (int i = 0; i < diagnosticos.length; i++) {
+                        String dia_cod[] = diagnosticos[i].split(" - ");
+                        String codigo = dia_cod[1];
+                        Diagnostico dia = new DiagnosticoJpaController().findDiagnostico(Integer.parseInt(codigo));
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diagnostico` (`datosConsulta_iddatosConsulta` ,`diagnostico_iddiagnostico`)"
+                                + "VALUES ('" + con.getRowsByIndex()[0][0] + "', '" + codigo + "')");
+
+                    }
+                }
+            }
+
 
             if (request.getParameter("action").equals("agregarTratamiento")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                List<Tratamiento> listT = new ArrayList<Tratamiento>();
+                Result con = (Result) sesion.getAttribute("consulta");
+                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_tratamiento` WHERE `datosconsulta_has_tratamiento`.`datosConsulta_iddatosConsulta` = 1");
+
                 String tratamientosJuntos = (String) request.getParameter("tratamientos");
                 if (!tratamientosJuntos.equals("")) {
                     String tratamientos[] = tratamientosJuntos.split(",");
@@ -573,26 +463,9 @@ public class formController extends HttpServlet {
                     for (int i = 0; i < tratamientos.length; i++) {
                         String tra_cod[] = tratamientos[i].split(" - ");
                         String codigo = tra_cod[1];
-                        Tratamiento dia = new TratamientoJpaController().findTratamiento(Integer.parseInt(codigo));
-                        listT.add(dia);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_tratamiento` (`datosConsulta_iddatosConsulta` ,`tratamiento_idtratamiento`) "
+                                + "VALUES ('" + con.getRowsByIndex()[0][0] + "', '" + codigo + "')");
                     }
-                }
-
-
-
-
-
-
-
-                con.setTratamientoList(listT);
-                try {
-                    new ConsultaJpaController().edit(con);
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -600,9 +473,7 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("guardarDatosBasicos2")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                Examenfisicoestomatologico ex = new Examenfisicoestomatologico();
-                ExamenfisicoestomatologicoJpaController conEx = new ExamenfisicoestomatologicoJpaController();
+                Result con = (Result) sesion.getAttribute("consulta");
                 String temperatura = (String) request.getParameter("temperatura");
                 String pulso = (String) request.getParameter("pulso");
                 String tension = (String) request.getParameter("tension");
@@ -614,18 +485,8 @@ public class formController extends HttpServlet {
                 String enjuages2 = (String) request.getParameter("enjuages2");
                 String habitosYvicios = (String) request.getParameter("habitosYvicios");
 
-                ex.setTemperatura(temperatura);
-                ex.setPulso(pulso);
-                ex.setTensionArterial(tension);
-                ex.setHigieneOral(higiene);
-                ex.setSedaDental(usoSeda);
-                ex.setCepilloDentalUso(cepillo);
-                ex.setVecesAlDia(veces);
-                ex.setEnjuagesBsinFluor(enjuages1);
-                ex.setEnjuagesBconFluor(enjuages2);
-                ex.setHabitosYvicios(habitosYvicios);
-                ex.setDatosConsultaiddatosConsulta(con);
-                conEx.create(ex);
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta`) "
+                        + "VALUES (NULL , '" + temperatura + "', '" + pulso + "', '" + tension + "', '" + higiene + "', '" + usoSeda + "', '" + cepillo + "', '" + veces + "', '" + enjuages1 + "', '" + enjuages2 + "', '" + habitosYvicios + "', '" + con.getRowsByIndex()[0][0] + "')");
 
 
             }
@@ -633,34 +494,37 @@ public class formController extends HttpServlet {
 
             if (request.getParameter("action").equals("guardarPron")) {
                 HttpSession sesion = request.getSession();
-                Consulta con = (Consulta) sesion.getAttribute("consulta");
-                List<Remision> listR = (List<Remision>) sesion.getAttribute("remision");
-                List<Remision> listR2 = new ArrayList<Remision>();
+                Result con = (Result) sesion.getAttribute("consulta");
+                Result listR = (Result) sesion.getAttribute("remision");
 
-                for (int i = 0; i < listR.size(); i++) {
+                new sqlController().UpdateSql("DELETE FROM `remision_has_datosconsulta` WHERE `remision_has_datosconsulta`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+                new sqlController().UpdateSql("DELETE FROM `interconsulta_has_datosconsulta` WHERE `interconsulta_has_datosconsulta`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_plantratamiento` WHERE `datosconsulta_has_plantratamiento`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
+
+                for (int i = 0; i < listR.getRowCount(); i++) {
                     if (request.getParameter("remision" + i) != null) {
-                        Remision remision = listR.get(i);
-                        listR2.add(remision);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`remision_has_datosconsulta` (`remision_idremision` ,`datosConsulta_iddatosConsulta`) "
+                                + "VALUES ('" + listR.getRowsByIndex()[i][0] + "', '" + con.getRowsByIndex()[0][0] + "')");
+
                     }
 
 
                 }
 
-                List<Interconsulta> listI = (List<Interconsulta>) sesion.getAttribute("interconsulta");
-                List<Interconsulta> listI2 = new ArrayList<Interconsulta>();
-                for (int i = 0; i < listI.size(); i++) {
+                Result listI = (Result) sesion.getAttribute("interconsulta");
+                for (int i = 0; i < listI.getRowCount(); i++) {
                     if (request.getParameter("interconsulta" + i) != null) {
-                        Interconsulta interconsulta = listI.get(i);
-                        listI2.add(interconsulta);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`interconsulta_has_datosconsulta` (`interconsulta_idinterconsulta` ,`datosConsulta_iddatosConsulta`) "
+                                + "VALUES ('" + listI.getRowsByIndex()[i][0] + "', '" + con.getRowsByIndex()[0][0] + "')");
                     }
                 }
-                List<Plantratamiento> listP = (List<Plantratamiento>) sesion.getAttribute("planTratamiento");
-                List<Plantratamiento> listP2 = new ArrayList<Plantratamiento>();
+                Result listP = (Result) sesion.getAttribute("planTratamiento");
 
-                for (int i = 0; i < listP.size(); i++) {
+
+                for (int i = 0; i < listP.getRowCount(); i++) {
                     if (request.getParameter("plantratamiento" + i) != null) {
-                        Plantratamiento plantratamiento = listP.get(i);
-                        listP2.add(plantratamiento);
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_plantratamiento` (`datosConsulta_iddatosConsulta` ,`planTratamiento_idplanTratamiento`) "
+                                + "VALUES ('" + con.getRowsByIndex()[0][0] + "', '" + listP.getRowsByIndex()[i][0] + "')");
                     }
 
 
@@ -668,22 +532,7 @@ public class formController extends HttpServlet {
 
 
                 String pronostico = (String) request.getParameter("pronostico");
-                con.setPronostico(pronostico);
-                con.setRemisionList(listR2);
-                con.setInterconsultaList(listI2);
-                con.setPlantratamientoList(listP2);
-
-
-
-                try {
-                    new ConsultaJpaController().edit(con);
-                } catch (IllegalOrphanException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NonexistentEntityException ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new sqlController().UpdateSql("UPDATE `odontogramas`.`consulta` SET `pronostico` = '" + pronostico + "' WHERE `consulta`.`iddatosConsulta` =" + con.getRowsByIndex()[0][0] + "");
             }
 
 

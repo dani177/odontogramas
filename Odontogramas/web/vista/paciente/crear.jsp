@@ -80,8 +80,8 @@
                     <div class="controls">
                         <select id="departamentos" name="departamentos" class="{required:true}">
                             <option></option>  
-                            <c:forEach items="${departamentos}" var="row" varStatus="iter">
-                                <option value="${row.codigo}">${row.nombre}</option>    
+                            <c:forEach items="${departamentos.rowsByIndex}" var="row" varStatus="iter">
+                                <option value="${row[0]}">${row[1]}</option>    
                             </c:forEach>
                         </select>
                     </div>
@@ -139,8 +139,8 @@
                     <div class="controls">
                         <select id="profesion" name="profesion" class="{required:true}">
                             <option></option>  
-                            <c:forEach items="${profesiones}" var="row" varStatus="iter">
-                                <option value="${row.codigo}">${row.profesion}</option>    
+                            <c:forEach items="${profesiones.rowsByIndex}" var="row" varStatus="iter">
+                                <option value="${row[1]}">${row[0]}</option>    
                             </c:forEach>
                         </select>
                     </div>

@@ -47,48 +47,48 @@
             <div class="control-group">
                 <label for="nombre" class="control-label">Nombre</label>
                 <div class="controls">
-                    <input type="text" id="input01" class="input-xlarge {required:true}" name="nombre" value="${paciente.getNombre()}">
+                    <input type="text" id="input01" class="input-xlarge {required:true}" name="nombre" value="${paciente.getRowsByIndex()[0][1]}">
                 </div>
             </div>
             <div class="control-group">
                 <label for="input04" class="control-label">Direccion</label>
                 <div class="controls">
-                    <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getDireccion()}">
+                    <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getRowsByIndex()[0][2]}">
                 </div>
             </div>
             <div class="control-group">
                 <label for="input02" class="control-label">No de Identificacion</label>
                 <div class="controls">
-                    <span class="input-xlarge uneditable-input">${paciente.getIdpersona()}</span>
+                    <span class="input-xlarge uneditable-input">${paciente.getRowsByIndex()[0][0]}</span>
                 </div>
             </div>
             <div class="control-group">
                 <label for="input03" class="control-label">No de Afiliacion</label>
                 <div class="controls">
-                    <input type="text" id="input03" name="afiliacion" value="${paciente.getNumAfiliacion()}">
+                    <input type="text" id="input03" name="afiliacion" value="${paciente.getRowsByIndex()[0][3]}">
                 </div>
             </div>
 
             <div class="control-group">
                 <label for="input05" class="control-label">Telefono</label>
                 <div class="controls">
-                    <input type="text" id="input05" name="telefono" value="${paciente.getTelefono()}">
+                    <input type="text" id="input05" name="telefono" value="${paciente.getRowsByIndex()[0][4]}">
                 </div>
             </div>
             <div class="control-group">
                 <label for="input06" class="control-label">Departamento</label>
                 <div class="controls">
                     <select id="departamentos" name="departamentos" class="{required:true}">
-                        <c:forEach items="${departamentos}" var="row" varStatus="iter">
+                        <c:forEach items="${departamentos.rowsByIndex}" var="row" varStatus="iter">
                             <c:choose>
-                                <c:when test="${row.codigo!=paciente.getMunicipiosCodigo().getDepartamentosCodigo1().getCodigo()}">
-                                    <option value="${row.codigo}">${row.nombre}</option>    
+                                <c:when test="${row[0]!=departamento.getRowsByIndex()[0][12]}">
+                                    <option value="${row[0]}">${row[1]}</option>    
                                 </c:when>
                                 <c:otherwise>
-                                    <option selected="selected" value="${row.codigo}">${row.nombre}</option>    
+                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
                                 </c:otherwise>     
                             </c:choose>
-
+            
                         </c:forEach>
                     </select>
                 </div>
@@ -97,13 +97,13 @@
                 <label for="input06" class="control-label">Ciudad/Municipio</label>
                 <div class="controls">
                     <select id="municipios" name="municipio" class="{required:true}">
-                        <c:forEach items="${municipios}" var="row" varStatus="iter">
+                        <c:forEach items="${municipios.rowsByIndex}" var="row" varStatus="iter">
                             <c:choose>
-                                <c:when test="${row.codigo!=paciente.getMunicipiosCodigo().getCodigo()}">
-                                    <option value="${row.codigo}">${row.nombre}</option>    
+                                <c:when test="${row[0]!=paciente.getRowsByIndex()[0][8]}">
+                                    <option value="${row[0]}">${row[1]}</option>    
                                 </c:when>
                                 <c:otherwise>
-                                    <option selected="selected" value="${row.codigo}">${row.nombre}</option>    
+                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
                                 </c:otherwise>     
                             </c:choose>
                         </c:forEach>
@@ -121,7 +121,7 @@
                 <label class="control-label">Sexo</label>
                 <div class="controls">
                     <c:choose>
-                        <c:when test="${paciente.getSexo()=='masculino'}">
+                        <c:when test="${paciente.getRowsByIndex()[0][5]=='masculino'}">
                             <label class="radio inline">
                                 <input type="radio" value="masculino" name="sexo" class="{required:true}" checked="checked" >
                                 Hombre
@@ -135,7 +135,7 @@
                         </c:otherwise>
                     </c:choose>
                     <c:choose>
-                        <c:when test="${paciente.getSexo()=='femenino'}">
+                        <c:when test="${paciente.getRowsByIndex()[0][5]=='femenino'}">
                             <label class="radio inline">
                                 <input type="radio" value="femenino" name="sexo" checked="checked">
                                 Mujer
@@ -156,7 +156,7 @@
                 <label class="control-label">Estado Civil</label>
                 <div class="controls">
                     <c:choose>
-                        <c:when test="${paciente.getEstadoCivil()=='soltero'}">
+                        <c:when test="${paciente.getRowsByIndex()[0][6]=='soltero'}">
                             <label class="radio inline">
                                 <input type="radio" value="soltero" name="estadoCivil" class="{required:true}" checked="checked" >
                                 Soltero
@@ -171,7 +171,7 @@
                     </c:choose>
 
                     <c:choose>
-                        <c:when test="${paciente.getEstadoCivil()=='casado'}">
+                        <c:when test="${paciente.getRowsByIndex()[0][6]=='casado'}">
                             <label class="radio inline">
                                 <input type="radio" value="casado" name="estadoCivil" checked="checked" >
                                 Casado
@@ -186,7 +186,7 @@
                     </c:choose>
 
                     <c:choose>
-                        <c:when test="${paciente.getEstadoCivil()=='otro'}">
+                        <c:when test="${paciente.getRowsByIndex()[0][6]=='otro'}">
                             <label class="radio inline">
                                 <input type="radio" value="otro" name="estadoCivil"  checked="checked">
                                 otro
@@ -207,17 +207,17 @@
                 <div class="controls">
                     <select id="profesion" name="profesion" class="{required:true}">
                         <option></option>  
-                        <c:forEach items="${profesiones}" var="row" varStatus="iter">
+                        <c:forEach items="${profesiones.rowsByIndex}" var="row" varStatus="iter">
                             <c:choose>
-                                <c:when test="${row.codigo!=paciente.getProfesionesCodigo().getCodigo()}">
-                                    <option value="${row.codigo}">${row.getProfesion()}</option>    
+                                <c:when test="${row[1]!=paciente.getRowsByIndex()[0][9]}">
+                                    <option value="${row[1]}">${row[0]}</option>    
                                 </c:when>
                                 <c:otherwise>
-                                    <option selected="selected" value="${row.codigo}">${row.getProfesion()}</option>    
+                                    <option selected="selected" value="${row[1]}">${row[0]}</option>    
                                 </c:otherwise>     
                             </c:choose>
                         </c:forEach>
-
+            
                     </select>
                 </div>
             </div>

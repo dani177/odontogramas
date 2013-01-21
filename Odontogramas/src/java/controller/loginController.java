@@ -4,6 +4,7 @@
  */
 package controller;
 
+import conexion.sqlController;
 import entity.Medico;
 import entity.controller.*;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.sql.Result;
+import org.apache.tomcat.util.threads.ResizableExecutor;
 
 /**
  *
@@ -41,28 +44,26 @@ public class loginController extends HttpServlet {
 
         if (perfil.equals("Estudiante")) {
 
-            MedicoJpaController conMed = new MedicoJpaController();
-            DocenteJpaController conDoc = new DocenteJpaController();
-
             try {
-                Medico medico = conMed.findMedico(Integer.parseInt(un));
+                Result medico = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`="+un+"");
 
                 session.setAttribute("medico", medico);
-                session.setAttribute("docentes", conDoc.findDocenteEntities());
-                session.setAttribute("diagnosticos", new DiagnosticoJpaController().findDiagnosticoEntities());
-                session.setAttribute("tratamientos", new TratamientoJpaController().findTratamientoEntities());
-                session.setAttribute("planTratamiento", new PlantratamientoJpaController().findPlantratamientoEntities());
-                session.setAttribute("interconsulta", new InterconsultaJpaController().findInterconsultaEntities());
-                session.setAttribute("remision", new RemisionJpaController().findRemisionEntities());
+                session.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
+                session.setAttribute("diagnosticos", new sqlController().CargarSql2("SELECT * FROM `diagnostico`"));
+                session.setAttribute("tratamientos", new sqlController().CargarSql2("SELECT * FROM `tratamiento`"));
+                session.setAttribute("planTratamiento", new sqlController().CargarSql2("SELECT * FROM `plantratamiento`"));
+                session.setAttribute("interconsulta", new sqlController().CargarSql2("SELECT * FROM `interconsulta`"));
+                session.setAttribute("remision", new sqlController().CargarSql2("SELECT * FROM `remision`"));
 
                 if (medico != null) {
-                    if (medico.getClave().equals(pw)) {
+                    if (medico.getRowsByIndex()[0][2].equals(pw)) {
                         session.setAttribute("logueado", "ok");
-                        DepartamentosJpaController ConDe = new DepartamentosJpaController();
-                        session.setAttribute("departamentos", ConDe.findDepartamentosEntities());
-                        ProfesionesJpaController ConProf = new ProfesionesJpaController();
-                        session.setAttribute("profesiones", ConProf.findProfesionesEntities());
-                        session.setAttribute("listaDePacientes", medico.getPacienteList());
+                        session.setAttribute("departamentos", new sqlController().CargarSql2("SELECT * FROM `departamentos`"));
+                        session.setAttribute("profesiones", new sqlController().CargarSql2("SELECT * FROM `profesiones`"));
+                        session.setAttribute("listaDePacientes", new sqlController().CargarSql2("SELECT paciente.* FROM `medico` "
+                                + "inner join medico_has_paciente on medico.idmedico= medico_has_paciente.`medico_idmedico` "
+                                + "inner join paciente on medico_has_paciente.`paciente_idpersona`=paciente.idpersona "
+                                + "where medico.idmedico="+un));
                         out.println(0);
                     } else {
                         out.println(1);

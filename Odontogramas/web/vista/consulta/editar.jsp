@@ -120,10 +120,10 @@
 
         
         
-        var miArray2 = new Array(${tratamientos.size()});
+        var miArray2 = new Array(${tratamientos.getRowCount()});
         
-    <c:forEach items="${tratamientos}" var="item2" varStatus="iter2">
-            miArray2[${iter2.index}] = "${item2.getTratamiento()} - ${item2.getIdtratamiento()} - ${item2.getPresupuesto()}";
+    <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
+            miArray2[${iter2.index}] = "${item2[1]} - ${item2[0]} - ${item2[2]}";
     </c:forEach> 
         
             $(".tagManager2").tagsManager({
@@ -152,10 +152,10 @@
                 $("#tagpresupuesto").val(presupuesto);
             });
         
-            var miArray = new Array(${diagnosticos.size()});
+            var miArray = new Array(${diagnosticos.getRowCount()});
         
-    <c:forEach items="${diagnosticos}" var="item" varStatus="iter">
-            miArray[${iter.index}] = "${item.getDiagnostico()} - ${item.getCodigo()}";
+    <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
+            miArray[${iter.index}] = "${item[2]} - ${item[0]}";
     </c:forEach> 
     
             $(".tagManager").tagsManager({
@@ -273,13 +273,13 @@
                         <div class="control-group">
                             <label for="motivo" class="control-label">Motivo de la consulta</label>
                             <div class="controls">
-                                <textarea rows="3" id="motivo" name="motivo" class="input-xxlarge {required:true}">${consulta.motivoConsulta}</textarea>
+                                <textarea rows="3" id="motivo" name="motivo" class="input-xxlarge {required:true}">${consulta.getRowsByIndex()[0][1]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="historia" class="control-label">Historia de la enfermedad actual</label>
                             <div class="controls">
-                                <textarea rows="3" id="historia" name="historia" class="input-xxlarge {required:true}">${consulta.historiaActualEnfermedad}</textarea>
+                                <textarea rows="3" id="historia" name="historia" class="input-xxlarge {required:true}">${consulta.getRowsByIndex()[0][2]}</textarea>
                             </div>
                         </div>       
                         <table class="table table-striped table-bordered table-condensed">
@@ -292,31 +292,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${consulta.datosconsultaHasDatosbasicosList}" var="row">
+                                <c:forEach items="${datosconsultaHasDatosbasicos.rowsByIndex}" var="row">
                                     <tr>
-                                        <td>${row.datosBasicosiddatosBasicos.nombre}</td>
+                                        <td>${row[5]}</td>
                                         <c:choose>
-                                            <c:when test="${row.valor=='si'}">
-                                                <td> <input type="radio" value="si" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos }" checked=""></td>
+                                            <c:when test="${row[2]=='si'}">
+                                                <td> <input type="radio" value="si" name="db${row[1]}" checked=""></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                <td> <input type="radio" value="si" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos }"></td>
+                                                <td> <input type="radio" value="si" name="db${row[1]}"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <c:choose>
-                                                <c:when test="${row.valor=='no'}">
-                                                <td> <input type="radio" value="no" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" checked=""></td>
+                                                <c:when test="${row[2]=='no'}">
+                                                <td> <input type="radio" value="no" name="db${row[1]}" checked=""></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                <td> <input type="radio" value="no" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" ></td>
+                                                <td> <input type="radio" value="no" name="db${row[1]}" ></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             <c:choose>
-                                                <c:when test='${row.valor=="no sabe"}'>
-                                                <td> <input type="radio" value="no sabe" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}" checked=""></td>
+                                                <c:when test='${row[2]=="no sabe"}'>
+                                                <td> <input type="radio" value="no sabe" name="db${row[1]}" checked=""></td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                <td> <input type="radio" value="no sabe" name="db${row.datosBasicosiddatosBasicos.iddatosBasicos}"></td>
+                                                <td> <input type="radio" value="no sabe" name="db${row[1]}"></td>
                                                 </c:otherwise>
                                             </c:choose>
 
@@ -329,26 +329,26 @@
                         <div class="control-group">
                             <label for="observaciones" class="control-label">Observaciones</label>
                             <div class="controls">
-                                <textarea rows="3" id="observaciones" name="observaciones" class="input-xxlarge  {required:true}">${consulta.observaciones}</textarea>
+                                <textarea rows="3" id="observaciones" name="observaciones" class="input-xxlarge  {required:true}">${consulta.getRowsByIndex()[0][3]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="otros" class="control-label">Otros</label>
                             <div class="controls">
-                                <textarea rows="3" id="otros" name="otros" class="input-xxlarge">${consulta.otros}</textarea>
+                                <textarea rows="3" id="otros" name="otros" class="input-xxlarge">${consulta.getRowsByIndex()[0][4]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
-                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.ultimaVisitaOdon}'></fmt:formatDate>" />
+                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label for="motivo2" class="control-label">Motivo</label>
                             <div class="controls">
-                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.motivo}</textarea>
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -356,13 +356,13 @@
                             <div class="controls">
                                 <select name="docente" class="{required:true}">
                                     <option selected="selected"></option> 
-                                    <c:forEach items="${docentes}" var="row" varStatus="iter">
+                                    <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
                                         <c:choose>
-                                            <c:when test="${consulta.docenteIddocente.iddocente==row.iddocente}">
-                                                <option selected="selected" value="${row.iddocente}">${row.nombre}</option>            
+                                            <c:when test="${consulta.getRowsByIndex()[0][11]==row[0]}">
+                                                <option selected="selected" value="${row[0]}">${row[1]}</option>            
                                             </c:when>
                                             <c:otherwise>
-                                                <option value="${row.iddocente}">${row.nombre}</option>            
+                                                <option value="${row[0]}">${row[1]}</option>            
                                             </c:otherwise>
                                         </c:choose>
 
@@ -395,19 +395,19 @@
                         <div class="control-group">
                             <label for="temperatura" class="control-label">Temperatura</label>
                             <div class="controls">
-                                <input id="temperatura"  name="temperatura" type="text" value="${consulta.examenfisicoestomatologicoList[0].temperatura}">
+                                <input id="temperatura"  name="temperatura" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][1]}">
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="pulso" class="control-label">Pulso</label>
                             <div class="controls">
-                                <input id="pulso" name="pulso"  type="text" value="${consulta.examenfisicoestomatologicoList[0].pulso}">
+                                <input id="pulso" name="pulso"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][2]}">
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="tension" class="control-label">Tension A.</label>
                             <div class="controls">
-                                <input id="tension" name="tension" type="text" value="${consulta.examenfisicoestomatologicoList[0].tensionArterial}" >
+                                <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
                             </div>
                         </div>
                         <div class="control-group">
@@ -415,7 +415,7 @@
                             <div class="controls">
                                 <select id="higiene" name="higiene">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Buena"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][4] == "Buena"}'>
                                             <option selected="selected" value="Buena">Buena</option>
                                         </c:when>
                                         <c:otherwise>
@@ -424,7 +424,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Regular"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][4] == "Regular"}'>
                                             <option selected="selected" value="Regular">Regular</option>
                                         </c:when>
                                         <c:otherwise>
@@ -433,7 +433,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].higieneOral == "Mala"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][4] == "Mala"}'>
                                             <option selected="selected" value="Mala">Mala</option>
                                         </c:when>
                                         <c:otherwise>
@@ -450,7 +450,7 @@
                             <div class="controls">
                                 <select id="usoSeda" name="usoSeda">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "Si"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][5] == "Si"}'>
                                             <option selected="selected" value="Si">Si</option>
                                         </c:when>
                                         <c:otherwise>
@@ -459,7 +459,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "No"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][5] == "No"}'>
                                             <option selected="selected" value="No">No</option>
                                         </c:when>
                                         <c:otherwise>
@@ -468,7 +468,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].sedaDental == "Aveces"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][5] == "Aveces"}'>
                                             <option selected="selected" value="Aveces">Aveces</option>
                                         </c:when>
                                         <c:otherwise>
@@ -485,7 +485,7 @@
                             <div class="controls">
                                 <select id="cepillo" name="cepillo">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].cepilloDentalUso == "Si"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][6] == "Si"}'>
                                             <option selected="selected" value="Si">Si</option>
                                         </c:when>
                                         <c:otherwise>
@@ -494,7 +494,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].cepilloDentalUso == "No"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][6] == "No"}'>
                                             <option selected="selected" value="No">No</option>
                                         </c:when>
                                         <c:otherwise>
@@ -509,7 +509,7 @@
                             <div class="controls">
                                 <select id="veces" name="veces">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "0"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "0"}'>
                                             <option selected="" value="0">0</option>
                                         </c:when>
                                         <c:otherwise>
@@ -517,7 +517,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "1"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "1"}'>
                                             <option selected="" value="1">1</option>
                                         </c:when>
                                         <c:otherwise>
@@ -525,7 +525,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "2"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "2"}'>
                                             <option selected="" value="2">2</option>
                                         </c:when>
                                         <c:otherwise>
@@ -533,7 +533,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "3"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "3"}'>
                                             <option selected="" value="3">3</option>
                                         </c:when>
                                         <c:otherwise>
@@ -541,7 +541,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "4"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "4"}'>
                                             <option selected="" value="4">4</option>
                                         </c:when>
                                         <c:otherwise>
@@ -549,7 +549,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].vecesAlDia == "5"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][7] == "5"}'>
                                             <option selected="" value="5">5</option>
                                         </c:when>
                                         <c:otherwise>
@@ -566,7 +566,7 @@
                             <div class="controls">
                                 <select id="enjuages1" name="enjuages1">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "Si"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][8] == "Si"}'>
                                             <option selected="selected" value="Si">Si</option>
                                         </c:when>
                                         <c:otherwise>
@@ -575,7 +575,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "No"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][8] == "No"}'>
                                             <option selected="selected" value="No">No</option>
                                         </c:when>
                                         <c:otherwise>
@@ -584,7 +584,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBsinFluor == "Aveces"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][8] == "Aveces"}'>
                                             <option selected="selected" value="Aveces">Aveces</option>
                                         </c:when>
                                         <c:otherwise>
@@ -600,7 +600,7 @@
                             <div class="controls">
                                 <select id="enjuages2" name="enjuages2">
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "Si"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][9] == "Si"}'>
                                             <option selected="selected" value="Si">Si</option>
                                         </c:when>
                                         <c:otherwise>
@@ -609,7 +609,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "No"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][9] == "No"}'>
                                             <option selected="selected" value="No">No</option>
                                         </c:when>
                                         <c:otherwise>
@@ -618,7 +618,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].enjuagesBconFluor == "Aveces"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][9] == "Aveces"}'>
                                             <option selected="selected" value="Aveces">Aveces</option>
                                         </c:when>
                                         <c:otherwise>
@@ -635,7 +635,7 @@
                                 <select id="habitosYvicios" name="habitosYvicios">
                                     <option></option>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Tabacos"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Tabacos"}'>
                                             <option selected="selected" value="Tabacos">Tabacos</option>
                                         </c:when>
                                         <c:otherwise>
@@ -644,7 +644,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Alcohol"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Alcohol"}'>
                                             <option selected="selected" value="Alcohol">Alcohol</option>
                                         </c:when>
                                         <c:otherwise>
@@ -653,7 +653,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Caf&eacute;"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Caf&eacute;"}'>
                                             <option selected="selected" value="Caf&eacute;">Caf&eacute;</option>
                                         </c:when>
                                         <c:otherwise>
@@ -663,7 +663,7 @@
                                     </c:choose>
 
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Drogas"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Drogas"}'>
                                             <option selected="selected" value="Drogas">Drogas</option>
                                         </c:when>
                                         <c:otherwise>
@@ -672,7 +672,7 @@
 
                                     </c:choose>      
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Otro"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Otro"}'>
                                             <option selected="selected" value="Otro">Otro</option>
                                         </c:when>
                                         <c:otherwise>
@@ -680,7 +680,7 @@
                                         </c:otherwise>
                                     </c:choose>  
                                     <c:choose>
-                                        <c:when test='${consulta.examenfisicoestomatologicoList[0].habitosYvicios == "Ninguno"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Ninguno"}'>
                                             <option selected="selected" value="Ninguno">Ninguno</option>
                                         </c:when>
                                         <c:otherwise>
@@ -712,71 +712,11 @@
                         <legend>Odontograma</legend>
                         <div class="row">
                             <div class="span6">   
-                                <svg style="width: 450px; height: 500px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-                                <image xlink:href="<%=request.getContextPath()%>/images/diagrama.gif" height="479" width="340" y="20" x="20"/>
-
-
-
-
-
-                                <circle class="diente" id="1" style="fill:transparent" r="12" cy="222" cx="45"></circle>
-                                <circle class="diente" id="2" style="fill:transparent" r="12" cy="192" cx="45"></circle>
-                                <circle class="diente" id="3" style="fill:transparent" r="12" cy="162" cx="50"></circle>
-                                <circle class="diente" id="4" style="fill:transparent" r="12" cy="134" cx="63"></circle>
-                                <circle class="diente" id="5" style="fill:transparent" r="12" cy="109" cx="82"></circle>
-                                <circle class="diente" id="6" style="fill:transparent" r="12" cy="89" cx="107"></circle>
-                                <circle class="diente" id="7" style="fill:transparent" r="12" cy="75" cx="136"></circle>
-                                <circle class="diente" id="8" style="fill:transparent" r="12" cy="67" cx="169"></circle>
-                                <circle class="diente" id="9" style="fill:transparent" r="12" cy="67" cx="202"></circle>
-                                <circle class="diente" id="10" style="fill:transparent" r="12" cy="74" cx="233"></circle>
-                                <circle class="diente" id="11" style="fill:transparent" r="12" cy="87" cx="263"></circle>
-                                <circle class="diente" id="12" style="fill:transparent" r="12" cy="107" cx="288"></circle>
-                                <circle class="diente" id="13" style="fill:transparent" r="12" cy="131" cx="308"></circle>
-                                <circle class="diente" id="14" style="fill:transparent" r="12" cy="159" cx="322"></circle>
-                                <circle class="diente" id="15" style="fill:transparent" r="12" cy="189" cx="327"></circle>
-                                <circle class="diente" id="16" style="fill:transparent" r="12" cy="220" cx="330"></circle>
-
-
-                                <circle class="diente" id="A" style="fill:transparent" r="12" cy="218" cx="105"></circle>
-                                <circle class="diente" id="B" style="fill:transparent" r="12" cy="188" cx="105"></circle>
-                                <circle class="diente" id="C" style="fill:transparent" r="12" cy="159" cx="117"></circle>
-                                <circle class="diente" id="D" style="fill:transparent" r="12" cy="137" cx="140"></circle>
-                                <circle class="diente" id="E" style="fill:transparent" r="12" cy="124" cx="170"></circle>
-                                <circle class="diente" id="F" style="fill:transparent" r="12" cy="125" cx="203"></circle>
-                                <circle class="diente" id="G" style="fill:transparent" r="12" cy="138" cx="233"></circle>
-                                <circle class="diente" id="H" style="fill:transparent" r="12" cy="160" cx="256"></circle>
-                                <circle class="diente" id="I" style="fill:transparent" r="12" cy="190" cx="266"></circle>
-                                <circle class="diente" id="J" style="fill:transparent" r="12" cy="221" cx="268"></circle>
-
-                                <circle class="diente" id="32" style="fill:transparent" r="12" cy="295" cx="45"></circle>
-                                <circle class="diente" id="31" style="fill:transparent" r="12" cy="326" cx="46"></circle>
-                                <circle class="diente" id="30" style="fill:transparent" r="12" cy="357" cx="52"></circle>
-                                <circle class="diente" id="29" style="fill:transparent" r="12" cy="385" cx="65"></circle>
-                                <circle class="diente" id="28" style="fill:transparent" r="12" cy="409" cx="84"></circle>
-                                <circle class="diente" id="27" style="fill:transparent" r="12" cy="428" cx="110"></circle>
-                                <circle class="diente" id="26" style="fill:transparent" r="12" cy="442" cx="138"></circle>
-                                <circle class="diente" id="25" style="fill:transparent" r="12" cy="448" cx="171"></circle>
-                                <circle class="diente" id="24" style="fill:transparent" r="12" cy="448" cx="204"></circle>
-                                <circle class="diente" id="23" style="fill:transparent" r="12" cy="441" cx="236"></circle>
-                                <circle class="diente" id="22" style="fill:transparent" r="12" cy="428" cx="266"></circle>
-                                <circle class="diente" id="21" style="fill:transparent" r="12" cy="408" cx="290"></circle>
-                                <circle class="diente" id="20" style="fill:transparent" r="12" cy="384" cx="310"></circle>
-                                <circle class="diente" id="19" style="fill:transparent" r="12" cy="356" cx="323"></circle>
-                                <circle class="diente" id="18" style="fill:transparent" r="12" cy="326" cx="328"></circle>
-                                <circle class="diente" id="17" style="fill:transparent" r="12" cy="294" cx="328"></circle>
-
-
-                                <circle class="diente" id="T" style="fill:transparent" r="12" cy="296" cx="105"></circle>
-                                <circle class="diente" id="S" style="fill:transparent" r="12" cy="328" cx="106"></circle>
-                                <circle class="diente" id="R" style="fill:transparent" r="12" cy="356" cx="117"></circle>
-                                <circle class="diente" id="Q" style="fill:transparent" r="12" cy="378" cx="140"></circle>
-                                <circle class="diente" id="P" style="fill:transparent" r="12" cy="391" cx="170"></circle>
-                                <circle class="diente" id="O" style="fill:transparent" r="12" cy="392" cx="203"></circle>
-                                <circle class="diente" id="N" style="fill:transparent" r="12" cy="380" cx="233"></circle>
-                                <circle class="diente" id="M" style="fill:transparent" r="12" cy="358" cx="255"></circle>
-                                <circle class="diente" id="L" style="fill:transparent" r="12" cy="329" cx="267"></circle>
-                                <circle class="diente" id="K" style="fill:transparent" r="12" cy="297" cx="269"></circle>
-
+                                <svg style="width: 600px; height: 600px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                                <image xlink:href="<%=request.getContextPath()%>/images/adultos.gif" height="479" width="340" y="20" x="20"/>
+                                <path d="m66.82642,28.81544c0.07912,0 0.23735,0 0.39562,0c0.15826,0 0.32075,-0.042 0.47474,0c0.17221,0.04696 0.30691,0.13652 0.55389,0.18282c0.07809,0.01463 0.31649,0 0.47474,0c0.07913,0 0.31651,0 0.39561,0c0.07914,0 0.23737,0 0.39563,0c0.0791,0 0.31651,0 0.39561,0c0.07914,0 0.2374,0 0.39565,0c0.47475,0 0.55387,0 0.63297,0c0.15825,0 0.39565,0 0.55389,0c0.15825,0 0.31651,0 0.47475,0c0.23736,0 0.39561,0 0.55387,0c0.15825,0 0.31648,0 0.55386,0c0.15826,0 0.31651,0 0.47477,0c0.07912,0 0.15822,0 0.31647,0c0.15826,0 0.29224,0.04193 0.39564,0.09141c0.0731,0.03498 0.15825,0.0914 0.15825,0.36561c0,0.09141 0.04886,0.28118 0.0791,0.36562c0.04285,0.11942 0.17197,0.07794 0.2374,0.18281c0.10345,0.16581 0.11543,0.24618 0.15823,0.36561c0.03027,0.08445 0.07912,0.09141 0.23737,0.09141c0.15826,0 0.39564,-0.09141 0.71212,-0.09141c0.07912,0 0.24339,0.03497 0.31651,0c0.10336,-0.04948 0.23734,-0.0914 0.39561,-0.0914c0.15827,0 0.44197,0.12928 0.55386,0c0.05597,-0.06462 0.15827,-0.09141 0.31652,-0.09141c0.15826,0 0.26477,0.06449 0.39565,0.27422c0.10344,0.16581 0.04633,0.32775 0.15826,0.45702c0.05592,0.06463 0.22339,0.04444 0.39559,0.0914c0.077,0.02101 0.15826,0.0914 0.3165,0.0914c0.23737,0 0.32252,0.05643 0.39563,0.09141c0.10339,0.04947 0.24339,0.14783 0.31651,0.18281c0.10336,0.04947 0.13396,0.13335 0.23735,0.1828c0.07311,0.035 0.2374,0.09141 0.31651,0.09141c0.15823,0 0.32251,0.05644 0.3956,0.09141c0.10339,0.04947 0.14009,0.09385 0.15826,0.1828c0.04066,0.19892 0.08516,0.23925 0.15825,0.27421c0.10339,0.04948 0.07911,0.18283 0.07911,0.27422c0,0.0914 0.03632,0.15479 0.07915,0.27421c0.03026,0.08445 0.07912,0.18281 0.15822,0.27422c0.07915,0.09139 0.11667,0.19646 0.15826,0.27422c0.09303,0.17385 0.30486,0.19861 0.39563,0.27421c0.14355,0.11951 0.08685,0.25816 0.23738,0.36562c0.06729,0.04804 0.18141,0.11816 0.23738,0.18281c0.05591,0.06464 0.04882,0.09835 0.0791,0.1828c0.04283,0.11943 0.04636,0.23636 0.15826,0.36563c0.05593,0.06463 0.07912,0.09141 0.15824,0.18282c0.07913,0.09139 0.07913,0.1828 0.07913,0.27421c0,0.09139 0.07912,0.1828 0.07912,0.36561c0,0.09141 0,0.27421 0,0.3656c0,0.09141 0.11818,0.17173 0.15826,0.45704c0.03802,0.27067 0.01369,0.44356 0.07912,0.54841c0.10344,0.16581 -0.03278,0.41917 0.07911,0.54843c0.05596,0.06464 0.128,0.09837 0.15826,0.18282c0.0428,0.11941 0.19457,0.15478 0.23738,0.27421c0.06059,0.16889 0.02318,0.30098 0.07912,0.36561c0.05595,0.06464 0,0.18282 0,0.27421c0,0.09141 0,0.18282 0,0.27422c0,0.0914 0.15826,0.3656 0.2374,0.45702c0.0791,0.09139 0.09384,0.15471 0.23737,0.2742c0.09075,0.07558 0.07911,0.1828 0.07911,0.36562c0,0.09141 -0.03629,0.1548 -0.07911,0.27422c-0.0303,0.08445 0,0.1828 0,0.54842c0,0.09141 -0.0714,0.25816 0.07911,0.36562c0.06731,0.04804 0.07912,0.0914 0.07912,0.18281c0,0.09141 0,0.54843 0,0.63984c0,0.0914 0.07915,0.2742 0.15826,0.45701c0.07911,0.18281 0.11543,0.24621 0.15826,0.36562c0.06056,0.16889 0,0.27421 0,0.36562c0,0.27421 0,0.36562 0,0.63984c0,0.09139 0,0.2742 0,0.36562c0,0.0914 0.02432,0.29121 -0.07915,0.45702c-0.06541,0.10486 -0.12795,0.28118 -0.15822,0.36562c-0.04285,0.11943 -0.04637,0.23635 -0.15826,0.36561c-0.05595,0.06463 -0.18141,0.02678 -0.23738,0.0914c-0.05595,0.06463 -0.01369,0.35217 -0.0791,0.45703c-0.10347,0.16581 -0.19458,0.33758 -0.2374,0.45702c-0.03026,0.08446 0.02427,0.22475 -0.07912,0.27422c-0.0731,0.03498 -0.10231,0.02677 -0.15823,0.0914c-0.05596,0.06463 -0.01369,0.35216 -0.07915,0.45703c-0.10345,0.16581 -0.07912,0.36561 -0.07912,0.54842c0,0.09142 -0.10229,0.11818 -0.15825,0.18282c-0.05596,0.06462 -0.0928,0.16935 -0.15827,0.27419c-0.10343,0.16581 -0.1814,0.30099 -0.23736,0.36563c-0.05594,0.06462 -0.07912,0.09141 -0.07912,0.27422c0,0.0914 -0.15826,0.27421 -0.15826,0.45702c0,0.0914 -0.10231,0.20958 -0.15822,0.2742c-0.11189,0.12926 -0.09057,0.2682 -0.15828,0.45703c-0.09573,0.26704 -0.10229,0.39239 -0.15826,0.45702c-0.05592,0.06462 -0.10229,0.02677 -0.15823,0.0914c-0.05595,0.06462 0.02424,0.22475 -0.07913,0.27421c-0.0731,0.03499 -0.12797,0.09835 -0.15825,0.18281c-0.04282,0.11942 -0.15825,0.27421 -0.23736,0.27421c-0.15826,0 -0.24921,0.04336 -0.31653,0.0914c-0.15048,0.10746 -0.14428,0.22725 -0.31648,0.27422c-0.07699,0.021 -0.09095,0.04335 -0.15826,0.0914c-0.30101,0.21489 -0.27368,0.33759 -0.31648,0.45701c-0.06055,0.16888 -0.00282,0.41171 -0.23738,0.82265c-0.0616,0.1079 -0.05486,0.22473 -0.15825,0.2742c-0.0731,0.035 -0.09686,0.08253 -0.15823,0.27423c-0.11319,0.35345 -0.19457,0.3376 -0.23737,0.45702c-0.0303,0.08442 -0.07914,0.1828 -0.2374,0.36561c-0.15824,0.1828 -0.23737,0.1828 -0.3165,0.27421c-0.07911,0.09138 -0.16427,0.14781 -0.23737,0.18281c-0.10338,0.04946 -0.14659,0.10722 -0.23738,0.1828c-0.28706,0.23902 -0.47474,0.1828 -0.55385,0.27421c-0.07912,0.0914 -0.15826,0.18281 -0.2374,0.2742c-0.07911,0.0914 -0.12797,0.18979 -0.15823,0.27422c-0.04283,0.11943 -0.11818,0.17171 -0.15826,0.45702c-0.01267,0.09025 -0.11818,0.17171 -0.15824,0.45704c-0.01265,0.09023 0,0.18279 -0.07913,0.18279c-0.07911,0 -0.10231,0.11819 -0.15823,0.1828c-0.11191,0.12928 -0.16428,0.05645 -0.23741,0.09142c-0.10336,0.04947 -0.18141,0.02677 -0.23734,0.09139c-0.11192,0.12927 0,0.36563 0,0.54842c0,0.0914 -0.15096,0.22816 -0.47474,0.27422c-0.07855,0.01116 -0.13402,0.04194 -0.23741,0.09139c-0.07307,0.03497 -0.15822,0 -0.23737,0c-0.15823,0 -0.31648,0 -0.87035,0c-0.3165,0 -0.63301,0 -0.71211,0c-0.07912,0 -0.23839,0.01465 -0.3165,0c-0.24699,-0.0463 -0.32073,-0.04942 -0.47476,-0.09139c-0.17219,-0.04697 -0.31854,-0.06213 -0.47475,-0.09142c-0.24698,-0.0463 -0.39561,-0.0914 -0.55386,-0.0914c-0.31651,0 -0.79127,0 -1.42423,0c-0.23738,0 -0.39564,0 -0.55389,0c-0.07912,0 -0.2374,0 -0.39564,0c-0.15825,0 -0.3165,0 -0.47473,0c-0.15825,0 -0.23738,0 -0.39563,0c-0.23739,0 -0.39561,0 -0.47474,0c-0.15826,0 -0.21314,-0.04192 -0.31648,-0.0914c-0.14623,-0.06997 -0.30693,-0.04509 -0.55389,-0.09139c-0.1562,-0.02929 -0.30045,-0.02346 -0.39562,-0.09141c-0.21286,-0.15196 -0.28622,-0.09836 -0.31651,-0.18282c-0.04281,-0.11942 -0.13399,-0.13335 -0.23736,-0.18281c-0.14619,-0.06996 -0.29224,-0.13333 -0.39561,-0.18281c-0.14622,-0.06994 -0.31654,0 -0.39566,-0.0914c-0.0791,-0.09139 -0.12257,-0.17872 -0.39561,-0.2742c-0.15145,-0.05298 -0.21311,-0.04194 -0.31651,-0.09142c-0.0731,-0.03496 -0.1443,-0.13586 -0.31649,-0.1828c-0.077,-0.02101 -0.24943,-0.02145 -0.39561,-0.0914c-0.10339,-0.04946 -0.18143,-0.11817 -0.2374,-0.1828c-0.11189,-0.12926 -0.24939,0.06996 -0.39561,0c-0.10337,-0.04948 -0.17297,-0.15471 -0.31651,-0.27422c-0.09076,-0.07558 -0.1466,-0.10722 -0.23738,-0.18281c-0.1435,-0.1195 -0.23736,-0.09142 -0.31648,-0.1828c-0.07913,-0.0914 -0.07913,-0.27422 -0.15825,-0.36563c-0.07913,-0.09139 -0.11543,-0.15478 -0.15826,-0.27419c-0.03027,-0.08445 0.01817,-0.18526 0,-0.27422c-0.04065,-0.19891 -0.15825,-0.36562 -0.15825,-0.45702c0,-0.1828 -0.04586,-0.37996 -0.23737,-0.91405c-0.06771,-0.18882 -0.10231,-0.20957 -0.15825,-0.27419c-0.11189,-0.12927 -0.09284,-0.35216 -0.15826,-0.45704c-0.10345,-0.1658 -0.04276,-0.27909 -0.07912,-0.45701c-0.04065,-0.19891 -0.15825,-0.36561 -0.15825,-0.54843c0,-0.1828 0,-0.36561 0,-0.54842c0,-0.27422 0,-0.45704 0,-0.63984c0,-0.18279 0,-0.36561 0,-0.45702c0,-0.09139 0.03927,-0.26577 0.07912,-0.63983c0.01934,-0.18145 0,-0.54842 0,-0.63982c0,-0.09141 0.16785,-0.35454 0,-0.54843c-0.05595,-0.06463 -0.14863,-0.22792 -0.39564,-0.27421c-0.1562,-0.02929 -0.15823,-0.0914 -0.15823,-0.45702c0,-0.63983 -0.03635,-0.73613 0,-0.91404c0.04065,-0.19892 0.07913,-0.27422 0.07913,-0.63984c0,-0.0914 0.03906,-0.26311 0.0791,-0.54842c0.02538,-0.18043 0,-0.36563 0,-0.54842c0,-0.18282 0.03638,-0.2791 0,-0.45701c-0.04062,-0.19892 -0.15823,-0.36563 -0.15823,-0.54844c0,-0.1828 0,-0.63983 0,-0.73122c0,-0.2742 0,-0.45702 0,-0.54843c0,-0.09139 0,-0.27422 0,-0.45702c0,-0.1828 0,-0.36562 0,-0.54843c0,-0.18282 0,-0.36562 0,-0.45701c0,-0.0914 0,-0.27422 0,-0.45702c0,-0.09141 0,-0.18282 0,-0.54844c0,-0.0914 0.02316,-0.20956 0.07913,-0.2742c0.05597,-0.06464 0.16035,-0.11239 0.23738,-0.09141c0.17218,0.04697 0.21311,0.13334 0.31648,0.18281c0.0731,0.03497 0.1975,0.00843 0.23738,-0.36561c0.01934,-0.18143 0.07912,-0.82264 0.07912,-1.00545c0,-0.09141 0,-0.2742 0,-0.45702c0,-0.1828 0,-0.54842 0,-0.91405c0,-0.1828 0.0363,-0.42899 0.07912,-0.54842c0.03027,-0.08445 0,-0.36561 0,-0.45702c0,-0.09141 0,-0.36562 0,-0.54842c0,-0.0914 -0.05597,-0.20958 0,-0.27421c0.11189,-0.12928 0.23737,0 0.39561,0c0.07912,0 0.31573,0.01916 0.39563,-0.63984c0.01097,-0.09052 0.09769,-0.47094 0.15823,-0.63982c0.04285,-0.11943 0.15945,-0.16048 0.31651,-0.18282c0.32379,-0.04606 0.36286,-0.05354 0.47473,-0.18281c0.11192,-0.12928 0.07915,-0.36563 0.07915,-0.54842c0,-0.0914 0,-0.27422 0,-0.45702c0,-0.27422 -0.06058,-0.47093 0,-0.63983c0.04283,-0.11942 0.06516,-0.31866 0.23738,-0.36562c0.15401,-0.04199 0.31648,0 0.47473,0c0.23736,0 0.26467,-0.10757 0.39561,-0.54841c0.05743,-0.19333 0.1182,-0.35453 0.15825,-0.63984c0.01268,-0.09023 -0.03027,-0.28117 0,-0.36562c0.04283,-0.11942 0.07913,-0.1828 0.07913,-0.27421c0,-0.09141 0,-0.18281 0,-0.2742c0,-0.09141 -0.07135,-0.25817 0.07912,-0.36563c0.13461,-0.09611 0.31651,0 0.47473,0c0.15826,0 0.46088,-0.08245 0.55389,0.09142c0.04159,0.07774 0.07911,0.0914 0.15825,0.0914c0.07912,0 0.13399,0.13333 0.23736,0.18282c0.14622,0.06995 0.15825,-0.18282 0.15825,-0.45704l0,-0.0914l0.15826,0" id="svg_13" stroke="#000000" fill="none"/>
+ 
+                                
                                 </svg>
                             </div>
                             <div class="span6" id="derecha" style="display: none;">
@@ -895,9 +835,9 @@
                             <div class="span3">
                                 <fieldset>
                                     <legend>Interconsulta</legend>  
-                                    <c:forEach items="${interconsulta}" var="row" varStatus="sta">
+                                    <c:forEach items="${interconsulta.rowsByIndex}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                            <input type="checkbox" value="${row.idinterconsulta}" name="interconsulta${sta.index}" > ${row.interconsulta}
+                                            <input type="checkbox" value="${row[0]}" name="interconsulta${sta.index}" > ${row[1]}
                                         </label>
                                     </c:forEach>
                                 </fieldset> 
@@ -906,9 +846,9 @@
                             <div class="span3">
                                 <fieldset>
                                     <legend>Plan de tratamiento</legend>  
-                                    <c:forEach items="${planTratamiento}" var="row" varStatus="sta">
+                                    <c:forEach items="${planTratamiento.rowsByIndex}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                            <input type="checkbox" value="${row.idplanTratamiento}" name="plantratamiento${sta.index}"> ${row.nombre}
+                                            <input type="checkbox" value="${row[0]}" name="plantratamiento${sta.index}"> ${row[1]}
                                         </label>
                                     </c:forEach>
 
@@ -917,9 +857,9 @@
                             <div class="span3">
                                 <fieldset>
                                     <legend>Remision</legend>  
-                                    <c:forEach items="${remision}" var="row" varStatus="sta">
+                                    <c:forEach items="${remision.rowsByIndex}" var="row" varStatus="sta">
                                         <label class="checkbox">
-                                            <input type="checkbox" value="${row.idremision}" name="remision${sta.index}"> ${row.remision}
+                                            <input type="checkbox" value="${row[0]}" name="remision${sta.index}"> ${row[1]}
                                         </label>
                                     </c:forEach>
                                 </fieldset> 
