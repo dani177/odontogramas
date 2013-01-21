@@ -19,7 +19,7 @@
         $("#enfermedades").click(function(ev){
             var idDiente = $("#dienteSeleccionado").text().split(" ");
             
-             $.ajax({
+            $.ajax({
                 type: 'POST', 
                 url: "<%=request.getContextPath()%>/formController?action=agregarEnfermedad",
                 data: "zonas="+$("#zonaeditar").val()+"&enfermedades="+$("#enfermedadeditar").val()+"&diente="+idDiente[1],
@@ -48,23 +48,48 @@
                 var parte = $(this).attr("id");
                 if(parte=="oclusal1"){
                     $("#nada").attr("selected",false);
-                    $("#oclusal").attr("selected",true);
+                    if($("#oclusal").attr("selected")){
+                        $("#oclusal").attr("selected",false);    
+                    }else{
+                        $("#oclusal").attr("selected",true);    
+                    }
+                    
                 }else{
                     if(parte=="vestibular1"){
                         $("#nada").attr("selected",false);
-                        $("#vestibular").attr("selected",true);
+                        if($("#vestibular").attr("selected")){
+                            $("#vestibular").attr("selected",false);    
+                        }else{
+                            $("#vestibular").attr("selected",true);
+                        }
+                        
                     }else{
                         if(parte=="mesial1"){
                             $("#nada").attr("selected",false);
-                            $("#mesial").attr("selected",true);
+                            if($("#mesial").attr("selected")){
+                                $("#mesial").attr("selected",false);    
+                            }else{
+                                $("#mesial").attr("selected",true);
+                            }
+                            
                         }else{
                             if(parte=="distal1"){
                                 $("#nada").attr("selected",false);
-                                $("#distal").attr("selected",true);
+                                if($("#distal").attr("selected")){
+                                    $("#distal").attr("selected",false);
+                                }else{
+                                    $("#distal").attr("selected",true);    
+                                }
+                                
                             }else{
                                 if(parte=="palatinaLingual1"){
                                     $("#nada").attr("selected",false);
-                                    $("#palatinaLingual").attr("selected",true);
+                                    if($("#palatinaLingual").attr("selected")){
+                                    $("#palatinaLingual").attr("selected",false);    
+                                    }else{
+                                        $("#palatinaLingual").attr("selected",true);
+                                    }
+                                    
                                 }
                             }   
                         }
@@ -168,7 +193,7 @@
         
         var miArray2 = new Array(${tratamientos.getRowCount()});
         
-    <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
+        <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
             miArray2[${iter2.index}] = "${item2[1]} - ${item2[0]} - ${item2[2]}";
     </c:forEach> 
         
@@ -200,7 +225,7 @@
         
             var miArray = new Array(${diagnosticos.getRowCount()});
         
-    <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
+        <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
             miArray[${iter.index}] = "${item[2]} - ${item[0]}";
     </c:forEach> 
     
