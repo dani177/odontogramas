@@ -16,6 +16,11 @@
                 if (session1.getAttribute("docente") != null) {
                     rd = request.getRequestDispatcher("/vista/docente/index.jsp");
 
+                }else{
+                if (session1.getAttribute("administrador") != null) {
+                    rd = request.getRequestDispatcher("/vista/administrador/index.jsp");
+
+                }
                 }
             }
 

@@ -97,6 +97,13 @@ public class formController extends HttpServlet {
 
 
 
+            if (request.getParameter("action").equals("crearDocente")) {
+                String docenteId = ((String) request.getParameter("docenteId"));
+                String nombre = ((String) request.getParameter("nombre"));
+                String clave = ((String) request.getParameter("clave"));
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`docente` (`iddocente` ,`nombre` ,`clave` ,`codigo`) "
+                        + "VALUES ('"+docenteId+"', '"+nombre+"', '"+clave+"', 'xx')");
+            }
             if (request.getParameter("action").equals("crearCurso")) {
                 HttpSession sesion = request.getSession();
                 Result docente = (Result) sesion.getAttribute("docente");
@@ -216,6 +223,11 @@ public class formController extends HttpServlet {
                 HttpSession sesion = request.getSession();
                 Result docente = (Result)sesion.getAttribute("docente");
                 sesion.setAttribute("cursos", new sqlController().CargarSql2("SELECT * FROM `docente_has_curso` INNER JOIN curso on `curso_idcurso`=curso.idcurso where `docente_iddocente`=" + docente.getRowsByIndex()[0][0]));
+                
+            }
+            if (request.getParameter("action").equals("listarDocentes")) {
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
                 
             }
             if (request.getParameter("action").equals("editarDatosPer")) {

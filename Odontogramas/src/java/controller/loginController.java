@@ -93,7 +93,18 @@ public class loginController extends HttpServlet {
                 }
             }else{
             if (perfil.equals("Administrador")) {
-            
+                Result administrador = new sqlController().CargarSql2("SELECT * FROM `administrador` WHERE `idAdmin`=" + un + "");
+                if (administrador.getRowCount() != 0) {
+                    if (administrador.getRowsByIndex()[0][2].equals(pw)) {
+                        session.setAttribute("logueado", "ok");
+                        session.setAttribute("administrador",administrador);
+                        out.println(0);
+                    }else{
+                    out.println(1);
+                    }
+                }else{
+                    out.println(1);
+                    }
             }
             }
         }
