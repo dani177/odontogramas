@@ -43,27 +43,25 @@ public class loginController extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         if (perfil.equals("Estudiante")) {
-
             try {
-                Result medico = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`="+un+"");
+                Result medico = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`=" + un + "");
 
-                session.setAttribute("medico", medico);
-                session.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
-                session.setAttribute("diagnosticos", new sqlController().CargarSql2("SELECT * FROM `diagnostico`"));
-                session.setAttribute("tratamientos", new sqlController().CargarSql2("SELECT * FROM `tratamiento`"));
-                session.setAttribute("planTratamiento", new sqlController().CargarSql2("SELECT * FROM `plantratamiento`"));
-                session.setAttribute("interconsulta", new sqlController().CargarSql2("SELECT * FROM `interconsulta`"));
-                session.setAttribute("remision", new sqlController().CargarSql2("SELECT * FROM `remision`"));
-
-                if (medico != null) {
+                if (medico.getRowCount()!=0) {
                     if (medico.getRowsByIndex()[0][2].equals(pw)) {
+                        session.setAttribute("medico", medico);
+                        session.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
+                        session.setAttribute("diagnosticos", new sqlController().CargarSql2("SELECT * FROM `diagnostico`"));
+                        session.setAttribute("tratamientos", new sqlController().CargarSql2("SELECT * FROM `tratamiento`"));
+                        session.setAttribute("planTratamiento", new sqlController().CargarSql2("SELECT * FROM `plantratamiento`"));
+                        session.setAttribute("interconsulta", new sqlController().CargarSql2("SELECT * FROM `interconsulta`"));
+                        session.setAttribute("remision", new sqlController().CargarSql2("SELECT * FROM `remision`"));
                         session.setAttribute("logueado", "ok");
                         session.setAttribute("departamentos", new sqlController().CargarSql2("SELECT * FROM `departamentos`"));
                         session.setAttribute("profesiones", new sqlController().CargarSql2("SELECT * FROM `profesiones`"));
                         session.setAttribute("listaDePacientes", new sqlController().CargarSql2("SELECT paciente.* FROM `medico` "
                                 + "inner join medico_has_paciente on medico.idmedico= medico_has_paciente.`medico_idmedico` "
                                 + "inner join paciente on medico_has_paciente.`paciente_idpersona`=paciente.idpersona "
-                                + "where medico.idmedico="+un));
+                                + "where medico.idmedico=" + un));
                         out.println(0);
                     } else {
                         out.println(1);
@@ -78,6 +76,26 @@ public class loginController extends HttpServlet {
             }
 
 
+        } else {
+            if (perfil.equals("Docente")) {
+
+                Result docente = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + un + "");
+                if (docente.getRowCount() != 0) {
+                    if (docente.getRowsByIndex()[0][2].equals(pw)) {
+                        session.setAttribute("logueado", "ok");
+                        session.setAttribute("docente",docente);
+                        out.println(0);
+                    }else{
+                    out.println(1);
+                    }
+                }else{
+                out.println(1);
+                }
+            }else{
+            if (perfil.equals("Administrador")) {
+            
+            }
+            }
         }
 
 

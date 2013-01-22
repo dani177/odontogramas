@@ -19,7 +19,7 @@
                             <td>   
                                 <fmt:formatDate pattern="yyyy-MM-dd" value="${row[8]}"></fmt:formatDate>
                             </td>
-                            <td><a href="#verConsulta&${row[0]}">Ver<a> <a href="#editarConsulta&${row[0]}">Editar<a></td>
+                            <td><a href="#verConsulta&${row[0]}">Ver</a> <a href="#editarConsulta&${row[0]}">Editar</a></td>
                             </tr>
                         </c:forEach>
                         </tbody>

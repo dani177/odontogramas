@@ -97,6 +97,26 @@ public class formController extends HttpServlet {
 
 
 
+            if (request.getParameter("action").equals("crearCurso")) {
+                HttpSession sesion = request.getSession();
+                Result docente = (Result) sesion.getAttribute("docente");
+                String nombre = ((String) request.getParameter("nombre"));
+                String codigo = ((String) request.getParameter("codigo"));
+                String estado = ((String) request.getParameter("estado"));
+                String anio = ((String) request.getParameter("anio"));
+                String periodo = ((String) request.getParameter("periodo"));
+
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`curso` (`idcurso` ,`nombre` ,`codigo` ,`estado` ,`anio` ,`periodo`) "
+                        + "VALUES (NULL , '" + nombre + "', '" + codigo + "', '" + estado + "', '" + anio + "', '" + periodo + "')");
+
+                Result cursoRecienCreado = new sqlController().CargarSql2("SELECT * FROM curso ORDER BY `idcurso` DESC LIMIT 1");
+
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`docente_has_curso` (`docente_iddocente` ,`curso_idcurso`) "
+                        + "VALUES ('" + docente.getRowsByIndex()[0][0] + "', '" + cursoRecienCreado.getRowsByIndex()[0][0] + "')");
+
+            }
+
+
             if (request.getParameter("action").equals("agregarEnfermedad")) {
                 HttpSession sesion = request.getSession();
                 Result consulta = (Result) sesion.getAttribute("consulta");
@@ -109,7 +129,7 @@ public class formController extends HttpServlet {
                 for (int i = 0; i < zonas2.length; i++) {
                     for (int j = 0; j < enfermedades2.length; j++) {
                         new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diente` (`Iddatosconsulta_has_diente` ,`datosConsulta_iddatosConsulta` ,`diente_iddiente` ,`cara` ,`enfermedad`) "
-                                + "VALUES (NULL , '"+consulta.getRowsByIndex()[0][0]+"', '"+idDiente+"', '"+zonas2[i]+"', '"+enfermedades2[j]+"')");
+                                + "VALUES (NULL , '" + consulta.getRowsByIndex()[0][0] + "', '" + idDiente + "', '" + zonas2[i] + "', '" + enfermedades2[j] + "')");
                     }
 
                 }
@@ -192,6 +212,12 @@ public class formController extends HttpServlet {
 
             }
 
+            if (request.getParameter("action").equals("listarCursos")) {
+                HttpSession sesion = request.getSession();
+                Result docente = (Result)sesion.getAttribute("docente");
+                sesion.setAttribute("cursos", new sqlController().CargarSql2("SELECT * FROM `docente_has_curso` INNER JOIN curso on `curso_idcurso`=curso.idcurso where `docente_iddocente`=" + docente.getRowsByIndex()[0][0]));
+                
+            }
             if (request.getParameter("action").equals("editarDatosPer")) {
                 HttpSession sesion = request.getSession();
                 Result pa = (Result) sesion.getAttribute("paciente");

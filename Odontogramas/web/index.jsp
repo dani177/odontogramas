@@ -8,9 +8,18 @@
         String aux = (String) session1.getAttribute("logueado");
         if (aux == null || aux.equals("")) {
         } else {
-            RequestDispatcher rd = request.getRequestDispatcher("/vista/index2.jsp");
-            rd.forward(request, response);
+            RequestDispatcher rd =null;
+            if (session1.getAttribute("medico") != null) {
+                rd = request.getRequestDispatcher("/vista/index2.jsp");
 
+            } else {
+                if (session1.getAttribute("docente") != null) {
+                    rd = request.getRequestDispatcher("/vista/docente/index.jsp");
+
+                }
+            }
+
+            rd.forward(request, response);
         }
 
     %>
