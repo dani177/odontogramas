@@ -199,7 +199,7 @@
                             success: function() {
                                 $.ajax({ 
                                     type: "POST", 
-                                    url: "/Odontogramas/vista/docente/cursos/listar.jsp", 
+                                    url: "/Odontogramas/vista/docente/curso/listar.jsp", 
                                     success: function(data) 
                                     { 
                                         $("#contenido").html(data);
