@@ -14,9 +14,9 @@
 
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
-                <th>id</th>    
+                <th>Identificaci&oacute;n</th>    
                 <th>Docente</th>
-                <th></th>
+                <th>Acci&oacute;n</th>
                 </thead>
                 <tbody>
                     <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
@@ -28,8 +28,9 @@
                                 <c:out value="${row[1]}"/>
                             </td>
                             <td class="action icon16">
-                                <a href="#verDocente&${row[0]}">Ver</a>
-                                <a href="#editarDocente&${row[0]}">Editar</a>
+                                <a href="#verDocente&${row[0]}" title="Ver docente"><i class="icon-eye-open"></i></a>
+                                <a href="#editarDocente&${row[0]}" title="Editar docente"><i class="icon-pencil"></i></a>
+                                <a href="#eliminarDocente&${row[0]}" title="Eliminar docente"><i class="icon-trash"></i></a>
                             </td>
                         </tr>
                     </c:forEach>

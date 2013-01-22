@@ -19,6 +19,14 @@
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
+            .navbar-fixed-top .brand {
+                            font-weight: bold;
+                            color: #000;
+                            text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+                            -webkit-transition: all .2s linear;
+                            -moz-transition: all .2s linear;
+                            transition: all .2s linear;
+                        }
             .sidebar-nav {
                 padding: 9px 0;
             }
@@ -244,17 +252,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Odontogramas</a>
-
-                    <ul class="nav">
-                        <li class="active"><a href="#inicio">Inicio</a></li>
-                        <li><a href="#about">Acerca de</a></li>
-                        <li><a href="#contact">Contactenos</a></li>
-                    </ul>
+                    <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido ${Usuario.nombreUsuario}<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido ${administrador.getRowsByIndex()[0][1]} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Cambiar Contrase&ntilde;a</a></li>
                                 <li class="divider"></li>
