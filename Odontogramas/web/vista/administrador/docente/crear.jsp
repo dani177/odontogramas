@@ -6,6 +6,20 @@
 <script type="text/javascript">
     $(function(){
         $("#crearDocente").validate({
+            rules: {
+                docenteId: {
+                    required: true,
+                    remote: {
+                        url: "<%=request.getContextPath()%>/formController?action=validaIdDocente",
+                        data: {
+                            docenteId: function() {
+                                return $("#docenteId").val();
+                            }
+                    
+                        }
+                    }
+                }
+            },
             submitHandler: function(){
                 $.ajax({
                     type: 'POST', 
@@ -28,7 +42,7 @@
             <div class="control-group">
                 <label for="input01" class="control-label">Identificaci&oacute;n</label>
                 <div class="controls">
-                    <input type="text" id="input01" class="input-xlarge {required:true}" name="docenteId">
+                    <input type="text" id="docenteId" class="input-xlarge" name="docenteId">
                 </div>
             </div>
             <div class="control-group">
@@ -41,6 +55,16 @@
                 <label for="input03" class="control-label">Clave</label>
                 <div class="controls">
                     <input type="text" id="input03" class="input-xlarge {required:true}" name="clave">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="estado" class="control-label">Estado</label>
+                <div class="controls">
+                    <select id="estado" name="estado" class="{required:true}">
+                        <option></option>  
+                        <option value="activo">activo</option>    
+                        <option value="inactivo">inactivo</option>    
+                    </select>
                 </div>
             </div>
             <div class="form-actions">

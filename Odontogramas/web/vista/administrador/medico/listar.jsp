@@ -8,24 +8,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="span9">
     <br/>
-    <h2>Listado de  Docentes</h2>
+    <h2>Listado de  Medicos</h2>
     <c:choose>
-        <c:when test="${docentes.getRowCount()!= 0}">
+        <c:when test="${medicos.getRowCount()!= 0}">
 
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                 <th>Identificaci&oacute;n</th>    
-                <th>Docente</th>
+                <th>medico</th>
                 <th>Acci&oacute;n</th>
                 </thead>
                 <tbody>
-                    <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
+                    <c:forEach items="${medicos.rowsByIndex}" var="row" varStatus="iter">
                         <tr>
                             <td>   
                                 <c:out value="${row[0]}"/>
                             </td>
                             <td>   
-                                <a href="#listaMedicos&${row[0]}" title="Ver medicos asociados">${row[1]}</a>
+                                <a href="#listaPacientes&${row[0]}" title="Ver pacientes asociados">${row[1]}</a>
                             </td>
                             <td class="action icon16">
                                 <a href="#verDocente&${row[0]}" title="Ver docente"><i class="icon-eye-open"></i></a>
@@ -47,7 +47,7 @@
             </table>
         </c:when>
         <c:otherwise>
-            No existen docentes registrados en el sistema.
+            No existen medicos registrados en el sistema para este docente.
         </c:otherwise>
     </c:choose>
 </div>

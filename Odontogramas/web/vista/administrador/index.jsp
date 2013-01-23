@@ -20,13 +20,13 @@
                 padding-bottom: 40px;
             }
             .navbar-fixed-top .brand {
-                            font-weight: bold;
-                            color: #000;
-                            text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
-                            -webkit-transition: all .2s linear;
-                            -moz-transition: all .2s linear;
-                            transition: all .2s linear;
-                        }
+                font-weight: bold;
+                color: #000;
+                text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+                -webkit-transition: all .2s linear;
+                -moz-transition: all .2s linear;
+                transition: all .2s linear;
+            }
             .sidebar-nav {
                 padding: 9px 0;
             }
@@ -230,6 +230,45 @@
                                 } //fin success
                             }); //fin del $.ajax
                       
+                        }else{
+                            if(hash.indexOf("#listaMedicos")!=-1){
+                                var cual = hash.split("&");
+                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                      
+                                $.ajax({ 
+                                    type: "POST", 
+                                    url: url3,
+                                    success: function(data) 
+                                    { 
+                                        $.ajax({ 
+                                            type: "POST", 
+                                            url: "/Odontogramas/vista/administrador/medico/listar.jsp",
+                                            success: function(data) 
+                                            {  $(".nav-list >li > a").hide();
+                                                $(".nav-list").append('<li><a href="#menuDocentes" title="Menú de docentes">Atras</a></li>'                                                        
+                                                    +'<li><a href="#nuevoMedico">Nuevo Medico</a></li>'
+                                                    +'<li class="active"><a href="#listaMedicos">Lista de Medicos</a></li>');
+                                                    
+                                                $("#contenido").html(data);
+                                                $(".nav-list >li > a").click(function(ev){
+                                                    $(this).parents("li").siblings().removeClass("active");
+                                                    $(this).parents("li").addClass("active");
+                                                    location = $(this).attr("href");
+                                                });
+                                       
+                                            } //fin success
+                                        }); //fin del $.ajax
+                                    } //fin success
+                                }); //fin del $.ajax
+                            }else{
+                                if(hash == "#menuDocentes"){
+                                    $(".nav-list >li >a").show();
+                                    $(".nav-list >li").slice(3).remove();
+                                    $("a[href='#listaDocentes']").click();
+                                            
+                                }
+                            }
                         }   
                     }
                 });

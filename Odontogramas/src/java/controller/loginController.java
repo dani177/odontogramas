@@ -79,7 +79,7 @@ public class loginController extends HttpServlet {
         } else {
             if (perfil.equals("Docente")) {
 
-                Result docente = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + un + "");
+                Result docente = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE  `estado` = 'activo' and `iddocente`=" + un + "");
                 if (docente.getRowCount() != 0) {
                     if (docente.getRowsByIndex()[0][2].equals(pw)) {
                         session.setAttribute("logueado", "ok");
