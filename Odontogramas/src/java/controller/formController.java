@@ -292,10 +292,15 @@ public class formController extends HttpServlet {
                 if (cur.getRowsByIndex()[0][2].equals(codigo)) {
 
                     try {
+                        Result docentehascurso = new sqlController().CargarSql2("SELECT * FROM `docente_has_curso` WHERE `curso_idcurso`="+cur.getRowsByIndex()[0][0]);
+                        
                         new sqlController().UpdateSql("INSERT INTO `odontogramas`.`medico` (`idmedico` ,`nombreUsuario` ,`clave` ,`direccion` ,`telefono`) "
                                 + "VALUES ('" + idPersona + "', '" + nombre + "', '" + idPersona + "', '" + direccion + "', '" + telefono + "')");
                         new sqlController().UpdateSql("INSERT INTO `odontogramas`.`medico_has_curso` (`medico_idmedico` ,`curso_idcurso`) "
                                 + "VALUES ('" + idPersona + "', '" + cur.getRowsByIndex()[0][0] + "')");
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`docente_has_medico` (`docente_iddocente` ,`medico_idmedico`) "
+                                + "VALUES ('"+docentehascurso.getRowsByIndex()[0][0]+"', '"+idPersona+"')");
+                        
                     } catch (Exception ex) {
                         out.print(1);
                         Logger.getLogger(formController.class.getName()).log(Level.SEVERE, null, ex);
