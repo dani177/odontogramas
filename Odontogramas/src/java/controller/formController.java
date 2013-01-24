@@ -108,6 +108,14 @@ public class formController extends HttpServlet {
 
 
             }
+            if (request.getParameter("action").equals("editarDocente2")) {
+                HttpSession sesion = request.getSession();
+                Result doc = (Result)sesion.getAttribute("docente");
+                String nombre = ((String) request.getParameter("nombre"));
+                String clave = ((String) request.getParameter("clave"));
+                String estado = ((String) request.getParameter("estado"));
+                new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `nombre` = '"+nombre+"',`clave` = '"+clave+"',`codigo` = 'xx2',`estado` = '"+estado+"' WHERE `docente`.`iddocente` ="+doc.getRowsByIndex()[0][0]+"");
+            }
             if (request.getParameter("action").equals("crearDocente")) {
                 String docenteId = ((String) request.getParameter("docenteId"));
                 String nombre = ((String) request.getParameter("nombre"));
@@ -488,6 +496,30 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("datosconsultaHasDatosbasicos", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_datosbasicos` inner join datosbasicos on datosbasicos.iddatosBasicos=datosconsulta_has_datosbasicos.`datosBasicos_iddatosBasicos` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("examenfisicoestomatologicoList", new sqlController().CargarSql2("SELECT * FROM `examenfisicoestomatologico` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
             }
+            if (request.getParameter("action").equals("cambiarEstado") ) {
+                String idDocente = (String) request.getParameter("id");
+                Result doc = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + idDocente + "");
+                if(doc.getRowsByIndex()[0][4].equals("activo")){
+                    new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `estado` = 'inactivo' WHERE `docente`.`iddocente` ="+doc.getRowsByIndex()[0][0]+"");
+                }else{
+                    new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `estado` = 'activo' WHERE `docente`.`iddocente` ="+doc.getRowsByIndex()[0][0]+"");
+                }
+                
+            }
+            if (request.getParameter("action").equals("verDocente") ) {
+                String idDocente = (String) request.getParameter("id");
+                Result doc = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + idDocente + "");
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("docente", doc);
+            }
+            if (request.getParameter("action").equals("editarDocente") ) {
+                String idDocente = (String) request.getParameter("id");
+                Result doc = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + idDocente + "");
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("docente", doc);
+            }
+            
+            
             if (request.getParameter("action").equals("editarConsulta")) {
                 String idConsulta = (String) request.getParameter("id");
                 Result con = new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `iddatosConsulta`=" + idConsulta + "");

@@ -9,16 +9,16 @@
         if (aux == null || aux.equals("")) {
         } else {
             RequestDispatcher rd = null;
-            if (session1.getAttribute("medico") != null) {
-                rd = request.getRequestDispatcher("/vista/index2.jsp");
+            if (session1.getAttribute("administrador") != null) {
+                rd = request.getRequestDispatcher("/vista/administrador/index.jsp");
 
             } else {
                 if (session1.getAttribute("docente") != null) {
                     rd = request.getRequestDispatcher("/vista/docente/index.jsp");
 
                 } else {
-                    if (session1.getAttribute("administrador") != null) {
-                        rd = request.getRequestDispatcher("/vista/administrador/index.jsp");
+                    if (session1.getAttribute("medico") != null) {
+                        rd = request.getRequestDispatcher("/vista/index2.jsp");
 
                     }
                 }

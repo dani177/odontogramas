@@ -6,6 +6,18 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script type="text/javascript">
+    $(function(){
+        $(".estado").click(function(ev){
+            ev.preventDefault();
+            ev.stopPropagation();
+            var url = $(this).attr("href");
+            if(confirm('Desea cambiar el estado?')){
+                location.href = url;
+            }
+        });
+    })
+</script>
 <div class="span9">
     <br/>
     <h2>Listado de  Docentes</h2>
@@ -33,10 +45,10 @@
                                 <a href="#eliminarDocente&${row[0]}" title="Eliminar docente"><i class="icon-trash"></i></a>
                                 <c:choose>
                                     <c:when test="${row[4]=='activo'}">
-                                        <a href="#cambiarEstado&${row[0]}" title="Activo"><i class="icon-ok"></i></a>        
+                                        <a class="estado" href="#cambiarEstado&${row[0]}" title="Activo"><i class="icon-ok"></i></a>        
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="#cambiarEstado&${row[0]}" title="Inactivo"><i class="icon-off"></i></a>        
+                                        <a class="estado" href="#cambiarEstado&${row[0]}" title="Inactivo"><i class="icon-off"></i></a>        
                                     </c:otherwise>
                                 </c:choose>
 

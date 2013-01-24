@@ -267,6 +267,65 @@
                                     $(".nav-list >li").slice(3).remove();
                                     $("a[href='#listaDocentes']").click();
                                             
+                                }else{
+                                    if(hash.indexOf("#editarDocente")!=-1){
+                                        var cual = hash.split("&");
+                                        var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                        url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                      
+                                        $.ajax({ 
+                                            type: "POST", 
+                                            url: url3,
+                                            success: function(data) 
+                                            { 
+                                                $.ajax({ 
+                                                    type: "POST", 
+                                                    url: "/Odontogramas/vista/administrador/docente/editar.jsp",
+                                                    success: function(data) 
+                                                    {
+                                                        $("#contenido").html(data);
+                                                    }   
+                                                })
+                                            }
+                                        })
+                                    }else{
+                                        if(hash.indexOf("#verDocente")!=-1){
+                                            var cual = hash.split("&");
+                                            var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                            url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                      
+                                            $.ajax({ 
+                                                type: "POST", 
+                                                url: url3,
+                                                success: function(data) 
+                                                { 
+                                                    $.ajax({ 
+                                                        type: "POST", 
+                                                        url: "/Odontogramas/vista/administrador/docente/ver.jsp",
+                                                        success: function(data) 
+                                                        {
+                                                            $("#contenido").html(data);
+                                                        }   
+                                                    })
+                                                }
+                                            })
+                                        }else{
+                                            if(hash.indexOf("#cambiarEstado")!=-1){
+                                                var cual = hash.split("&");
+                                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                      
+                                                $.ajax({ 
+                                                    type: "POST", 
+                                                    url: url3,
+                                                    success: function(data) 
+                                                    { 
+                                                      $("a[href='#listaDocentes']").click();
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }   
