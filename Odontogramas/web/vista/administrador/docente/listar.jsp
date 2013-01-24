@@ -42,7 +42,6 @@
                             <td class="action icon16">
                                 <a href="#verDocente&${row[0]}" title="Ver docente"><i class="icon-eye-open"></i></a>
                                 <a href="#editarDocente&${row[0]}" title="Editar docente"><i class="icon-pencil"></i></a>
-                                <a href="#eliminarDocente&${row[0]}" title="Eliminar docente"><i class="icon-trash"></i></a>
                                 <c:choose>
                                     <c:when test="${row[4]=='activo'}">
                                         <a class="estado" href="#cambiarEstado&${row[0]}" title="Activo"><i class="icon-ok"></i></a>        
