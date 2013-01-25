@@ -19,19 +19,19 @@
             <div class="control-group">
                 <label for="input02" class="control-label">Nombre</label>
                 <div class="controls">
-                    <input type="text" id="input02" class="input-xlarge {required:true}" name="nombre" value="${docente.getRowsByIndex()[0][1]}">
+                    <input type="text" disabled="" id="input02" class="input-xlarge {required:true}" name="nombre" value="${docente.getRowsByIndex()[0][1]}">
                 </div>
             </div>
             <div class="control-group">
                 <label for="input03" class="control-label">Clave</label>
                 <div class="controls">
-                    <input type="text" id="input03" class="input-xlarge {required:true}" name="clave" value="${docente.getRowsByIndex()[0][2]}">
+                    <input type="text" disabled="" id="input03" class="input-xlarge {required:true}" name="clave" value="${docente.getRowsByIndex()[0][2]}">
                 </div>
             </div>
             <div class="control-group">
                 <label for="estado" class="control-label">Estado</label>
                 <div class="controls">
-                    <select id="estado" name="estado" class="{required:true}">
+                    <select id="estado" disabled="" name="estado" class="{required:true}">
                         <option></option>  
                         <c:choose>
                             <c:when test="${docente.getRowsByIndex()[0][4]=='activo'}">

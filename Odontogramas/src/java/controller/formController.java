@@ -128,6 +128,16 @@ public class formController extends HttpServlet {
                 String estado = ((String) request.getParameter("estado"));
                 new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `nombre` = '" + nombre + "',`clave` = '" + clave + "',`codigo` = 'xx2',`estado` = '" + estado + "' WHERE `docente`.`iddocente` =" + doc.getRowsByIndex()[0][0] + "");
             }
+            if (request.getParameter("action").equals("editarMedico2")) {
+                HttpSession sesion = request.getSession();
+                Result med = (Result) sesion.getAttribute("medico");
+                String nombre = ((String) request.getParameter("nombre"));
+                String clave = ((String) request.getParameter("clave"));
+                String direccion = ((String) request.getParameter("direccion"));
+                String telefono = ((String) request.getParameter("telefono"));
+                
+                new sqlController().UpdateSql("UPDATE `odontogramas`.`medico` SET `nombreUsuario` = '"+nombre+"',`clave` = '"+clave+"',`direccion` = '"+direccion+"',`telefono` = '"+telefono+"' WHERE `medico`.`idmedico` ="+med.getRowsByIndex()[0][0]);
+            }
             if (request.getParameter("action").equals("crearDocente")) {
                 String docenteId = ((String) request.getParameter("docenteId"));
                 String nombre = ((String) request.getParameter("nombre"));
@@ -523,6 +533,18 @@ public class formController extends HttpServlet {
                 Result doc = new sqlController().CargarSql2("SELECT * FROM `docente` WHERE `iddocente`=" + idDocente + "");
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("docente", doc);
+            }
+            if (request.getParameter("action").equals("verMedico")) {
+                String idMedico = (String) request.getParameter("id");
+                Result med = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`=" + idMedico + "");
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("medico", med);
+            }
+            if (request.getParameter("action").equals("editarMedico")) {
+                String idMedico = (String) request.getParameter("id");
+                Result med = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`=" + idMedico + "");
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("medico", med);
             }
             if (request.getParameter("action").equals("editarDocente")) {
                 String idDocente = (String) request.getParameter("id");
