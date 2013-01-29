@@ -189,7 +189,18 @@
            
         }) ;
 
-        
+        $(".tagManager3").tagsManager({
+            prefilled: null,
+            CapitalizeFirstLetter: false,
+            preventSubmitOnEnter: true,
+            typeahead: true,
+            typeaheadAjaxSource: null,
+            typeaheadSource: ["Caries o recidiva", "Obturado", "Corona completa", "Ausente", "Sellante", "Endodoncia indicada", "Endodoncia", "Incluido", "Prótesis existente"],
+            delimeters: [44, 188, 13],
+            backspace: [8],
+            blinkBGColor_1: '#FFFF9C',
+            blinkBGColor_2: '#CDE69C'
+        });
         
         var miArray2 = new Array(${tratamientos.getRowCount()});
         
@@ -1072,62 +1083,60 @@
                                     </div>
                                 </div>
                                 <div class="modal-body">
-                                    <div style="text-align: center;margin-left: 25px;" >
-                                        <svg style="width: 150px; height: 100px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
-                                        <image xlink:href="<%=request.getContextPath()%>/images/diente.png" height="84" width="86" y="0" x="0"/> 
-                                        <polygon class="parte" id="vestibular1" points="10,6,70,6,55,25,30,25" 
-                                                 style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" />
-                                        <polygon class="parte" id="distal1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="5,13,24,32,24,57,5,80"/>
-                                        <polygon class="parte" id="palatinaLingual1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="10,80,30,60,57,60,70,80"/>
-                                        <polygon class="parte" id="mesial1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="82,2,60,35,60,50,78,85"/>
-                                        <circle class="parte" id="oclusal1" style="fill:transparent" r="11" cy="43" cx="42"></circle>
-                                        </svg>
+                                    <div class="row">
+                                        <div class="span3">
+                                            <div style="text-align: center;margin-left: 25px;" >
+                                                <svg style="width: 150px; height: 100px;" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                                                <image xlink:href="<%=request.getContextPath()%>/images/diente.png" height="84" width="86" y="0" x="0"/> 
+                                                <polygon class="parte" id="vestibular1" points="10,6,70,6,55,25,30,25" 
+                                                         style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" />
+                                                <polygon class="parte" id="distal1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="5,13,24,32,24,57,5,80"/>
+                                                <polygon class="parte" id="palatinaLingual1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="10,80,30,60,57,60,70,80"/>
+                                                <polygon class="parte" id="mesial1" style="stroke:none; stroke-width:1; stroke-opacity:1; fill:transparent; fill-opacity:1" points="82,2,60,35,60,50,78,85"/>
+                                                <circle class="parte" id="oclusal1" style="fill:transparent" r="11" cy="43" cx="42"></circle>
+                                                </svg>
+                                            </div>
+                                        </div>    
+
+                                        <div class="span4" style="text-align: left; margin-left: 30px;">
+                                            <h4>Enfermedad</h4>
+                                            <span class="badge">&nbsp;</span> Caries o recidiva<br/>
+                                            <span class="badge badge-success">&nbsp;</span> Obturado<br/>
+                                            <span class="badge badge-warning">&nbsp;</span> Corona completa<br/>
+                                            <span class="badge badge-important">&nbsp;</span> Ausente<br/>
+
+                                        </div>
+                                        <div class="span4" style="text-align: left; margin-left: 30px;">
+                                            <br/>
+                                            <span class="badge badge-info">&nbsp;</span> Sellante<br/>
+                                            <span class="badge badge-inverse">&nbsp;</span> Endodoncia indicada<br/>
+                                            <span class="badge" style="background-color: #330066">&nbsp;</span> Endodoncia<br/>
+                                            <span class="badge" style="background-color: #330000">&nbsp;</span> Incluido<br/>
+                                            <span class="badge" style="background-color: #ffff00">&nbsp;</span> Pr&oacute;tesis existente<br/>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <div class="row">
-                                        <div class="span6">
-                                            <h3>Elija Zona</h3>
-                                            <select id="zonaeditar" multiple="multiple" size="9" name="zonaeditar">
-                                                <option id="nada" selected="selected" value=""></option>
-                                                <option id="mesial" value="M">M</option>
-                                                <option id="vestibular" value="V">V</option>
-                                                <option id="distal" value="D">D</option>
-                                                <option id="palatinaLingual" value="P">P</option>
-                                                <option id="oclusal" value="O">O</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="span6"> 
-                                            <h3>Elija Enfermedad</h3>
-                                            <select id="enfermedadeditar" multiple="multiple" size="9" name="enfermedadeditar">
-                                                <option value="1">Cariado</option>
-                                                <option value="2">Obturado almagana</option>
-                                                <option value="3">Obturado resina</option>
-                                                <option value="4">Exodoncia realizada</option>
-                                                <option value="5">Exodoncia simple indicada</option>
-                                                <option value="6">Exodoncia quirurgica ind</option>
-                                                <option value="7">Sin eruocionar</option>
-                                                <option value="8">Endodoncia realizada</option>
-                                                <option value="9">Endo indicada</option>
-                                                <option value="10">Sellante presente</option>
-                                                <option value="11">Sellante indicado</option>
-                                                <option value="12">Erosion o abrasion</option>
-                                                <option value="13">Procedimiento realizado</option>
-                                                <option value="14">Corona buen estado</option>
-                                                <option value="15">Corona mal estado</option>
-                                                <option value="16">Provisional buen estado</option>
-                                                <option value="17">Provisional mal estado</option>
-                                                <option value="18">Nucleo buen estado</option>
-                                                <option value="19">Nucleo mal estado</option>
-                                            </select>  
-                                        </div>    
+                                    <div class="span6">
+                                        <h3>Elija Zona</h3>
+                                        <select id="zonaeditar" multiple="multiple" size="6" name="zonaeditar">
+                                            <option id="nada" selected="selected" value=""></option>
+                                            <option id="mesial" value="M">M</option>
+                                            <option id="vestibular" value="V">V</option>
+                                            <option id="distal" value="D">D</option>
+                                            <option id="palatinaLingual" value="P">P</option>
+                                            <option id="oclusal" value="O">O</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-actions">
-                                            <button class="btn btn-primary" type="button" id="enfermedades">Guardar Cambios</button>
-                                        </div>
+                                    <div class="span6">
+                                        <br/>
+                                        <br/>
+                                        <input type="text" name="tags3" autocomplete="off" placeholder="Enfermedad" class="tagManager3"/>
                                     </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button class="btn btn-primary" type="button" id="enfermedades">Guardar Cambios</button>
                                 </div>
                             </div>    
                         </div>
