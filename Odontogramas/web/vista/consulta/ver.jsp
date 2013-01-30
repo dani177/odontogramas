@@ -32,6 +32,7 @@
         
         
         $(".diente").click(function(ev){
+            $('#zonaeditar option:selected').removeAttr("selected");
             $('#derecha').modal();
             $("#dienteSeleccionado").text("Diente "+ $(this).attr("id"));
             if($(this).attr("id")>40 && $(this).attr("id")<49 || $(this).attr("id")>30 && $(this).attr("id")<39){
@@ -94,6 +95,59 @@
                             }   
                         }
                     }   
+                }
+            }else{
+                //segundo cuadrante
+                if(idDiente[1]>10 && idDiente[1]<19){
+                    var parte = $(this).attr("id");
+                    if(parte=="oclusal1"){
+                        $("#nada").attr("selected",false);
+                        if($("#oclusal").attr("selected")){
+                            $("#oclusal").attr("selected",false);    
+                        }else{
+                            $("#oclusal").attr("selected",true);    
+                        }
+                    }else{
+                        if(parte=="vestibular1"){
+                            $("#nada").attr("selected",false);
+                            if($("#vestibular").attr("selected")){
+                                $("#vestibular").attr("selected",false);    
+                            }else{
+                                $("#vestibular").attr("selected",true);
+                            }
+                        
+                        }else{
+                            if(parte=="mesial1"){
+                                $("#nada").attr("selected",false);
+                                if($("#distal").attr("selected")){
+                                    $("#distal").attr("selected",false);    
+                                }else{
+                                    $("#distal").attr("selected",true);
+                                }
+                            
+                            }else{
+                                if(parte=="distal1"){
+                                    $("#nada").attr("selected",false);
+                                    if($("#mesial").attr("selected")){
+                                        $("#mesial").attr("selected",false);
+                                    }else{
+                                        $("#mesial").attr("selected",true);    
+                                    }
+                                
+                                }else{
+                                    if(parte=="palatinaLingual1"){
+                                        $("#nada").attr("selected",false);
+                                        if($("#palatinaLingual").attr("selected")){
+                                            $("#palatinaLingual").attr("selected",false);    
+                                        }else{
+                                            $("#palatinaLingual").attr("selected",true);
+                                        }
+                                    
+                                    }
+                                }   
+                            }
+                        }   
+                    }
                 }
             }
         });
@@ -424,13 +478,13 @@
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="control-group">
-                                <label for="motivo2" class="control-label">Motivo</label>
-                                <div class="controls">
-                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                        <div class="control-group">
+                            <label for="motivo2" class="control-label">Motivo</label>
+                            <div class="controls">
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -1104,15 +1158,16 @@
                                             <span class="badge badge-success">&nbsp;</span> Obturado<br/>
                                             <span class="badge badge-warning">&nbsp;</span> Corona completa<br/>
                                             <span class="badge badge-important">&nbsp;</span> Ausente<br/>
+                                            <span class="badge badge-info">&nbsp;</span> Sellante<br/>
 
                                         </div>
                                         <div class="span4" style="text-align: left; margin-left: 30px;">
                                             <br/>
-                                            <span class="badge badge-info">&nbsp;</span> Sellante<br/>
                                             <span class="badge badge-inverse">&nbsp;</span> Endodoncia indicada<br/>
                                             <span class="badge" style="background-color: #330066">&nbsp;</span> Endodoncia<br/>
                                             <span class="badge" style="background-color: #330000">&nbsp;</span> Incluido<br/>
                                             <span class="badge" style="background-color: #ffff00">&nbsp;</span> Pr&oacute;tesis existente<br/>
+                                            <span class="badge" style="background-color: #000000">&nbsp;</span> Varias enfermedades<br/>
                                         </div>
 
                                     </div>
