@@ -48,7 +48,7 @@
             if(idDiente[1]>20 && idDiente[1]<29){
                 var parte = $(this).attr("id");
                 if(parte=="oclusal1"){
-                    $("#nada").attr("selected",false);
+                    
                     if($("#oclusal").attr("selected")){
                         $("#oclusal").attr("selected",false);    
                     }else{
@@ -57,7 +57,7 @@
                     
                 }else{
                     if(parte=="vestibular1"){
-                        $("#nada").attr("selected",false);
+                        
                         if($("#vestibular").attr("selected")){
                             $("#vestibular").attr("selected",false);    
                         }else{
@@ -66,7 +66,7 @@
                         
                     }else{
                         if(parte=="mesial1"){
-                            $("#nada").attr("selected",false);
+                            
                             if($("#mesial").attr("selected")){
                                 $("#mesial").attr("selected",false);    
                             }else{
@@ -75,7 +75,7 @@
                             
                         }else{
                             if(parte=="distal1"){
-                                $("#nada").attr("selected",false);
+                                
                                 if($("#distal").attr("selected")){
                                     $("#distal").attr("selected",false);
                                 }else{
@@ -84,7 +84,7 @@
                                 
                             }else{
                                 if(parte=="palatinaLingual1"){
-                                    $("#nada").attr("selected",false);
+                                    
                                     if($("#palatinaLingual").attr("selected")){
                                         $("#palatinaLingual").attr("selected",false);    
                                     }else{
@@ -101,7 +101,7 @@
                 if(idDiente[1]>10 && idDiente[1]<19){
                     var parte = $(this).attr("id");
                     if(parte=="oclusal1"){
-                        $("#nada").attr("selected",false);
+                        
                         if($("#oclusal").attr("selected")){
                             $("#oclusal").attr("selected",false);    
                         }else{
@@ -109,7 +109,7 @@
                         }
                     }else{
                         if(parte=="vestibular1"){
-                            $("#nada").attr("selected",false);
+                            
                             if($("#vestibular").attr("selected")){
                                 $("#vestibular").attr("selected",false);    
                             }else{
@@ -118,7 +118,7 @@
                         
                         }else{
                             if(parte=="mesial1"){
-                                $("#nada").attr("selected",false);
+                                
                                 if($("#distal").attr("selected")){
                                     $("#distal").attr("selected",false);    
                                 }else{
@@ -127,7 +127,7 @@
                             
                             }else{
                                 if(parte=="distal1"){
-                                    $("#nada").attr("selected",false);
+                                    
                                     if($("#mesial").attr("selected")){
                                         $("#mesial").attr("selected",false);
                                     }else{
@@ -136,7 +136,7 @@
                                 
                                 }else{
                                     if(parte=="palatinaLingual1"){
-                                        $("#nada").attr("selected",false);
+                                        
                                         if($("#palatinaLingual").attr("selected")){
                                             $("#palatinaLingual").attr("selected",false);    
                                         }else{
@@ -306,11 +306,7 @@
                 blinkBGColor_1: '#FFFF9C',
                 blinkBGColor_2: '#CDE69C'
             });
-            $("#formDiag input[name='hidden-tags']").change(function(){
-               
-            });
-            
-            $("#datos2").validate({
+          /*  $("#datos2").validate({
                 submitHandler: function(){
                     $.ajax({
                         type: 'POST', 
@@ -321,7 +317,7 @@
                         } //fin success
                     }); //fin $.ajax    
                 }
-            });    
+            }); */   
             
             $("#formPron").validate({
                 submitHandler: function(){
@@ -1175,7 +1171,6 @@
                                         <div class="span6" style="text-align:right;">
                                             <h4>Elija Zona</h4>
                                             <select id="zonaeditar" multiple="multiple" size="6" name="zonaeditar">
-                                                <option id="nada" selected="selected" value=""></option>
                                                 <option id="mesial" value="M">M</option>
                                                 <option id="vestibular" value="V">V</option>
                                                 <option id="distal" value="D">D</option>
