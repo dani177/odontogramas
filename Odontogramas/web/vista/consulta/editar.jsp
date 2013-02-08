@@ -9,6 +9,9 @@
     .diente{
         cursor: pointer;
     }
+    .badge input{
+        margin-top: -2px;
+    }
 </style>
 <script type="text/javascript">
     $(function(){
@@ -23,13 +26,12 @@
                 $.ajax({
                     type: 'POST', 
                     url: "<%=request.getContextPath()%>/formController?action=agregarEnfermedad",
-                    data: "zonas="+$("#zonaeditar").val()+"&enfermedades="+$("input[name='hidden-tags3']").val()+"&diente="+idDiente[1],
+                    data: $("#formDiente").serialize()+"&diente="+idDiente[1],
                     success: function(){
                         $.ajax({
                             type: 'POST', 
                             url: "/Odontogramas/vista/consulta/dibujarDiente.jsp",
                             success: function(data){
-                                $(".tagManager3").tagsManager('empty');
                                 $("#dibujarDiente").html(data);
                             }
                         })
@@ -40,14 +42,15 @@
         
         $(".diente").click(function(ev){
             $('#zonaeditar option:selected').removeAttr("selected");
+            $("#zonaSeleccionada").html("Zona Seleccionada:");  
             $('#derecha').modal();
             $("#dienteSeleccionado").text("Diente "+ $(this).attr("id"));
             if($(this).attr("id")>40 && $(this).attr("id")<49 || $(this).attr("id")>30 && $(this).attr("id")<39){
-                $("#palatinaLingual").val("L");
-                $("#palatinaLingual").html("L");
+                $("#palatinaLingual").val("Lingual");
+                $("#palatinaLingual").html("Lingual");
             }else{
-                $("#palatinaLingual").val("P");
-                $("#palatinaLingual").html("P");
+                $("#palatinaLingual").val("Palatina");
+                $("#palatinaLingual").html("Palatina");
             }
             var idDiente = $("#dienteSeleccionado").text().split(" ");
             $.ajax({
@@ -69,32 +72,34 @@
             
         });
         $('#derecha').on('hidden', function () {
-            console.log("OK");
             var idDiente = $("#dienteSeleccionado").text().split(" ");
             var seleccionado = false;
             $(".parte").each(function() {
-                console.log($(this).attr("fill"));
                 if($(this).attr("fill")!="#FFFFFF"){
                     seleccionado = true;
                 }
             });
             if(seleccionado){
-                $("#"+idDiente[1]).css("fill","#000000");
+                $("#"+idDiente[1]).css("fill","#000000");                     
+                $("#"+idDiente[1]).css("stroke","#000000");                     
+                $("#"+idDiente[1]).css("opacity",0.3);                     
             }else{
                 $("#"+idDiente[1]).css("fill","transparent");
+                $("#"+idDiente[1]).css("stroke","none");                     
+                $("#"+idDiente[1]).css("opacity",1);                     
             }
         });
         
         $(".parte").click(function(ev){
             //primer cuadrante
-           
             var idDiente = $("#dienteSeleccionado").text().split(" ");
-            if(idDiente[1]>20 && idDiente[1]<29){
+           if(idDiente[1]>20 && idDiente[1]<29){
                 var parte = $(this).attr("id");
                 if(parte=="oclusal1"){
                     
                     if($("#oclusal").attr("selected")){
                         $("#oclusal").attr("selected",false);    
+                        
                     }else{
                         $("#oclusal").attr("selected",true);    
                     }
@@ -287,20 +292,6 @@
            
         }) ;
 
-        $(".tagManager3").tagsManager({
-            prefilled: null,
-            CapitalizeFirstLetter: false,
-            preventSubmitOnEnter: true,
-            typeahead: true,
-            typeaheadAjaxSource: null,
-            typeaheadSource: ["Caries o recidiva", "Obturado", "Corona completa", "Ausente", "Sellante", "Endodoncia indicada", "Endodoncia", "Incluido", "Prótesis existente"],
-            delimeters: [44, 188, 13],
-            backspace: [8],
-            blinkBGColor_1: '#FFFF9C',
-            blinkBGColor_2: '#CDE69C'
-        });
-        
-        
         var miArray2 = new Array(${tratamientos.getRowCount()});
         
     <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
@@ -397,11 +388,21 @@
             });    
             
             
-        <c:forEach items="${dientesEnfermos.rowsByIndex}" var="row" varStatus="iter">
+    <c:forEach items="${dientesEnfermos.rowsByIndex}" var="row" varStatus="iter">
             $("#${row[0]}").css("fill","#000000");                     
+            $("#${row[0]}").css("stroke","#000000");                     
+            $("#${row[0]}").css("opacity",0.3);                     
     </c:forEach>
-            
-            
+          
+         
+        $('#zonaeditar').change(function(e){
+            var str="<i style='color:red'>";
+            $("#zonaeditar option:selected").each(function () {
+            str += $(this).text() + "  ";
+        })
+        
+          $("#zonaSeleccionada").html("Zona Seleccionada: "+str+" </i>");  
+        })    
             
             $.reel.def.indicator= 5;
 
@@ -1199,7 +1200,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-body">
-
+                                    <h4 id="zonaSeleccionada">Zona Seleccionada: </h4>
                                     <div class="row">
                                         <div class="span3">
                                             <div style="text-align: center;" id="dibujarDiente">
@@ -1235,40 +1236,34 @@
 
                                         <div class="span4" style="text-align: left; margin-left: 30px;">
                                             <h4>Enfermedad</h4>
-                                            <span class="badge">&nbsp;</span> Caries o recidiva<br/>
-                                            <span class="badge badge-success">&nbsp;</span> Obturado<br/>
-                                            <span class="badge badge-warning">&nbsp;</span> Corona completa<br/>
-                                            <span class="badge badge-important">&nbsp;</span> Ausente<br/>
-                                            <span class="badge badge-info">&nbsp;</span> Sellante<br/>
+                                            <span class="badge"><input type="checkbox" name="enfermedad" value="Caries o recidiva"></span> Caries o recidiva<br/>
+                                            <span class="badge badge-success"><input type="checkbox" name="enfermedad" value="Obturado"></span> Obturado<br/>
+                                            <span class="badge badge-warning"><input type="checkbox" name="enfermedad" value="Corona completa"></span> Corona completa<br/>
+                                            <span class="badge badge-important"><input type="checkbox" name="enfermedad" value="Ausente"></span> Ausente<br/>
+                                            <span class="badge badge-info"><input type="checkbox" name="enfermedad" value="Sellante"></span> Sellante<br/>
 
                                         </div>
                                         <div class="span4" style="text-align: left; margin-left: 30px;">
                                             <br/>
-                                            <span class="badge badge-inverse">&nbsp;</span> Endodoncia indicada<br/>
-                                            <span class="badge" style="background-color: #330066">&nbsp;</span> Endodoncia<br/>
-                                            <span class="badge" style="background-color: #330000">&nbsp;</span> Incluido<br/>
-                                            <span class="badge" style="background-color: #ffff00">&nbsp;</span> Pr&oacute;tesis existente<br/>
-                                            <span class="badge" style="background-color: #ff0000">&nbsp;</span> Varias enfermedades<br/>
+                                            <br/>
+                                            <span class="badge badge-inverse"><input type="checkbox" name="enfermedad" value="Endodoncia indicada"></span> Endodoncia indicada<br/>
+                                            <span class="badge" style="background-color: #330066"><input type="checkbox" name="enfermedad" value="Endodoncia"></span> Endodoncia<br/>
+                                            <span class="badge" style="background-color: #330000"><input type="checkbox" name="enfermedad" value="Incluido"></span> Incluido<br/>
+                                            <span class="badge" style="background-color: #ffff00"><input type="checkbox" name="enfermedad" value="Pr&oacute;tesis existente"></span> Pr&oacute;tesis existente<br/>
                                         </div>
 
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="display: none;">
                                         <div class="span6" style="text-align:right;">
                                             <h4>Elija Zona</h4>
-                                            <select id="zonaeditar" multiple="multiple" size="6" name="zonaeditar" name="zonaeditar" class="{required:true}">
-                                                <option id="mesial" value="M">M</option>
-                                                <option id="vestibular" value="V">V</option>
-                                                <option id="distal" value="D">D</option>
-                                                <option id="palatinaLingual" value="P">P</option>
-                                                <option id="oclusal" value="O">O</option>
+                                            <select id="zonaeditar" multiple="true" size="6" name="zonaeditar" class="{required:true}">
+                                                <option id="mesial" value="Mesial">Mesial</option>
+                                                <option id="vestibular" value="Vestibular">Vestibular</option>
+                                                <option id="distal" value="Distal">Distal</option>
+                                                <option id="palatinaLingual" value="Palatina">Palatina</option>
+                                                <option id="oclusal" value="Oclusal">Oclusal</option>
                                             </select>
                                         </div>
-                                        <div class="span6" style="text-align: left;">
-                                            <br/>
-                                            <br/>
-                                            <input type="text" name="tags3" autocomplete="off" placeholder="Enfermedad" class="tagManager3"/>
-                                        </div>
-
                                     </div>            
                                 </div> 
                                 <div class="modal-footer">

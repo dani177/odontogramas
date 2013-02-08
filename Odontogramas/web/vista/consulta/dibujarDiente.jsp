@@ -1,64 +1,64 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
-            $(function(){
-                $(".parte").click(function(ev){
-                    var parte = $(this).attr("id");
-                    if(parte=="oclusal1"){
+    $(function(){
+        $(".parte").click(function(ev){
+            var parte = $(this).attr("id");
+            if(parte=="oclusal1"){
                     
-                        if($("#oclusal").attr("selected")){
-                            $("#oclusal").attr("selected",false);    
-                        }else{
-                            $("#oclusal").attr("selected",true);    
-                        }
+                if($("#oclusal").attr("selected")){
+                    $("#oclusal").attr("selected",false);    
+                }else{
+                    $("#oclusal").attr("selected",true);    
+                }
                     
+            }else{
+                if(parte=="vestibular1"){
+                        
+                    if($("#vestibular").attr("selected")){
+                        $("#vestibular").attr("selected",false);    
                     }else{
-                        if(parte=="vestibular1"){
+                        $("#vestibular").attr("selected",true);
+                    }
                         
-                            if($("#vestibular").attr("selected")){
-                                $("#vestibular").attr("selected",false);    
-                            }else{
-                                $("#vestibular").attr("selected",true);
-                            }
-                        
+                }else{
+                    if(parte=="mesial1"){
+                            
+                        if($("#mesial").attr("selected")){
+                            $("#mesial").attr("selected",false);    
                         }else{
-                            if(parte=="mesial1"){
+                            $("#mesial").attr("selected",true);
+                        }
                             
-                                if($("#mesial").attr("selected")){
-                                    $("#mesial").attr("selected",false);    
-                                }else{
-                                    $("#mesial").attr("selected",true);
-                                }
-                            
+                    }else{
+                        if(parte=="distal1"){
+                                
+                            if($("#distal").attr("selected")){
+                                $("#distal").attr("selected",false);
                             }else{
-                                if(parte=="distal1"){
+                                $("#distal").attr("selected",true);    
+                            }
                                 
-                                    if($("#distal").attr("selected")){
-                                        $("#distal").attr("selected",false);
-                                    }else{
-                                        $("#distal").attr("selected",true);    
-                                    }
-                                
+                        }else{
+                            if(parte=="palatinaLingual1"){
+                                    
+                                if($("#palatinaLingual").attr("selected")){
+                                    $("#palatinaLingual").attr("selected",false);    
                                 }else{
-                                    if(parte=="palatinaLingual1"){
+                                    $("#palatinaLingual").attr("selected",true);
+                                }
                                     
-                                        if($("#palatinaLingual").attr("selected")){
-                                            $("#palatinaLingual").attr("selected",false);    
-                                        }else{
-                                            $("#palatinaLingual").attr("selected",true);
-                                        }
-                                    
-                                    }
-                                }   
                             }
                         }   
                     }
-            
-                })
-            });
-        </script>
+                }   
+            }
+            $('#zonaeditar').trigger("change");
+        })
+    });
+</script>
 <c:choose>
     <c:when test="${(diente.getRowsByIndex()[0][0] > 20 && diente.getRowsByIndex()[0][0] < 29)}">
-        
+
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              width="150px" height="100px" viewBox="0 0 150 100" enable-background="new 0 0 150 100" xml:space="preserve">
             <g id="XMLID_2_">
