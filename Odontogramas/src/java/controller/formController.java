@@ -209,11 +209,6 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("caraM", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Mesial'"));
                 sesion.setAttribute("caraD", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Distal'"));
                 sesion.setAttribute("caraV", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Vestibular'"));
-
-
-
-
-
             }
             if (request.getParameter("action").equals("guardarDatosPer")) {
                 HttpSession sesion = request.getSession();

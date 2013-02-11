@@ -75,9 +75,9 @@
             var idDiente = $("#dienteSeleccionado").text().split(" ");
             var seleccionado = false;
             $(".parte").each(function() {
-                if($(this).attr("fill")!="#FFFFFF"){
-                    seleccionado = true;
-                }
+               // if($(this).attr("fill")!="#FFFFFF"){
+                //    seleccionado = true;
+                //}
             });
             if(seleccionado){
                 $("#"+idDiente[1]).css("fill","#000000");                     
@@ -1202,7 +1202,7 @@
                                 <div class="modal-body">
                                     <h4 id="zonaSeleccionada">Zona Seleccionada: </h4>
                                     <div class="row">
-                                        <div class="span3">
+                                        <div class="span6">
                                             <div style="text-align: center;" id="dibujarDiente">
                                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                                      width="150px" height="100px" viewBox="0 0 150 100" enable-background="new 0 0 150 100" xml:space="preserve">
@@ -1241,11 +1241,6 @@
                                             <span class="badge badge-warning"><input type="checkbox" name="enfermedad" value="Corona completa"></span> Corona completa<br/>
                                             <span class="badge badge-important"><input type="checkbox" name="enfermedad" value="Ausente"></span> Ausente<br/>
                                             <span class="badge badge-info"><input type="checkbox" name="enfermedad" value="Sellante"></span> Sellante<br/>
-
-                                        </div>
-                                        <div class="span4" style="text-align: left; margin-left: 30px;">
-                                            <br/>
-                                            <br/>
                                             <span class="badge badge-inverse"><input type="checkbox" name="enfermedad" value="Endodoncia indicada"></span> Endodoncia indicada<br/>
                                             <span class="badge" style="background-color: #330066"><input type="checkbox" name="enfermedad" value="Endodoncia"></span> Endodoncia<br/>
                                             <span class="badge" style="background-color: #330000"><input type="checkbox" name="enfermedad" value="Incluido"></span> Incluido<br/>
