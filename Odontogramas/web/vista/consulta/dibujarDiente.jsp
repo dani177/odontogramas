@@ -90,6 +90,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraV.rowsByIndex}" var="rowV" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowV[4]=='Caries o recidiva'}">
@@ -185,6 +186,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraP.rowsByIndex}" var="rowP" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowP[4]=='Caries o recidiva'}">
@@ -283,6 +285,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraD.rowsByIndex}" var="rowD" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowD[4]=='Caries o recidiva'}">
@@ -378,16 +381,17 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
-                                <path fill="#FFFFFF" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
+                                <path fill="transparent" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
                                 <path fill="#FFFFFF" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
-                                <path fill="#FFFFFF" stroke="#FFF200" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
+                                <path fill="transparent" stroke="#FFF200" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
                                       c-9.386,0-17-6.293-17-14.054c0-7.758,7.614-14.049,17-14.049C121.524,97.082,129.134,103.373,129.134,111.131z"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Corona completa'}">
@@ -477,12 +481,13 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraM.rowsByIndex}" var="rowM" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowM[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M159.875,109.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
+                                <path fill="transparent" stroke="#68AD45" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowM[4]=='Obturado'}">
@@ -602,6 +607,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraV.rowsByIndex}" var="rowV" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowV[4]=='Caries o recidiva'}">
@@ -697,6 +703,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraP.rowsByIndex}" var="rowP" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowP[4]=='Caries o recidiva'}">
@@ -795,6 +802,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraM.rowsByIndex}" var="rowD" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowD[4]=='Caries o recidiva'}">
@@ -890,6 +898,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
@@ -989,6 +998,7 @@
 
                 </c:when>
                 <c:otherwise>
+                    <input type="hidden" name="activo" value="activo"/>
                     <c:forEach items="${caraD.rowsByIndex}" var="rowM" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowM[4]=='Caries o recidiva'}">

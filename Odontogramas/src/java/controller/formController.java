@@ -177,26 +177,34 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("caraD", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Distal'"));
                 sesion.setAttribute("caraV", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Vestibular'"));
             }
+            
             if (request.getParameter("action").equals("agregarEnfermedad")) {
                 HttpSession sesion = request.getSession();
                 Result consulta = (Result) sesion.getAttribute("consulta");
                 String idDiente = ((String) request.getParameter("diente"));
-
+                String realizar = ((String) request.getParameter("realizar"));
+                String[] zonasDelDiente = {"Vestibular", "Mesial", "Distal", "Oclusal", "Palatina"};
+                if (Integer.parseInt(idDiente) > 30) {
+                    zonasDelDiente[4] = "Lingual";
+                }
                 String[] zonas = request.getParameterValues("zonaeditar");
                 String[] enfermedades = request.getParameterValues("enfermedad");
                 if (zonas != null) {
-                    if (enfermedades != null) {
-                        for (String zona : zonas) {
-                            new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara`='" + zona + "'");
-                            for (String enfermedad : enfermedades) {
-                                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diente` (`Iddatosconsulta_has_diente` ,`datosConsulta_iddatosConsulta` ,`diente_iddiente` ,`cara` ,`enfermedad`) "
-                                        + "VALUES (NULL , '" + consulta.getRowsByIndex()[0][0] + "', '" + idDiente + "', '" + zona + "', '" + enfermedad + "')");
 
+                    if (enfermedades != null) {
+                        for (String enfermedad : enfermedades) {
+
+                            if (enfermedad.equals("Caries o recidiva") || enfermedad.equals("Obturado")) {
+                                for (String zona : zonas) {
+                                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diente` (`Iddatosconsulta_has_diente` ,`datosConsulta_iddatosConsulta` ,`diente_iddiente` ,`cara` ,`enfermedad`,`realizar`) "
+                                            + "VALUES (NULL , '" + consulta.getRowsByIndex()[0][0] + "', '" + idDiente + "', '" + zona + "', '" + enfermedad + "', '" + realizar + "')");
+                                }
+                            } else {
+                                for (String zona2 : zonasDelDiente) {
+                                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`datosconsulta_has_diente` (`Iddatosconsulta_has_diente` ,`datosConsulta_iddatosConsulta` ,`diente_iddiente` ,`cara` ,`enfermedad`,`realizar`) "
+                                            + "VALUES (NULL , '" + consulta.getRowsByIndex()[0][0] + "', '" + idDiente + "', '" + zona2 + "', '" + enfermedad + "', '" + realizar + "')");
+                                }
                             }
-                        }
-                    } else {
-                        for (String zona : zonas) {
-                            new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara`='" + zona + "'");
                         }
                     }
                 }
@@ -210,6 +218,49 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("caraD", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Distal'"));
                 sesion.setAttribute("caraV", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Vestibular'"));
             }
+            
+            
+            if (request.getParameter("action").equals("eliminarEnfermedad")) {
+                HttpSession sesion = request.getSession();
+                Result consulta = (Result) sesion.getAttribute("consulta");
+                String idDiente = ((String) request.getParameter("diente"));
+                String[] zonasDelDiente = {"Vestibular", "Mesial", "Distal", "Oclusal", "Palatina"};
+                if (Integer.parseInt(idDiente) > 30) {
+                    zonasDelDiente[4] = "Lingual";
+                }
+                String[] zonas = request.getParameterValues("zonaeditar");
+                String[] enfermedades = request.getParameterValues("enfermedad");
+                if (zonas != null) {
+
+                    if (enfermedades != null) {
+                        for (String enfermedad : enfermedades) {
+
+                            if (enfermedad.equals("Caries o recidiva") || enfermedad.equals("Obturado")) {
+                                for (String zona : zonas) {
+                                    new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara`='" + zona + "' and `enfermedad`='"+enfermedad+"' and `datosConsulta_iddatosConsulta`='"+consulta.getRowsByIndex()[0][0]+"'");
+                                }
+                            } else {
+                                for (String zona2 : zonasDelDiente) {
+                                    new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara`='" + zona2 + "' and `enfermedad`='"+enfermedad+"' and `datosConsulta_iddatosConsulta`='"+consulta.getRowsByIndex()[0][0]+"'");
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                sesion.setAttribute("diente", new sqlController().CargarSql2("SELECT * FROM `diente` WHERE `iddiente`=" + idDiente));
+                sesion.setAttribute("caraO", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Oclusal'"));
+                sesion.setAttribute("caraP", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Palatina'"));
+                sesion.setAttribute("caraL", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Lingual'"));
+                sesion.setAttribute("caraM", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Mesial'"));
+                sesion.setAttribute("caraD", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Distal'"));
+                sesion.setAttribute("caraV", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_diente` WHERE `diente_iddiente`=" + idDiente + " and `cara` ='Vestibular'"));
+            }
+            
+            
+            
+            
             if (request.getParameter("action").equals("guardarDatosPer")) {
                 HttpSession sesion = request.getSession();
                 String Nombre = ((String) request.getParameter("nombre"));

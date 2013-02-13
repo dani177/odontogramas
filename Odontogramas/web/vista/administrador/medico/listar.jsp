@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="span9">
     <br/>
-    <h2>Listado de  M&eacute;dicos</h2>
+    <h2>Listado de  estudiantes</h2>
     <c:choose>
         <c:when test="${medicos.getRowCount()!= 0}">
 
