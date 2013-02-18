@@ -131,7 +131,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H118.744z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowV[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowV[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M112.803,47.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -232,7 +232,7 @@
                                 </g>
 
                             </c:when>
-                            <c:when test="${rowP[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowP[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M113.803,183.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -328,7 +328,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H56.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowD[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowD[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M50.844,110.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792H51.636v-0.792c0.84-0.015,1.451-0.103,1.85-0.258c0.302-0.132,0.547-0.329,0.749-0.591
@@ -428,7 +428,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H126.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowO[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowO[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M120.844,114.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -527,7 +527,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H197.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowM[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowM[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M191.844,111.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -648,7 +648,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H118.744z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowV[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowV[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M112.803,47.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -749,7 +749,7 @@
                                 </g>
 
                             </c:when>
-                            <c:when test="${rowP[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowP[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M113.803,183.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -845,7 +845,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H56.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowD[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowD[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M50.844,110.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792H51.636v-0.792c0.84-0.015,1.451-0.103,1.85-0.258c0.302-0.132,0.547-0.329,0.749-0.591
@@ -945,7 +945,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H126.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowO[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowO[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M120.844,114.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -1044,7 +1044,7 @@
                                           c0.391,0,0.711-0.116,0.959-0.35c0.248-0.233,0.447-0.704,0.598-1.411H197.785z"/>
                                 </g>
                             </c:when>
-                            <c:when test="${rowM[4]=='Endodoncia indicada'}">
+                            <c:when test="${rowM[4]=='Exodoncia indicada'}">
                                 <g>
                                     <path stroke="#000000" stroke-miterlimit="10" d="M191.844,111.414l6.266,9.348c1.731,2.579,3.025,4.213,3.855,4.895
                                           c0.843,0.682,1.906,1.059,3.202,1.132v0.792h-12.531v-0.792c0.84-0.015,1.451-0.103,1.85-0.258
@@ -1134,7 +1134,7 @@
                                     <path class="parte" id="mesial1" fill="#3A87AD" d="M105,27c10.86,10.99,10.82,41.38-4,48c-2.86-5.81-7.41-9.93-11-15c2.51-5.08,2.51-12.93,0-18
                                           C94.35,36.35,97.74,29.74,105,27z"/>
                                 </c:when>
-                                <c:when test="${caraM.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraM.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="mesial1" fill="#333333" d="M105,27c10.86,10.99,10.82,41.38-4,48c-2.86-5.81-7.41-9.93-11-15c2.51-5.08,2.51-12.93,0-18
                                           C94.35,36.35,97.74,29.74,105,27z"/>
                                 </c:when>
@@ -1185,7 +1185,7 @@
                                     <path class="parte" id="vestibular1" fill="#3A87AD" d="M99,21c-2.44,7.23-7.96,11.38-13,16c-5.61-2.76-15.98-4.72-21,0c-6.87-2.46-9.77-8.9-16-12
                                           C56.29,10.08,87.28,10.29,99,21z"/>
                                 </c:when>
-                                <c:when test="${caraV.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraV.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="vestibular1" fill="#333333" d="M99,21c-2.44,7.23-7.96,11.38-13,16c-5.61-2.76-15.98-4.72-21,0c-6.87-2.46-9.77-8.9-16-12
                                           C56.29,10.08,87.28,10.29,99,21z"/>
                                 </c:when>
@@ -1236,7 +1236,7 @@
                                     <path class="parte" id="palatinaLingual1" fill="#3A87AD" d="M85,64c6.17,3.5,9.75,9.58,13,16c-11.25,8.8-34.75,8.8-46,0c1.55-7.11,8.35-8.99,11-15
                                           C68.49,68.12,81.18,70.1,85,64z"/>
                                 </c:when>
-                                <c:when test="${caraL.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraL.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="palatinaLingual1" fill="#333333" d="M85,64c6.17,3.5,9.75,9.58,13,16c-11.25,8.8-34.75,8.8-46,0c1.55-7.11,8.35-8.99,11-15
                                           C68.49,68.12,81.18,70.1,85,64z"/>
                                 </c:when>
@@ -1281,7 +1281,7 @@
                                 <c:when test="${caraO.getRowsByIndex()[0][4]=='Sellante'}">
                                     <path class="parte" id="oclusal1" fill="#3A87AD" d="M87,50c1.09,16.28-24,17.79-25,2c-0.47-7.35,2.65-10.24,9-12C81.66,37.04,86.52,42.87,87,50z"/>
                                 </c:when>
-                                <c:when test="${caraO.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraO.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="oclusal1" fill="#333333" d="M87,50c1.09,16.28-24,17.79-25,2c-0.47-7.35,2.65-10.24,9-12C81.66,37.04,86.52,42.87,87,50z"/>
                                 </c:when>
                                 <c:when test="${caraO.getRowsByIndex()[0][4]=='Endodoncia'}">
@@ -1327,7 +1327,7 @@
                                     <path class="parte" id="distal1" fill="#3A87AD" d="M60,40c-2.68,5.06-5,15.58,0,20c-3.15,5.51-7.28,10.05-12,14c-13.71-6.68-13.38-34.85-4-46
                                           C50.77,30.56,53.62,37.05,60,40z"/>
                                 </c:when>
-                                <c:when test="${caraD.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraD.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="distal1" fill="#333333" d="M60,40c-2.68,5.06-5,15.58,0,20c-3.15,5.51-7.28,10.05-12,14c-13.71-6.68-13.38-34.85-4-46
                                           C50.77,30.56,53.62,37.05,60,40z"/>
                                 </c:when>
@@ -1397,7 +1397,7 @@
                                     <path class="parte" id="distal1" fill="#3A87AD" d="M105,27c10.86,10.99,10.82,41.38-4,48c-2.86-5.81-7.41-9.93-11-15c2.51-5.08,2.51-12.93,0-18
                                           C94.35,36.35,97.74,29.74,105,27z"/>
                                 </c:when>
-                                <c:when test="${caraD.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraD.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="distal1" fill="#333333" d="M105,27c10.86,10.99,10.82,41.38-4,48c-2.86-5.81-7.41-9.93-11-15c2.51-5.08,2.51-12.93,0-18
                                           C94.35,36.35,97.74,29.74,105,27z"/>
                                 </c:when>
@@ -1448,7 +1448,7 @@
                                     <path class="parte" id="vestibular1" fill="#3A87AD" d="M99,21c-2.44,7.23-7.96,11.38-13,16c-5.61-2.76-15.98-4.72-21,0c-6.87-2.46-9.77-8.9-16-12
                                           C56.29,10.08,87.28,10.29,99,21z"/>
                                 </c:when>
-                                <c:when test="${caraV.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraV.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="vestibular1" fill="#333333" d="M99,21c-2.44,7.23-7.96,11.38-13,16c-5.61-2.76-15.98-4.72-21,0c-6.87-2.46-9.77-8.9-16-12
                                           C56.29,10.08,87.28,10.29,99,21z"/>
                                 </c:when>
@@ -1499,7 +1499,7 @@
                                     <path class="parte" id="palatinaLingual1" fill="#3A87AD" d="M85,64c6.17,3.5,9.75,9.58,13,16c-11.25,8.8-34.75,8.8-46,0c1.55-7.11,8.35-8.99,11-15
                                           C68.49,68.12,81.18,70.1,85,64z"/>
                                 </c:when>
-                                <c:when test="${caraL.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraL.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="palatinaLingual1" fill="#333333" d="M85,64c6.17,3.5,9.75,9.58,13,16c-11.25,8.8-34.75,8.8-46,0c1.55-7.11,8.35-8.99,11-15
                                           C68.49,68.12,81.18,70.1,85,64z"/>
                                 </c:when>
@@ -1544,7 +1544,7 @@
                                 <c:when test="${caraO.getRowsByIndex()[0][4]=='Sellante'}">
                                     <path class="parte" id="oclusal1" fill="#3A87AD" d="M87,50c1.09,16.28-24,17.79-25,2c-0.47-7.35,2.65-10.24,9-12C81.66,37.04,86.52,42.87,87,50z"/>
                                 </c:when>
-                                <c:when test="${caraO.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraO.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="oclusal1" fill="#333333" d="M87,50c1.09,16.28-24,17.79-25,2c-0.47-7.35,2.65-10.24,9-12C81.66,37.04,86.52,42.87,87,50z"/>
                                 </c:when>
                                 <c:when test="${caraO.getRowsByIndex()[0][4]=='Endodoncia'}">
@@ -1590,7 +1590,7 @@
                                     <path class="parte" id="mesial1" fill="#3A87AD" d="M60,40c-2.68,5.06-5,15.58,0,20c-3.15,5.51-7.28,10.05-12,14c-13.71-6.68-13.38-34.85-4-46
                                           C50.77,30.56,53.62,37.05,60,40z"/>
                                 </c:when>
-                                <c:when test="${caraM.getRowsByIndex()[0][4]=='Endodoncia indicada'}">
+                                <c:when test="${caraM.getRowsByIndex()[0][4]=='Exodoncia indicada'}">
                                     <path class="parte" id="mesial1" fill="#333333" d="M60,40c-2.68,5.06-5,15.58,0,20c-3.15,5.51-7.28,10.05-12,14c-13.71-6.68-13.38-34.85-4-46
                                           C50.77,30.56,53.62,37.05,60,40z"/>
                                 </c:when>
