@@ -184,7 +184,7 @@ public class formController extends HttpServlet {
                 String idDiente = ((String) request.getParameter("diente"));
                 String realizar = ((String) request.getParameter("realizar"));
                 String[] zonasDelDiente = {"Vestibular", "Mesial", "Distal", "Oclusal", "Palatina"};
-                if (Integer.parseInt(idDiente) > 30) {
+                if ((Integer.parseInt(idDiente) > 30 && Integer.parseInt(idDiente) < 50) || (Integer.parseInt(idDiente) > 70 && Integer.parseInt(idDiente) < 86) ) {
                     zonasDelDiente[4] = "Lingual";
                 }
                 String[] zonas = request.getParameterValues("zonaeditar");
