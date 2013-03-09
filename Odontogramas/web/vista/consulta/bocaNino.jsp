@@ -194,13 +194,13 @@
                                             <c:when test="${diente[0]==61}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="170.739" cy="26.937" rx="19.355" ry="12.648"/>
+                                                        <ellipse class="diente2" id="61" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="170.739" cy="26.937" rx="19.355" ry="12.648"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="170.739" cy="26.158" rx="12.68" ry="10.021"/>
+                                                        <ellipse class="diente2" id="61" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="170.739" cy="26.158" rx="12.68" ry="10.021"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="149.116" y="12.779" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="43.247" height="28.314"/>
+                                                        <rect class="diente2" id="61" x="149.116" y="12.779" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="43.247" height="28.314"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -238,7 +238,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="61">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="151.287" y1="27" x2="192.844" y2="26.667"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="151.287" y1="32.177" x2="192.844" y2="31.844"/>
                                                         </g>
@@ -248,13 +248,13 @@
                                             <c:when test="${diente[0]==62}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="205.611" cy="46.551" rx="20.692" ry="13.521"/> 
+                                                        <ellipse class="diente2" id="62" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="205.611" cy="46.551" rx="20.692" ry="13.521"/> 
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="205.612" cy="45.772" rx="14.016" ry="11.078"/>
+                                                        <ellipse class="diente2" id="62" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="205.612" cy="45.772" rx="14.016" ry="11.078"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="181.981" y="31.081" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="47.257" height="30.94"/>
+                                                        <rect class="diente2" id="62" x="181.981" y="31.081" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="47.257" height="30.94"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -293,7 +293,7 @@
                                                         </g> 
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="62">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="186.865" y1="44.107" x2="228.421" y2="43.773"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="186.865" y1="49.284" x2="228.421" y2="48.951"/>
                                                         </g>
@@ -303,16 +303,16 @@
                                             <c:when test="${diente[0]==63}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="234.206" cy="74.446" rx="24.034" ry="15.705"/>
+                                                        <ellipse class="diente2" id="63" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="234.206" cy="74.446" rx="24.034" ry="15.705"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
                                                         <g id="obturado">
 
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="234.874" cy="74.195" rx="16.689" ry="13.192"/>
+                                                        <ellipse class="diente2" id="63" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="234.874" cy="74.195" rx="16.689" ry="13.192"/>
                                                         </g>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="208.781" y="57.406" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="52.604" height="34.44"/>
+                                                        <rect class="diente2" id="63" x="208.781" y="57.406" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="52.604" height="34.44"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -350,7 +350,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="63">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="207.645" y1="70.682" x2="256.091" y2="70.348"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="207.645" y1="75.859" x2="256.091" y2="75.525"/>
                                                         </g>
@@ -360,13 +360,13 @@
                                             <c:when test="${diente[0]==64}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="248.312" cy="112.41" rx="27.376" ry="17.89"/>
+                                                        <ellipse class="diente2" id="64" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="248.312" cy="112.41" rx="27.376" ry="17.89"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="248.312" cy="112.686" rx="18.694" ry="14.777"/>
+                                                        <ellipse class="diente2" id="64" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="248.312" cy="112.686" rx="18.694" ry="14.777"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="217.332" y="92.127" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
+                                                        <rect class="diente2" id="64" x="217.332" y="92.127" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -404,7 +404,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="64">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="218.662" y1="113.5" x2="274.805" y2="113.167"/>
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="218.662" y1="118.678" x2="274.805" y2="118.344"/>
@@ -415,13 +415,13 @@
                                             <c:when test="${diente[0]==65}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="252.34" cy="159.076" rx="27.375" ry="17.89"/>
+                                                        <ellipse class="diente2" id="65" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="252.34" cy="159.076" rx="27.375" ry="17.89"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="252.34" cy="158.842" rx="20.031" ry="15.834"/>
+                                                        <ellipse class="diente2" id="65" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="252.34" cy="158.842" rx="20.031" ry="15.834"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="221.36" y="138.793" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
+                                                        <rect class="diente2" id="65" x="221.36" y="138.793" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -459,7 +459,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="65">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="222.672" y1="159.782" x2="278.815" y2="159.449"/>
 
@@ -471,13 +471,13 @@
                                             <c:when test="${diente[0]==51}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="126.974" cy="26.936" rx="19.355" ry="12.649"/>
+                                                        <ellipse class="diente2" id="51" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="126.974" cy="26.936" rx="19.355" ry="12.649"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="126.974" cy="26.158" rx="12.679" ry="10.021"/>
+                                                        <ellipse class="diente2" id="51" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="126.974" cy="26.158" rx="12.679" ry="10.021"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="105.351" y="12.78" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="43.248" height="28.314"/>
+                                                        <rect class="diente2" id="51" x="105.351" y="12.78" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="43.248" height="28.314"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -514,7 +514,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="51">
                                                         <path stroke="#000000" stroke-miterlimit="10" d="M137.213,13.333c0.148,0,0.287,0.067,0.41,0.202    c0.092,0.115,0.137,0.234,0.137,0.358c0,0.238-0.191,0.55-0.581,0.933c-0.159,0.188-0.308,0.353-0.444,0.498    c-0.137,0.145-0.432,0.451-0.888,0.917c-1.483,1.482-4.28,4.634-8.395,9.454c-2.713,3.173-4.93,5.811-6.65,7.916    c-1.63,2.104-3.237,4.168-4.821,6.189l-1.863,2.41c-0.661,0.892-1.032,1.405-1.111,1.54c-0.228,0.353-0.478,0.529-0.752,0.529    c-0.365,0-0.547-0.145-0.547-0.436c0-0.342,0.439-1.109,1.316-2.302c2.712-3.711,6.639-8.609,11.778-14.694    c5.631-6.646,9.186-10.688,10.669-12.129c0.591-0.57,0.946-0.912,1.059-1.027C136.804,13.453,137.031,13.333,137.213,13.333z"/>
                                                         <path stroke="#000000" stroke-miterlimit="10" d="M148.976,13.333c0.148,0,0.285,0.067,0.412,0.202    c0.089,0.115,0.136,0.234,0.136,0.358c0,0.238-0.194,0.55-0.582,0.933c-0.159,0.188-0.308,0.353-0.444,0.498    c-0.137,0.145-0.432,0.451-0.89,0.917c-1.479,1.482-4.278,4.634-8.393,9.454c-2.713,3.173-4.931,5.811-6.652,7.916    c-1.63,2.104-3.236,4.168-4.819,6.189l-1.864,2.41c-0.661,0.892-1.03,1.405-1.111,1.54c-0.228,0.353-0.478,0.529-0.751,0.529    c-0.365,0-0.548-0.145-0.548-0.436c0-0.342,0.439-1.109,1.316-2.302c2.713-3.711,6.64-8.609,11.778-14.694    c5.631-6.646,9.187-10.688,10.668-12.129c0.595-0.57,0.946-0.912,1.061-1.027C148.565,13.453,148.793,13.333,148.976,13.333z"/>
                                                         </g>
@@ -524,13 +524,13 @@
                                             <c:when test="${diente[0]==52}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="91.232" cy="46.551" rx="20.692" ry="13.521"/>
+                                                        <ellipse class="diente2" id="52" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="91.232" cy="46.551" rx="20.692" ry="13.521"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="89.896" cy="45.772" rx="14.016" ry="11.079"/>
+                                                        <ellipse class="diente2" id="52" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="89.896" cy="45.772" rx="14.016" ry="11.079"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="67.604" y="31.081" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="47.257" height="30.94"/>
+                                                        <rect class="diente2" id="52" x="67.604" y="31.081" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="47.257" height="30.94"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -567,7 +567,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="52">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="70.735" y1="46.862" x2="112.292" y2="46.529"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="70.735" y1="52.039" x2="112.292" y2="51.706"/>
                                                         </g>
@@ -577,13 +577,13 @@
                                             <c:when test="${diente[0]==53}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="63.172" cy="74.446" rx="24.034" ry="15.706"/>
+                                                        <ellipse class="diente2" id="53" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="63.172" cy="74.446" rx="24.034" ry="15.706"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="63.172" cy="74.446" rx="16.689" ry="13.192"/>
+                                                        <ellipse class="diente2" id="53" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="63.172" cy="74.446" rx="16.689" ry="13.192"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="36.202" y="56.83" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="52.604" height="34.44"/>
+                                                        <rect class="diente2" id="53" x="36.202" y="56.83" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="52.604" height="34.44"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -619,7 +619,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="53">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="41.166" y1="73.437" x2="89.612" y2="73.104"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="41.166" y1="78.614" x2="89.612" y2="78.281"/>
                                                         </g>
@@ -629,13 +629,13 @@
                                             <c:when test="${diente[0]==54}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="49.848" cy="112.41" rx="27.375" ry="17.89"/>
+                                                        <ellipse class="diente2" id="54" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="49.848" cy="112.41" rx="27.375" ry="17.89"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="48.511" cy="112.41" rx="18.694" ry="14.777"/>
+                                                        <ellipse class="diente2" id="54" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="48.511" cy="112.41" rx="18.694" ry="14.777"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="18.868" y="92.127" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
+                                                        <rect class="diente2" id="54" x="18.868" y="92.127" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -673,7 +673,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="54">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="20.548" y1="111.079" x2="76.69" y2="110.746"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="20.548" y1="116.256" x2="76.69" y2="115.922"/>
                                                         </g>
@@ -683,13 +683,13 @@
                                             <c:when test="${diente[0]==55}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="44.501" cy="159.076" rx="27.376" ry="17.89"/>
+                                                        <ellipse class="diente2" id="55" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="44.501" cy="159.076" rx="27.376" ry="17.89"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="44.104" cy="158.842" rx="20.031" ry="15.834"/>
+                                                        <ellipse class="diente2" id="55" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="44.104" cy="158.842" rx="20.031" ry="15.834"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="12.634" y="138.005" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
+                                                        <rect class="diente2" id="55" x="12.634" y="138.005" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="61.961" height="40.565"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -724,7 +724,7 @@
                                                     <c:when test='${diente[1]=="Incluido"}'>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="55">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="16.412" y1="158.693" x2="72.554" y2="158.36"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="16.412" y1="163.871" x2="72.554" y2="163.537"/>
                                                         </g>
@@ -734,13 +734,13 @@
                                             <c:when test="${diente[0]==85}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="39.154" cy="301.742" rx="27.375" ry="17.891"/>
+                                                        <ellipse class="diente2" id="85" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="39.154" cy="301.742" rx="27.375" ry="17.891"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="39.154" cy="301.742" rx="20.031" ry="15.835"/>
+                                                        <ellipse class="diente2" id="85" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="39.154" cy="301.742" rx="20.031" ry="15.835"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="9.494" y="283.853" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="57.951" height="37.941"/>
+                                                        <rect class="diente2" id="85" x="9.494" y="283.853" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="57.951" height="37.941"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -778,7 +778,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="85">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="13.094" y1="298.642" x2="69.237" y2="298.309"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="13.094" y1="303.819" x2="69.237" y2="303.485"/>
                                                         </g>
@@ -788,13 +788,13 @@
                                             <c:when test="${diente[0]==84}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="52.478" cy="343.778" rx="24.033" ry="15.706"/>
+                                                        <ellipse class="diente2" id="84" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="52.478" cy="343.778" rx="24.033" ry="15.706"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="52.477" cy="343.778" rx="16.689" ry="13.193"/>
+                                                        <ellipse class="diente2" id="84" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="52.477" cy="343.778" rx="16.689" ry="13.193"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="26.177" y="327.474" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="53.941" height="35.316"/>
+                                                        <rect class="diente2" id="84" x="26.177" y="327.474" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="53.941" height="35.316"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -832,7 +832,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="84">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="28.951" y1="340.257" x2="77.397" y2="339.923"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="28.951" y1="345.434" x2="77.397" y2="345.101"/>
                                                         </g>
@@ -842,13 +842,13 @@
                                             <c:when test="${diente[0]==83}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="73.17" cy="378.212" rx="20.692" ry="13.521"/>
+                                                        <ellipse class="diente2" id="83" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="73.17" cy="378.212" rx="20.692" ry="13.521"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="73.17" cy="378.211" rx="14.016" ry="11.081"/>
+                                                        <ellipse class="diente2" id="83" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="73.17" cy="378.211" rx="14.016" ry="11.081"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="50.922" y="362.741" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="44.583" height="29.189"/>
+                                                        <rect class="diente2" id="83" x="50.922" y="362.741" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="44.583" height="29.189"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -886,7 +886,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="83">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="48.331" y1="377.691" x2="96.777" y2="377.358"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="48.331" y1="382.868" x2="96.777" y2="382.535"/>
                                                         </g>
@@ -896,13 +896,13 @@
                                             <c:when test="${diente[0]==82}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <path fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" d="M118.52,401.87c0,6.26-7.766,11.336-17.35,11.336   c-9.582,0-17.349-5.076-17.349-11.336c0-6.264,7.768-11.339,17.349-11.339C110.753,390.531,118.52,395.606,118.52,401.87z"/>
+                                                        <path class="diente2" id="82" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" d="M118.52,401.87c0,6.26-7.766,11.336-17.35,11.336   c-9.582,0-17.349-5.076-17.349-11.336c0-6.264,7.768-11.339,17.349-11.339C110.753,390.531,118.52,395.606,118.52,401.87z"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="101.17" cy="402.146" rx="11.343" ry="8.965"/>
+                                                        <ellipse class="diente2" id="82" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="101.17" cy="402.146" rx="11.343" ry="8.965"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="80.883" y="389.044" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="39.238" height="25.69"/>
+                                                        <rect class="diente2" id="82" x="80.883" y="389.044" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="39.238" height="25.69"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -939,7 +939,7 @@
                                                         <path stroke="#000000" stroke-miterlimit="10" d="M120.139,382.758c0.149,0,0.286,0.065,0.411,0.2    c0.091,0.115,0.138,0.234,0.138,0.359c0,0.237-0.194,0.55-0.582,0.933c-0.159,0.188-0.307,0.352-0.445,0.497    c-0.136,0.146-0.431,0.451-0.889,0.917c-1.479,1.484-4.278,4.636-8.393,9.456c-2.712,3.172-4.93,5.81-6.652,7.914    c-1.629,2.104-3.236,4.169-4.819,6.189l-1.864,2.409c-0.661,0.894-1.031,1.406-1.111,1.542c-0.229,0.352-0.479,0.528-0.752,0.528    c-0.365,0-0.547-0.146-0.547-0.438c0-0.341,0.439-1.106,1.316-2.3c2.712-3.713,6.639-8.609,11.778-14.695    c5.63-6.646,9.186-10.688,10.668-12.13c0.594-0.57,0.946-0.911,1.061-1.026C119.729,382.878,119.956,382.758,120.139,382.758z"/>
                                                         </g>
                                                     </c:when>
-                                                    <c:otherwise><g>
+                                                    <c:otherwise><g class="diente2" id="82">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="82.247" y1="402.395" x2="121.798" y2="402.062"/>
 
@@ -952,13 +952,13 @@
                                             <c:when test="${diente[0]==81}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <path fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" d="M147.666,412.358c0,5.055-6.27,9.15-14.008,9.15   c-7.736,0-14.008-4.096-14.008-9.15c0-5.059,6.271-9.155,14.008-9.155C141.396,403.203,147.666,407.3,147.666,412.358z"/>
+                                                        <path class="diente2" id="81" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" d="M147.666,412.358c0,5.055-6.27,9.15-14.008,9.15   c-7.736,0-14.008-4.096-14.008-9.15c0-5.059,6.271-9.155,14.008-9.155C141.396,403.203,147.666,407.3,147.666,412.358z"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="134.307" cy="412.355" rx="8.669" ry="6.852"/>
+                                                        <ellipse class="diente2" id="81" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="134.307" cy="412.355" rx="8.669" ry="6.852"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="117.382" y="401.699" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="32.553" height="21.315"/>
+                                                        <rect class="diente2" id="81" x="117.382" y="401.699" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="32.553" height="21.315"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -996,7 +996,7 @@
 
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="81">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="116.451" y1="413.387" x2="148.473" y2="413.054"/>
 
@@ -1008,13 +1008,13 @@
                                             <c:when test="${diente[0]==75}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="257.042" cy="301.742" rx="27.375" ry="17.891"/>
+                                                        <ellipse class="diente2" id="75" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="257.042" cy="301.742" rx="27.375" ry="17.891"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="257.042" cy="301.742" rx="20.031" ry="15.835"/>
+                                                        <ellipse class="diente2" id="75" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="257.042" cy="301.742" rx="20.031" ry="15.835"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="228.066" y="282.772" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="57.952" height="37.942"/>
+                                                        <rect class="diente2" id="75" x="228.066" y="282.772" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="57.952" height="37.942"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -1052,7 +1052,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="75">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="228.02" y1="298.643" x2="284.162" y2="298.31"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="228.02" y1="303.82" x2="284.162" y2="303.487"/>
                                                         </g>
@@ -1062,13 +1062,13 @@
                                             <c:when test="${diente[0]==74}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="243.633" cy="343.78" rx="24.033" ry="15.704"/>
+                                                        <ellipse class="diente2" id="74" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="243.633" cy="343.78" rx="24.033" ry="15.704"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="243.632" cy="343.778" rx="16.689" ry="13.193"/>
+                                                        <ellipse class="diente2" id="74" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="243.632" cy="343.778" rx="16.689" ry="13.193"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="216.662" y="326.12" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="53.94" height="35.316"/>
+                                                        <rect class="diente2" id="74" x="216.662" y="326.12" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="53.94" height="35.316"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -1106,7 +1106,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="74">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="217.325" y1="343.012" x2="265.771" y2="342.679"/>
 
@@ -1118,13 +1118,13 @@
                                             <c:when test="${diente[0]==73}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="223.609" cy="375.676" rx="20.692" ry="13.521"/>
+                                                        <ellipse class="diente2" id="73" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="223.609" cy="375.676" rx="20.692" ry="13.521"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="223.61" cy="375.675" rx="14.016" ry="11.08"/>
+                                                        <ellipse class="diente2" id="73" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="223.61" cy="375.675" rx="14.016" ry="11.08"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="201.317" y="361.407" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="44.583" height="29.19"/>
+                                                        <rect class="diente2" id="73" x="201.317" y="361.407" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="44.583" height="29.19"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -1162,7 +1162,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="73">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="198.449" y1="373.515" x2="246.896" y2="373.181"/>
 
@@ -1174,13 +1174,13 @@
                                             <c:when test="${diente[0]==72}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="196.778" cy="399.203" rx="17.35" ry="11.336"/>
+                                                        <ellipse class="diente2" id="72" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="196.778" cy="399.203" rx="17.35" ry="11.336"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <ellipse fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="196.778" cy="399.203" rx="11.343" ry="8.964"/>
+                                                        <ellipse class="diente2" id="72" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" cx="196.778" cy="399.203" rx="11.343" ry="8.964"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="177.159" y="386.356" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="39.238" height="25.69"/>
+                                                        <rect class="diente2" id="72" x="177.159" y="386.356" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="39.238" height="25.69"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -1218,7 +1218,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="72">
 
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="175.743" y1="396.884" x2="215.294" y2="396.551"/>
 
@@ -1230,13 +1230,13 @@
                                             <c:when test="${diente[0]==71}">
                                                 <c:choose>
                                                     <c:when test='${diente[1]=="Caries o recidiva"}'>
-                                                        <ellipse fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="165.684" cy="412.356" rx="14.007" ry="9.152"/>
+                                                        <ellipse class="diente2" id="71" fill="none" stroke="#ED1C24" stroke-width="3" stroke-miterlimit="10" cx="165.684" cy="412.356" rx="14.007" ry="9.152"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Obturado"}'>
-                                                        <path fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" d="M174.353,412.354c0,3.786-3.882,6.854-8.671,6.854   c-4.786,0-8.667-3.067-8.667-6.854c0-3.781,3.881-6.852,8.667-6.852C170.471,405.503,174.353,408.573,174.353,412.354z"/>
+                                                        <path class="diente2" id="71" fill="none" stroke="#1C75BC" stroke-width="3" stroke-miterlimit="10" d="M174.353,412.354c0,3.786-3.882,6.854-8.671,6.854   c-4.786,0-8.667-3.067-8.667-6.854c0-3.781,3.881-6.852,8.667-6.852C170.471,405.503,174.353,408.573,174.353,412.354z"/>
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Corona completa"}'>
-                                                        <rect x="149.407" y="401.698" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="32.552" height="21.314"/>    
+                                                        <rect class="diente2" id="71" x="149.407" y="401.698" fill="none" stroke="#009444" stroke-width="3" stroke-miterlimit="10" width="32.552" height="21.314"/>    
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Ausente"}'>
                                                         <g>
@@ -1274,7 +1274,7 @@
                                                         </g>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <g>
+                                                        <g class="diente2" id="71">
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="149.7" y1="413.142" x2="181.721" y2="412.809"/>
                                                         <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="149.7" y1="418.319" x2="181.721" y2="417.985"/>
                                                         </g>

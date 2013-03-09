@@ -225,7 +225,7 @@ public class formController extends HttpServlet {
                 Result consulta = (Result) sesion.getAttribute("consulta");
                 String idDiente = ((String) request.getParameter("diente"));
                 String[] zonasDelDiente = {"Vestibular", "Mesial", "Distal", "Oclusal", "Palatina"};
-                if (Integer.parseInt(idDiente) > 30) {
+                if (Integer.parseInt(idDiente) > 30 && Integer.parseInt(idDiente) < 50 || Integer.parseInt(idDiente) > 70) {
                     zonasDelDiente[4] = "Lingual";
                 }
                 String[] zonas = request.getParameterValues("zonaeditar");
@@ -635,21 +635,23 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("editarConsulta")) {
                 String idConsulta = (String) request.getParameter("id");
                 Result con = new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `iddatosConsulta`=" + idConsulta + "");
-                
                 HttpSession sesion = request.getSession();
                 sesion.setAttribute("consulta", con);
+                sesion.setAttribute("diagnosticosExistentes", new sqlController().CargarSql2("SELECT codigo, diagnostico FROM `datosconsulta_has_diagnostico` inner join diagnostico on diagnostico.`iddiagnostico`=`diagnostico_iddiagnostico` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
+                sesion.setAttribute("tratamientosExistentes", new sqlController().CargarSql2("SELECT tratamiento.* FROM `datosconsulta_has_tratamiento` inner join tratamiento on tratamiento.`idtratamiento` =`tratamiento_idtratamiento` WHERE `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("datosconsultaHasDatosbasicos", new sqlController().CargarSql2("SELECT * FROM `datosconsulta_has_datosbasicos` inner join datosbasicos on datosbasicos.iddatosBasicos=datosconsulta_has_datosbasicos.`datosBasicos_iddatosBasicos` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("examenfisicoestomatologicoList", new sqlController().CargarSql2("SELECT * FROM `examenfisicoestomatologico` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("dientesEnfermos", new sqlController().CargarSql2("SELECT `diente_iddiente`,`enfermedad` FROM `datosconsulta_has_diente` where `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]+" GROUP BY diente_iddiente, `enfermedad`"));
                 sesion.setAttribute("dientesEnfermosFinales", new sqlController().CargarSql2("SELECT `diente_iddiente`,`enfermedad` FROM `datosconsulta_has_diente` where `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]+" and `realizar`='No' GROUP BY diente_iddiente, `enfermedad`"));  
+                sesion.setAttribute("interconsultaE", new sqlController().CargarSql2("SELECT `interconsulta_idinterconsulta` FROM `interconsulta_has_datosconsulta` WHERE `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]));  
+                sesion.setAttribute("planTratamientoE", new sqlController().CargarSql2("SELECT `planTratamiento_idplanTratamiento` FROM `datosconsulta_has_plantratamiento` WHERE `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]));  
+                sesion.setAttribute("remisionE", new sqlController().CargarSql2("SELECT `remision_idremision` FROM `remision_has_datosconsulta` WHERE `datosConsulta_iddatosConsulta`="+ con.getRowsByIndex()[0][0]));  
             }
 
             if (request.getParameter("action").equals("agregarDiagnostico")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diagnostico` WHERE `datosconsulta_has_diagnostico`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
-
-
                 String diagnosticosJuntos = (String) request.getParameter("diagnosticos");
                 if (!diagnosticosJuntos.equals("")) {
                     String diagnosticos[] = diagnosticosJuntos.split(",");

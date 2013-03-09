@@ -252,7 +252,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -351,7 +351,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -444,7 +444,7 @@
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
@@ -769,7 +769,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -868,7 +868,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -1286,7 +1286,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -1385,7 +1385,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -1476,13 +1476,13 @@
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
-                                <path fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
+                                <path fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
                                       c-9.386,0-17-6.293-17-14.054c0-7.758,7.614-14.049,17-14.049C121.524,97.082,129.134,103.373,129.134,111.131z"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Corona completa'}">
@@ -1578,7 +1578,7 @@
                             <c:when test="${rowM[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M159.875,109.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowM[4]=='Obturado'}">
@@ -1804,7 +1804,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -1903,7 +1903,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -1994,13 +1994,13 @@
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
-                                <path fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
+                                <path fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
                                       c-9.386,0-17-6.293-17-14.054c0-7.758,7.614-14.049,17-14.049C121.524,97.082,129.134,103.373,129.134,111.131z"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Corona completa'}">
@@ -2096,7 +2096,7 @@
                             <c:when test="${rowM[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M159.875,109.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowM[4]=='Obturado'}">
@@ -2322,7 +2322,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -2421,7 +2421,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -2514,7 +2514,7 @@
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
@@ -2839,7 +2839,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -2938,7 +2938,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -3031,7 +3031,7 @@
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
@@ -3356,7 +3356,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -3455,7 +3455,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -3546,13 +3546,13 @@
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
-                                <path fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
+                                <path fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
                                       c-9.386,0-17-6.293-17-14.054c0-7.758,7.614-14.049,17-14.049C121.524,97.082,129.134,103.373,129.134,111.131z"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Corona completa'}">
@@ -3648,7 +3648,7 @@
                             <c:when test="${rowM[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M159.875,109.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowM[4]=='Obturado'}">
@@ -3874,7 +3874,7 @@
                                       C134.378,164.828,151.834,174.227,151.834,185.813z"/>
                             </c:when>
                             <c:when test="${rowP[4]=='Obturado'}">
-                                <path class="caraPalatina" fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
+                                <path class="caraPalatina" fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M131.093,185.197
                                       c0,8.903-8.728,16.119-19.5,16.119c-10.765,0-19.5-7.216-19.5-16.119c0-8.898,8.735-16.115,19.5-16.115
                                       C122.365,169.082,131.093,176.299,131.093,185.197z"/>
                             </c:when>
@@ -3973,7 +3973,7 @@
                                       C57.681,94.828,68.875,100.85,68.875,108.28z"/>
                             </c:when>
                             <c:when test="${rowD[4]=='Obturado'}">
-                                <path  fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
+                                <path  fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M59.134,107.131c0,7.761-7.609,14.054-17,14.054
                                        c-9.385,0-17-6.293-17-14.054c0-7.758,7.615-14.049,17-14.049C51.524,93.082,59.134,99.373,59.134,107.131z"/>
 
                             </c:when>
@@ -4064,13 +4064,13 @@
                     <c:forEach items="${caraO.rowsByIndex}" var="rowO" varStatus="iter">
                         <c:choose>
                             <c:when test="${rowO[4]=='Caries o recidiva'}">
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M88.875,112.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M138.875,112.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Obturado'}">
-                                <path fill="#FFFFFF" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
+                                <path fill="transparent" stroke="#1C75BC" stroke-width="2" stroke-miterlimit="10" d="M129.134,111.131c0,7.761-7.609,14.054-17,14.054
                                       c-9.386,0-17-6.293-17-14.054c0-7.758,7.614-14.049,17-14.049C121.524,97.082,129.134,103.373,129.134,111.131z"/>
                             </c:when>
                             <c:when test="${rowO[4]=='Corona completa'}">
@@ -4166,7 +4166,7 @@
                             <c:when test="${rowM[4]=='Caries o recidiva'}">
                                 <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M159.875,109.28
                                       c0-7.431,11.193-13.452,24.999-13.452c13.808,0,25.001,6.021,25.001,13.452"/>
-                                <path fill="#FFFFFF" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
+                                <path fill="transparent" stroke="#ED1C24" stroke-width="2" stroke-miterlimit="10" d="M209.875,109.28
                                       c0,7.421-11.193,13.452-25.001,13.452c-13.806,0-24.999-6.031-24.999-13.452"/>
                             </c:when>
                             <c:when test="${rowM[4]=='Obturado'}">
