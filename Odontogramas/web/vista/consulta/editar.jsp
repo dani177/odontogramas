@@ -539,6 +539,18 @@
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
                 });
+                $(".tagManager6").tagsManager({
+                    prefilled: null,
+                    CapitalizeFirstLetter: false,
+                    preventSubmitOnEnter: true,
+                    typeahead: true,
+                    typeaheadAjaxSource: null,
+                    typeaheadSource: miArray2,
+                    delimeters: [44, 188, 13],
+                    backspace: [8],
+                    blinkBGColor_1: '#FFFF9C',
+                    blinkBGColor_2: '#CDE69C'
+                });
                                 
         </c:when>
         <c:otherwise>
@@ -594,6 +606,18 @@
                     backspace: [8],
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
+                });
+                $(".tagManager5").tagsManager({
+                    prefilled: null,
+                    CapitalizeFirstLetter: false,
+                    preventSubmitOnEnter: true,
+                    typeahead: true,
+                    typeaheadAjaxSource: null,
+                    typeaheadSource: miArray,
+                    delimeters: [44, 188, 13],
+                    backspace: [8],
+                    blinkBGColor_1: '#FFFF9C',
+                    blinkBGColor_2: '#CDE69C'
                 });    
                                 
         </c:when>
@@ -602,7 +626,6 @@
             <c:forEach items="${diagnosticosExistentes.rowsByIndex}" var="diagnostico" varStatus="iterD">
                     miArrayEx[${iterD.index}] = "${diagnostico[1]} - ${diagnostico[0]}";
             </c:forEach>
-                    console.log("miArrayEx"+miArrayEx)
                     $(".tagManager").tagsManager({
                         prefilled: miArrayEx,
                         CapitalizeFirstLetter: false,
@@ -731,9 +754,9 @@
 
 
 
-   
+
     <div id="myTabContent" class="tab-content">
-   
+
         <div class="tab-pane fade in active " id="profile">
             <!--nuevo2-->
 
@@ -8478,10 +8501,135 @@
                 </form>
             </div>
         </div>
-        
-         <div class="tab-pane fade" id="histo">
+
+        <div class="tab-pane fade" id="histo">
             <div class="span12">
-              historia
+                <form class="form-horizontal" method="post" id="formHisto" action="">
+                    <fieldset>
+                        <legend>Antecedentes del caso y examen cl&iacute;nico</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="eactual">Estado actual</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="eactual" id="eactual" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label  class="control-label">Dolor</label>
+                            <div class="span2"> 
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Provocado
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Palpaci&oacute;n
+                                </label>
+                            </div>
+                            <div class="span2">
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Espont&aacute;neo
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Percusi&oacute;n
+                                </label>
+                            </div>
+                            <div class="span2">
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Irradiado
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Fistula
+                                </label>
+                            </div>
+                            <div class="span2">
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Localizado
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="" name=""> Inflamaci&oacute;n
+                                </label>
+                            </div>
+                        </div>
+                        <legend>Impresi&oacute;n clinica</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="dienteI">Diente</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="dienteI" id="dienteI" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="tejidos">Tejidos vecinos</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="tejidos" id="tejidos" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <legend>Pruebas vitalom&eacute;tricas</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="frio">T&eacute;rmicas - frio</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="frio" id="frio" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <legend>Examen radiogr&aacute;fico</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="evaluacion">Evaluaciones del tratamiento endod&oacute;ntico</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="evaluacion" id="evaluacion" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ObservacionesE">Observaciones</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="ObservacionesE" id="ObservacionesE" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="etiologia">Etiolog&iacute;a</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="etiologia" id="etiologia" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="diagnosticoE">Diagn&oacute;stico</label>
+                            <div class="controls">
+                                <input type="text" name="tags5" autocomplete="off" placeholder="Diagnostico" class="tagManager5"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="tratamientoE">Tratamiento</label>
+                            <div class="controls">
+                                <input type="text" name="tags6" autocomplete="off" placeholder="Tratamiento" class="tagManager6"/>
+                            </div>
+                        </div>
+                        <legend>Preparaci&oacute;n biom&eacute;dica</legend>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Canal</th>
+                                    <th>Referencia</th>
+                                    <th>L.A</th>
+                                    <th>L.R.I</th>
+                                    <th>L.R.T</th>
+                                    <th>Inst Inicial</th>
+                                    <th>Lima retroceso</th>
+                                    <th>Prepaci&oacute;n apical</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                               
+
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>

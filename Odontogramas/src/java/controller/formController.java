@@ -670,7 +670,7 @@ public class formController extends HttpServlet {
             if (request.getParameter("action").equals("agregarTratamiento")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
-                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_tratamiento` WHERE `datosconsulta_has_tratamiento`.`datosConsulta_iddatosConsulta` = 1");
+                new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_tratamiento` WHERE `datosconsulta_has_tratamiento`.`datosConsulta_iddatosConsulta` = "+con.getRowsByIndex()[0][0]);
 
                 String tratamientosJuntos = (String) request.getParameter("tratamientos");
                 if (!tratamientosJuntos.equals("")) {
