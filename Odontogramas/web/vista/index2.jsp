@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
-
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
+        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
         <style type="text/css">
             body {
                 padding-top: 60px;
@@ -459,7 +461,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
+                    <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">
