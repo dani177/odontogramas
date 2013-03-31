@@ -1,10 +1,27 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<!-- Bootstrap Image Gallery styles -->
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
+<!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
 <script src='<%=request.getContextPath()%>/js/jquery.reel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.disabletextselect-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.mousewheel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.cookie-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
+<script src="<%=request.getContextPath()%>/assets/js/jquery.ba-hashchange.js"></script>
 <style type="text/css">
     .diente{
         cursor: pointer;
@@ -452,6 +469,51 @@
             }); //fin $.ajax    
 
         });
+        $("#guardarAnte").click(function() {
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST',
+                url: "<%=request.getContextPath()%>/formController?action=agregarAntecedentes",
+                data: ""+$("#formAnte").serialize(),
+                success: function() {
+                    setTimeout(function() {
+                        $("#guardarAnte").button('reset');
+                    }, 500);
+
+                } //fin success
+            }); //fin $.ajax    
+
+        });
+        $("#guardarImpresion").click(function() {
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST',
+                url: "<%=request.getContextPath()%>/formController?action=agregarImpresion",
+                data: ""+$("#formImpresion").serialize(),
+                success: function() {
+                    setTimeout(function() {
+                        $("#guardarImpresion").button('reset');
+                    }, 500);
+
+                } //fin success
+            }); //fin $.ajax    
+
+        });
+        $("#guardarVitalometrica").click(function() {
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST',
+                url: "<%=request.getContextPath()%>/formController?action=agregarVitalometrica",
+                data: ""+$("#formVitalometrica").serialize(),
+                success: function() {
+                    setTimeout(function() {
+                        $("#guardarVitalometrica").button('reset');
+                    }, 500);
+
+                } //fin success
+            }); //fin $.ajax    
+
+        });
 
 
 
@@ -551,6 +613,7 @@
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
                 });
+              
                                 
         </c:when>
         <c:otherwise>
@@ -619,6 +682,7 @@
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
                 });    
+               
                                 
         </c:when>
         <c:otherwise>
@@ -836,13 +900,13 @@
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="control-group">
-                            <label for="motivo2" class="control-label">Motivo</label>
-                            <div class="controls">
-                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                            <div class="control-group">
+                                <label for="motivo2" class="control-label">Motivo</label>
+                                <div class="controls">
+                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -8504,76 +8568,151 @@
 
         <div class="tab-pane fade" id="histo">
             <div class="span12">
-                <form class="form-horizontal" method="post" id="formHisto" action="">
+                <form class="form-horizontal" method="post" id="formAnte" action="">
                     <fieldset>
                         <legend>Antecedentes del caso y examen cl&iacute;nico</legend>
                         <div class="control-group">
                             <label class="control-label" for="eactual">Estado actual</label>
                             <div class="controls">
-                                <textarea class="input-xxlarge {required:true}" name="eactual" id="eactual" rows="3"></textarea>
+                                <textarea class="input-xxlarge {required:true}" name="eactual" id="eactual" rows="3">${historiaClinica.getRowsByIndex()[0][1]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label  class="control-label">Dolor</label>
                             <div class="span2"> 
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Provocado
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Provocado')}"> 
+                                            <input type="checkbox" value="Provocado" name="dolor" checked="checked"> Provocado
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Provocado" name="dolor"> Provocado
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Palpaci&oacute;n
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Palpacion')}"> 
+                                            <input type="checkbox" value="Palpacion" name="dolor" checked="checked"> Palpaci&oacute;n
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Palpacion" name="dolor"> Palpaci&oacute;n
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                             </div>
                             <div class="span2">
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Espont&aacute;neo
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Espontaneo')}"> 
+                                            <input type="checkbox" value="Espontaneo" name="dolor" checked="checked"> Espont&aacute;neo
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Espontaneo" name="dolor"> Espont&aacute;neo
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Percusi&oacute;n
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Percusion')}"> 
+                                            <input type="checkbox" value="Percusion" name="dolor" checked="checked"> Percusi&oacute;n
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Percusion" name="dolor"> Percusi&oacute;n
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                             </div>
                             <div class="span2">
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Irradiado
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Irradiado')}"> 
+                                            <input type="checkbox" value="Irradiado" name="dolor" checked="checked"> Irradiado
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Irradiado" name="dolor"> Irradiado
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Fistula
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Fistula')}"> 
+                                            <input type="checkbox" value="Fistula" name="dolor" checked="checked"> Fistula
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Fistula" name="dolor"> Fistula
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                             </div>
                             <div class="span2">
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Localizado
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Localizado')}"> 
+                                            <input type="checkbox" value="Localizado" name="dolor" checked="checked"> Localizado
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Localizado" name="dolor"> Localizado
+                                        </c:otherwise>     
+                                    </c:choose>
                                 </label>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="" name=""> Inflamaci&oacute;n
+                                    <c:choose>
+                                        <c:when test="${fn:contains(historiaClinica.getRowsByIndex()[0][2], 'Inflamacion')}"> 
+                                            <input type="checkbox" value="Inflamacion" name="dolor" checked="checked"> Inflamaci&oacute;n
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" value="Inflamacion" name="dolor"> Inflamaci&oacute;n
+                                        </c:otherwise>     
+                                    </c:choose>
+
                                 </label>
                             </div>
                         </div>
+                        <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Guardar cambios" id="guardarAnte" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Guardar cambios</button>
+                    </fieldset>
+                </form>
+                <form class="form-horizontal" method="post" id="formImpresion" action="">    
+                    <fieldset>
                         <legend>Impresi&oacute;n clinica</legend>
                         <div class="control-group">
                             <label class="control-label" for="dienteI">Diente</label>
                             <div class="controls">
-                                <textarea class="input-xxlarge {required:true}" name="dienteI" id="dienteI" rows="3"></textarea>
+                                <textarea class="input-xxlarge {required:true}" name="dienteI" id="dienteI" rows="3">${historiaClinica.getRowsByIndex()[0][3]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="tejidos">Tejidos vecinos</label>
                             <div class="controls">
-                                <textarea class="input-xxlarge {required:true}" name="tejidos" id="tejidos" rows="3"></textarea>
+                                <textarea class="input-xxlarge {required:true}" name="tejidos" id="tejidos" rows="3">${historiaClinica.getRowsByIndex()[0][4]}</textarea>
                             </div>
                         </div>
+                        <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Guardar cambios" id="guardarImpresion" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Guardar cambios</button>
+                    </fieldset>
+                </form>
+                <form class="form-horizontal" method="post" id="formVitalometrica" action="">   
+                    <fieldset>
                         <legend>Pruebas vitalom&eacute;tricas</legend>
                         <div class="control-group">
                             <label class="control-label" for="frio">T&eacute;rmicas - frio</label>
                             <div class="controls">
-                                <textarea class="input-xxlarge {required:true}" name="frio" id="frio" rows="3"></textarea>
+                                <textarea class="input-xxlarge {required:true}" name="frio" id="frio" rows="3">${historiaClinica.getRowsByIndex()[0][5]}</textarea>
                             </div>
                         </div>
+                        <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Guardar cambios" id="guardarVitalometrica" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Guardar cambios</button>
                     </fieldset>
                 </form>
-                <legend>Examen radiogr&aacute;fico</legend>
                 <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data">
+                    <legend>Examen radiogr&aacute;fico</legend>
+
                     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                    <div class="row fileupload-buttonbar">
+                    <div class="fileupload-buttonbar">
                         <div class="span7">
                             <!-- The fileinput-button span is used to style the file input field as button -->
                             <span class="btn btn-success fileinput-button">
@@ -8613,111 +8752,118 @@
                         <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
                         </tbody>
                     </table>
+
                 </form>
-                <div class="control-group">
-                    <label class="control-label" for="evaluacion">Evaluaciones del tratamiento endod&oacute;ntico</label>
-                    <div class="controls">
-                        <textarea class="input-xxlarge" name="evaluacion" id="evaluacion" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="ObservacionesE">Observaciones</label>
-                    <div class="controls">
-                        <textarea class="input-xxlarge {required:true}" name="ObservacionesE" id="ObservacionesE" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="etiologia">Etiolog&iacute;a</label>
-                    <div class="controls">
-                        <textarea class="input-xxlarge {required:true}" name="etiologia" id="etiologia" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="diagnosticoE">Diagn&oacute;stico</label>
-                    <div class="controls">
-                        <input type="text" name="tags5" autocomplete="off" placeholder="Diagnostico" class="tagManager5"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="tratamientoE">Tratamiento</label>
-                    <div class="controls">
-                        <input type="text" name="tags6" autocomplete="off" placeholder="Tratamiento" class="tagManager6"/>
-                    </div>
-                </div>
-                <legend>Preparaci&oacute;n biom&eacute;dica</legend>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Canal</th>
-                            <th>Referencia</th>
-                            <th>L.A</th>
-                            <th>L.R.I</th>
-                            <th>L.R.T</th>
-                            <th>Inst Inicial</th>
-                            <th>Lima retroceso</th>
-                            <th>Prepaci&oacute;n apical</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="text" value="" name="canal" class="input-small"/></td>
-                            <td><input type="text" value="" name="referencia" class="input-small"/></td>
-                            <td><select name="la" class="input-small">
-                                    <option value="10">10</option>    
-                                    <option value="15">15</option>    
-                                    <option value="20">20</option>    
-                                    <option value="25">25</option>    
-                                    <option value="30">30</option>    
-                                </select>
-                            </td>
-                            <td><select name="lri" class="input-small">
-                                    <option value="10">10</option>    
-                                    <option value="15">15</option>    
-                                    <option value="20">20</option>    
-                                    <option value="25">25</option>    
-                                    <option value="30">30</option>    
-                                </select></td>
-                            <td><select name="lrt" class="input-small">
-                                    <option value="10">10</option>    
-                                    <option value="15">15</option>    
-                                    <option value="20">20</option>    
-                                    <option value="25">25</option>    
-                                    <option value="30">30</option>    
-                                </select></td>
-                            <td><select name="inst" class="input-small">
-                                    <option value="15">15</option>    
-                                    <option value="20">20</option>    
-                                    <option value="25">25</option>    
-                                    <option value="30">30</option>    
-                                    <option value="35">35</option>    
-                                    <option value="40">40</option>    
-                                    <option value="45">45</option>    
-                                    <option value="50">50</option>    
-                                    <option value="60">60</option>    
-                                    <option value="70">70</option>    
-                                    <option value="80">80</option>    
-                                </select></td>
-                            <td><input type="text" value="" name="lima" class="input-small"/></td>
-                            <td><input type="text" value="" name="preparacion" class="input-small"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <legend>Control de tratamiento</legend>
-                <div class="control-group">
-                    <label class="control-label" for="fechaTrat">Fecha</label>
-                    <div class="controls">
-                        <input type="text" name="fechaTrat" id="fechaTrat" class="input-medium fecha" data-datepicker="datepicker">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="tratamientoR">Tratamiento realizado</label>
-                    <div class="controls">
-                        <input type="text" name="tags10" autocomplete="off" id="tratamientoR" placeholder="Tratamiento realizado" class="tagManager10"/>
-                    </div>
-                </div>
+                <form>
+                    <fieldset>
 
-
-
+                        <div class="control-group">
+                            <label class="control-label" for="evaluacion">Evaluaciones del tratamiento endod&oacute;ntico</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="evaluacion" id="evaluacion" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="ObservacionesE">Observaciones</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="ObservacionesE" id="ObservacionesE" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="etiologia">Etiolog&iacute;a</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge {required:true}" name="etiologia" id="etiologia" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="diagnosticoE">Diagn&oacute;stico</label>
+                            <div class="controls">
+                                <input type="text" name="tags5" autocomplete="off" placeholder="Diagnostico" class="tagManager5"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="tratamientoE">Tratamiento</label>
+                            <div class="controls">
+                                <input type="text" name="tags6" autocomplete="off" placeholder="Tratamiento" class="tagManager6"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <form>
+                    <fieldset>
+                        <legend>Preparaci&oacute;n biom&eacute;dica</legend>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Canal</th>
+                                    <th>Referencia</th>
+                                    <th>L.A</th>
+                                    <th>L.R.I</th>
+                                    <th>L.R.T</th>
+                                    <th>Inst Inicial</th>
+                                    <th>Lima retroceso</th>
+                                    <th>Prepaci&oacute;n apical</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" value="" name="canal" class="input-small"/></td>
+                                    <td><input type="text" value="" name="referencia" class="input-small"/></td>
+                                    <td><select name="la" class="input-small">
+                                            <option value="10">10</option>    
+                                            <option value="15">15</option>    
+                                            <option value="20">20</option>    
+                                            <option value="25">25</option>    
+                                            <option value="30">30</option>    
+                                        </select>
+                                    </td>
+                                    <td><select name="lri" class="input-small">
+                                            <option value="10">10</option>    
+                                            <option value="15">15</option>    
+                                            <option value="20">20</option>    
+                                            <option value="25">25</option>    
+                                            <option value="30">30</option>    
+                                        </select></td>
+                                    <td><select name="lrt" class="input-small">
+                                            <option value="10">10</option>    
+                                            <option value="15">15</option>    
+                                            <option value="20">20</option>    
+                                            <option value="25">25</option>    
+                                            <option value="30">30</option>    
+                                        </select></td>
+                                    <td><select name="inst" class="input-small">
+                                            <option value="15">15</option>    
+                                            <option value="20">20</option>    
+                                            <option value="25">25</option>    
+                                            <option value="30">30</option>    
+                                            <option value="35">35</option>    
+                                            <option value="40">40</option>    
+                                            <option value="45">45</option>    
+                                            <option value="50">50</option>    
+                                            <option value="60">60</option>    
+                                            <option value="70">70</option>    
+                                            <option value="80">80</option>    
+                                        </select></td>
+                                    <td><input type="text" value="" name="lima" class="input-small"/></td>
+                                    <td><input type="text" value="" name="preparacion" class="input-small"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <legend>Control de tratamiento</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="fechaTrat">Fecha</label>
+                            <div class="controls">
+                                <input type="text" name="fechaTrat" id="fechaTrat" class="input-medium fecha" data-datepicker="datepicker">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="tratamientoR">Tratamiento realizado</label>
+                            <div class="controls">
+                                <input type="text" name="tags10" autocomplete="off" id="tratamientoR" placeholder="Tratamiento realizado" class="tagManager10"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>
@@ -8751,9 +8897,35 @@
         <a href="#" id="diceNo" class="btn">No</a>
     </div>
 </div>
-  <!-- The template to display files available for upload -->
-    <script id="template-upload" type="text/x-tmpl">
-        {% for (var i=0, file; file=o.files[i]; i++) { %}
+<div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn modal-download" target="_blank">
+            <i class="icon-download"></i>
+            <span>Descargar</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Anterior</span>
+        </a>
+        <a class="btn btn-primary modal-next">
+            <span>Siguiente</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+    </div>
+</div></div>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
 
         <td class="preview"><span class="fade"></span></td>
@@ -8813,6 +8985,8 @@
     {% } %}
 </script>
 
+<script src="<%=request.getContextPath()%>/assets/js/jquery.ba-hashchange.js"></script>
+
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 <script src="<%=request.getContextPath()%>/js/vendor/jquery.ui.widget.js"></script>
 <!-- The Templates plugin is included to render the upload/download listings -->
@@ -8821,7 +8995,7 @@
 <!-- The Canvas to Blob plugin is included for image resizing functionality -->
 <script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
 <!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
+
 <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
 <script src="<%=request.getContextPath()%>/js/bootstrap-image-gallery.min.js"></script>
 
@@ -8839,4 +9013,6 @@
 <script src="<%=request.getContextPath()%>/js/locale.js"></script>
 <!-- The main application script -->
 <script src="<%=request.getContextPath()%>/js/main.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain fil
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
+<!--[if gte IE 8]><script src="js/cors/jquery.xdr-transport.js"></script><![endif]-->
+

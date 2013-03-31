@@ -13,9 +13,6 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
-        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
         <style type="text/css">
             body {
                 padding-top: 60px;
@@ -172,18 +169,12 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script src="assets/js/bootstrap-transition.js"></script>
-        <script src="assets/js/bootstrap-alert.js"></script>
-        <script src="assets/js/bootstrap-modal.js"></script>
-        <script src="assets/js/bootstrap-carousel.js"></script>
-        <script src="assets/js/bootstrap-dropdown.js"></script>
-        <script src="assets/js/bootstrap-tab.js"></script>
-        <script src="assets/js/bootstrap-button.js"></script>
+        <script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
         <script src="assets/js/bootstrap-datepicker.js"></script>
         <script src="assets/js/jquery.validate.js"></script>
         <script src="assets/js/jquery.metadata.js"></script>
         <script src="assets/js/jquery.ba-hashchange.js"></script>
-        <script src="assets/js/bootstrap-typeahead.js"></script>
+
         <script src='<%=request.getContextPath()%>/js/bootstrap-tagmanager.js' type='text/javascript'></script>
         <script type="text/javascript">
             $(function(){
