@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 31-03-2013 a las 23:53:06
+-- Tiempo de generación: 02-04-2013 a las 01:10:45
 -- Versión del servidor: 5.5.24-log
 -- Versión de PHP: 5.3.13
 
@@ -953,7 +953,7 @@ CREATE TABLE IF NOT EXISTS `historiaclinica` (
 --
 
 INSERT INTO `historiaclinica` (`idhistoriaClinica`, `estadoActual`, `dolor`, `diente`, `tejidosVecinos`, `termicaFrio`, `evaluaciones`, `observaciones`, `etiologia`, `consulta_iddatosConsulta`) VALUES
-(5, 'tengo un estado de vd', 'Palpacion Irradiado ', 'el diente mas grande', 'bn bn si hay', 'ahora si amigo', NULL, NULL, NULL, 19);
+(5, 'tengo un estado de vd', 'Palpacion Irradiado ', 'el diente mas grande', 'bn bn si hay', 'todo bn', 'caries en las cordales', 'sacar las cordales', 'sacar las cordales', 19);
 
 -- --------------------------------------------------------
 
