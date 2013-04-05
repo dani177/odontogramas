@@ -646,7 +646,11 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("interconsultaE", new sqlController().CargarSql2("SELECT `interconsulta_idinterconsulta` FROM `interconsulta_has_datosconsulta` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("planTratamientoE", new sqlController().CargarSql2("SELECT `planTratamiento_idplanTratamiento` FROM `datosconsulta_has_plantratamiento` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("remisionE", new sqlController().CargarSql2("SELECT `remision_idremision` FROM `remision_has_datosconsulta` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
-                sesion.setAttribute("historiaClinica", new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
+                Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
+                sesion.setAttribute("historiaClinica", historia);
+                sesion.setAttribute("preparacionBiomedica", new sqlController().CargarSql2("SELECT * FROM `preparacionbiomedica` WHERE `historiaClinica_idhistoriaClinica`="+historia.getRowsByIndex()[0][0]));
+                
+                
             }
 
             if (request.getParameter("action").equals("agregarDiagnostico")) {
@@ -726,8 +730,8 @@ public class formController extends HttpServlet {
                 Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
 
                 if (historia.getRowCount() == 0) {
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`) "
-                            + "VALUES (NULL , '" + eactual + "', '" + dolores + "', NULL , NULL , NULL , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "')");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`,`corona`, `raiz`, `periapical`) "
+                            + "VALUES (NULL , '" + eactual + "', '" + dolores + "', NULL , NULL , NULL , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "', NULL , NULL , NULL)");
 
 
                 } else {
@@ -744,24 +748,59 @@ public class formController extends HttpServlet {
                 String tejidos = (String) request.getParameter("tejidos");
                 Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
                 if (historia.getRowCount() == 0) {
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`) "
-                            + "VALUES (NULL , 'NULL', 'NULL', " + dienteI + " , " + tejidos + " , NULL , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "')");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`,`corona`, `raiz`, `periapical`) "
+                            + "VALUES (NULL , 'NULL', 'NULL', " + dienteI + " , " + tejidos + " , NULL , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "', NULL , NULL , NULL)");
                 } else {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `diente` = '" + dienteI + "', `tejidosVecinos` = '" + tejidos + "' WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
                 }
             }
+            if (request.getParameter("action").equals("agregarPreparacion")) {
+                HttpSession sesion = request.getSession();
+                Result con = (Result) sesion.getAttribute("consulta");
+                String referencia = (String) request.getParameter("referencia");
+                String inst = (String) request.getParameter("inst");
+                String la = (String) request.getParameter("la");
+                String lima = (String) request.getParameter("lima");
+                String lri = (String) request.getParameter("lri");
+                String lrt = (String) request.getParameter("lrt");
+                String preparacion = (String) request.getParameter("preparacion");
+                String canal2 = (String) request.getParameter("canalete");
+                Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
+                if (historia.getRowCount() == 0) {
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`,`corona`, `raiz`, `periapical`) "
+                            + "VALUES (NULL , 'NULL', 'NULL', NULL , NULL , NULL , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "', NULL , NULL , NULL)");
+                }
+                Result historia2 = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
+                
+                new sqlController().UpdateSql("INSERT INTO `odontogramas`.`preparacionbiomedica` (`idpreparacionBiomedica` ,`canal` ,`referencia` ,`la` ,`lri` ,`lrt` ,`instInicial` ,`limaRetroceso` ,`preApical` ,`historiaClinica_idhistoriaClinica`) "
+                        + "VALUES (NULL , '"+canal2+"', '"+referencia+"', '"+la+"', '"+lri+"', '"+lrt+"', '"+inst+"', '"+lima+"', '"+preparacion+"', '"+historia2.getRowsByIndex()[0][0]+"')");
+                
+                 Result preparacionRecienCreada = new sqlController().CargarSql2("SELECT * FROM preparacionbiomedica ORDER BY `idpreparacionBiomedica` DESC LIMIT 1");
+                 out.print(preparacionRecienCreada.getRowsByIndex()[0][0]);
+            }
+            if (request.getParameter("action").equals("eliminarPreparacion")) {
+             String pid = (String) request.getParameter("pid");
+            
+             new sqlController().UpdateSql("DELETE FROM `odontogramas`.`preparacionbiomedica` WHERE `preparacionbiomedica`.`idpreparacionBiomedica` = "+pid);
+            }
+            
+            
+            
             if (request.getParameter("action").equals("agregarRadiografico")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
+                String corona = (String) request.getParameter("corona");
+                String raiz = (String) request.getParameter("raiz");
+                String periapical = (String) request.getParameter("periapical");
                 String evaluacion = (String) request.getParameter("evaluacion");
                 String ObservacionesE = (String) request.getParameter("ObservacionesE");
                 String etiologia = (String) request.getParameter("etiologia");
                 Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
                 if (historia.getRowCount() == 0) {
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`) "
-                            + "VALUES (NULL , 'NULL', 'NULL', 'NULL' , 'NULL' , 'NULL' , "+evaluacion+" , "+ObservacionesE+" , "+etiologia+" , '" + con.getRowsByIndex()[0][0] + "')");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta` ,`corona` , `raiz` , `periapical`) "
+                            + "VALUES (NULL , 'NULL', 'NULL', 'NULL' , 'NULL' , 'NULL' , "+evaluacion+" , "+ObservacionesE+" , "+etiologia+" , '" + con.getRowsByIndex()[0][0] + "', '"+corona+"', '"+raiz+"', '"+periapical+"')");
                 } else {
-                    new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `evaluaciones` = '" + evaluacion + "', `observaciones`= '" + ObservacionesE + "', `etiologia`= '" + ObservacionesE + "'  WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
+                    new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `evaluaciones` = '" + evaluacion + "', `observaciones`= '" + ObservacionesE + "', `etiologia`= '" + ObservacionesE + "',`corona`='" + corona + "',`raiz`='" + raiz + "',`periapical`='" + periapical + "'  WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
                 }
             }
             if (request.getParameter("action").equals("agregarVitalometrica")) {
@@ -770,8 +809,8 @@ public class formController extends HttpServlet {
                 String frio = (String) request.getParameter("frio");
                 Result historia = new sqlController().CargarSql2("SELECT * FROM `historiaclinica` WHERE `consulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]);
                 if (historia.getRowCount() == 0) {
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta`) "
-                            + "VALUES (NULL , 'NULL', 'NULL', 'NULL' , 'NULL' , "+frio+" , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "')");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`historiaclinica` (`idhistoriaClinica` ,`estadoActual` ,`dolor` ,`diente` ,`tejidosVecinos` ,`termicaFrio` ,`evaluaciones` ,`observaciones` ,`etiologia` ,`consulta_iddatosConsulta` ,`corona` , `raiz` , `periapical`) "
+                            + "VALUES (NULL , 'NULL', 'NULL', 'NULL' , 'NULL' , "+frio+" , NULL , NULL , NULL , '" + con.getRowsByIndex()[0][0] + "' , NULL , NULL , NULL)");
                 } else {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `termicaFrio` = '" + frio + "' WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
                 }

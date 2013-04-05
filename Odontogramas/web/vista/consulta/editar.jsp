@@ -3,16 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
-<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
-<!-- Bootstrap CSS fixes for IE6 -->
-<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-<!-- Bootstrap Image Gallery styles -->
 <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
 <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
 <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -519,7 +512,7 @@
             $.ajax({
                 type: 'POST',
                 url: "<%=request.getContextPath()%>/formController?action=agregarRadiografico",
-                data: ""+$("#fileupload").serialize(),
+                data: ""+$("#formRadiografico").serialize(),
                 success: function() {
                     setTimeout(function() {
                         $("#guardarRadiografico").button('reset');
@@ -566,7 +559,57 @@
 
         });
 
+        $(".eliminarPreparacion").click(function(){
+        var href = $(this).attr("href").split("?");
+        console.log("el objeto es:"+$(this));
+            if(confirm("¿Desea eliminar esta preparaci&oacute;n biom&eacute;dica?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: "<%=request.getContextPath()%>/formController?action=eliminarPreparacion",
+                    data: ""+ href[1],
+                    success: function() {
+                        setTimeout(function() {
+                            console.log($(this));
+                            $(this).parent('tr').remove();
+                        }, 500);
 
+                    } //fin success
+                }); //fin $.ajax    
+            
+            } 
+        });
+
+
+
+        $("#agregarPreparacion").click(function() {
+            $(this).button('loading');
+            $.ajax({
+                type: 'POST',
+                url: "<%=request.getContextPath()%>/formController?action=agregarPreparacion",
+                data: ""+$("#formPreparacion").serialize(),
+                success: function(id) {
+                    setTimeout(function() {
+                        $("<tr>"
+                            +"<td>"+$('#canalete').val()+"</td>"
+                            +"<td>"+$('#referencia').val()+"</td>"
+                            +"<td>"+$('#la').val()+"</td>"
+                            +"<td>"+$('#lri').val()+"</td>"
+                            +"<td>"+$('#lrt').val()+"</td>"
+                            +"<td>"+$('#inst').val()+"</td>"
+                            +"<td>"+$('#lima').val()+"</td>"
+                            +"<td>"+$('#preparacion').val()+"</td>"
+                            +"<td class='action icon16'>"+'<a class="icon-remove eliminarPreparacion" href="#eliminarPreparacion?pid='+id+'" title="Eliminar"></a>'+"</td>"
+                            +"</tr>").insertBefore('#tablaPre tr:last');
+                        $('#formPreparacion').each (function(){
+                            this.reset();
+                        });
+                        $("#agregarPreparacion").button('reset');
+                    }, 500);
+
+                } //fin success
+            }); //fin $.ajax    
+
+        });
         $("#guardarTrat").click(function() {
             $(this).button('loading');
             $.ajax({
@@ -915,13 +958,13 @@
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="control-group">
-                                <label for="motivo2" class="control-label">Motivo</label>
-                                <div class="controls">
-                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                        <div class="control-group">
+                            <label for="motivo2" class="control-label">Motivo</label>
+                            <div class="controls">
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -8581,6 +8624,7 @@
             </div>
         </div>
 
+        <!-----------------PESTANA 6---------------------------->
         <div class="tab-pane fade" id="histo">
             <div class="span12">
                 <form class="form-horizontal" method="post" id="formAnte" action="">
@@ -8723,53 +8767,27 @@
                         <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Guardar cambios" id="guardarVitalometrica" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Guardar cambios</button>
                     </fieldset>
                 </form>
-                <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data">
-                    <legend>Examen radiogr&aacute;fico</legend>
-
-                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                    <div class="fileupload-buttonbar">
-                        <div class="span7">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
-                            <span class="btn btn-success fileinput-button">
-                                <i class="icon-plus icon-white"></i>
-                                <span>Añadir Archivos...</span>
-                                <input type="file" name="files[]" multiple>
-                            </span>
-                            <button type="submit" class="btn btn-primary start">
-                                <i class="icon-upload icon-white"></i>
-                                <span>Iniciar Subida</span>
-                            </button>
-                            <button type="reset" class="btn btn-warning cancel">
-                                <i class="icon-ban-circle icon-white"></i>
-                                <span>Cancelar subida</span>
-                            </button>
-                            <button type="button" class="btn btn-danger delete">
-                                <i class="icon-trash icon-white"></i>
-                                <span>Borrar</span>
-                            </button>
-                            <input type="checkbox" class="toggle">
-                        </div>
-                        <!-- The global progress information -->
-                        <div class="span5 fileupload-progress fade">
-                            <!-- The global progress bar -->
-                            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                <div class="bar" style="width:0%;"></div>
+                <form id="formRadiografico"  method="POST">
+                    <fieldset>
+                        <legend>Examen radiogr&aacute;fico</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="corona">Imagen radiogr&aacute;fica de la corona</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="corona" id="corona" rows="3">${historiaClinica.getRowsByIndex()[0][10]}</textarea>
                             </div>
-                            <!-- The extended global progress information -->
-                            <div class="progress-extended">&nbsp;</div>
                         </div>
-                    </div>
-                    <!-- The loading indicator is shown during file processing -->
-                    <div class="fileupload-loading"></div>
-                    <br>
-                    <!-- The table listing the files available for upload/download -->
-                    <table role="presentation" class="table table-striped">
-                        <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
-                        </tbody>
-                    </table>
-
-                
-
+                        <div class="control-group">
+                            <label class="control-label" for="raiz">Imagen radiogr&aacute;fica de la ra&iacute;z</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="raiz" id="raiz" rows="3">${historiaClinica.getRowsByIndex()[0][11]}</textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="periapical">Imagen radiogr&aacute;fica regi&oacute;n periapical</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="periapical" id="periapical" rows="3">${historiaClinica.getRowsByIndex()[0][12]}</textarea>
+                            </div>
+                        </div>
                         <div class="control-group">
                             <label class="control-label" for="evaluacion">Evaluaciones del tratamiento endod&oacute;ntico</label>
                             <div class="controls">
@@ -8801,81 +8819,97 @@
                             </div>
                         </div>
                         <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Guardar cambios" id="guardarRadiografico" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Guardar cambios</button>                        
+                    </fieldset>
                 </form>
-                <form>
+                <form  id="formPreparacion"  method="POST">
                     <fieldset>
                         <legend>Preparaci&oacute;n biom&eacute;dica</legend>
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="tablaPre">
                             <thead>
                                 <tr>
                                     <th>Canal</th>
                                     <th>Referencia</th>
-                                    <th>L.A</th>
-                                    <th>L.R.I</th>
-                                    <th>L.R.T</th>
+                                    <th>L.A (mm)</th>
+                                    <th>L.R.I (mm)</th>
+                                    <th>L.R.T (mm)</th>
                                     <th>Inst Inicial</th>
                                     <th>Lima retroceso</th>
                                     <th>Prepaci&oacute;n apical</th>
+                                    <th>Acci&oacute;n</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <c:forEach items="${preparacionBiomedica.rowsByIndex}" var="preparacion" varStatus="status">
+                                    <tr>
+                                        <td>${preparacion[1]}</td>
+                                        <td>${preparacion[2]}</td>
+                                        <td>${preparacion[3]}</td>
+                                        <td>${preparacion[4]}</td>
+                                        <td>${preparacion[5]}</td>
+                                        <td>${preparacion[6]}</td>
+                                        <td>${preparacion[7]}</td>
+                                        <td>${preparacion[8]}</td>
+                                        <td class="action icon16">
+                                            <a class="icon-remove eliminarPreparacion" href="#eliminarPreparacion?pid=${preparacion[0]}" title="Eliminar"></a>
+                                        </td>
+                                    </tr>                                    
+                                </c:forEach>
                                 <tr>
-                                    <td><input type="text" value="" name="canal" class="input-small"/></td>
-                                    <td><input type="text" value="" name="referencia" class="input-small"/></td>
-                                    <td><select name="la" class="input-small">
-                                            <option value="10">10</option>    
-                                            <option value="15">15</option>    
-                                            <option value="20">20</option>    
-                                            <option value="25">25</option>    
-                                            <option value="30">30</option>    
+                                    <td><input type="text" value="" name="canalete" id="canalete" class="input-small"/></td>
+                                    <td><input type="text" value="" name="referencia" id="referencia" class="input-small"/></td>
+                                    <td><select name="la" id="la" class="input-small">
+                                            <c:forEach var="numero" items="10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30">
+                                                <option value="${numero}">${numero}</option>    
+                                            </c:forEach>
                                         </select>
                                     </td>
-                                    <td><select name="lri" class="input-small">
-                                            <option value="10">10</option>    
-                                            <option value="15">15</option>    
-                                            <option value="20">20</option>    
-                                            <option value="25">25</option>    
-                                            <option value="30">30</option>    
+                                    <td><select name="lri" id="lri" class="input-small">
+                                            <c:forEach var="numero2" items="10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30">
+                                                <option value="${numero2}">${numero2}</option>    
+                                            </c:forEach>
                                         </select></td>
-                                    <td><select name="lrt" class="input-small">
-                                            <option value="10">10</option>    
-                                            <option value="15">15</option>    
-                                            <option value="20">20</option>    
-                                            <option value="25">25</option>    
-                                            <option value="30">30</option>    
+                                    <td><select name="lrt" id="lrt" class="input-small">
+                                            <c:forEach var="numero3" items="10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30">
+                                                <option value="${numero3}">${numero3}</option>    
+                                            </c:forEach>
                                         </select></td>
-                                    <td><select name="inst" class="input-small">
-                                            <option value="15">15</option>    
-                                            <option value="20">20</option>    
-                                            <option value="25">25</option>    
-                                            <option value="30">30</option>    
-                                            <option value="35">35</option>    
-                                            <option value="40">40</option>    
-                                            <option value="45">45</option>    
-                                            <option value="50">50</option>    
-                                            <option value="60">60</option>    
-                                            <option value="70">70</option>    
-                                            <option value="80">80</option>    
+                                    <td><select name="inst" id="inst" class="input-small">
+                                            <option value="15">L# 15</option>    
+                                            <option value="20">L# 20</option>    
+                                            <option value="25">L# 25</option>    
+                                            <option value="30">L# 30</option>    
+                                            <option value="35">L# 35</option>    
+                                            <option value="40">L# 40</option>    
+                                            <option value="45">L# 45</option>    
+                                            <option value="50">L# 50</option>    
+                                            <option value="60">L# 60</option>    
+                                            <option value="70">L# 70</option>    
+                                            <option value="80">L# 80</option>    
                                         </select></td>
-                                    <td><input type="text" value="" name="lima" class="input-small"/></td>
-                                    <td><input type="text" value="" name="preparacion" class="input-small"/></td>
+                                    <td><input type="text" value="" name="lima" id="lima" class="input-small"/></td>
+                                    <td><input type="text" value="" name="preparacion" id="preparacion" class="input-small"/></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <legend>Control de tratamiento</legend>
-                        <div class="control-group">
-                            <label class="control-label" for="fechaTrat">Fecha</label>
-                            <div class="controls">
-                                <input type="text" name="fechaTrat" id="fechaTrat" class="input-medium fecha" data-datepicker="datepicker">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="tratamientoR">Tratamiento realizado</label>
-                            <div class="controls">
-                                <input type="text" name="tags10" autocomplete="off" id="tratamientoR" placeholder="Tratamiento realizado" class="tagManager10"/>
-                            </div>
-                        </div>
+                        <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Agregar preparaci&oacute;n biom&eacute;dica" id="agregarPreparacion" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Agregar preparaci&oacute;n biom&eacute;dica</button>                        
                     </fieldset>
+                </form>
+                <form>          
+                    <legend>Control de tratamiento</legend>
+                    <div class="control-group">
+                        <label class="control-label" for="fechaTrat">Fecha</label>
+                        <div class="controls">
+                            <input type="text" name="fechaTrat" id="fechaTrat" class="input-medium fecha" data-datepicker="datepicker">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="tratamientoR">Tratamiento realizado</label>
+                        <div class="controls">
+                            <input type="text" name="tags10" autocomplete="off" id="tratamientoR" placeholder="Tratamiento realizado" class="tagManager10"/>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -8934,98 +8968,11 @@
             <i class="icon-arrow-right icon-white"></i>
         </a>
     </div>
-</div></div>
-
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-
-        <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-        <td>
-            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-        </td>
-        <td class="start">{% if (!o.options.autoUpload) { %}
-            <button class="btn btn-primary">
-                <i class="icon-upload icon-white"></i>
-                <span>{%=locale.fileupload.start%}</span>
-            </button>
-            {% } %}</td>
-        {% } else { %}
-        <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>{%=locale.fileupload.cancel%}</span>
-            </button>
-            {% } %}</td>
-    </tr>
-    {% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-        <td></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else { %}
-        <td class="preview">{% if (file.thumbnail_url) { %}
-            <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
-        <td class="name">
-            <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-        </td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td colspan="2"></td>
-        {% } %}
-        <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-trash icon-white"></i>
-                <span>{%=locale.fileupload.destroy%}</span>
-            </button>
-            <input type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-    {% } %}
-</script>
-
-<script src="<%=request.getContextPath()%>/assets/js/jquery.ba-hashchange.js"></script>
-
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="<%=request.getContextPath()%>/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap-image-gallery.min.js"></script>
+</div>
 
 
 
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="<%=request.getContextPath()%>/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
-<!-- The File Upload file processing plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload-fp.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload-ui.js"></script>
-<!-- The localization script -->
-<script src="<%=request.getContextPath()%>/js/locale.js"></script>
-<!-- The main application script -->
-<script src="<%=request.getContextPath()%>/js/main.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE8+ -->
-<!--[if gte IE 8]><script src="js/cors/jquery.xdr-transport.js"></script><![endif]-->
+
+
+
 
