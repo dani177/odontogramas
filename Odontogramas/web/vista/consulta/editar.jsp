@@ -32,6 +32,30 @@
         $('.ultima').datepicker();
         $('.fecha').datepicker();
 
+        $("#agregarControl").click(function(){
+            if($("#formControl input[name='hidden-tags10']").val()!="" && $("#formControl input[name='fechaTrat10']").val()!=""){
+                $.ajax({
+                    type: 'POST',
+                    url: "<%=request.getContextPath()%>/formController?action=agregarControl",
+                    data: "" + $("#formControl").serialize(),
+                    success: function() {
+                        setTimeout(function() {
+                            $("<tr>"
+                                +"<td>"+$('#fechaTrat10').val()+"</td>"
+                                +"<td>"+ $("#formControl input[name='hidden-tags10']").val()+"</td>"
+                                +"</tr>").insertBefore('#controles tr:last');
+                            $('#formControl').each (function(){
+                                this.reset();
+                            });
+                            $(".tagManager10").tagsManager('empty');
+                            $("#agregarControl").button('reset');
+                        }, 500);
+
+                    } //fin success
+                }); //fin $.ajax       
+            }
+            
+        });
         $("#agregarEnfermedad").click(function() {
             var idDiente = $("#dienteSeleccionado").text().split(" ");
             if (!$("#zonaeditar option:selected").val()) {
@@ -559,23 +583,24 @@
 
         });
 
-        $(".eliminarPreparacion").click(function(){
-        var href = $(this).attr("href").split("?");
-        console.log("el objeto es:"+$(this));
-            if(confirm("¿Desea eliminar esta preparaci&oacute;n biom&eacute;dica?")) {
+        $(".eliminarPreparacion").live("click",function(e){
+            var $this=$(this);
+            var href = $(this).attr("href").split("?");
+            if(confirm("¿Desea eliminar esta preparación biomedica?")) {
                 $.ajax({
                     type: 'POST',
                     url: "<%=request.getContextPath()%>/formController?action=eliminarPreparacion",
                     data: ""+ href[1],
                     success: function() {
                         setTimeout(function() {
-                            console.log($(this));
-                            $(this).parent('tr').remove();
+                            $($this).parent('td').parent('tr').remove();
                         }, 500);
 
                     } //fin success
                 }); //fin $.ajax    
             
+            }else{
+                return false;
             } 
         });
 
@@ -659,20 +684,7 @@
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
                 });
-                $(".tagManager6").tagsManager({
-                    prefilled: null,
-                    CapitalizeFirstLetter: false,
-                    preventSubmitOnEnter: true,
-                    typeahead: true,
-                    typeaheadAjaxSource: null,
-                    typeaheadSource: miArray2,
-                    delimeters: [44, 188, 13],
-                    backspace: [8],
-                    blinkBGColor_1: '#FFFF9C',
-                    blinkBGColor_2: '#CDE69C'
-                });
-              
-                                
+                
         </c:when>
         <c:otherwise>
                 var miArrayExT = new Array(${tratamientosExistentes.getRowCount()});
@@ -695,7 +707,57 @@
                
         </c:otherwise>    
     </c:choose>
-
+        
+    <c:choose>
+        <c:when test="${tratamientosExistentes6.getRowCount()==0}">
+                $(".tagManager6").tagsManager({
+                    prefilled: null,
+                    CapitalizeFirstLetter: false,
+                    preventSubmitOnEnter: true,
+                    typeahead: true,
+                    typeaheadAjaxSource: null,
+                    typeaheadSource: miArray2,
+                    delimeters: [44, 188, 13],
+                    backspace: [8],
+                    blinkBGColor_1: '#FFFF9C',
+                    blinkBGColor_2: '#CDE69C'
+                });
+                
+        </c:when>
+        <c:otherwise>
+                var miArrayExT6 = new Array(${tratamientosExistentes6.getRowCount()});
+            <c:forEach items="${tratamientosExistentes6.rowsByIndex}" var="tratamiento6" varStatus="iterT6">
+                    miArrayExT6[${iterT6.index}] = "${tratamiento6[1]} - ${tratamiento6[0]}  - ${tratamiento6[2]}";
+            </c:forEach>
+                  
+                    $(".tagManager6").tagsManager({
+                        prefilled: miArrayExT6,
+                        CapitalizeFirstLetter: false,
+                        preventSubmitOnEnter: true,
+                        typeahead: true,
+                        typeaheadAjaxSource: null,
+                        typeaheadSource: miArray2,
+                        delimeters: [44, 188, 13],
+                        backspace: [8],
+                        blinkBGColor_1: '#FFFF9C',
+                        blinkBGColor_2: '#CDE69C'
+                    });
+               
+        </c:otherwise>    
+    </c:choose>   
+            $(".tagManager10").tagsManager({
+                prefilled: null,
+                CapitalizeFirstLetter: false,
+                preventSubmitOnEnter: true,
+                typeahead: true,
+                typeaheadAjaxSource: null,
+                typeaheadSource: miArray2,
+                delimeters: [44, 188, 13],
+                backspace: [8],
+                blinkBGColor_1: '#FFFF9C',
+                blinkBGColor_2: '#CDE69C'
+            });
+    
             $("#formTrata input[name='hidden-tags2']").change(function() {
                 var tratamiento = $("input[name='hidden-tags2']").val();
                 var presupuesto = 0;
@@ -728,20 +790,6 @@
                     blinkBGColor_1: '#FFFF9C',
                     blinkBGColor_2: '#CDE69C'
                 });
-                $(".tagManager5").tagsManager({
-                    prefilled: null,
-                    CapitalizeFirstLetter: false,
-                    preventSubmitOnEnter: true,
-                    typeahead: true,
-                    typeaheadAjaxSource: null,
-                    typeaheadSource: miArray,
-                    delimeters: [44, 188, 13],
-                    backspace: [8],
-                    blinkBGColor_1: '#FFFF9C',
-                    blinkBGColor_2: '#CDE69C'
-                });    
-               
-                                
         </c:when>
         <c:otherwise>
                 var miArrayEx = new Array(${diagnosticosExistentes.getRowCount()});
@@ -762,6 +810,43 @@
                     });  
                 
                     $("#formTrata input[name='hidden-tags2']").change();
+                
+        </c:otherwise>    
+    </c:choose>
+    <c:choose>
+        <c:when test="${diagnosticosExistentes2.getRowCount()==0}">
+                $(".tagManager5").tagsManager({
+                    prefilled: null,
+                    CapitalizeFirstLetter: false,
+                    preventSubmitOnEnter: true,
+                    typeahead: true,
+                    typeaheadAjaxSource: null,
+                    typeaheadSource: miArray,
+                    delimeters: [44, 188, 13],
+                    backspace: [8],
+                    blinkBGColor_1: '#FFFF9C',
+                    blinkBGColor_2: '#CDE69C'
+                });
+        </c:when>
+        <c:otherwise>
+                var miArrayEx5 = new Array(${diagnosticosExistentes5.getRowCount()});
+            <c:forEach items="${diagnosticosExistentes5.rowsByIndex}" var="diagnostico5" varStatus="iterD5">
+                    miArrayEx5[${iterD5.index}] = "${diagnostico5[1]} - ${diagnostico5[0]}";
+            </c:forEach>
+                    $(".tagManager5").tagsManager({
+                        prefilled: miArrayEx5,
+                        CapitalizeFirstLetter: false,
+                        preventSubmitOnEnter: true,
+                        typeahead: true,
+                        typeaheadAjaxSource: null,
+                        typeaheadSource: miArray,
+                        delimeters: [44, 188, 13],
+                        backspace: [8],
+                        blinkBGColor_1: '#FFFF9C',
+                        blinkBGColor_2: '#CDE69C'
+                    });  
+                
+                    $("#formRadiografico input[name='hidden-tags5']").change();
                 
         </c:otherwise>    
     </c:choose>
@@ -870,7 +955,7 @@
         <li ><a href="#odontoIn" data-toggle="tab"> Dentici&oacute;n permanente</a></li>
         <li ><a href="#odontoFi" data-toggle="tab"> Dentici&oacute;n temporal</a></li>
         <li ><a href="#diag" data-toggle="tab"> Diagnostico y tratamiento </a></li>
-        <li ><a href="#histo" data-toggle="tab"> Historia clinica</a></li>
+        <li ><a href="#histo" data-toggle="tab"> H.C Endodoncia</a></li>
     </ul>
 
 
@@ -8895,21 +8980,47 @@
                         <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Agregar preparaci&oacute;n biom&eacute;dica" id="agregarPreparacion" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Agregar preparaci&oacute;n biom&eacute;dica</button>                        
                     </fieldset>
                 </form>
-                <form>          
-                    <legend>Control de tratamiento</legend>
-                    <div class="control-group">
-                        <label class="control-label" for="fechaTrat">Fecha</label>
-                        <div class="controls">
-                            <input type="text" name="fechaTrat" id="fechaTrat" class="input-medium fecha" data-datepicker="datepicker">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="tratamientoR">Tratamiento realizado</label>
-                        <div class="controls">
-                            <input type="text" name="tags10" autocomplete="off" id="tratamientoR" placeholder="Tratamiento realizado" class="tagManager10"/>
-                        </div>
-                    </div>
+                <form id="formControl" method="post" class="form-horizontal">
+                    <fieldset>
+                        <legend>Control de tratamiento</legend>
+                        <table id="controles" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>fecha</th>
+                                    <th>tratamientos realizados</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:set var="idActual" value="${controles.getRowsByIndex()[0][0]}"></c:set>
+                                <c:set var="tratamientos" value=""></c:set>
 
+                              <%--  <c:forEach items="${controles.rowsByIndex}" var="control" varStatus="status">
+                                    <c:choose>
+                                        <c:when test="${idActual==control[0]}">
+                                            <c:set var="tratamientos" value="${tratamientos} + ',' +${controles[2]}"></c:set>            
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tr>
+                                                <td>${idActual}</td>
+                                                <td>${tratamientos}</td>
+                                                <td class="action icon16">
+                                                    <a class="icon-remove eliminarControl" href="#eliminarControl?pid=${idActual}" title="Eliminar"></a>
+                                                </td>
+                                            </tr> 
+                                            <c:set var="idActual" value="${control[0]}"></c:set>
+                                            <c:set var="tratamientos" value="${control[2]}"></c:set> 
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </c:forEach>--%>
+                                <tr>
+                                    <td><input type="text" name="fechaTrat10" id="fechaTrat10" class="input-medium fecha" data-datepicker="datepicker"></td>
+                                    <td><input type="text" name="tags10" autocomplete="off" id="tratamientoR10" placeholder="Tratamiento realizado" class="tagManager10"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button autocomplete="off" data-loading-text="Guardando cambios..." data-original-title="Agregar control de tratamiento" id="agregarControl" type="button" style="margin-top: 18px;margin-left: 20px;" class="btn">Agregar control de tratamiento</button>                        
+                    </fieldset>
                 </form>
             </div>
         </div>

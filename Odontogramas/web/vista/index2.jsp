@@ -169,7 +169,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="assets/js/bootstrap-datepicker.js"></script>
         <script src="assets/js/jquery.validate.js"></script>
         <script src="assets/js/jquery.metadata.js"></script>
