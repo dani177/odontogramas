@@ -951,7 +951,7 @@
 <div>
     <ul id="tab" class="nav nav-tabs">
         <li class="active"><a href="#profile" data-toggle="tab"> Datos basicos</a></li>
-        <li ><a href="#otro" data-toggle="tab"> Examen Fisico estomatologico</a></li>
+        <li ><a href="#otro" data-toggle="tab"> Examen Fis&iacute;co estomatologico</a></li>
         <li ><a href="#odontoIn" data-toggle="tab"> Dentici&oacute;n permanente</a></li>
         <li ><a href="#odontoFi" data-toggle="tab"> Dentici&oacute;n temporal</a></li>
         <li ><a href="#diag" data-toggle="tab"> Diagnostico y tratamiento </a></li>
@@ -986,7 +986,7 @@
                         <table class="table table-striped table-bordered table-condensed">
                             <thead>
                                 <tr>
-                                    <th>Datos Basicos</th>
+                                    <th>Datos B&aacute;sicos</th>
                                     <th>Si</th>
                                     <th>No</th>
                                     <th>No Sabe</th>
@@ -1040,7 +1040,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
+                            <label for="ultima" class="control-label">Ultima Visita al odont&oacute;logo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
                             </div>
@@ -1092,7 +1092,7 @@
             <div class="span12">
                 <form class="form-horizontal" id="datos3">
                     <fieldset>
-                        <legend>III. Examen Fisico Estomatologico</legend>
+                        <legend>III. Examen F&iacute;sico Estomatologico</legend>
                         <div class="control-group">
                             <label for="temperatura" class="control-label">Temperatura</label>
                             <div class="controls">
@@ -1106,7 +1106,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="tension" class="control-label">Tension A.</label>
+                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
                             <div class="controls">
                                 <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
                             </div>
@@ -1170,10 +1170,10 @@
                                     </c:choose>
                                     <c:choose>
                                         <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][5] == "Aveces"}'>
-                                            <option selected="selected" value="Aveces">Aveces</option>
+                                            <option selected="selected" value="Aveces">A veces</option>
                                         </c:when>
                                         <c:otherwise>
-                                            <option value="Aveces">Aveces</option>
+                                            <option value="Aveces">A veces</option>
                                         </c:otherwise>
 
                                     </c:choose>
@@ -1206,7 +1206,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Cuantas veces al dia</label>
+                            <label class="control-label">Cuantas veces al d&iacute;a</label>
                             <div class="controls">
                                 <select id="veces" name="veces">
                                     <c:choose>
@@ -1286,10 +1286,10 @@
                                     </c:choose>
                                     <c:choose>
                                         <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][8] == "Aveces"}'>
-                                            <option selected="selected" value="Aveces">Aveces</option>
+                                            <option selected="selected" value="Aveces">A veces</option>
                                         </c:when>
                                         <c:otherwise>
-                                            <option value="Aveces">Aveces</option>
+                                            <option value="Aveces">A veces</option>
                                         </c:otherwise>
 
                                     </c:choose>
@@ -1320,10 +1320,10 @@
                                     </c:choose>
                                     <c:choose>
                                         <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][9] == "Aveces"}'>
-                                            <option selected="selected" value="Aveces">Aveces</option>
+                                            <option selected="selected" value="Aveces">A veces</option>
                                         </c:when>
                                         <c:otherwise>
-                                            <option value="Aveces">Aveces</option>
+                                            <option value="Aveces">A veces</option>
                                         </c:otherwise>
 
                                     </c:choose>
@@ -1331,7 +1331,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Habitos y vicios</label>
+                            <label class="control-label">H&aacute;bitos y vicios</label>
                             <div class="controls">
                                 <select id="habitosYvicios" name="habitosYvicios">
                                     <option></option>

@@ -452,7 +452,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
+                    <a class="brand" href="#">Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">

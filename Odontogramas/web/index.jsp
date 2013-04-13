@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
@@ -31,7 +32,7 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</title>
+        <title>Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="description" content="">
                 <meta name="author" content="">
@@ -201,12 +202,12 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a>
-                                    <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
+                                    <a class="brand" href="#">Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
 
                                     <ul class="nav pull-right">
                                         <li><a href="#registro">Crear cuenta</a></li>
                                         <li id="fat-menu" class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Iniciar Sesion <b class="caret"></b></a>
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Iniciar Sesi&oacute;n <b class="caret"></b></a>
                                             <ul class="dropdown-menu" style="padding-top: 0px; padding-bottom: 0px;">
                                                 <form class="well" id="formulario_login" action="" style="margin-bottom: 0px;">
                                                     <div class='alert alert-error' style="display: none">
@@ -280,13 +281,13 @@
                         <div class="modal hide fade" id="myModalRegistro">
                             <div class="modal-header">
                                 <a data-dismiss="modal" class="close">×</a>
-                                <h3>Registro</h3>
+                                <h3>Registro de M&eacute;dicos</h3>
                             </div>
                             <div class="modal-body">
                                 <form id="registro" class="form-horizontal">
                                     <fieldset>
                                         <div class="control-group">
-                                            <label for="cedula" class="control-label">Cedula</label>
+                                            <label for="cedula" class="control-label">C&eacute;dula</label>
                                             <div class="controls">
                                                 <input type="text" id="input01" class="input-xlarge {required:true}" name="cedula">
                                             </div>
@@ -298,13 +299,13 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label for="direccion" class="control-label">Direccion</label>
+                                            <label for="direccion" class="control-label">Direcci&oacute;n</label>
                                             <div class="controls">
                                                 <input type="text" id="direccion" class="input-xlarge {required:true}" name="direccion">
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label for="telefono" class="control-label">Telefono</label>
+                                            <label for="telefono" class="control-label">Tel&eacute;fono</label>
                                             <div class="controls">
                                                 <input type="text" id="telefono" class="input-xlarge {required:true}" name="telefono">
                                             </div>
@@ -323,7 +324,7 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label for="codigo" class="control-label">Codigo</label>
+                                            <label for="codigo" class="control-label">C&oacute;digo</label>
                                             <div class="controls">
                                                 <input type="text" id="codigo" class="input-xlarge {required:true}" name="codigo"/>
                                             </div>
