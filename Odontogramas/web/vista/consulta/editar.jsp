@@ -10,16 +10,16 @@
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-        <!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
-        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
-        <!-- Bootstrap CSS fixes for IE6 -->
-        <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-        <!-- Bootstrap Image Gallery styles -->
-        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
-        <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
-        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
+<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css">
+<!-- Bootstrap CSS fixes for IE6 -->
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<!-- Bootstrap Image Gallery styles -->
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+<!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-image-gallery.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery.fileupload-ui.css">
 
 <script src='<%=request.getContextPath()%>/js/jquery.reel-min.js' type='text/javascript'></script>
 <script src='<%=request.getContextPath()%>/js/jquery.disabletextselect-min.js' type='text/javascript'></script>
@@ -28,7 +28,7 @@
 <script src='<%=request.getContextPath()%>/js/sampler.js' type='text/javascript'></script>
 <script src="<%=request.getContextPath()%>/assets/js/jquery.ba-hashchange.js"></script>
 <style type="text/css">
-    .diente{
+    .diente, .mini{
         cursor: pointer;
     }
     .badge input{
@@ -397,6 +397,11 @@
                 }
 
             }
+        })
+
+        $(".mini").click(function(ev) {
+            console.log("mini click");
+            $("#dienteMini").text("Diente " + $(this).attr("id"));
         })
 
         $(".diente2").click(function(ev) {
@@ -1567,7 +1572,7 @@
                             <g id="incluido">
                             <c:choose>
                                 <c:when test="${dientesEnfermos.getRowCount()== 0}">
-
+      
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach items="${dientesEnfermos.rowsByIndex}" var="diente" varStatus="iter">
@@ -1628,7 +1633,7 @@
                                                               c0-0.378-0.038-0.611-0.114-0.699c-0.105-0.117-0.281-0.176-0.527-0.176h-0.211v-0.163h4.59l0.066,1.305h-0.172
                                                               c-0.062-0.313-0.129-0.529-0.204-0.646c-0.074-0.117-0.185-0.207-0.331-0.268c-0.117-0.044-0.324-0.066-0.62-0.066H139.166z"/>
                                                         </g>
-
+      
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Incluido"}'>
                                                         <g class="incluido">
@@ -9042,7 +9047,7 @@
 
         <!-----------------PESTANA 7---------------------------->
         <div class="tab-pane fade" id="radiografia">
-            <div class="row">
+            <div class="row" style="width: 900px;">
                 <div class="span2" style="margin-left:20px;">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="123.515px" height="240px" viewBox="0 240 123.515 240" enable-background="new 0 240 123.515 240" xml:space="preserve">
@@ -9334,10 +9339,10 @@
                     </svg>
                 </div>
                 <div class="span8">
-                      <div class="container">
-
+                    <div class="container" style="width: 800px;">
+                        <h3 id="dienteMini"></h3>
                         <!-- The file upload form used as target for the file upload widget -->
-                        <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data">
+                        <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data" style="800px;">
                             <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                             <div class="row fileupload-buttonbar">
                                 <div class="span7">
@@ -9362,7 +9367,7 @@
                                     <input type="checkbox" class="toggle">
                                 </div>
                                 <!-- The global progress information -->
-                                <div class="span5 fileupload-progress fade">
+                                <div class="span3 fileupload-progress fade">
                                     <!-- The global progress bar -->
                                     <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                                         <div class="bar" style="width:0%;"></div>
@@ -9451,35 +9456,35 @@
         </a>
     </div>
 </div>
-    <div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
-            <div class="modal-header">
-                <a class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title"></h3>
-            </div>
-            <div class="modal-body"><div class="modal-image"></div></div>
-            <div class="modal-footer">
-                <a class="btn modal-download" target="_blank">
-                    <i class="icon-download"></i>
-                    <span>Descargar</span>
-                </a>
-                <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
-                    <i class="icon-play icon-white"></i>
-                    <span>Slideshow</span>
-                </a>
-                <a class="btn btn-info modal-prev">
-                    <i class="icon-arrow-left icon-white"></i>
-                    <span>Anterior</span>
-                </a>
-                <a class="btn btn-primary modal-next">
-                    <span>Siguiente</span>
-                    <i class="icon-arrow-right icon-white"></i>
-                </a>
-            </div>
-        </div></div>
+<div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn modal-download" target="_blank">
+            <i class="icon-download"></i>
+            <span>Descargar</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Anterior</span>
+        </a>
+        <a class="btn btn-primary modal-next">
+            <span>Siguiente</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+    </div>
+</div></div>
 
-    <!-- The template to display files available for upload -->
-    <script id="template-upload" type="text/x-tmpl">
-        {% for (var i=0, file; file=o.files[i]; i++) { %}
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
 
         <td class="preview"><span class="fade"></span></td>

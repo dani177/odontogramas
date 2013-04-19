@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.sql.Result;
 import javax.swing.JOptionPane;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -56,10 +58,14 @@ public class Odontogramas extends HttpServlet {
 
                     actual = item;
                     String fileName = actual.getName();
+                    HttpSession sesion = request.getSession();
+                    Result res = (Result) sesion.getAttribute("consulta");
 
                     String str = request.getSession().getServletContext().getRealPath("/file/");
                     String str2 = request.getSession().getServletContext().getRealPath("/thumbnails/");
-
+                    
+                    
+                    fileName = "C"+res.getRowsByIndex()[0][0]+""+fileName; 
 
                     // nos quedamos solo con el nombre y descartamos el path
                     File fichero = new File(str + "\\" + fileName);
@@ -79,7 +85,7 @@ public class Odontogramas extends HttpServlet {
 
 
 
-                    writer.write("[{\"name\":\"" + item.getName() + "\",\"size\":\"" + item.getSize() + "\",\"url\":\"/Odontogramas/file/" + item.getName() + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + item.getName() + "\",\"delete_url\":\"/Odontogramas/file/" + item.getName() + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + item.getContentType() + "\"}]");
+                    writer.write("[{\"name\":\"" + fileName + "\",\"size\":\"" + item.getSize() + "\",\"url\":\"/Odontogramas/file/" + fileName + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + fileName + "\",\"delete_url\":\"/Odontogramas/file/" + fileName + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + item.getContentType() + "\"}]");
 
                     break; // assume we only get one file at a time
                 }

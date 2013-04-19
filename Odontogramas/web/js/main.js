@@ -68,7 +68,6 @@ $(function () {
         $('#fileupload').each(function () {
             var that = this;
             $.getJSON("/Odontogramas/cargar", function (result) {
-                console.log("jajaja");
                 if (result && result.length) {
                     $(that).fileupload('option', 'done')
                     .call(that, null, {
