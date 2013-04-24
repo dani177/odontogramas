@@ -400,7 +400,20 @@
         })
 
         $(".mini").click(function(ev) {
-            console.log("mini click");
+            $.ajax({
+                type: 'POST',
+                url: "<%=request.getContextPath()%>/formController?action=asignarDiente",
+                data: "diente=" + $(this).attr("id"),
+                success: function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Odontogramas/vista/consulta/uploaderX.jsp",
+                        success: function(data) {
+                            $("#uploaderX").html(data);
+                        }
+                    })    
+                }
+            })
             $("#dienteMini").text("Diente " + $(this).attr("id"));
         })
 
@@ -1061,13 +1074,13 @@
                             <label for="ultima" class="control-label">Ultima Visita al odont&oacute;logo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="control-group">
-                                <label for="motivo2" class="control-label">Motivo</label>
-                                <div class="controls">
-                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                        <div class="control-group">
+                            <label for="motivo2" class="control-label">Motivo</label>
+                            <div class="controls">
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
@@ -1423,7 +1436,7 @@
 
         </div>
 
-              <!-----------------PESTANA 3---------------------------->
+        <!-----------------PESTANA 3---------------------------->
         <div class="tab-pane fade" id="odontoIn">
             <div class="span12">
                 <form class="form-horizontal">
@@ -1572,7 +1585,7 @@
                             <g id="incluido">
                             <c:choose>
                                 <c:when test="${dientesEnfermos.getRowCount()== 0}">
-      
+
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach items="${dientesEnfermos.rowsByIndex}" var="diente" varStatus="iter">
@@ -1633,7 +1646,7 @@
                                                               c0-0.378-0.038-0.611-0.114-0.699c-0.105-0.117-0.281-0.176-0.527-0.176h-0.211v-0.163h4.59l0.066,1.305h-0.172
                                                               c-0.062-0.313-0.129-0.529-0.204-0.646c-0.074-0.117-0.185-0.207-0.331-0.268c-0.117-0.044-0.324-0.066-0.62-0.066H139.166z"/>
                                                         </g>
-      
+
                                                     </c:when>
                                                     <c:when test='${diente[1]=="Incluido"}'>
                                                         <g class="incluido">
@@ -8515,7 +8528,7 @@
                 </div>        
             </div>
         </div>
-                            
+
         <!-----------------PESTANA 5---------------------------->
         <div class="tab-pane fade" id="diag">
             <div class="span12">
@@ -9338,63 +9351,8 @@
                     </g>
                     </svg>
                 </div>
-                <div class="span8">
-                    <div class="container" style="width: 800px;">
-                        <h3 id="dienteMini"></h3>
-                        <!-- The file upload form used as target for the file upload widget -->
-                        <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data" style="800px;">
-                            <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                            <div class="row fileupload-buttonbar">
-                                <div class="span7">
-                                    <!-- The fileinput-button span is used to style the file input field as button -->
-                                    <span class="btn btn-success fileinput-button">
-                                        <i class="icon-plus icon-white"></i>
-                                        <span>Añadir Archivos...</span>
-                                        <input type="file" name="files[]" multiple>
-                                    </span>
-                                    <button type="submit" class="btn btn-primary start">
-                                        <i class="icon-upload icon-white"></i>
-                                        <span>Iniciar Subida</span>
-                                    </button>
-                                    <button type="reset" class="btn btn-warning cancel">
-                                        <i class="icon-ban-circle icon-white"></i>
-                                        <span>Cancelar subida</span>
-                                    </button>
-                                    <button type="button" class="btn btn-danger delete">
-                                        <i class="icon-trash icon-white"></i>
-                                        <span>Borrar</span>
-                                    </button>
-                                    <input type="checkbox" class="toggle">
-                                </div>
-                                <!-- The global progress information -->
-                                <div class="span3 fileupload-progress fade">
-                                    <!-- The global progress bar -->
-                                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="bar" style="width:0%;"></div>
-                                    </div>
-                                    <!-- The extended global progress information -->
-                                    <div class="progress-extended">&nbsp;</div>
-                                </div>
-                            </div>
-                            <!-- The loading indicator is shown during file processing -->
-                            <div class="fileupload-loading"></div>
-                            <br>
-                            <!-- The table listing the files available for upload/download -->
-                            <table role="presentation" class="table table-striped">
-                                <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
-                                </tbody>
-                            </table>
-                        </form>
-                        <br>
-                        <div class="well">
-                            <h3>Atención!</h3>
-                            <ul> 
-                                <li>El tamaño máximo de archivos para subir es <strong>20 MB</strong>.</li>
-                                <%--<li>Uploaded files will be deleted automatically after <strong>5 minutes</strong> (demo setting).</li>--%>
-                                <li>Tu puedes <strong>arrastrar &amp; soltar</strong> archivos desde tu computador en éste sitio con Google Chrome, Mozilla Firefox y Apple Safari.</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="span8" id="uploaderX">
+                  
                 </div>
             </div>
 
@@ -9481,93 +9439,5 @@
         </a>
     </div>
 </div></div>
-
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade">
-
-        <td class="preview"><span class="fade"></span></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        {% if (file.error) { %}
-        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-        <td>
-            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
-        </td>
-        <td class="start">{% if (!o.options.autoUpload) { %}
-            <button class="btn btn-primary">
-                <i class="icon-upload icon-white"></i>
-                <span>{%=locale.fileupload.start%}</span>
-            </button>
-            {% } %}</td>
-        {% } else { %}
-        <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>{%=locale.fileupload.cancel%}</span>
-            </button>
-            {% } %}</td>
-    </tr>
-    {% } %}
-</script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-download fade">
-        {% if (file.error) { %}
-        <td></td>
-        <td class="name"><span>{%=file.name%}</span></td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else { %}
-        <td class="preview">{% if (file.thumbnail_url) { %}
-            <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-            {% } %}</td>
-        <td class="name">
-            <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-        </td>
-        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-        <td colspan="2"></td>
-        {% } %}
-        <td class="delete">
-            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
-                <i class="icon-trash icon-white"></i>
-                <span>{%=locale.fileupload.destroy%}</span>
-            </button>
-            <input type="checkbox" name="delete" value="1">
-        </td>
-    </tr>
-    {% } %}
-</script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="<%=request.getContextPath()%>/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="js/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/load-image.min.js"></script>
-<script src="<%=request.getContextPath()%>/js/bootstrap-image-gallery.min.js"></script>
-
-
-
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="<%=request.getContextPath()%>/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload.js"></script>
-<!-- The File Upload file processing plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload-fp.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="<%=request.getContextPath()%>/js/jquery.fileupload-ui.js"></script>
-<!-- The localization script -->
-<script src="<%=request.getContextPath()%>/js/locale.js"></script>
-<!-- The main application script -->
-<script src="<%=request.getContextPath()%>/js/main.js"></script>
 
 

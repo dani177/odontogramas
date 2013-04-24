@@ -120,6 +120,11 @@ public class formController extends HttpServlet {
                 }
                 sesion.setAttribute("listaDePacientes", new sqlController().CargarSql2("SELECT paciente.* FROM `medico_has_paciente` inner join paciente on paciente.idpersona=`paciente_idpersona` where `medico_idmedico`=" + med.getRowsByIndex()[0][0]));
             }
+            if (request.getParameter("action").equals("asignarDiente")) {
+                HttpSession sesion = request.getSession();
+                String dienteId = request.getParameter("diente");
+                sesion.setAttribute("dienteId", dienteId);
+            }
             if (request.getParameter("action").equals("editarDocente2")) {
                 HttpSession sesion = request.getSession();
                 Result doc = (Result) sesion.getAttribute("docente");

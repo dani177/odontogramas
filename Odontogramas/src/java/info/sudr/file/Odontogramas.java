@@ -49,23 +49,22 @@ public class Odontogramas extends HttpServlet {
         PrintWriter writer = response.getWriter();
 
         response.setContentType("text/plain");
+        HttpSession sesion = request.getSession();
+        Result res = (Result) sesion.getAttribute("consulta");
+        String dienteId = (String) sesion.getAttribute("dienteId");
         try {
             List<FileItem> items = uploadHandler.parseRequest(request);
             for (FileItem item : items) {
                 if (!item.isFormField()) {
 
                     FileItem actual = null;
-
                     actual = item;
                     String fileName = actual.getName();
-                    HttpSession sesion = request.getSession();
-                    Result res = (Result) sesion.getAttribute("consulta");
-
                     String str = request.getSession().getServletContext().getRealPath("/file/");
                     String str2 = request.getSession().getServletContext().getRealPath("/thumbnails/");
-                    
-                    
-                    fileName = "C"+res.getRowsByIndex()[0][0]+""+fileName; 
+
+
+                    fileName = "" + res.getRowsByIndex()[0][0] + "-" + dienteId + "-" + fileName;
 
                     // nos quedamos solo con el nombre y descartamos el path
                     File fichero = new File(str + "\\" + fileName);
@@ -77,9 +76,9 @@ public class Odontogramas extends HttpServlet {
                     // escribimos el fichero colgando del nuevo path
                     actual.write(fichero);
 
-                    BufferedImage img = new BufferedImage(80, 60,BufferedImage.TYPE_INT_RGB);
-                    img.createGraphics().drawImage(ImageIO.read(fichero).getScaledInstance(80,60, Image.SCALE_SMOOTH), 0, 0, null);
-                    ImageIO.write(img,"jpg", new File(str2 + "\\" + fileName));
+                    BufferedImage img = new BufferedImage(80, 60, BufferedImage.TYPE_INT_RGB);
+                    img.createGraphics().drawImage(ImageIO.read(fichero).getScaledInstance(80, 60, Image.SCALE_SMOOTH), 0, 0, null);
+                    ImageIO.write(img, "jpg", new File(str2 + "\\" + fileName));
 
 
 

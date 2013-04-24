@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.jstl.sql.Result;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -41,6 +43,9 @@ public class cargar extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
         response.setContentType("application/json;charset=UTF-8");
+        HttpSession sesion = request.getSession();
+        Result res = (Result) sesion.getAttribute("consulta");
+        String dienteId = (String) sesion.getAttribute("dienteId");
         try {
 
 
@@ -52,19 +57,24 @@ public class cargar extends HttpServlet {
             File fichero = new File(str);
 
             String[] ficheros = fichero.list();
-            String aux="";
+            String aux = "";
             if (ficheros == null) {
             } else {
                 for (int i = 0; i < ficheros.length; i++) {
                     String elementos[] = ficheros[i].split("\\.");
-                    if(i+1==ficheros.length){
-                    aux+=  "{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"}";    
+                    String elemento2[] = ficheros[i].split("-");
+                    if (!aux.equals("")) {
+                        if (elemento2[0].equals(""+res.getRowsByIndex()[0][0]) && elemento2[1].equals(""+dienteId)) {
+                            aux += ",{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"}";
+                        }
                     }else{
-                        aux+=  "{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"},";
+                    if (elemento2[0].equals(""+res.getRowsByIndex()[0][0]) && elemento2[1].equals(""+dienteId)) {
+                            aux += "{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"}";
+                        }
                     }
-                    
+
                 }
-                writer.write("["+aux+"]");
+                writer.write("[" + aux + "]");
             }
 
         } catch (Exception e) {
