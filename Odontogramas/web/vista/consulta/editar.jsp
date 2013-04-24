@@ -410,11 +410,12 @@
                         url: "/Odontogramas/vista/consulta/uploaderX.jsp",
                         success: function(data) {
                             $("#uploaderX").html(data);
+                         
                         }
                     })    
                 }
             })
-            $("#dienteMini").text("Diente " + $(this).attr("id"));
+           
         })
 
         $(".diente2").click(function(ev) {

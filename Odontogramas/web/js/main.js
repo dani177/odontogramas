@@ -15,9 +15,14 @@
 $(function () {
     'use strict';
 
+    var maxFilesAllowed=8;
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload();
-  
+    $('#fileupload').fileupload({
+        maxFileSize: 5000000,
+        acceptFileTypes: /(\.|\/)(gif|jpg|png)$/i,
+        maxNumberOfFiles: maxFilesAllowed
+    // dropZone: null
+    });
     // Enable iframe cross-domain access via redirect option:
     $('#fileupload').fileupload(
         'option',
@@ -27,13 +32,13 @@ $(function () {
             '/cors/result.html?%s'
             )
         );
-
+ 
     if (window.location.hostname === '127.0.0.1') {
-        
         // Demo settings:
         $('#fileupload').fileupload('option', {
             url: '//Odontogramas/',
-            maxFileSize: 5000000,
+            maxFileSize: 50000000,
+            maxNumberOfFiles: 8,
             acceptFileTypes: /(\.|\/)(gif|jpg|png)$/i,
             process: [
             {
@@ -66,13 +71,14 @@ $(function () {
     } else {
         // Load existing files:
         $('#fileupload').each(function () {
+            
             var that = this;
             $.getJSON("/Odontogramas/cargar", function (result) {
                 if (result && result.length) {
-                    $(that).fileupload('option', 'done')
-                    .call(that, null, {
-                        result: result
-                    });
+                    $(that).fileupload('option', 'maxNumberOfFiles', maxFilesAllowed - result.length);
+                    $(that).fileupload('option', 'done').call(that, null, {result: result});
+                    $(that).data('fileupload')._adjustMaxNumberOfFiles(maxFilesAllowed - result.length);
+                    console.log(""+maxFilesAllowed - result.length);
                 }
             });
         });

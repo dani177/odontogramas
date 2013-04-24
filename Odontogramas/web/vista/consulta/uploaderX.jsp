@@ -1,5 +1,7 @@
 <div class="container" style="width: 800px;">
-    <h3 id="dienteMini"></h3>
+    <h4 id="dienteMini">
+        Diente ${dienteId}
+    </h4>
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="<%=request.getContextPath()%>/Odontogramas" method="POST" enctype="multipart/form-data" style="800px;">
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
