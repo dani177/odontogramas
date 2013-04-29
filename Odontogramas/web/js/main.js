@@ -79,11 +79,7 @@ $(function () {
                         result: result
                     });
                     $(that).data('fileupload')._adjustMaxNumberOfFiles(0);
-                    
-                    
-                    
-                    
-                    
+                   
                 }
             });
         });

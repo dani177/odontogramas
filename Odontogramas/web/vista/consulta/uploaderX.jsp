@@ -50,9 +50,9 @@
     <div class="well">
         <h3>Atención!</h3>
         <ul> 
-            <li>El tamaño máximo de archivos para subir es <strong>20 MB</strong>.</li>
-            <%--<li>Uploaded files will be deleted automatically after <strong>5 minutes</strong> (demo setting).</li>--%>
-            <li>Tu puedes <strong>arrastrar &amp; soltar</strong> archivos desde tu computador en éste sitio con Google Chrome, Mozilla Firefox y Apple Safari.</li>
+            <li>Puede subir m&aacute;ximo <strong>8</strong> radiograf&iacute;as por diente.</li>
+            <li>El tamaño m&aacute;ximo de radiograf&iacute;a para subir es <strong>20 MB</strong>.</li>
+            <li>Usted puede <strong>arrastrar &amp; soltar</strong> archivos desde tu computador en éste sitio con Google Chrome, Mozilla Firefox y Apple Safari.</li>
         </ul>
     </div>
 </div>
