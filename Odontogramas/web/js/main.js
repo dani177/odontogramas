@@ -71,7 +71,6 @@ $(function () {
     } else {
         // Load existing files:
         $('#fileupload').each(function () {
-            console.log("03-"+maxFilesAllowed);
             var that = this;
             $.getJSON("/Odontogramas/cargar", function (result) {
                 if (result && result.length) {
