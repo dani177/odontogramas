@@ -71,14 +71,20 @@ $(function () {
     } else {
         // Load existing files:
         $('#fileupload').each(function () {
-            
+            console.log("03-"+maxFilesAllowed);
             var that = this;
             $.getJSON("/Odontogramas/cargar", function (result) {
                 if (result && result.length) {
                     $(that).fileupload('option', 'maxNumberOfFiles', maxFilesAllowed - result.length);
-                    $(that).fileupload('option', 'done').call(that, null, {result: result});
-                    $(that).data('fileupload')._adjustMaxNumberOfFiles(maxFilesAllowed - result.length);
-                    console.log(""+maxFilesAllowed - result.length);
+                    $(that).fileupload('option', 'done').call(that, null, {
+                        result: result
+                    });
+                    $(that).data('fileupload')._adjustMaxNumberOfFiles(0);
+                    
+                    
+                    
+                    
+                    
                 }
             });
         });
