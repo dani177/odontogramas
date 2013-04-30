@@ -26,6 +26,10 @@
                     <span>Borrar</span>
                 </button>
                 <input type="checkbox" class="toggle">
+                <button type="button" class="btn btn-info" id="comparador">
+                    <i class="icon-eye-open icon-white"></i>
+                    <span>Comparar</span>
+                </button>
             </div>
             <!-- The global progress information -->
             <div class="span3 fileupload-progress fade">
