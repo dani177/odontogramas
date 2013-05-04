@@ -12,6 +12,36 @@
         <title>Comparador</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
         <style>
+            /* styles unrelated to zoom */
+            * { border:0; margin:0; padding:0; }
+            p { position:absolute; top:3px; right:28px; color:#555; font:bold 13px/1 sans-serif;}
+
+            /* these styles are for the demo, but are not required for the plugin */
+            .zoom {
+                display:inline-block;
+                position: relative;
+            }
+
+            /* magnifying glass icon */
+            .zoom:after {
+                content:'';
+                display:block; 
+                width:33px; 
+                height:33px; 
+                position:absolute; 
+                top:0;
+                right:0;
+            }
+
+            .zoom img {
+                display: block;
+            }
+
+            .zoom img::selection { background-color: transparent; }
+
+        </style>
+
+        <style>
 
             #outer_container{
                 position:fixed;
@@ -30,8 +60,8 @@
                     );
             }
             #thumbScroller{
-                position:fixed;
-                left: 0px;
+                position:absolute;
+                left:0;
                 overflow:hidden;
             }
             #thumbScroller .container{
@@ -157,7 +187,7 @@
                 background:transparent url(images/icons/title.png) no-repeat top left;
                 z-index:2;
             }
-          
+
         </style>
 
         <script type="text/javascript">
@@ -178,18 +208,10 @@
             })
         </script>
         <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-
-        <script>
-            $(function() {
-                $( "#draggable3" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
-                $( "#draggable5" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
-            });
-        </script>
+        <script type="text/javascript" src="js/jquery.zoom-min.js"></script>
         <script type="text/javascript">
             $(function() {
-                sliderLeft=$('#thumbScroller .container').position().left;
-                padding=$('#outer_container').css('paddingRight').replace("px", "");
-                sliderWidth=$(window).width()-padding;
+                sliderWidth=700;
                 $('#thumbScroller').css('width',sliderWidth);
                 var totalContent=0;
                 $('#thumbScroller .content').each(function () {
@@ -212,7 +234,7 @@
                 
                 $('#thumbScroller').mousemove(function(e){
                     if($('#thumbScroller  .container').width()>sliderWidth){
-                        var mouseCoords=(e.pageX - this.offsetLeft);
+                        var mouseCoords=(e.pageX - 530);
                         var mousePercentX=mouseCoords/sliderWidth;
                         var destX=-(((totalContent-(sliderWidth))-sliderWidth)*(mousePercentX));
                         var thePosA=mouseCoords-destX;
@@ -241,9 +263,10 @@
     <body>
         <div id="containment-wrapper">
             <div id="draggable3" class="draggable ui-widget-content">
-
+                <div id="cuadro1" class="zoom"></div>
             </div>
             <div id="draggable5" class="draggable ui-widget-content">
+                <div id="cuadro2" class="zoom"></div>
                 <div id="slider" style="position: absolute;top:60px;right: -15px" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all">
                     <a href="#" class="ui-slider-handle ui-state-default ui-corner-all"></a>
                 </div>    
@@ -266,187 +289,201 @@
             <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>
         </div>
         <script type="text/javascript">
-            $(function() {
+            $(function(){
+                setTimeout(function() {
                 
-                var slide_int = null;
+                    var slide_int = null;
 
-                function update_slider(){
-                    var offset = $('.ui-slider-handle').offset();
-                    var value = $('#slider').slider('option', 'value');
-                    $( "#draggable5" ).css("opacity",value/10);
-                    //console.log('Value is '+value);
+                    function update_slider(){
+                        var offset = $('.ui-slider-handle').offset();
+                        var value = $('#slider').slider('option', 'value');
+                        $( "#draggable5" ).css("opacity",value/10);
+                        //console.log('Value is '+value);
                     
-                }
+                    }
 
-                $('#slider').slider({
-                    animate: true,
-                    step: 1,
-                    min: 3,
-                    value: 5,
-                    orientation: 'vertical',
-                    max: 10,
-                    start: function(event, ui){
-                        slide_int = setInterval(update_slider, 10);	
-                    },
-                    slide: function(event, ui){
-                        setTimeout(update_slider, 10);  
-                    },
-                    stop: function(event, ui){
-                        clearInterval(slide_int);
-                        slide_int = null;
-                    }
-                });	
-                
-                
-                
-                //current thumb's index being viewed
-                var current			= -1;
-                //cache some elements
-                var $btn_thumbs = $('#fp_thumbtoggle');
-                var $loader		= $('#fp_loading');
-                var $btn_next		= $('#fp_next');
-                var $btn_prev		= $('#fp_prev');
-                var $thumbScroller	= $('#thumbScroller');
-				
-                //total number of thumbs
-                var nmb_thumbs		= $thumbScroller.find('.content').length;
-				
-                //preload thumbs
-                var cnt_thumbs 		= 0;
-                for(var i=0;i<nmb_thumbs;++i){
-                    var $thumb = $thumbScroller.find('.content:nth-child('+parseInt(i+1)+')');
-                    $('<img/>').load(function(){
-                        ++cnt_thumbs;
-                        if(cnt_thumbs == nmb_thumbs)
-                        //display the thumbs on the bottom of the page
-                            showThumbs(2000);
-                    }).attr('src',$thumb.find('img').attr('src'));
-                }
-				
-				
-                
-				
-                //clicking on a thumb...
-                $thumbScroller.find('.content').bind('click',function(e){
-                    var $currImage = null;
-                    if(!$("#draggable3").find("img").length){
-                        $currImage = $('#draggable3'); 
-                        $($currImage).
-                            append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
-                    }else{
-                        if(!$("#draggable5").find("img").length){
-                            $currImage = $('#draggable5'); 
-                            $($currImage).
-                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                    $('#slider').slider({
+                        animate: true,
+                        step: 1,
+                        min: 3,
+                        value: 5,
+                        orientation: 'vertical',
+                        max: 10,
+                        start: function(event, ui){
+                            slide_int = setInterval(update_slider, 10);	
+                        },
+                        slide: function(event, ui){
+                            setTimeout(update_slider, 10);  
+                        },
+                        stop: function(event, ui){
+                            clearInterval(slide_int);
+                            slide_int = null;
                         }
+                    });	
+                
+                
+                
+                    //current thumb's index being viewed
+                    var current			= -1;
+                    //cache some elements
+                    var $btn_thumbs = $('#fp_thumbtoggle');
+                    var $loader		= $('#fp_loading');
+                    var $btn_next		= $('#fp_next');
+                    var $btn_prev		= $('#fp_prev');
+                    var $thumbScroller	= $('#thumbScroller');
+				
+                    //total number of thumbs
+                    var nmb_thumbs		= $thumbScroller.find('.content').length;
+				
+                    //preload thumbs
+                    var cnt_thumbs 		= 0;
+                    for(var i=0;i<nmb_thumbs;++i){
+                        var $thumb = $thumbScroller.find('.content:nth-child('+parseInt(i+1)+')');
+                        $('<img/>').load(function(){
+                            ++cnt_thumbs;
+                            if(cnt_thumbs == nmb_thumbs)
+                            //display the thumbs on the bottom of the page
+                                showThumbs(2000);
+                        }).attr('src',$thumb.find('img').attr('src'));
                     }
-                    if($currImage!=null){    
-                        var $content= $(this);
-                        var $elem 	= $content.find('img');
-                        //keep track of the current clicked thumb
-                        //it will be used for the navigation arrows
-                        current 	= $content.index()+1;
-                        //get the positions of the clicked thumb
-                        var pos_left 	= $elem.offset().left;
-                        var pos_top 	= $elem.offset().top;
-                        //clone the thumb and place
-                        //the clone on the top of it
-                        var $clone 	= $elem.clone()
-                        .addClass('clone')
-                        .css({
-                            'position':'fixed',
-                            'left': pos_left + 'px',
-                            'top': pos_top + 'px'
-                        }).insertAfter($('BODY'));
+				
+				
+                
+				
+                    //clicking on a thumb...
+                    $thumbScroller.find('.content').bind('click',function(e){
+                        var $currImage = null;
+                        var $currImage2 = null;
+                        if(!$("#draggable3").find("img").length){
+                            $currImage2 = $('#cuadro1'); 
+                            $currImage = $('#draggable3'); 
+                               $($currImage).
+                              append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                        }else{
+                            if(!$("#draggable5").find("img").length){
+                                $currImage2 = $('#cuadro2'); 
+                                $currImage = $('#draggable5'); 
+                            $($currImage).
+                              append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                            }
+                        }
+                        if($currImage!=null){    
+                            var $content= $(this);
+                            var $elem 	= $content.find('img');
+                            //keep track of the current clicked thumb
+                            //it will be used for the navigation arrows
+                            current 	= $content.index()+1;
+                            //get the positions of the clicked thumb
+                            var pos_left 	= $elem.offset().left;
+                            var pos_top 	= $elem.offset().top;
+                            //clone the thumb and place
+                            //the clone on the top of it
+                            var $clone 	= $elem.clone()
+                            .addClass('clone')
+                            .css({
+                                'position':'fixed',
+                                'left': pos_left + 'px',
+                                'top': pos_top + 'px'
+                            }).insertAfter($('BODY'));
 					
-                        var windowW = $(window).width();
-                        var windowH = $(window).height();
-					
-                        //animate the clone to the center of the page
-                        $clone.stop()
-                        .animate({
-                            'left': windowW/2 + 'px',
-                            'top': windowH/2 + 'px',
-                            'margin-left' :-$clone.width()/2 -5 + 'px',
-                            'margin-top': -$clone.height()/2 -5 + 'px'
-                        },500,
-                        function(){
-                            var $theClone 	= $(this);
-                            var ratio		= $clone.width()/120;
-                            var final_w		= 400*ratio;
+                            var windowW = $(window).width();
+                            var windowH = $(window).height();
+				
+                            //animate the clone to the center of the page
+                            $clone.stop()
+                            .animate({
+                                'left': windowW/2 + 'px',
+                                'top': windowH/2 + 'px',
+                                'margin-left' :-$clone.width()/2 -5 + 'px',
+                                'margin-top': -$clone.height()/2 -5 + 'px'
+                            },500,
+                            function(){
+                                var $theClone 	= $(this);
+                                var ratio		= $clone.width()/120;
+                                var final_w		= 400*ratio;
 						
-                            $loader.show();
+                                $loader.show();
                        
                       
-                            $('<img class="fp_preview"/>').load(function(){
-                                var $newimg 		= $(this);
-                            
-                           
-                                $newimg.appendTo($currImage);
-                                $loader.hide();
-                                //expand clone
-                                $theClone.animate({
-                                    'opacity'		: 0,
-                                    'top'			: windowH/2 + 'px',
-                                    'left'			: windowW/2 + 'px',
-                                    'margin-top'	: '-200px',
-                                    'margin-left'	: -final_w/2 + 'px',
-                                    'width'			: final_w + 'px',
-                                    'height'		: '400px'
-                                },1000,function(){$(this).remove();});
-                                //now we have two large images on the page
-                                //fadeOut the old one so that the new one gets shown
-                                /* $currImage.fadeOut(2000,function(){
+                                $("<img class='fp_preview'/>").load(function(){
+                                    var $newimg 		= $(this);
+                                    $newimg.appendTo($currImage2);
+                                    $('.zoom').zoom({ on:'click' });
+                                    $loader.hide();
+                                    //expand clone
+                                    $theClone.animate({
+                                        'opacity'		: 0,
+                                        'top'			: windowH/2 + 'px',
+                                        'left'			: windowW/2 + 'px',
+                                        'margin-top'	: '-200px',
+                                        'margin-left'	: -final_w/2 + 'px',
+                                        'width'			: final_w + 'px',
+                                        'height'		: '400px'
+                                    },1000,function(){$(this).remove();});
+                                    //now we have two large images on the page
+                                    //fadeOut the old one so that the new one gets shown
+                                    /* $currImage.fadeOut(2000,function(){
                                          $(this).remove();
                                      });*/
                             
-                            }).attr('src',$elem.attr('alt'));
+                                }).attr('src',$elem.attr('alt'));
+                                
+                                //expand the clone when large image is loaded
                        
-                            //expand the clone when large image is loaded
-                       
-                        });
-                        //hide the thumbs container
-                        //hideThumbs();
-                        e.preventDefault();
-                    }
-                });
+                            });
+                            //hide the thumbs container
+                            //hideThumbs();
+                            e.preventDefault();
+                        }
+                        
+                    });
 				
-                //clicking on the "show thumbs"
-                //displays the thumbs container and hides
-                //the navigation arrows
-                /*$btn_thumbs.bind('click',function(){
+                    //clicking on the "show thumbs"
+                    //displays the thumbs container and hides
+                    //the navigation arrows
+                    /*$btn_thumbs.bind('click',function(){
                                             showThumbs(500);
                                             hideNav();
                                     });*/
 				
-                /*function hideThumbs(){
+                    /*function hideThumbs(){
                                             $('#outer_container').stop().animate({'bottom':'-160px'},500);
                                             showThumbsBtn();
                                     }*/
 
-                function showThumbs(speed){
-                    $('#outer_container').stop().animate({'bottom':'0px'},speed);
-                    hideThumbsBtn();
-                }
+                    function showThumbs(speed){
+                        $('#outer_container').stop().animate({'bottom':'0px'},speed);
+                        hideThumbsBtn();
+                    }
 				
-                function hideThumbsBtn(){
-                    $btn_thumbs.stop().animate({'bottom':'-50px'},500);
-                }
+                    function hideThumbsBtn(){
+                        $btn_thumbs.stop().animate({'bottom':'-50px'},500);
+                    }
 
-                function showThumbsBtn(){
-                    $btn_thumbs.stop().animate({'bottom':'0px'},500);
-                }
+                    function showThumbsBtn(){
+                        $btn_thumbs.stop().animate({'bottom':'0px'},500);
+                    }
 
-                //events for navigating through the set of images
-                /* $btn_next.bind('click',showNext);
+                    //events for navigating through the set of images
+                    /* $btn_next.bind('click',showNext);
                      $btn_prev.bind('click',showPrev);*/
 				
-                //the aim is to load the new image,
-                //place it before the old one and fadeOut the old one
-                //we use the current variable to keep track which
-                //image comes next / before
+                    //the aim is to load the new image,
+                    //place it before the old one and fadeOut the old one
+                    //we use the current variable to keep track which
+                    //image comes next / before
               
 		
+                }, 200);
+            });
+        </script>
+
+        <script>
+                
+            $(function() {
+                $( "#draggable3" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
+                $( "#draggable5" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
+                //
             });
         </script>
     </body>

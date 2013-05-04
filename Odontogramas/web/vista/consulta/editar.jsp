@@ -2123,7 +2123,7 @@
 
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          width="125.997px" height="200px" viewBox="12.999 20 125.997 200" enable-background="new 12.999 20 125.997 200"
-                         xml:space="preserve" style="margin-bottom: 60px;">
+                         xml:space="preserve">
                     <g id="Layer_2">
 
                     <image overflow="visible" enable-background="new    " width="302" height="480" xlink:href="<%=request.getContextPath()%>/images/ninos.gif"  transform="matrix(0.4172 0 0 0.4167 12.9985 19.9995)">
