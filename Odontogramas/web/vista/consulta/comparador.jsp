@@ -46,7 +46,7 @@
             #outer_container{
                 position:fixed;
                 bottom:-160px;	/*-160px to hide*/
-                margin:0px 0px 30px 0px;
+                margin:0px 0px 10px 0px;
                 height:130px;
                 padding:0;
                 -webkit-box-reflect:
@@ -152,7 +152,7 @@
                 height: 100%;
             }
 
-            .draggable { width: 180px; height: 244px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+            .draggable { width: 180px; height: 244px; padding: 0.5em; float: left; margin: 0 10px 10px 0;top:10px }
             #draggable, #draggable2 { margin-bottom:20px; }
             #draggable { cursor: n-resize; }
             #draggable2 { cursor: e-resize; }
@@ -261,18 +261,30 @@
 
     </head>
     <body>
-        <div id="containment-wrapper">
-            <div id="draggable3" class="draggable ui-widget-content">
-                <div id="cuadro1" class="zoom"></div>
+        <div class="row">
+            <div class="span10">
+                <div id="containment-wrapper">
+                    <div id="draggable3" class="draggable ui-widget-content">
+                        <div id="cuadro1" class="zoom"></div>
+                    </div>
+                    <div id="draggable5" class="draggable ui-widget-content">
+                        <div id="cuadro2" class="zoom"></div>
+                        <div id="slider" style="position: absolute;top:60px;right: -15px" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all">
+                            <a href="#" class="ui-slider-handle ui-state-default ui-corner-all"></a>
+                        </div>    
+                    </div>
+                </div>
             </div>
-            <div id="draggable5" class="draggable ui-widget-content">
-                <div id="cuadro2" class="zoom"></div>
-                <div id="slider" style="position: absolute;top:60px;right: -15px" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all">
-                    <a href="#" class="ui-slider-handle ui-state-default ui-corner-all"></a>
-                </div>    
+            <div class="span2">
+                <div style="width: 300px;height: 300px;">
+                    <h4 id="labelComentario">Comparacion</h4>
+                    <textarea id="comentario" name="comentario" rows="9" cols="8"></textarea>
+                    <button type="button" class="btn" id="guardarComentario" data-original-title="Guardar comentario" data-loading-text="Guardando comentarios..." autocomplete="off">Guardar comentario</button>
+                </div>
             </div>
-
         </div>
+
+
 
         <div id="fp_gallery" class="fp_gallery">
             <img src="images/1.jpg" alt="" class="fp_preview" style="display:none;"/>
@@ -290,6 +302,21 @@
         </div>
         <script type="text/javascript">
             $(function(){
+                
+                $("#guardarComentario").live("click",function(){
+                    $(this).button('loading');
+                    $.ajax({
+                        type: 'POST',
+                        url: "<%=request.getContextPath()%>/formController?action=agregarComentario",
+                        data: "comentario=" + $("#comentario").val() + "&rx1="+$("#draggable3").find("h5").html()+ "&rx2="+$("#draggable5").find("h5").html(),
+                        success: function() {
+                            setTimeout(function() {
+                                $("#guardarComentario").button('reset');
+                            }, 500);
+                        } //fin success
+                    }); //fin $.ajax
+                })
+                
                 setTimeout(function() {
                 
                     var slide_int = null;
@@ -357,14 +384,16 @@
                         if(!$("#draggable3").find("img").length){
                             $currImage2 = $('#cuadro1'); 
                             $currImage = $('#draggable3'); 
-                               $($currImage).
-                              append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                            $($currImage).
+                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                
                         }else{
                             if(!$("#draggable5").find("img").length){
                                 $currImage2 = $('#cuadro2'); 
                                 $currImage = $('#draggable5'); 
-                            $($currImage).
-                              append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                $($currImage).
+                                    append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                    
                             }
                         }
                         if($currImage!=null){    
@@ -407,6 +436,35 @@
                       
                                 $("<img class='fp_preview'/>").load(function(){
                                     var $newimg 		= $(this);
+                                    var nombre = $newimg.attr("src").split("/");
+                                    var nom = nombre[nombre.length-1].split(".");
+                                    
+                                    $($currImage).append("<h5 class='rx' style='position:absolute;right:70px;top:-30px;'>"+nom[0]);
+                                    
+                                    if($($currImage).attr("id")=="draggable5"){
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: "<%=request.getContextPath()%>/formController?action=obtenerComentario",
+                                            data: "rx1="+$("#draggable3").find("h5").html()+ "&rx2="+$("#draggable5").find("h5").html(),
+                                            dataType: "json",
+                                            success: function(data) {
+                                                if(data!=null){
+                                                $.each(data['0']["comentario"], function(index, value) {
+                                                    var b = data['0']["comentario"][index]['comentario'];
+                                                    $("#comentario").val(b);
+                                                });    
+                                                }else{
+                                                    $("#comentario").val("");
+                                                }
+                                                
+                                                setTimeout(function() {
+                                                    
+                                                    $("#guardarComentario").button('reset');
+                                                }, 500);
+                                            } //fin success
+                                        }); //fin $.ajax  
+                                    }
+                                    
                                     $newimg.appendTo($currImage2);
                                     $('.zoom').zoom({ on:'click' });
                                     $loader.hide();
