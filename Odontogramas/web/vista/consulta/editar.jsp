@@ -422,9 +422,16 @@
            
             $.ajax({
                 type: 'POST',
-                url: "/Odontogramas/vista/consulta/comparador.jsp",
-                success: function(data) {
-                    $("#uploaderX").html(data);
+                url: "<%=request.getContextPath()%>/formController?action=historial",
+                success: function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Odontogramas/vista/consulta/comparador.jsp",
+                        success: function(data) {
+                            $("#uploaderX").html(data);
+                         
+                        }
+                    }) 
                          
                 }
             })    
@@ -1452,7 +1459,7 @@
 
         </div>
 
-                <!-----------------PESTANA 3---------------------------->
+        <!-----------------PESTANA 3---------------------------->
         <div class="tab-pane fade" id="odontoIn">
             <div class="span12">
                 <form class="form-horizontal">
@@ -8544,8 +8551,8 @@
                 </div>        
             </div>
         </div>
-                    
-                            
+
+
         <!-----------------PESTANA 5---------------------------->
         <div class="tab-pane fade" id="diag">
             <div class="span12">

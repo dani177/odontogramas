@@ -1,0 +1,98 @@
+/*
+ * navigation
+ */
+ 
+.lhp_miv_nav {
+	position:relative;
+	width:216px;
+	z-index:2;
+}
+
+.lhp_miv_nav_pos_T {
+	top:5px;
+	margin:0 auto;
+}
+
+.lhp_miv_nav_pos_TL {
+	top:5px;
+	left:5px;
+}
+
+.lhp_miv_nav_pos_TR {
+	top:5px;
+	right:5px;
+	position:absolute;
+}
+
+.lhp_miv_nav_pos_B {
+	bottom:-35px;
+	left:50%;
+	position:absolute;
+	margin-left:-108px;
+}
+
+.lhp_miv_nav_pos_BL {
+	bottom:5px;
+	left: 5px;
+	position:absolute;
+}
+
+.lhp_miv_nav_pos_BR {
+	bottom:5px;
+	right:5px;
+	position:absolute;
+}
+
+.lhp_miv_nav_pos_L {
+	left: 5px;
+	top:50%;
+	margin-top:-108px;
+	width:27px;
+}
+
+.lhp_miv_nav_pos_R {
+	right: 5px;
+	position:absolute;
+	top:50%;
+	margin-top:-108px;
+	width:27px;
+}
+
+.lhp_miv_nav ul {
+	margin:0;
+	padding:0;
+}
+
+.lhp_miv_nav ul li {
+	position:relative; 
+	padding:4px 0; 
+	cursor:pointer; 
+	float:left; 
+	list-style:none;
+	margin-right:1px;
+	margin-bottom:1px;
+}
+
+.lhp_miv_nav ul li span {
+	float:left; 
+	margin:0 4px;
+}
+
+ul li.lhp_miv_nav_btt_disab {
+	cursor:default;
+}
+
+/*
+ * preloader
+ */
+ .lhp_miv_preload_holder {
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-15px;
+	margin-left:-15px;
+	z-index:2;
+	width:31px;
+	height:31px;
+	background-image:url('lhp_miv/ajax-loader.gif');
+}

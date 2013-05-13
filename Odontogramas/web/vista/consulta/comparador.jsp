@@ -1,8 +1,4 @@
-<%-- 
-    Document   : comparador
-    Created on : 29/04/2013, 09:03:30 AM
-    Author     : Ususario
---%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,20 +7,25 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Comparador</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/lhp_miv.css" />
         <style>
             /* styles unrelated to zoom */
             * { border:0; margin:0; padding:0; }
             p { position:absolute; top:3px; right:28px; color:#555; font:bold 13px/1 sans-serif;}
 
             /* these styles are for the demo, but are not required for the plugin */
-            .zoom {
-                display:inline-block;
+            .zoom4 {
+                /*display:inline-block;*/
                 position: relative;
+                width:100%; 
+                height:100%; 
+                overflow:visible; 
+                border:solid 1px #a6a6a6; 
+
             }
 
             /* magnifying glass icon */
-            .zoom:after {
-                content:'';
+            .zoom4:after {
                 display:block; 
                 width:33px; 
                 height:33px; 
@@ -33,18 +34,18 @@
                 right:0;
             }
 
-            .zoom img {
+            .zoom4 img {
                 display: block;
             }
 
-            .zoom img::selection { background-color: transparent; }
+            .zoom4 img::selection { background-color: transparent; }
 
         </style>
 
         <style>
 
             #outer_container{
-                position:fixed;
+                position:relative;
                 bottom:-160px;	/*-160px to hide*/
                 margin:0px 0px 10px 0px;
                 height:130px;
@@ -207,8 +208,46 @@
                 
             })
         </script>
-        <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-        <script type="text/javascript" src="js/jquery.zoom-min.js"></script>
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.21.custom.min.js"></script>
+        <!-- jQuery easing plugin-->
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.easing.1.3.js"></script>
+        <!-- jQuery mousewheel plugin-->
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.mousewheel.min.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                var iX=-1,iY=-1,fX=-1,fY=-1, distancia;
+                $("#cv").live("click",function(e){
+                    var ctx = $('#cv').get(0).getContext('2d');
+                   
+                  if(iX==-1){
+                        iX= e.pageX;
+                        iY= e.pageY;
+                        ctx.beginPath();
+                       ctx.arc(50,50-10,200,0,2*Math.PI);
+                       ctx.fillStyle="yellow"; 
+                       ctx.fill();    
+                       ctx.strokeStyle="yellow"; 
+                       ctx.stroke();
+                    }else{
+                        fX= e.pageX;
+                        fY= e.pageY;
+                        ctx.beginPath();
+                        ctx.arc(fX-10,fY-10,2,0,2*Math.PI);
+                        ctx.fillStyle="yellow"; 
+                        ctx.fill();    
+                        ctx.strokeStyle="yellow"; 
+                        ctx.stroke();
+                        distancia = Math.sqrt((Math.pow((iX-fX),2))+(Math.pow((iY-fY),2)));
+                        alert("la distancia entre los 2 puntos es:"+distancia);
+                        iX=-1,iY=-1,fX=-1,fY=-1;
+                    }
+                     
+                     
+                }) 
+            });
+        </script>
+        <!-- lhpMegaImgViewer plugin -->
+        <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.lhpMegaImgViewer.min_1.js"></script>
         <script type="text/javascript">
             $(function() {
                 sliderWidth=700;
@@ -265,10 +304,10 @@
             <div class="span10">
                 <div id="containment-wrapper">
                     <div id="draggable3" class="draggable ui-widget-content">
-                        <div id="cuadro1" class="zoom"></div>
+                        <div id="cuadro1" class="zoom4"></div>
                     </div>
                     <div id="draggable5" class="draggable ui-widget-content">
-                        <div id="cuadro2" class="zoom"></div>
+                        <div id="cuadro2" class="zoom4"></div>
                         <div id="slider" style="position: absolute;top:60px;right: -15px" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all">
                             <a href="#" class="ui-slider-handle ui-state-default ui-corner-all"></a>
                         </div>    
@@ -277,29 +316,58 @@
             </div>
             <div class="span2">
                 <div style="width: 300px;height: 300px;">
-                    <h4 id="labelComentario">Comparacion</h4>
+                    <h4 id="labelComentario">Comentario radiogr&aacute;fico</h4>
                     <textarea id="comentario" name="comentario" rows="9" cols="8"></textarea>
                     <button type="button" class="btn" id="guardarComentario" data-original-title="Guardar comentario" data-loading-text="Guardando comentarios..." autocomplete="off">Guardar comentario</button>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div id="fp_gallery" class="fp_gallery">
+                <img src="images/1.jpg" alt="" class="fp_preview" style="display:none;"/>
+                <div id="fp_loading" class="fp_loading"></div>
+                <div id="fp_next" class="fp_next"></div>
+                <div id="fp_prev" class="fp_prev"></div>
+                <div id="outer_container">
+                    <div id="thumbScroller">
+                        <div class="container" id="contenedorCompara" >
 
-
-
-        <div id="fp_gallery" class="fp_gallery">
-            <img src="images/1.jpg" alt="" class="fp_preview" style="display:none;"/>
-            <div id="fp_loading" class="fp_loading"></div>
-            <div id="fp_next" class="fp_next"></div>
-            <div id="fp_prev" class="fp_prev"></div>
-            <div id="outer_container">
-                <div id="thumbScroller">
-                    <div class="container" id="contenedorCompara" >
-
+                        </div>
                     </div>
                 </div>
+                <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>
             </div>
-            <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>
         </div>
+        <div class="row">
+            <h4>Comentarios de radiografias</h4>
+            <c:choose>
+                <c:when test="${historias.getRowCount()!= 0}">
+
+                    <table class="table table-striped table-bordered table-condensed">
+                        <thead>
+                        <th>Rx1</th>    
+                        <th>Rx2</th>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${historias.rowsByIndex}" var="row" varStatus="iter">
+                                <tr>
+                                    <td>   
+                                        <c:out value="${row[0]}"/>
+                                    </td>
+                                    <td>   
+                                        <c:out value="${row[1]}"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    No existen Comentarios radiogr&aacute;ficos.
+                </c:otherwise>
+            </c:choose>
+        </div>
+
         <script type="text/javascript">
             $(function(){
                 
@@ -441,32 +509,66 @@
                                     
                                     $($currImage).append("<h5 class='rx' style='position:absolute;right:70px;top:-30px;'>"+nom[0]);
                                     
-                                    if($($currImage).attr("id")=="draggable5"){
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: "<%=request.getContextPath()%>/formController?action=obtenerComentario",
-                                            data: "rx1="+$("#draggable3").find("h5").html()+ "&rx2="+$("#draggable5").find("h5").html(),
-                                            dataType: "json",
-                                            success: function(data) {
-                                                if(data!=null){
+                                    
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: "<%=request.getContextPath()%>/formController?action=obtenerComentario",
+                                        data: "rx1="+$("#draggable3").find("h5").html()+ "&rx2="+$("#draggable5").find("h5").html(),
+                                        dataType: "json",
+                                        success: function(data) {
+                                            if(data!=null){
                                                 $.each(data['0']["comentario"], function(index, value) {
                                                     var b = data['0']["comentario"][index]['comentario'];
                                                     $("#comentario").val(b);
                                                 });    
-                                                }else{
-                                                    $("#comentario").val("");
-                                                }
+                                            }else{
+                                                $("#comentario").val("");
+                                            }
                                                 
-                                                setTimeout(function() {
+                                            setTimeout(function() {
                                                     
-                                                    $("#guardarComentario").button('reset');
-                                                }, 500);
-                                            } //fin success
-                                        }); //fin $.ajax  
-                                    }
+                                                $("#guardarComentario").button('reset');
+                                            }, 500);
+                                        } //fin success
+                                    }); //fin $.ajax  
                                     
-                                    $newimg.appendTo($currImage2);
-                                    $('.zoom').zoom({ on:'click' });
+                                    //$newimg.appendTo($currImage2);
+                                    var customizeMeStt = {
+                                        viewportWidth:"100%",
+                                        viewportHeight:"100%",
+                                        fitToViewportShortSide:false,
+                                        contentSizeOver100:false,
+                                        startScale:0.1,
+                                        startX:0,
+                                        startY:0,
+                                        animTime:500,
+                                        draggInertia:0,
+                                        contentUrl:""+$newimg.attr("src"),
+                                        intNavEnable:true,
+                                        intNavPos:"B",
+                                        intNavAutoHide:false,
+                                        intNavMoveDownBtt:true,
+                                        intNavMoveUpBtt:true,
+                                        intNavMoveRightBtt:true,
+                                        intNavMoveLeftBtt:true,
+                                        intNavZoomBtt:true,
+                                        intNavUnzoomBtt:true,
+                                        intNavFitToViewportBtt:true,
+                                        intNavFullSizeBtt:false,
+                                        mapEnable:true,
+                                        mapThumb:null,
+                                        mapPos:"BL",
+                                        popupShowAction:"click",
+                                        testMode:false
+                                    };
+                                    $currImage2.lhpMegaImgViewer(customizeMeStt);
+                                    setTimeout(function(){
+                                        $(".lhp_miv_content_holder").prepend("<canvas width='180px' height='244px' id='cv' style='position:absolute;left:0px;'></canvas>");
+                                    }, 300);
+                                    
+                                   
+                                   
+                                   
                                     $loader.hide();
                                     //expand clone
                                     $theClone.animate({
@@ -539,8 +641,8 @@
         <script>
                 
             $(function() {
-                $( "#draggable3" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
-                $( "#draggable5" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false });
+                $( "#draggable3" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false , cancel: ".zoom4"});
+                $( "#draggable5" ).draggable({ cursor: "move", containment: "#containment-wrapper", scroll: false, cancel: ".zoom4" });
                 //
             });
         </script>

@@ -21,11 +21,12 @@
                     <i class="icon-ban-circle icon-white"></i>
                     <span>Cancelar subida</span>
                 </button>
+                <br/>
+                <input type="checkbox" class="toggle">
                 <button type="button" class="btn btn-danger delete">
                     <i class="icon-trash icon-white"></i>
                     <span>Borrar</span>
                 </button>
-                <input type="checkbox" class="toggle">
                 <button type="button" class="btn btn-info" id="comparador">
                     <i class="icon-eye-open icon-white"></i>
                     <span>Comparar</span>

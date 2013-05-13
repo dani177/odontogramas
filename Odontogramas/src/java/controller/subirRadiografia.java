@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Oscar
+ * @author Andres
  */
 public class subirRadiografia extends HttpServlet {
 
