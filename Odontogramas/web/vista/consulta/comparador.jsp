@@ -217,33 +217,81 @@
             $(function(){
                 var iX=-1,iY=-1,fX=-1,fY=-1, distancia;
                 $("#cv").live("click",function(e){
-                    var ctx = $('#cv').get(0).getContext('2d');
-                   
-                  if(iX==-1){
-                        iX= e.pageX;
-                        iY= e.pageY;
+                    var canvas = document.getElementById("cv");
+                    var ctx = canvas.getContext("2d");
+                    //var ctx = $('#cv').get(0).getContext('2d');
+                    var mouse = {x:e.clientX,y:e.clientY};
+                    var $div = $('#cv');
+                    var div = {x:$div.offset().left - $(window).scrollLeft(),y:$div.offset().top - $(window).scrollTop()};
+                    
+                    
+                    if(iX==-1){
+                        iX = (mouse.x - div.x); 
+                        iY = (mouse.y - div.y);
                         ctx.beginPath();
-                       ctx.arc(50,50-10,200,0,2*Math.PI);
-                       ctx.fillStyle="yellow"; 
-                       ctx.fill();    
-                       ctx.strokeStyle="yellow"; 
-                       ctx.stroke();
+                        ctx.arc(iX,iY,2,0,2*Math.PI);
+                        ctx.fillStyle="yellow"; 
+                        ctx.fill();    
+                        ctx.strokeStyle="yellow"; 
+                        ctx.stroke();
                     }else{
-                        fX= e.pageX;
-                        fY= e.pageY;
+                        fX = (mouse.x - div.x); 
+                        fY = (mouse.y - div.y);
                         ctx.beginPath();
-                        ctx.arc(fX-10,fY-10,2,0,2*Math.PI);
+                        ctx.arc(fX,fY,2,0,2*Math.PI);
                         ctx.fillStyle="yellow"; 
                         ctx.fill();    
                         ctx.strokeStyle="yellow"; 
                         ctx.stroke();
                         distancia = Math.sqrt((Math.pow((iX-fX),2))+(Math.pow((iY-fY),2)));
-                        alert("la distancia entre los 2 puntos es:"+distancia);
+                        $("#distancia").val(distancia*0.264583333);
                         iX=-1,iY=-1,fX=-1,fY=-1;
+                        setTimeout(function(){
+                            canvas.width=canvas.width;
+                        }, 1000)
+                        
                     }
                      
                      
                 }) 
+                var iX2=-1,iY2=-1,fX2=-1,fY2=-1, distancia2;
+                $("#cv2").live("click",function(e){
+                    var canvas = document.getElementById("cv2");
+                    var ctx = canvas.getContext("2d");
+                    //var ctx = $('#cv').get(0).getContext('2d');
+                    var mouse = {x:e.clientX,y:e.clientY};
+                    var $div = $('#cv2');
+                    var div = {x:$div.offset().left - $(window).scrollLeft(),y:$div.offset().top - $(window).scrollTop()};
+                    
+                    if(iX2==-1){
+                        iX2 = (mouse.x - div.x); 
+                        iY2 = (mouse.y - div.y);
+                        ctx.beginPath();
+                        ctx.arc(iX2,iY2,2,0,2*Math.PI);
+                        ctx.fillStyle="yellow"; 
+                        ctx.fill();    
+                        ctx.strokeStyle="yellow"; 
+                        ctx.stroke();
+                    }else{
+                        fX2 = (mouse.x - div.x); 
+                        fY2 = (mouse.y - div.y);
+                        ctx.beginPath();
+                        ctx.arc(fX2,fY2,2,0,2*Math.PI);
+                        ctx.fillStyle="yellow"; 
+                        ctx.fill();    
+                        ctx.strokeStyle="yellow"; 
+                        ctx.stroke();
+                        distancia2 = Math.sqrt((Math.pow((iX2-fX2),2))+(Math.pow((iY2-fY2),2)));
+                        $("#distancia").val(distancia2*0.264583333);
+                        iX2=-1,iY2=-1,fX2=-1,fY2=-1;
+                        setTimeout(function(){
+                            canvas.width=canvas.width;
+                        }, 1000);
+                         
+                    }
+                     
+                     
+                })
             });
         </script>
         <!-- lhpMegaImgViewer plugin -->
@@ -315,6 +363,15 @@
                 </div>
             </div>
             <div class="span2">
+                <div style="width: 300px;">
+                    <h4 id="labelDistancia">Distancia</h4>
+                    <div class="input-append">
+                        <input type="text" class="span2" id="distancia" name="distancia">
+                        <span class="add-on">mm</span>
+                    </div>
+
+
+                </div>
                 <div style="width: 300px;height: 300px;">
                     <h4 id="labelComentario">Comentario radiogr&aacute;fico</h4>
                     <textarea id="comentario" name="comentario" rows="9" cols="8"></textarea>
@@ -563,7 +620,13 @@
                                     };
                                     $currImage2.lhpMegaImgViewer(customizeMeStt);
                                     setTimeout(function(){
-                                        $(".lhp_miv_content_holder").prepend("<canvas width='180px' height='244px' id='cv' style='position:absolute;left:0px;'></canvas>");
+                                        console.log($currImage2.attr("id"));
+                                        if($currImage2.attr("id")=="cuadro1"){
+                                            $("#cuadro1 .lhp_miv_holder").append("<canvas width='180px' height='244px' id='cv' style='position:absolute;left:0px;'></canvas>");   
+                                        }else{
+                                            $("#cuadro2 .lhp_miv_holder").append("<canvas width='180px' height='244px' id='cv2' style='position:absolute;left:0px;'></canvas>");   
+                                        }
+                                        
                                     }, 300);
                                     
                                    
