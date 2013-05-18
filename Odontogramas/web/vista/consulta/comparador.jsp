@@ -244,7 +244,9 @@
                         ctx.strokeStyle="yellow"; 
                         ctx.stroke();
                         distancia = Math.sqrt((Math.pow((iX-fX),2))+(Math.pow((iY-fY),2)));
-                        $("#distancia").val(distancia*0.264583333);
+                        distancia = distancia*0.264583333;
+                        distancia = distancia.toFixed(2);
+                        $("#distancia").val(distancia);
                         iX=-1,iY=-1,fX=-1,fY=-1;
                         setTimeout(function(){
                             canvas.width=canvas.width;
@@ -282,7 +284,9 @@
                         ctx.strokeStyle="yellow"; 
                         ctx.stroke();
                         distancia2 = Math.sqrt((Math.pow((iX2-fX2),2))+(Math.pow((iY2-fY2),2)));
-                        $("#distancia").val(distancia2*0.264583333);
+                        distancia2 = distancia2*0.264583333;
+                        distancia2 = distancia2.toFixed(2);
+                        $("#distancia").val(distancia2);
                         iX2=-1,iY2=-1,fX2=-1,fY2=-1;
                         setTimeout(function(){
                             canvas.width=canvas.width;
@@ -411,8 +415,13 @@
                                     <td>   
                                         <c:out value="${row[0]}"/>
                                     </td>
-                                    <td>   
-                                        <c:out value="${row[1]}"/>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${row[1]!='null'}">
+                                                <c:out value="${row[1]}"/>        
+                                            </c:when>
+                                        </c:choose>
+
                                     </td>
                                 </tr>
                             </c:forEach>

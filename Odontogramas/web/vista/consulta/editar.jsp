@@ -50,11 +50,12 @@
                     type: 'POST',
                     url: "<%=request.getContextPath()%>/formController?action=agregarControl",
                     data: "" + $("#formControl").serialize(),
-                    success: function() {
+                    success: function(idc) {
                         setTimeout(function() {
                             $("<tr>"
                                 +"<td>"+$('#fechaTrat10').val()+"</td>"
                                 +"<td>"+ $("#formControl input[name='hidden-tags10']").val()+"</td>"
+                                +"<td class='action icon16'><a class='icon-remove eliminarControl' href='#eliminarControl?cid="+idc+"' title='Eliminar'></a></td>" 
                                 +"</tr>").insertBefore('#controles tr:last');
                             $('#formControl').each (function(){
                                 this.reset();
@@ -656,7 +657,26 @@
             } 
         });
 
+        $(".eliminarControl").live("click",function(e){
+            var $this=$(this);
+            var href = $(this).attr("href").split("?");
+            if(confirm("¿Desea eliminar este control?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: "<%=request.getContextPath()%>/formController?action=eliminarControl",
+                    data: ""+ href[1],
+                    success: function() {
+                        setTimeout(function() {
+                            $($this).parent('td').parent('tr').remove();
+                        }, 500);
 
+                    } //fin success
+                }); //fin $.ajax    
+            
+            }else{
+                return false;
+            } 
+        });
 
         $("#agregarPreparacion").click(function() {
             $(this).button('loading');
@@ -1002,7 +1022,7 @@
 
 <div>
     <ul id="tab" class="nav nav-tabs">
-        <li class="active"><a href="#profile" data-toggle="tab"> Datos basicos</a></li>
+        <li class="active"><a href="#profile" data-toggle="tab"> Antecedentes Personales</a></li>
         <li ><a href="#otro" data-toggle="tab"> Examen Fis&iacute;co estomatologico</a></li>
         <li ><a href="#odontoIn" data-toggle="tab"> Dentici&oacute;n permanente</a></li>
         <li ><a href="#odontoFi" data-toggle="tab"> Dentici&oacute;n temporal</a></li>
@@ -1094,38 +1114,31 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="ultima" class="control-label">Ultima Visita al odont&oacute;logo</label>
+                            <label for="antOdon" class="control-label">Antecedentes odontol&oacute;gicos</label>
                             <div class="controls">
-                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label for="motivo2" class="control-label">Motivo</label>
-                                <div class="controls">
-                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                                <textarea rows="3" id="antOdon" name="antOdon" class="input-xxlarge">${consulta.getRowsByIndex()[0][12]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="docentes" class="control-label">Docente</label>
+                            <label for="ultima" class="control-label">Ultima Visita al odont&oacute;logo</label>
                             <div class="controls">
-                                <select name="docente" class="{required:true}">
-                                    <option selected="selected"></option> 
-                                    <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
-                                        <c:choose>
-                                            <c:when test="${consulta.getRowsByIndex()[0][11]==row[0]}">
-                                                <option selected="selected" value="${row[0]}">${row[1]}</option>            
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${row[0]}">${row[1]}</option>            
-                                            </c:otherwise>
-                                        </c:choose>
-
-                                    </c:forEach>
-
-                                </select>
+                                <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
                             </div>
                         </div>
+
+                        <div class="control-group">
+                            <label for="motivo2" class="control-label">Motivo</label>
+                            <div class="controls">
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="procedencia" class="control-label">Procedencia</label>
+                            <div class="controls">
+                                <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge">${consulta.getRowsByIndex()[0][13]}</textarea>
+                            </div>
+                        </div>
+
                         <div class="form-actions">
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
                             <button class="btn" type="reset">Cancelar</button>
@@ -1425,7 +1438,47 @@
                                             <option value="Drogas">Drogas</option>
                                         </c:otherwise>
 
-                                    </c:choose>      
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Glosofagia"}'>
+                                            <option selected="selected" value="Glosofagia">Glosofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Glosofagia">Glosofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Onicofagia"}'>
+                                            <option selected="selected" value="Onicofagia">Onicofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Onicofagia">Onicofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Queilofagia"}'>
+                                            <option selected="selected" value="Queilofagia">Queilofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Queilofagia">Queilofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Succion digital"}'>
+                                            <option selected="selected" value="Succion digital">Succi&oacute;n digital</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Succion digital">Succi&oacute;n digital</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Succion labial"}'>
+                                            <option selected="selected" value="Succion labial">Succi&oacute;n labial</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Succion labial">Succi&oacute;n labial</option>
+                                        </c:otherwise>
+                                    </c:choose>          
                                     <c:choose>
                                         <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Otro"}'>
                                             <option selected="selected" value="Otro">Otro</option>
@@ -9046,28 +9099,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:set var="idActual" value="${controles.getRowsByIndex()[0][0]}"></c:set>
-                                <c:set var="tratamientos" value=""></c:set>
+                                <c:choose>
+                                    <c:when test="${controles.getRowCount()!= 0}">
+                                        <c:set var="idActual" value="${controles.getRowsByIndex()[0][0]}"></c:set>
+                                        <c:set var="tratamientosX" value=""></c:set>
+                                        <c:forEach items="${controles.rowsByIndex}" var="control" varStatus="status">
+                                            <c:choose>
+                                                <c:when test="${idActual==control[0]}">
+                                                    <c:set var="tratamientosX" value="${tratamientosX} ${control[2]}"></c:set>            
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <tr>
+                                                        <td>${control[1]}</td>
+                                                        <td>${tratamientosX}</td>
+                                                        <td class="action icon16">
+                                                            <a class="icon-remove eliminarControl" href="#eliminarControl?cid=${idActual}" title="Eliminar"></a>
+                                                        </td>
+                                                    </tr> 
+                                                    <c:set var="idActual" value="${control[0]}"></c:set>
+                                                    <c:set var="tratamientosX" value="${control[2]}"></c:set> 
+                                                </c:otherwise>
+                                            </c:choose>
 
-                                <%--  <c:forEach items="${controles.rowsByIndex}" var="control" varStatus="status">
-                                      <c:choose>
-                                          <c:when test="${idActual==control[0]}">
-                                              <c:set var="tratamientos" value="${tratamientos} + ',' +${controles[2]}"></c:set>            
-                                          </c:when>
-                                          <c:otherwise>
-                                              <tr>
-                                                  <td>${idActual}</td>
-                                                  <td>${tratamientos}</td>
-                                                  <td class="action icon16">
-                                                      <a class="icon-remove eliminarControl" href="#eliminarControl?pid=${idActual}" title="Eliminar"></a>
-                                                  </td>
-                                              </tr> 
-                                              <c:set var="idActual" value="${control[0]}"></c:set>
-                                              <c:set var="tratamientos" value="${control[2]}"></c:set> 
-                                          </c:otherwise>
-                                      </c:choose>
+                                        </c:forEach>
+                                    </c:when>  
+                                </c:choose>
 
-                                </c:forEach>--%>
                                 <tr>
                                     <td><input type="text" name="fechaTrat10" id="fechaTrat10" class="input-medium fecha" data-datepicker="datepicker"></td>
                                     <td><input type="text" name="tags10" autocomplete="off" id="tratamientoR10" placeholder="Tratamiento realizado" class="tagManager10"/></td>

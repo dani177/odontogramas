@@ -382,7 +382,7 @@
 
 <div>
     <ul id="tab" class="nav nav-tabs">
-        <li class="active"><a href="#profile" data-toggle="tab">I. Datos Basicos</a></li>
+        <li class="active"><a href="#profile" data-toggle="tab">I. Antecedentes Personales</a></li>
         <li ><a href="#otro" data-toggle="tab">II. Examen Fisico Estomatologico</a></li>
         <li ><a href="#odonto" data-toggle="tab">III. Odontograma</a></li>
         <li ><a href="#diag" data-toggle="tab">IV. Diagnostico Y Tratamiento </a></li>
@@ -448,6 +448,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label for="antOdon" class="control-label">Antecedentes odontol&oacute;gicos</label>
+                            <div class="controls">
+                                <textarea rows="3" id="antOdon" name="antOdon" class="input-xxlarge"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker">
@@ -461,17 +467,12 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="docentes" class="control-label">Docente</label>
+                            <label for="procedencia" class="control-label">Procedencia</label>
                             <div class="controls">
-                                <select name="docente" class="{required:true}">
-                                    <option selected="selected"></option> 
-                                    <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
-                                        <option value="${row[0]}">${row[1]}</option>    
-                                    </c:forEach>
-
-                                </select>
+                                <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge"></textarea>
                             </div>
                         </div>
+                        
                         <div class="form-actions">
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
                             <button class="btn" type="reset">Cancelar</button>
@@ -582,6 +583,11 @@
                                     <option value="Alcohol">Alcohol</option>
                                     <option value="Caf&eacute;">Caf&eacute;</option>
                                     <option value="Drogas">Drogas</option>
+                                    <option value="Glosofagia">Glosofagia</option>
+                                    <option value="Onicofagia">Onicofagia</option>
+                                    <option value="Queilofagia">Queilofagia</option>
+                                    <option value="Succion digital">Succi&oacute;n digital</option>
+                                    <option value="Succion labial">Succi&oacute;n labial</option>
                                     <option value="Otro">Otro</option>
                                     <option value="Ninguno">Ninguno</option>
 

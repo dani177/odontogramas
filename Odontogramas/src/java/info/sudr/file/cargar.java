@@ -65,11 +65,11 @@ public class cargar extends HttpServlet {
                     String elemento2[] = ficheros[i].split("-");
                     if (!aux.equals("")) {
                         if (elemento2[0].equals(""+res.getRowsByIndex()[0][0]) && elemento2[1].equals(""+dienteId)) {
-                            aux += ",{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"}";
+                            aux += ",{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/borrar?file=" + ficheros[i] + "&force_delete=true\",\"delete_type\":\"POST\",\"type\":\"" + elementos[1] + "\"}";
                         }
                     }else{
                     if (elemento2[0].equals(""+res.getRowsByIndex()[0][0]) && elemento2[1].equals(""+dienteId)) {
-                            aux += "{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/file/" + ficheros[i] + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + elementos[1] + "\"}";
+                            aux += "{\"name\":\"" + ficheros[i] + "\",\"size\":\"" + 2000 + "\",\"url\":\"/Odontogramas/file/" + ficheros[i] + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + ficheros[i] + "\",\"delete_url\":\"/Odontogramas/borrar?file=" + ficheros[i] + "&force_delete=true\",\"delete_type\":\"POST\",\"type\":\"" + elementos[1] + "\"}";
                         }
                     }
 

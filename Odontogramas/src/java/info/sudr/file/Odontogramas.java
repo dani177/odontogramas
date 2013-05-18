@@ -84,7 +84,7 @@ public class Odontogramas extends HttpServlet {
 
 
 
-                    writer.write("[{\"name\":\"" + fileName + "\",\"size\":\"" + item.getSize() + "\",\"url\":\"/Odontogramas/file/" + fileName + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + fileName + "\",\"delete_url\":\"/Odontogramas/file/" + fileName + "?force_delete=true\",\"delete_type\":\"DELETE\",\"type\":\"" + item.getContentType() + "\"}]");
+                    writer.write("[{\"name\":\"" + fileName + "\",\"size\":\"" + item.getSize() + "\",\"url\":\"/Odontogramas/file/" + fileName + "\",\"thumbnail_url\":\"/Odontogramas/thumbnails/" + fileName + "\",\"delete_url\":\"/Odontogramas/borrar?file/" + fileName + "&force_delete=true\",\"delete_type\":\"POST\",\"type\":\"" + item.getContentType() + "\"}]");
 
                     break; // assume we only get one file at a time
                 }

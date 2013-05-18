@@ -23,6 +23,10 @@
         <servlet-name>cargar</servlet-name>
         <servlet-class>info.sudr.file.cargar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>borrar</servlet-name>
+        <servlet-class>info.sudr.file.borrar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginController</servlet-name>
         <url-pattern>/loginController</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>cargar</servlet-name>
         <url-pattern>/cargar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>borrar</servlet-name>
+        <url-pattern>/borrar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

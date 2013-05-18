@@ -85,7 +85,7 @@
                                 if(parte=="palatinaLingual1"){
                                     $("#nada").attr("selected",false);
                                     if($("#palatinaLingual").attr("selected")){
-                                    $("#palatinaLingual").attr("selected",false);    
+                                        $("#palatinaLingual").attr("selected",false);    
                                     }else{
                                         $("#palatinaLingual").attr("selected",true);
                                     }
@@ -193,7 +193,7 @@
         
         var miArray2 = new Array(${tratamientos.getRowCount()});
         
-        <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
+    <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
             miArray2[${iter2.index}] = "${item2[1]} - ${item2[0]} - ${item2[2]}";
     </c:forEach> 
         
@@ -225,7 +225,7 @@
         
             var miArray = new Array(${diagnosticos.getRowCount()});
         
-        <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
+    <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
             miArray[${iter.index}] = "${item[2]} - ${item[0]}";
     </c:forEach> 
     
@@ -322,7 +322,7 @@
 
 <div>
     <ul id="tab" class="nav nav-tabs">
-        <li class="active"><a href="#profile" data-toggle="tab">I. Datos Basicos</a></li>
+        <li class="active"><a href="#profile" data-toggle="tab">I. Antecedentes Personales</a></li>
         <li ><a href="#otro" data-toggle="tab">II. Examen Fisico Estomatologico</a></li>
         <li ><a href="#odonto" data-toggle="tab">III. Odontograma</a></li>
         <li ><a href="#diag" data-toggle="tab">IV. Diagnostico Y Tratamiento </a></li>
@@ -410,6 +410,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label for="antOdon" class="control-label">Antecedentes odontol&oacute;gicos</label>
+                            <div class="controls">
+                                <textarea rows="3" id="antOdon" name="antOdon" class="input-xxlarge">${consulta.getRowsByIndex()[0][12]}</textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label for="ultima" class="control-label">Ultima Visita al odontologo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
@@ -423,25 +429,12 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="docentes" class="control-label">Docente</label>
+                            <label for="procedencia" class="control-label">Procedencia</label>
                             <div class="controls">
-                                <select name="docente" class="{required:true}">
-                                    <option selected="selected"></option> 
-                                    <c:forEach items="${docentes.rowsByIndex}" var="row" varStatus="iter">
-                                        <c:choose>
-                                            <c:when test="${consulta.getRowsByIndex()[0][11]==row[0]}">
-                                                <option selected="selected" value="${row[0]}">${row[1]}</option>            
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${row[0]}">${row[1]}</option>            
-                                            </c:otherwise>
-                                        </c:choose>
-
-                                    </c:forEach>
-
-                                </select>
+                                <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge">${consulta.getRowsByIndex()[0][13]}</textarea>
                             </div>
                         </div>
+
                     </fieldset>
                 </form>
             </div> <!--/span-->
@@ -737,7 +730,47 @@
                                             <option value="Drogas">Drogas</option>
                                         </c:otherwise>
 
-                                    </c:choose>      
+                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Glosofagia"}'>
+                                            <option selected="selected" value="Glosofagia">Glosofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Glosofagia">Glosofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Onicofagia"}'>
+                                            <option selected="selected" value="Onicofagia">Onicofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Onicofagia">Onicofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Queilofagia"}'>
+                                            <option selected="selected" value="Queilofagia">Queilofagia</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Queilofagia">Queilofagia</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Succion digital"}'>
+                                            <option selected="selected" value="Succion digital">Succi&oacute;n digital</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Succion digital">Succi&oacute;n digital</option>
+                                        </c:otherwise>
+                                    </c:choose>  
+                                    <c:choose>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Succion labial"}'>
+                                            <option selected="selected" value="Succion labial">Succi&oacute;n labial</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="Succion labial">Succi&oacute;n labial</option>
+                                        </c:otherwise>
+                                    </c:choose>          
                                     <c:choose>
                                         <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Otro"}'>
                                             <option selected="selected" value="Otro">Otro</option>
