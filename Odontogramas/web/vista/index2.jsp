@@ -368,13 +368,22 @@
                                     if(hash=="#nuevaConsulta"){
                                         $.ajax({ 
                                             type: "POST", 
-                                            url: "/Odontogramas/vista/consulta/crear.jsp", 
-                                            success: function(data) 
+                                            url: "<%=request.getContextPath()%>/formController?action=nuevaConsulta", 
+                                            success: function() 
                                             { 
-                                                $("#contenido").html(data);
+                                                $.ajax({ 
+                                                    type: "POST", 
+                                                    url: "/Odontogramas/vista/consulta/crear.jsp", 
+                                                    success: function(data) 
+                                                    { 
+                                                        $("#contenido").html(data);
+                                       
+                                                    } //fin success
+                                                }); //fin del $.ajax
                                        
                                             } //fin success
                                         }); //fin del $.ajax
+                                       
                                             
                                     }else{
                                         if(hash == "#menuPacientes"){
