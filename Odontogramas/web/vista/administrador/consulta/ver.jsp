@@ -323,9 +323,9 @@
 <div>
     <ul id="tab" class="nav nav-tabs">
         <li class="active"><a href="#profile" data-toggle="tab">I. Antecedentes Personales</a></li>
-        <li ><a href="#otro" data-toggle="tab">II. Examen Fisico Estomatologico</a></li>
-        <li ><a href="#odonto" data-toggle="tab">III. Odontograma</a></li>
-        <li ><a href="#diag" data-toggle="tab">IV. Diagnostico Y Tratamiento </a></li>
+        <li ><a href="#otro" data-toggle="tab">Examen F&iacute;sico y Estomatol&oacute;gico</a></li>
+        <li ><a href="#odonto" data-toggle="tab">Odontograma</a></li>
+        <li ><a href="#diag" data-toggle="tab">Diagnostico Y Tratamiento </a></li>
     </ul>
 
 
@@ -451,7 +451,7 @@
             <div class="span12">
                 <form class="form-horizontal" id="datos3">
                     <fieldset>
-                        <legend>III. Examen Fisico Estomatologico</legend>
+                        <legend>II. Examen F&iacute;sico y Estomatol&oacute;gico</legend>
                         <div class="control-group">
                             <label for="temperatura" class="control-label">Temperatura</label>
                             <div class="controls">
@@ -470,6 +470,20 @@
                                 <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
                             </div>
                         </div>
+                        <div class="control-group">
+                            <label for="frecuenciaRes" class="control-label">Frecuencia respiratoria</label>
+                            <div class="controls">
+                                <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
+                            </div>
+                        </div>
+                        <legend>Examen Extraoral</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="extraoral">Examen extraoral</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
+                            </div>
+                        </div>    
+                        <legend>Examen Intraoral</legend>        
                         <div class="control-group">
                             <label class="control-label">Higiene Oral</label>
                             <div class="controls">
@@ -792,7 +806,18 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="control-group">
+                            <label for="frecuenciaHabito" class="control-label">Frecuencia</label>
+                            <div class="controls">
+                                <input id="frecuenciaHabito" name="frecuenciaHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][13]}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="evolucionHabito" class="control-label">Tiempo de evoluci&oacute;n</label>
+                            <div class="controls">
+                                <input id="evolucionHabito" name="evolucionHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][14]}">
+                            </div>
+                        </div> 
                     </fieldset>
                 </form>
 
@@ -935,17 +960,6 @@
                         <div class="row-fluid">
                             <div class="span3">
                                 <fieldset>
-                                    <legend>Interconsulta</legend>  
-                                    <c:forEach items="${interconsulta.rowsByIndex}" var="row" varStatus="sta">
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="${row[0]}" name="interconsulta${sta.index}" > ${row[1]}
-                                        </label>
-                                    </c:forEach>
-                                </fieldset> 
-                            </div>
-
-                            <div class="span3">
-                                <fieldset>
                                     <legend>Plan de tratamiento</legend>  
                                     <c:forEach items="${planTratamiento.rowsByIndex}" var="row" varStatus="sta">
                                         <label class="checkbox">
@@ -955,6 +969,17 @@
 
                                 </fieldset> 
                             </div>
+                            <div class="span3">
+                                <fieldset>
+                                    <legend>Interconsulta</legend>  
+                                    <c:forEach items="${interconsulta.rowsByIndex}" var="row" varStatus="sta">
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="${row[0]}" name="interconsulta${sta.index}" > ${row[1]}
+                                        </label>
+                                    </c:forEach>
+                                </fieldset> 
+                            </div>
+
                             <div class="span3">
                                 <fieldset>
                                     <legend>Remision</legend>  
