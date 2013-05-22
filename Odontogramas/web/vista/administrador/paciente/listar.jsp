@@ -9,7 +9,7 @@
 
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
-                        <th>Identificaci&oacute;n</th>    
+                        <th>Cedula</th>    
                         <th>Paciente</th>
                         <th></th>
                         </thead>
@@ -25,7 +25,6 @@
                             <td class="action icon16">
                                 <a title="Datos personales" href="#verPaciente&${row[0]}" class="icon-eye-open"></a>
                                 <a title="Consultas" href="#listaConsultas&${row[0]}" class="icon-plus"></a>
-                                <a title="radiografias" href="<%=request.getContextPath()%>/subirRadiografia?${row[0]}" class="icon-share-alt"></a>
                             </td>
                             </tr>
                         </c:forEach>
