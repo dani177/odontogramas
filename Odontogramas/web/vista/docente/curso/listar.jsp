@@ -28,8 +28,8 @@
                                 <c:out value="${row[3]}"/>
                             </td>
                             <td class="action icon16">
-                                <a href="#verConsulta&${row[0]}">Ver</a>
-                                <a href="#editarConsulta&${row[0]}">Editar</a>
+                                <a href="#verCurso&${row[2]}">Ver</a>
+                                <a href="#editarCurso&${row[2]}">Editar</a>
                             </td>
                         </tr>
                     </c:forEach>

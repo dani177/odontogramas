@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.sql.Result;
 
-
 /**
  *
  * @author Ususario
@@ -46,7 +45,7 @@ public class loginController extends HttpServlet {
             try {
                 Result medico = new sqlController().CargarSql2("SELECT * FROM `medico` WHERE `idmedico`=" + un + "");
 
-                if (medico.getRowCount()!=0) {
+                if (medico.getRowCount() != 0) {
                     if (medico.getRowsByIndex()[0][2].equals(pw)) {
                         session.setAttribute("medico", medico);
                         session.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
@@ -83,29 +82,38 @@ public class loginController extends HttpServlet {
                 if (docente.getRowCount() != 0) {
                     if (docente.getRowsByIndex()[0][2].equals(pw)) {
                         session.setAttribute("logueado", "ok");
-                        session.setAttribute("docente",docente);
+                        session.setAttribute("docente", docente);
                         out.println(0);
-                    }else{
-                    out.println(1);
+                    } else {
+                        out.println(1);
                     }
-                }else{
-                out.println(1);
+                } else {
+                    out.println(1);
                 }
-            }else{
-            if (perfil.equals("Administrador")) {
-                Result administrador = new sqlController().CargarSql2("SELECT * FROM `administrador` WHERE `idAdmin`=" + un + "");
-                if (administrador.getRowCount() != 0) {
-                    if (administrador.getRowsByIndex()[0][2].equals(pw)) {
-                        session.setAttribute("logueado", "ok");
-                        session.setAttribute("administrador",administrador);
-                        out.println(0);
-                    }else{
-                    out.println(1);
+            } else {
+                if (perfil.equals("Administrador")) {
+                    Result administrador = new sqlController().CargarSql2("SELECT * FROM `administrador` WHERE `idAdmin`=" + un + "");
+                    if (administrador.getRowCount() != 0) {
+                        if (administrador.getRowsByIndex()[0][2].equals(pw)) {
+                            session.setAttribute("logueado", "ok");
+                            session.setAttribute("administrador", administrador);
+                            session.setAttribute("docentes", new sqlController().CargarSql2("SELECT * FROM `docente`"));
+                            session.setAttribute("diagnosticos", new sqlController().CargarSql2("SELECT * FROM `diagnostico`"));
+                            session.setAttribute("tratamientos", new sqlController().CargarSql2("SELECT * FROM `tratamiento`"));
+                            session.setAttribute("planTratamiento", new sqlController().CargarSql2("SELECT * FROM `plantratamiento`"));
+                            session.setAttribute("interconsulta", new sqlController().CargarSql2("SELECT * FROM `interconsulta`"));
+                            session.setAttribute("remision", new sqlController().CargarSql2("SELECT * FROM `remision`"));
+                            session.setAttribute("logueado", "ok");
+                            session.setAttribute("departamentos", new sqlController().CargarSql2("SELECT * FROM `departamentos`"));
+                            session.setAttribute("profesiones", new sqlController().CargarSql2("SELECT * FROM `profesiones`"));
+                            out.println(0);
+                        } else {
+                            out.println(1);
+                        }
+                    } else {
+                        out.println(1);
                     }
-                }else{
-                    out.println(1);
-                    }
-            }
+                }
             }
         }
 

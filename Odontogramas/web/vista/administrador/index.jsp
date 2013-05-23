@@ -231,7 +231,7 @@
                             }); //fin del $.ajax
                       
                         }else{
-                            if(hash.indexOf("#listaMedicos")!=-1){
+                           if(hash.indexOf("#listaMedicos")!=-1){
                                 var cual = hash.split("&");
                                 var url3 = "<%=request.getContextPath()%>/formController?action=";
                                 url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
@@ -247,7 +247,6 @@
                                             success: function(data) 
                                             {  $(".nav-list >li > a").hide();
                                                 $(".nav-list").append('<li><a href="#menuDocentes" title="Menú de docentes">Atras</a></li>'                                                        
-                                                    +'<li><a href="#nuevoMedico">Nuevo Medico</a></li>'
                                                     +'<li class="active"><a href="#listaMedicos">Lista de Medicos</a></li>');
                                                     
                                                 $("#contenido").html(data);
@@ -405,7 +404,6 @@
                                                                 $(".nav-list >li").slice(3).remove();
                                                                 $(".nav-list >li > a").hide();
                                                                 $(".nav-list").append('<li><a href="#menuDocentes" title="Menú de docentes">Atras</a></li>'                                                        
-                                                                    +'<li><a href="#nuevoMedico">Nuevo Medico</a></li>'
                                                                     +'<li class="active"><a href="#listaMedicos">Lista de Medicos</a></li>');
                                                     
                                                                 $(".nav-list >li > a").click(function(ev){
@@ -481,6 +479,83 @@
                                                                                     }); //fin del $.ajax
                                                                                 }//fin success
                                                                             })//fin ajax
+                                                                        }else{
+                                                                            if(hash.indexOf("#verPaciente")!=-1){
+                                                                                var cual = hash.split("&");
+                                                                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                                                                $.ajax({ 
+                                                                                    type: "POST", 
+                                                                                    url: url3,
+                                                                                    success: function(data) 
+                                                                                    { 
+                                                                                        $.ajax({ 
+                                                                                            type: "POST", 
+                                                                                            url: "/Odontogramas/vista/administrador/paciente/editar.jsp",
+                                                                                            success: function(data) 
+                                                                                            {   
+                                                                                                $(this).parents("li").siblings().removeClass("active");
+                                                                                                $(this).parents("li").addClass("active");
+                                                                                                $("#contenido").html(data);
+                                       
+                                                                                            } //fin success
+                                                                                        }); //fin del $.ajax
+                                                                                    } //fin success
+                                                                                }); //fin del $.ajax
+                                                                            }else{
+                                                                                if(hash.indexOf("#editarConsulta")!=-1){
+                                                                                    var cual = hash.split("&");
+                                                                                    var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                                                    url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                                                                    $.ajax({ 
+                                                                                        type: "POST", 
+                                                                                        url: url3,
+                                                                                        success: function() 
+                                                                                        { 
+                                                                                            $.ajax({ 
+                                                                                                type: "POST", 
+                                                                                                url: "/Odontogramas/vista/consulta/editar.jsp",
+                                                                                                success: function(data) 
+                                                                                                {   $("#contenido").html(data);
+                                                                                                } //fin success
+                                                                                            }); //fin del $.ajax
+                                                                                        }//fin success
+                                                                                    })//fin ajax
+                                                                                }else{
+                                                                                    if(hash == "#nuevoPaciente"){
+                                                                                        $.ajax({ 
+                                                                                            type: "POST", 
+                                                                                            url: "/Odontogramas/vista/administrador/paciente/crear.jsp", 
+                                                                                            success: function(data) 
+                                                                                            { 
+                                                                                                $("#contenido").html(data);
+                                       
+                                                                                            } //fin success
+                                                                                        }); //fin del $.ajax
+                      
+                                                                                    }else{
+                                                                                        if(hash.indexOf("#verCurso")!=-1){
+                                                                                            var cual = hash.split("&");
+                                                                                            var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                                                            url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                                                                            $.ajax({ 
+                                                                                                type: "POST", 
+                                                                                                url: url3,
+                                                                                                success: function() 
+                                                                                                { 
+                                                                                                    $.ajax({ 
+                                                                                                        type: "POST", 
+                                                                                                        url: "/Odontogramas/vista/docente/curso/ver.jsp",
+                                                                                                        success: function(data) 
+                                                                                                        {   $("#contenido").html(data);
+                                                                                                        } //fin success
+                                                                                                    }); //fin del $.ajax
+                                                                                                }//fin success
+                                                                                            })//fin ajax
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
                                                                         }
                                                                     }
                                                                 }

@@ -408,7 +408,7 @@
                 success: function() {
                     $.ajax({
                         type: 'POST',
-                        url: "/Odontogramas/vista/consulta/uploaderX.jsp",
+                        url: "/Odontogramas/vista/consulta/uploaderX2.jsp",
                         success: function(data) {
                             $("#uploaderX").html(data);
                          
@@ -419,7 +419,7 @@
            
         })
         
-        $("#comparador").live("click",function(ev) {
+        $("#comparador2").live("click",function(ev) {
            
             $.ajax({
                 type: 'POST',
@@ -427,7 +427,7 @@
                 success: function() {
                     $.ajax({
                         type: 'POST',
-                        url: "/Odontogramas/vista/consulta/comparador.jsp",
+                        url: "/Odontogramas/vista/consulta/comparador2.jsp",
                         success: function(data) {
                             $("#uploaderX").html(data);
                          
