@@ -8826,14 +8826,14 @@
                 <br>
                 <form method="post" id="formEvol">
                     <fieldset>
-                        <legend>Evolucion</legend>
+                        <legend>Evoluci&oacute;n</legend>
 
                         <table class="table table-striped table-bordered table-condensed" id="tablaEvol" >
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
                                     <th>#Recibo Pago</th>
-                                    <th>Valor pagado</th>
+                                    <th>Valor Pagado</th>
                                     <th>Tratamiento Ejecutado</th>
                                 </tr>   
                             </thead>
@@ -9009,7 +9009,7 @@
                 </form>
                 <form class="form-horizontal" method="post" id="formImpresion" action="">    
                     <fieldset>
-                        <legend>Impresi&oacute;n clinica</legend>
+                        <legend>Impresi&oacute;n cl&iacute;nica</legend>
                         <div class="control-group">
                             <label class="control-label" for="dienteI">Diente</label>
                             <div class="controls">
@@ -9171,8 +9171,8 @@
                         <table id="controles" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>fecha</th>
-                                    <th>tratamientos realizados</th>
+                                    <th>Fecha</th>
+                                    <th>Ttratamientos Realizados</th>
                                 </tr>
                             </thead>
                             <tbody>
