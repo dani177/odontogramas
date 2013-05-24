@@ -609,8 +609,8 @@ public class formController extends HttpServlet {
 
                 if (con.getRowCount() == 0) {
 
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`consulta` (`iddatosConsulta` ,`motivoConsulta` ,`historiaActualEnfermedad` ,`observaciones` ,`otros` ,`ultimaVisitaOdon` ,`motivo` ,`paciente_idpersona` ,`fechaConsulta` ,`pronostico` ,`medico_idmedico` ,`docente_iddocente`, `antOdon`, `procedencia`) "
-                            + "VALUES (NULL , '" + motivo + "', '" + historia + "', '" + observaciones + "', '" + otros + "', '" + ultima + "', '" + motivo2 + "', '" + pa.getRowsByIndex()[0][0] + "', '" + formattedDate + "', NULL , '" + me.getRowsByIndex()[0][0] + "', 'xx', '" + antOdon + "', '" + procedencia + "')");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`consulta` (`iddatosConsulta` ,`motivoConsulta` ,`historiaActualEnfermedad` ,`observaciones` ,`otros` ,`ultimaVisitaOdon` ,`motivo` ,`paciente_idpersona` ,`fechaConsulta` ,`pronostico` ,`medico_idmedico` ,`docente_iddocente`, `antOdon`, `procedencia`,`estado`) "
+                            + "VALUES (NULL , '" + motivo + "', '" + historia + "', '" + observaciones + "', '" + otros + "', '" + ultima + "', '" + motivo2 + "', '" + pa.getRowsByIndex()[0][0] + "', '" + formattedDate + "', NULL , '" + me.getRowsByIndex()[0][0] + "', 'xx', '" + antOdon + "', '" + procedencia +" , '" + procedencia + "')");
 
                     Result consultaRecienCreada = new sqlController().CargarSql2("SELECT * FROM consulta ORDER BY `iddatosConsulta` DESC LIMIT 1");
 
@@ -758,6 +758,16 @@ public class formController extends HttpServlet {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `estado` = 'inactivo' WHERE `docente`.`iddocente` =" + doc.getRowsByIndex()[0][0] + "");
                 } else {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`docente` SET `estado` = 'activo' WHERE `docente`.`iddocente` =" + doc.getRowsByIndex()[0][0] + "");
+                }
+
+            }
+            if (request.getParameter("action").equals("cambiarCEstado")) {
+                String idConsulta = (String) request.getParameter("id");
+                Result con = new sqlController().CargarSql2("SELECT * FROM `consulta` WHERE `iddatosConsulta`=" + idConsulta + "");
+                if (con.getRowsByIndex()[0][14].equals("activo")) {
+                    new sqlController().UpdateSql("UPDATE `odontogramas`.`consulta` SET `estado` = 'inactivo' WHERE `consulta`.`iddatosConsulta` =" + con.getRowsByIndex()[0][0] + "");
+                } else {
+                    new sqlController().UpdateSql("UPDATE `odontogramas`.`consulta` SET `estado` = 'activo' WHERE `consulta`.`iddatosConsulta` =" + con.getRowsByIndex()[0][0] + "");
                 }
 
             }

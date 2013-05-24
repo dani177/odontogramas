@@ -15,15 +15,20 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${listaDeConsulta.rowsByIndex}" var="row" varStatus="iter">
-                        <tr>
-                            <td>   
-                                <fmt:formatDate pattern="yyyy-MM-dd" value="${row[8]}"></fmt:formatDate>
-                            </td>
-                            <td class="action icon16">
-                                <a class="icon-eye-open" href="#verConsulta&${row[0]}" title="Ver"></a> 
-                                <a class="icon-edit" href="#editarConsulta&${row[0]}" title="Editar"></a>
-                            </td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${row[14]=='activo'}">
+                                <tr>
+                                    <td>   
+                                        <fmt:formatDate pattern="yyyy-MM-dd" value="${row[8]}"></fmt:formatDate>
+                                        </td>
+                                        <td class="action icon16">
+                                            <a class="icon-eye-open" href="#verConsulta&${row[0]}" title="Ver"></a> 
+                                        <a class="icon-edit" href="#editarConsulta&${row[0]}" title="Editar"></a>
+                                    </td>
+                                </tr>
+                            </c:when>
+                        </c:choose>
+
                     </c:forEach>
                 </tbody>
             </table>

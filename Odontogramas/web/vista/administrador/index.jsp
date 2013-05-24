@@ -231,7 +231,7 @@
                             }); //fin del $.ajax
                       
                         }else{
-                           if(hash.indexOf("#listaMedicos")!=-1){
+                            if(hash.indexOf("#listaMedicos")!=-1){
                                 var cual = hash.split("&");
                                 var url3 = "<%=request.getContextPath()%>/formController?action=";
                                 url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
@@ -552,6 +552,21 @@
                                                                                                     }); //fin del $.ajax
                                                                                                 }//fin success
                                                                                             })//fin ajax
+                                                                                        }else{
+                                                                                            if(hash.indexOf("#cambiarCEstado")!=-1){
+                                                                                                var cual = hash.split("&");
+                                                                                                var url3 = "<%=request.getContextPath()%>/formController?action=";
+                                                                                                url3 = url3.concat(cual[0].substring(1),"&id=",cual[1]);
+                                      
+                                                                                                $.ajax({ 
+                                                                                                    type: "POST", 
+                                                                                                    url: url3,
+                                                                                                    success: function(data) 
+                                                                                                    { 
+                                                                                                        $("a[href='#listaConsultas']").click();
+                                                                                                    }
+                                                                                                })
+                                                                                            }
                                                                                         }
                                                                                     }
                                                                                 }

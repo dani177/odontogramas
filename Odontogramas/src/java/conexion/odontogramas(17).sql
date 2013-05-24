@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 23-05-2013 a las 17:08:50
+-- Tiempo de generación: 24-05-2013 a las 15:05:44
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   `docente_iddocente` varchar(45) DEFAULT NULL,
   `antOdon` varchar(500) DEFAULT NULL,
   `procedencia` varchar(200) DEFAULT NULL,
+  `estado` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`iddatosConsulta`),
   KEY `fk_datosConsulta_paciente1` (`paciente_idpersona`),
   KEY `fk_datosConsulta_medico1` (`medico_idmedico`)
@@ -82,8 +83,8 @@ CREATE TABLE IF NOT EXISTS `consulta` (
 -- Volcado de datos para la tabla `consulta`
 --
 
-INSERT INTO `consulta` (`iddatosConsulta`, `motivoConsulta`, `historiaActualEnfermedad`, `observaciones`, `otros`, `ultimaVisitaOdon`, `motivo`, `paciente_idpersona`, `fechaConsulta`, `pronostico`, `medico_idmedico`, `docente_iddocente`, `antOdon`, `procedencia`) VALUES
-(23, 'xxxx', 'vv', 'vv', 'vv', '2013-05-16', 'cacc', '1047565684', '2013-05-23', NULL, 123456, 'xx', 'vv', 'vasdc');
+INSERT INTO `consulta` (`iddatosConsulta`, `motivoConsulta`, `historiaActualEnfermedad`, `observaciones`, `otros`, `ultimaVisitaOdon`, `motivo`, `paciente_idpersona`, `fechaConsulta`, `pronostico`, `medico_idmedico`, `docente_iddocente`, `antOdon`, `procedencia`, `estado`) VALUES
+(23, 'xxxx', 'vv', 'vv', 'vv', '2013-05-16', 'cacc', '1047565684', '2013-05-23', NULL, 123456, 'xx', 'vv', 'vasdc', 'inactivo');
 
 -- --------------------------------------------------------
 
