@@ -9,7 +9,7 @@
 
                     <table class="table table-striped table-bordered table-condensed">
                         <thead>
-                        <th>Cedula</th>    
+                        <th>C&eacute;dula</th>    
                         <th>Paciente</th>
                         <th></th>
                         </thead>

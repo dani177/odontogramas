@@ -1058,7 +1058,7 @@
         <li ><a href="#otro" data-toggle="tab"> Examen F&iacute;sico y Estomatol&oacute;gico</a></li>
         <li ><a href="#odontoIn" data-toggle="tab"> Dentici&oacute;n permanente</a></li>
         <li ><a href="#odontoFi" data-toggle="tab"> Dentici&oacute;n temporal</a></li>
-        <li ><a href="#diag" data-toggle="tab"> Diagnostico y tratamiento </a></li>
+        <li ><a href="#diag" data-toggle="tab"> Diagn&oacute;stico y tratamiento </a></li>
         <li ><a href="#histo" data-toggle="tab"> H.C Endodoncia</a></li>
         <li ><a href="#radiografia" data-toggle="tab"> Radiograf&iacute;a</a></li>
         <li ><a href="#" data-toggle="tab"> <b>paciente: ${paciente.getRowsByIndex()[0][1]} - sexo:${paciente.getRowsByIndex()[0][5]}</b></a></li>
@@ -1376,7 +1376,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Uso de Enjuages Bucales sin fluor</label>
+                            <label class="control-label">Uso de Enjuages Bucales sin fl&uacute;or</label>
                             <div class="controls">
                                 <select id="enjuages1" name="enjuages1">
                                     <c:choose>
@@ -1410,7 +1410,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label"> Uso de Enjuages Bucales con fluor</label>
+                            <label class="control-label"> Uso de Enjuages Bucales con fl&uacute;or</label>
                             <div class="controls">
                                 <select id="enjuages2" name="enjuages2">
                                     <c:choose>
@@ -8667,19 +8667,19 @@
             <div class="span11">
                 <form class="form-horizontal" method="post" id="formDiag">
                     <fieldset>
-                        <legend>Diagnosticos</legend>
+                        <legend>Diagnostic&oacute;s</legend>
                         <div class="span12">
                             <input type="text" name="tags" autocomplete="off" placeholder="Diagnostico" class="tagManager"/>
                         </div>
 
-                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag" data-original-title="Guardar diagnosticos" data-loading-text="Guardando diagnosticos..." autocomplete="off">Guardar diagnosticos</button>
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarDiag" data-original-title="Guardar diagnosticos" data-loading-text="Guardando diagnosticos..." autocomplete="off">Guardar diagn&oacute;sticos</button>
                     </fieldset>        
                 </form>
                 <form method="post" id="formPron">
                     <fieldset>
-                        <legend>Pronostico</legend>    
+                        <legend>Pron&oacute;stico</legend>    
                         <div class="control-group">
-                            <label class="control-label">Pronostico</label>
+                            <label class="control-label">Pron&oacute;stico</label>
                             <div class="controls">
                                 <c:choose>
                                     <c:when test="${consulta.getRowsByIndex()[0][9]=='Bueno'}">
@@ -8726,7 +8726,7 @@
 
                             </div>
                         </div>
-                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarProno" data-original-title="Guardar pronostico" data-loading-text="Guardando pronostico..." autocomplete="off">Guardar pronostico</button>
+                        <button class="btn" style="margin-top: 18px;margin-left: 20px;" type="button" id="guardarProno" data-original-title="Guardar pronostico" data-loading-text="Guardando pronostico..." autocomplete="off">Guardar pron&oacute;stico</button>
                     </fieldset>
                 </form>
                 <br> 

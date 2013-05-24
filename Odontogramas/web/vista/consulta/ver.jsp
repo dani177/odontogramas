@@ -1000,7 +1000,7 @@
         <li ><a href="#otro" data-toggle="tab"> Examen F&iacute;sico y Estomatol&oacute;gico</a></li>
         <li ><a href="#odontoIn" data-toggle="tab"> Dentici&oacute;n permanente</a></li>
         <li ><a href="#odontoFi" data-toggle="tab"> Dentici&oacute;n temporal</a></li>
-        <li ><a href="#diag" data-toggle="tab"> Diagnostico y tratamiento </a></li>
+        <li ><a href="#diag" data-toggle="tab"> Diagn&oacute;stico y tratamiento </a></li>
         <li ><a href="#histo" data-toggle="tab"> H.C Endodoncia</a></li>
         <li ><a href="#radiografia" data-toggle="tab"> Radiograf&iacute;a</a></li>
         <li ><a href="#" data-toggle="tab"> <b>paciente: ${paciente.getRowsByIndex()[0][1]} - sexo:${paciente.getRowsByIndex()[0][5]}</b></a></li>
@@ -1315,7 +1315,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Uso de Enjuages Bucales sin fluor</label>
+                            <label class="control-label">Uso de Enjuages Bucales sin fl&uacute;or</label>
                             <div class="controls">
                                 <select id="enjuages1" name="enjuages1">
                                     <c:choose>
@@ -1349,7 +1349,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label"> Uso de Enjuages Bucales con fluor</label>
+                            <label class="control-label"> Uso de Enjuages Bucales con fl&uacute;or</label>
                             <div class="controls">
                                 <select id="enjuages2" name="enjuages2">
                                     <c:choose>
@@ -8597,7 +8597,7 @@
             <div class="span11">
                 <form class="form-horizontal" method="post" id="formDiag">
                     <fieldset>
-                        <legend>Diagnosticos</legend>
+                        <legend>Diagn&oacute;sticos</legend>
                         <div class="span12">
                             <input type="text" name="tags" autocomplete="off" placeholder="Diagnostico" class="tagManager"/>
                         </div>
@@ -8607,9 +8607,9 @@
                 </form>
                 <form method="post" id="formPron">
                     <fieldset>
-                        <legend>Pronostico</legend>    
+                        <legend>Pron&oacute;stico</legend>    
                         <div class="control-group">
-                            <label class="control-label">Pronostico</label>
+                            <label class="control-label">Pron&oacute;stico</label>
                             <div class="controls">
                                 <c:choose>
                                     <c:when test="${consulta.getRowsByIndex()[0][9]=='Bueno'}">

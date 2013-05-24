@@ -20,7 +20,7 @@
         contentUrl:"",
         intNavEnable:true,
         intNavPos:"T",
-        intNavAutoHide:false,
+        intNavAutoHide:true,
         intNavMoveDownBtt:true,
         intNavMoveUpBtt:true,
         intNavMoveRightBtt:true,

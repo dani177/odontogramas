@@ -51,26 +51,26 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input04" class="control-label">Direccion</label>
+                <label for="input04" class="control-label">Direcci&oacute;n</label>
                 <div class="controls">
                     <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getRowsByIndex()[0][2]}">
                 </div>
             </div>
             <div class="control-group">
-                <label for="input02" class="control-label">No de Identificacion</label>
+                <label for="input02" class="control-label">No de Identificaci&oacute;n</label>
                 <div class="controls">
                     <span class="input-xlarge uneditable-input">${paciente.getRowsByIndex()[0][0]}</span>
                 </div>
             </div>
             <div class="control-group">
-                <label for="input03" class="control-label">No de Afiliacion</label>
+                <label for="input03" class="control-label">No de Afiliaci&oacute;n</label>
                 <div class="controls">
                     <input type="text" id="input03" name="afiliacion" value="${paciente.getRowsByIndex()[0][3]}">
                 </div>
             </div>
 
             <div class="control-group">
-                <label for="input05" class="control-label">Telefono</label>
+                <label for="input05" class="control-label">Tel&eacute;fono</label>
                 <div class="controls">
                     <input type="text" id="input05" name="telefono" value="${paciente.getRowsByIndex()[0][4]}">
                 </div>
@@ -203,7 +203,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="profesion" class="control-label">Profesion/Ocupacion</label>
+                <label for="profesion" class="control-label">Profesi&oacute;n/Ocupaci&oacute;n</label>
                 <div class="controls">
                     <select id="profesion" name="profesion" class="{required:true}">
                         <option></option>  
