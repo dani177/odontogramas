@@ -45,7 +45,7 @@
         <fieldset>
             <legend>I. Datos Personales</legend>
             <div class="control-group">
-                <label for="nombre" class="control-label">Nombre</label>
+                <label for="nombre" class="control-label">Nombres y Apellidos</label>
                 <div class="controls">
                     <input type="text" id="input01" class="input-xlarge {required:true}" name="nombre" value="${paciente.getRowsByIndex()[0][1]}">
                 </div>

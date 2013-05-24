@@ -1061,7 +1061,7 @@
         <li ><a href="#diag" data-toggle="tab"> Diagn&oacute;stico y tratamiento </a></li>
         <li ><a href="#histo" data-toggle="tab"> H.C Endodoncia</a></li>
         <li ><a href="#radiografia" data-toggle="tab"> Radiograf&iacute;a</a></li>
-        <li ><a href="#" data-toggle="tab"> <b>paciente: ${paciente.getRowsByIndex()[0][1]} - sexo:${paciente.getRowsByIndex()[0][5]}</b></a></li>
+        <li ><a href="#" data-toggle="tab"> <b>Paciente: ${paciente.getRowsByIndex()[0][1]} - Sexo:${paciente.getRowsByIndex()[0][5]}</b></a></li>
     </ul>
 
 
@@ -8796,7 +8796,7 @@
 
                             <div class="span3">
                                 <fieldset>
-                                    <legend>Remision</legend>  
+                                    <legend>Remisi&oacute;n</legend>  
                                     <c:forEach items="${remision.rowsByIndex}" var="row" varStatus="sta">
                                         <c:set var="existe3" value="false"></c:set>
                                         <c:forEach items="${remisionE.rowsByIndex}" var="remE" varStatus="staR">
@@ -9125,8 +9125,8 @@
                                     <th>L.R.I (mm)</th>
                                     <th>L.R.T (mm)</th>
                                     <th>Inst Inicial</th>
-                                    <th>Lima retroceso</th>
-                                    <th>Prepaci&oacute;n apical</th>
+                                    <th>Lima Retroceso</th>
+                                    <th>Preparaci&oacute;n Apical</th>
                                     <th>Acci&oacute;n</th>
                                 </tr>
                             </thead>

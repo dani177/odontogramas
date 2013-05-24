@@ -293,7 +293,7 @@
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <label for="nombre" class="control-label">Nombre</label>
+                                            <label for="nombre" class="control-label">Nombres y Apellidos</label>
                                             <div class="controls">
                                                 <input type="text" id="nombre" class="input-xlarge {required:true}" name="nombre">
                                             </div>

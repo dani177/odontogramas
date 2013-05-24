@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input02" class="control-label">Nombre</label>
+                <label for="input02" class="control-label">Nombres y Apellidos</label>
                 <div class="controls">
                     <input type="text" disabled="" id="input02" class="input-xlarge {required:true}" name="nombre" value="${medico.getRowsByIndex()[0][1]}">
                 </div>
