@@ -37,7 +37,7 @@
             </table>
         </c:when>
         <c:otherwise>
-            No existen medicos registrados en el sistema para este docente.
+            No existen m&eacute;dicos registrados en el sistema para este docente.
         </c:otherwise>
     </c:choose>
 </div>

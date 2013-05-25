@@ -130,7 +130,7 @@
 
                         <label class="radio inline">
                             <input type="radio" value="otro" name="estadoCivil" >
-                            otro
+                            Otro
                         </label>
                     </div>
                 </div>

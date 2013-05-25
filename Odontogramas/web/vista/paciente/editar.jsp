@@ -189,13 +189,13 @@
                         <c:when test="${paciente.getRowsByIndex()[0][6]=='otro'}">
                             <label class="radio inline">
                                 <input type="radio" value="otro" name="estadoCivil"  checked="checked">
-                                otro
+                                Otro
                             </label>
                         </c:when>
                         <c:otherwise>
                             <label class="radio inline">
                                 <input type="radio" value="otro" name="estadoCivil" >
-                                otro
+                                Otro
                             </label>
                         </c:otherwise>
                     </c:choose>

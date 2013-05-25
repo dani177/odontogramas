@@ -247,7 +247,7 @@
                                             success: function(data) 
                                             {  $(".nav-list >li > a").hide();
                                                 $(".nav-list").append('<li><a href="#menuDocentes" title="Menú de docentes">Atras</a></li>'                                                        
-                                                    +'<li class="active"><a href="#listaMedicos">Lista de Medicos</a></li>');
+                                                    +'<li class="active"><a href="#listaMedicos">Lista de Médicos</a></li>');
                                                     
                                                 $("#contenido").html(data);
                                                 $(".nav-list >li > a").click(function(ev){
@@ -605,7 +605,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Sistema para la Gestion de Informacion en el &Aacute;rea de Endodoncia</a>
+                    <a class="brand" href="#">Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">
