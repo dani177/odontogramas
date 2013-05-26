@@ -25,7 +25,7 @@
 
     <form id="editarMedico" class="form-horizontal" method="post">
         <fieldset>
-            <legend>Detalle medico</legend>
+            <legend>Detalle m&eacute;dico</legend>
             <div class="control-group">
                 <label for="input01" class="control-label">Identificaci&oacute;n</label>
                 <div class="controls">

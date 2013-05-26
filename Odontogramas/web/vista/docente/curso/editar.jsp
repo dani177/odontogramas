@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input02" class="control-label">Codigo</label>
+                <label for="input02" class="control-label">C&oacute;digo</label>
                 <div class="controls">
                     <input type="text" id="input02" class="input-xlarge {required:true}" name="codigo" value="${curso.getRowsByIndex()[0][2]}">
                 </div>
@@ -41,18 +41,18 @@
                     <select id="estado" name="estado" class="{required:true}">
                         <c:choose>
                             <c:when test="${curso.getRowsByIndex()[0][3]=='activo'}">
-                                <option value="activo" selected="selected">activo</option>    
+                                <option value="activo" selected="selected">Activo</option>    
                             </c:when>
                             <c:otherwise>
-                                <option value="activo" selected="selected">activo</option>    
+                                <option value="activo" selected="selected">Activo</option>    
                             </c:otherwise>    
                         </c:choose>
                         <c:choose>
                             <c:when test="${curso.getRowsByIndex()[0][3]=='inactivo'}">
-                                <option value="inactivo" selected="selected">inactivo</option>    
+                                <option value="inactivo" selected="selected">Inactivo</option>    
                             </c:when>
                             <c:otherwise>
-                                <option value="inactivo" >inactivo</option>    
+                                <option value="inactivo" >Inactivo</option>    
                             </c:otherwise>    
                         </c:choose>
 
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input03" class="control-label">A&nacute;o</label>
+                <label for="input03" class="control-label">A&ntilde;o</label>
                 <div class="controls">
                     <input type="text" id="input03" class="input-xlarge {required:true}" name="anio" value="${curso.getRowsByIndex()[0][4]}">
                 </div>

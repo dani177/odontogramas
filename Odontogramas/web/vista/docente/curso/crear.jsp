@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input02" class="control-label">Codigo</label>
+                <label for="input02" class="control-label">C&oacute;digo</label>
                 <div class="controls">
                     <input type="text" id="input02" class="input-xlarge {required:true}" name="codigo">
                 </div>
@@ -42,13 +42,13 @@
                 <div class="controls">
                     <select id="estado" name="estado" class="{required:true}">
                         <option></option>  
-                        <option value="activo">activo</option>    
-                        <option value="inactivo">inactivo</option>    
+                        <option value="activo">Activo</option>    
+                        <option value="inactivo">Inactivo</option>    
                     </select>
                 </div>
             </div>
             <div class="control-group">
-                <label for="input03" class="control-label">A&nacute;o</label>
+                <label for="input03" class="control-label">A&ntilde;o</label>
                 <div class="controls">
                     <input type="text" id="input03" class="input-xlarge {required:true}" name="anio">
                 </div>

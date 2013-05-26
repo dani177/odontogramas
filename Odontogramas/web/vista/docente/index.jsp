@@ -656,7 +656,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#">Cambiar Contrase&ntilde;a</a></li>
                                 <li class="divider"></li>
-                                <li><a href="<%=request.getContextPath()%>/cerrarSesion.jsp">Cerrar Sesion</a></li>
+                                <li><a href="<%=request.getContextPath()%>/cerrarSesion.jsp">Cerrar Sesi&oacute;n</a></li>
                             </ul>
 
                         </li>
@@ -676,7 +676,7 @@
                             <li><a href="#nuevoCurso">Nuevo Curso</a></li>
                             <li><a href="#listaCursos">Lista de Cursos</a></li>
                             <li class="divider"></li>
-                            <li class="active"><a href="#listaMedicos">Lista de Medicos</a></li>
+                            <li class="active"><a href="#listaMedicos">Lista de M&eacute;dicos</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->

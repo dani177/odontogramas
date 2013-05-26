@@ -386,7 +386,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#">Cambiar Contrase&ntilde;a</a></li>
                                 <li class="divider"></li>
-                                <li><a href="<%=request.getContextPath()%>/cerrarSesion.jsp">Cerrar Sesion</a></li>
+                                <li><a href="<%=request.getContextPath()%>/cerrarSesion.jsp">Cerrar Sesi&oacute;n</a></li>
                             </ul>
 
                         </li>
