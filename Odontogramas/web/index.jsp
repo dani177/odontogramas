@@ -47,6 +47,11 @@
                     <link rel="stylesheet" href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css"/>
 
                     <style type="text/css">
+                        .resolucion{
+                            position: absolute;
+                            top:10px;
+                            right: 20px;
+                        }
                         body {
                             position: relative;
                             background-color: #fff;
@@ -196,14 +201,14 @@
 
                         <div class="navbar navbar-fixed-top">
                             <div class="navbar-inner">
-                                <div class="container">
+                                <div class="container" style="padding-top: 10px; padding-bottom: 10px;">
                                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </a>
-                                    <a class="brand" href="#">Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
-
+                                    <a class="brand" href="#"><img src="<%=request.getContextPath()%>/img/LogoUdeC2.png" style="position: absolute;top:0;left:30px;"></img> Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
+                                    <img class="resolucion" src="<%=request.getContextPath()%>/img/SIGIE.jpg"></img>
                                     <ul class="nav pull-right">
                                         <li><a href="#registro">Crear cuenta</a></li>
                                         <li id="fat-menu" class="dropdown">
@@ -236,47 +241,24 @@
                             </div>
                         </div>
 
-                        <div class="container" style="margin-top:-20px;">
-                            <div class="logo" style="padding-top: 10px; padding-bottom: 10px;">
-                                <img class="center" alt="logo" src="images/logo2.png"/>
-                            </div>
-                            <div class="hero-unit" style="margin-top: -5px;">
-                                <h1>Bienvenido!</h1>
-                                <p>Eum hinc argumentum te, no sit percipit adversarium, ne qui feugiat persecuti. Odio omnes scripserit ad est, ut vidit lorem maiestatis his, putent mandamus gloriatur ne pro. Oratio iriure rationibus ne his, ad est corrumpit splendide. Ad duo appareat moderatius, ei falli tollit denique eos.!</p>
-                                <p><a class="btn btn-large btn-primary" href="about">Leer m&aacute;s »</a></p>
-                            </div>
+                        <div>
                             <div class="row">
-                                <div class="span4">
-                                    <h2>Sitios</h2>
-                                    <ul class="thumbnails">
-                                        <li class="span4"><a class="thumbnail" href="sites">
-                                                <img alt="" src="images/odon.png"></a></li></ul>
-                                    <p>La Facultad de Odontología de la Universidad de Cartagena forma un profesional con conocimientos, habilidades y destrezas integrales en las áreas propias del saber. </p>
-                                    <p><a href="sites" class="btn">Ver »</a></p>
-                                </div>
-                                <div class="span4">
-                                    <h2>Logros</h2>
-                                    <ul class="thumbnails">
-                                        <li class="span4"><a class="thumbnail" href="tutorials">
-                                                <img alt="" src="images/logros.png"></a></li></ul>        
-                                    <p>Como una forma de propiciar su relación con el entorno, la Facultad de Odontología realiza su proyección a través de una serie de actividades de impacto social, dentro y fuera de su  planta física.</p>
-                                    <p><a href="tutorials" class="btn">Ver »</a></p>
-                                </div>
-                                <div class="span4">
-                                    <h2>Objetivos</h2>
-                                    <ul class="thumbnails">
-                                        <li class="span4">
-                                            <a class="thumbnail" href="code">
-                                                <img alt="" src="images/boca.jpg"></a></li></ul>        
-                                    <p>Formar de manera integral Odontólogos especialistas en el área de Estomatología y Cirugía Oral que suplan las necesidades en las zonas rurales y urbanas, en cuanto a  la resolución de patologías del sistema estomatognático, logrando reducir así las incidencias de estas alteraciones y sus consecuencia.</p>
-                                    <p><a href="code" class="btn">Ver »</a></p>
-                                </div>
+                                <img src="<%=request.getContextPath()%>/img/banner.jpg" style="width: 100%;height: 250px;" ></img>
                             </div>
-                            <footer>
-                                <hr>
-                                    <p class="left">&copy; Universidad de Cartagena 2012</p>
 
-                            </footer>
+                            <div class="hero-unit span10" style="margin-top: 5px;padding-top: 5px;background-color: transparent">SIGIE UdeC es una herramienta diseñada con el fin de agilizar los procesos de Odontolog&iacute;a en los ambitos de Historias Cl&iacute;nicas y Comparaciones de Ex&aacute;menes Radiogr&aacute;ficos a los pacientes de la la Facultad.</div>
+                            <div class="row">
+                                <img src="<%=request.getContextPath()%>/img/Torre.jpg" style="position: absolute;bottom: 30px;right: 30px;"></img>                                
+                            </div>
+
+                            
+
+                                
+                                <p class="left" style="padding-left: 60px;">&copy; Universidad de Cartagena 2012</p>
+
+
+                            
+
                         </div> <!-- /container -->
                         <div class="modal hide fade" id="myModalRegistro">
                             <div class="modal-header">

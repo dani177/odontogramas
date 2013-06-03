@@ -12,7 +12,7 @@
         <fieldset>
             <legend>Ver curso</legend>
             <div class="control-group">
-                <label for="input01" class="control-label">Nombres y Apellidos</label>
+                <label for="input01" class="control-label">Nombre</label>
                 <div class="controls">
                     <input type="text" id="input01" class="input-xlarge {required:true}" name="nombre" value="${curso.getRowsByIndex()[0][1]}">
                 </div>

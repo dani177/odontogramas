@@ -38,7 +38,7 @@
 
     <form id="crearDocente" class="form-horizontal" method="post">
         <fieldset>
-            <legend>Nuevo docente</legend>
+            <legend>Nuevo Docente</legend>
             <div class="control-group">
                 <label for="input01" class="control-label">Identificaci&oacute;n</label>
                 <div class="controls">
@@ -62,8 +62,8 @@
                 <div class="controls">
                     <select id="estado" name="estado" class="{required:true}">
                         <option></option>  
-                        <option value="activo">activo</option>    
-                        <option value="inactivo">inactivo</option>    
+                        <option value="activo">Activo</option>    
+                        <option value="inactivo">Inactivo</option>    
                     </select>
                 </div>
             </div>

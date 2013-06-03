@@ -9,7 +9,7 @@
 
     <form id="verDocente" class="form-horizontal" method="post">
         <fieldset>
-            <legend>Detalle docente</legend>
+            <legend>Detalle Docente</legend>
             <div class="control-group">
                 <label for="input01" class="control-label">Identificaci&oacute;n</label>
                 <div class="controls">
@@ -35,12 +35,12 @@
                         <option></option>  
                         <c:choose>
                             <c:when test="${docente.getRowsByIndex()[0][4]=='activo'}">
-                                <option selected="selected" value="activo">activo</option>
-                                <option value="inactivo">inactivo</option>    
+                                <option selected="selected" value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>   
                             </c:when>
                             <c:otherwise>
-                                <option value="activo">activo</option>
-                                <option selected="selected" value="inactivo">inactivo</option>    
+                                <option value="activo">Activo</option>
+                                <option selected="selected" value="inactivo">Inactivo</option>    
                             </c:otherwise>
                         </c:choose>
                     </select>

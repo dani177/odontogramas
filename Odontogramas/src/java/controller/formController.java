@@ -60,6 +60,50 @@ public class formController extends HttpServlet {
                 Result hist = new sqlController().CargarSql2("SELECT * FROM `comparacion` WHERE `diente1` LIKE '%" + res.getRowsByIndex()[0][0] + "-" + dienteId + "%'");
                 sesion.setAttribute("historias", hist);
             }
+            if (request.getParameter("action").equals("mostrarInforme")) {
+                String fecha1 = request.getParameter("fecha1");
+                String fecha2 = request.getParameter("fecha2");
+                SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+                Date fechaI = null;
+                try {
+
+                    fechaI = formatoDelTexto.parse(fecha1);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+                Date fechaF = null;
+                try {
+
+                    fechaF = formatoDelTexto.parse(fecha2);
+
+                } catch (ParseException ex) {
+
+                    ex.printStackTrace();
+
+                }
+                Result consultas = new sqlController().CargarSql2("SELECT * FROM `consulta`");
+                int numCon = 0;
+                int numTrat = 0;
+                int dinero = 0;
+                for (int i = 0; i < consultas.getRowCount(); i++) {
+                    Date fechaConsulta = (Date) consultas.getRowsByIndex()[i][8];
+                    if (fechaI.compareTo(fechaConsulta) <= 0 && fechaF.compareTo(fechaConsulta) >= 0) {
+                        numCon++;
+                        Result trata = new sqlController().CargarSql2("SELECT * FROM `evolucion` inner join evolucion_has_tratamiento on evolucion_has_tratamiento.`idEvolucionX`=`idevolucion` WHERE `idconsulta`="+consultas.getRowsByIndex()[i][0]);
+                        Result dinero2 = new sqlController().CargarSql2("SELECT * FROM `evolucion` WHERE `idconsulta`="+consultas.getRowsByIndex()[i][0]);
+                        numTrat+=trata.getRowCount();
+                        for (int j = 0; j < dinero2.getRowCount(); j++) {
+                            dinero+=Integer.parseInt(""+dinero2.getRowsByIndex()[j][3]); 
+                        }
+                    }
+                }
+                out.print(""+numCon+"-"+numTrat+"-"+dinero);
+
+
+            }
 
 
             if (request.getParameter("action").equals("municipios")) {
@@ -505,12 +549,8 @@ public class formController extends HttpServlet {
                 String telefono = request.getParameter("telefono");
                 String curso = request.getParameter("curso");
                 String codigo = request.getParameter("codigo");
-
-
                 Result cur = new sqlController().CargarSql2("SELECT * FROM `curso` WHERE `idcurso`=" + curso);
-
                 if (cur.getRowsByIndex()[0][2].equals(codigo)) {
-
                     try {
                         Result docentehascurso = new sqlController().CargarSql2("SELECT * FROM `docente_has_curso` WHERE `curso_idcurso`=" + cur.getRowsByIndex()[0][0]);
 
@@ -529,10 +569,7 @@ public class formController extends HttpServlet {
                 } else {
                     out.print(1);
                 }
-
-
-
-            }
+          }
 
 
             if (request.getParameter("action").equals("listaMedicos")) {
@@ -607,10 +644,10 @@ public class formController extends HttpServlet {
 
                 }
 
-                if (con.getRowCount() == 0) {
+                if (con == null || con.getRowCount() == 0) {
 
                     new sqlController().UpdateSql("INSERT INTO `odontogramas`.`consulta` (`iddatosConsulta` ,`motivoConsulta` ,`historiaActualEnfermedad` ,`observaciones` ,`otros` ,`ultimaVisitaOdon` ,`motivo` ,`paciente_idpersona` ,`fechaConsulta` ,`pronostico` ,`medico_idmedico` ,`docente_iddocente`, `antOdon`, `procedencia`,`estado`) "
-                            + "VALUES (NULL , '" + motivo + "', '" + historia + "', '" + observaciones + "', '" + otros + "', '" + ultima + "', '" + motivo2 + "', '" + pa.getRowsByIndex()[0][0] + "', '" + formattedDate + "', NULL , '" + me.getRowsByIndex()[0][0] + "', 'xx', '" + antOdon + "', '" + procedencia +" , '" + procedencia + "')");
+                            + "VALUES (NULL , '" + motivo + "', '" + historia + "', '" + observaciones + "', '" + otros + "', '" + ultima + "', '" + motivo2 + "', '" + pa.getRowsByIndex()[0][0] + "', '" + formattedDate + "', NULL , '" + me.getRowsByIndex()[0][0] + "', 'xx', '" + antOdon + "', '" + procedencia + "' , 'activo')");
 
                     Result consultaRecienCreada = new sqlController().CargarSql2("SELECT * FROM consulta ORDER BY `iddatosConsulta` DESC LIMIT 1");
 

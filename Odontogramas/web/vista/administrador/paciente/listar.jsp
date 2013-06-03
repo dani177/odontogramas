@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <div class="span9">
             <br/>
-            <h2>Listado de  Pacientes</h2>
+            <h2>Listado de Pacientes</h2>
             <c:choose>
                 <c:when test="${listaDePacientes.getRowCount()!= 0}">
 
@@ -11,7 +11,7 @@
                         <thead>
                         <th>C&eacute;dula</th>    
                         <th>Paciente</th>
-                        <th></th>
+                        <th>Acci&oacute;n</th>
                         </thead>
                         <tbody>
                         <c:forEach items="${listaDePacientes.rowsByIndex}" var="row" varStatus="iter">

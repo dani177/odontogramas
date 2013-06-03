@@ -21,7 +21,7 @@
     <c:choose>
         <c:when test="${listaDeConsulta.getRowCount()!= 0}">
 
-            <table class="table table-striped table-bordered table-condensed">
+            <table class="table table-striped table-bordered table-condensed span8">
                 <thead>
                 <th>Fecha</th>    
                 <th>Acci&oacute;n</th>
@@ -29,10 +29,10 @@
                 <tbody>
                     <c:forEach items="${listaDeConsulta.rowsByIndex}" var="row" varStatus="iter">
                         <tr>
-                            <td>   
+                            <td class="span4">   
                                 <fmt:formatDate pattern="yyyy-MM-dd" value="${row[8]}"></fmt:formatDate>
                             </td>
-                            <td class="action icon16">
+                            <td class="action icon16 span4">
                                 <a class="icon-eye-open" href="#verConsulta&${row[0]}" title="Ver"></a> 
                                 <a class="icon-edit" href="#editarConsulta&${row[0]}" title="Editar"></a>
                                 <c:choose>

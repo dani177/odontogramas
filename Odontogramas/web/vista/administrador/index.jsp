@@ -263,7 +263,7 @@
                             }else{
                                 if(hash == "#menuDocentes"){
                                     $(".nav-list >li >a").show();
-                                    $(".nav-list >li").slice(3).remove();
+                                    $(".nav-list >li").slice(4).remove();
                                     $("a[href='#listaDocentes']").click();
                                             
                                 }else{
@@ -566,6 +566,22 @@
                                                                                                         $("a[href='#listaConsultas']").click();
                                                                                                     }
                                                                                                 })
+                                                                                            }else{
+                                                                                                if(hash == "#informes"){
+                                                                                                    
+                                                                                                    $.ajax({ 
+                                                                                                        type: "POST", 
+                                                                                                        url: "/Odontogramas/vista/administrador/informes/intervalo.jsp", 
+                                                                                                        success: function(data) 
+                                                                                                        { 
+                                                                                                            $("#contenido").html(data);
+                                       
+                                                                                                        } //fin success
+                                                                                                    }); //fin del $.ajax
+                                                                                                       
+                                                                                                    
+                        
+                                                                                                }
                                                                                             }
                                                                                         }
                                                                                     }
@@ -599,13 +615,14 @@
 
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
-                <div class="container">
+                <div class="container" style="padding-top: 10px; padding-bottom: 10px;">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
+                     <a class="brand" href="#"><img src="<%=request.getContextPath()%>/img/LogoUdeC2.png" style="position: absolute;top:0;left:30px;"></img> Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
+                                    <img class="resolucion" src="<%=request.getContextPath()%>/img/SIGIE.jpg" style="position: absolute;top:10px;right: 20px;"></img>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">
@@ -624,7 +641,7 @@
         </div>
 
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="padding-top: 10px;">
             <div class="row-fluid">
                 <div class="span3">
                     <div class="well sidebar-nav">
@@ -632,6 +649,7 @@
                             <li class="nav-header">Men&uacute;</li>
                             <li><a href="#nuevoDocente">Nuevo Docente</a></li>
                             <li><a href="#listaDocentes">Lista de Docentes</a></li>
+                            <li><a href="#informes">Informes</a></li>
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->

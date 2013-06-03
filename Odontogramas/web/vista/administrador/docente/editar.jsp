@@ -46,12 +46,12 @@
                         <option></option>  
                         <c:choose>
                             <c:when test="${docente.getRowsByIndex()[0][4]=='activo'}">
-                                <option selected="selected" value="activo">activo</option>
-                                <option value="inactivo">inactivo</option>    
+                                <option selected="selected" value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>    
                             </c:when>
                             <c:otherwise>
-                                <option value="activo">activo</option>
-                                <option selected="selected" value="inactivo">inactivo</option>    
+                                <option value="activo">Activo</option>
+                                <option selected="selected" value="inactivo">Inactivo</option>    
                             </c:otherwise>
                         </c:choose>
                     </select>
