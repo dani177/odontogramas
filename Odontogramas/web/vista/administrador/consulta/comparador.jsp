@@ -301,54 +301,24 @@
         <!-- lhpMegaImgViewer plugin -->
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.lhpMegaImgViewer.min_1.js"></script>
         <script type="text/javascript">
-            $(function() {
-                sliderWidth=700;
-                $('#thumbScroller').css('width',sliderWidth);
-                var totalContent=0;
-                $('#thumbScroller .content').each(function () {
-                    totalContent+=$(this).innerWidth();
-                    $('#thumbScroller .container').css('width',totalContent);
+            $(function(){
+                $("#tS2").thumbnailScroller({
+                    scrollerType:"hoverPrecise",
+                    scrollerOrientation:"horizontal",
+                    scrollSpeed:2,
+                    scrollEasing:"easeOutCirc",
+                    scrollEasingAmount:600,
+                    acceleration:4,
+                    scrollSpeed:800,
+                    noScrollCenterSpace:10,
+                    autoScrolling:0,
+                    autoScrollingSpeed:2000,
+                    autoScrollingEasing:"easeInOutQuad",
+                    autoScrollingDelay:500
                 });
-                
-                $('#thumbScroller  .thumb').each(function () {
-                    $(this).fadeTo(fadeSpeed, 0.6);
-                });
-                var fadeSpeed=200;
-                $('#thumbScroller .thumb').hover(
-                function(){ //mouse over
-                    $(this).fadeTo(fadeSpeed, 1);
-                },
-                function(){ //mouse out
-                    $(this).fadeTo(fadeSpeed, 0.6);
-                }
-            );
-                
-                $('#thumbScroller').mousemove(function(e){
-                    if($('#thumbScroller  .container').width()>sliderWidth){
-                        var mouseCoords=(e.pageX - 530);
-                        var mousePercentX=mouseCoords/sliderWidth;
-                        var destX=-(((totalContent-(sliderWidth))-sliderWidth)*(mousePercentX));
-                        var thePosA=mouseCoords-destX;
-                        var thePosB=destX-mouseCoords;
-                        var animSpeed=600; //ease amount
-                        var easeType='easeOutCirc';
-                        if(mouseCoords==destX){
-                            $('#thumbScroller .container').stop();
-                        }
-                        else if(mouseCoords>destX){
-                            //$('#thumbScroller .container').css('left',-thePosA); //without easing
-                            $('#thumbScroller .container').stop().animate({left: -thePosA}, animSpeed,easeType); //with easing
-                        }
-                        else if(mouseCoords<destX){
-                            //$('#thumbScroller .container').css('left',thePosB); //without easing
-                            $('#thumbScroller .container').stop().animate({left: thePosB}, animSpeed,easeType); //with easing
-                        }
-                    }
-                });
-                
             });
-          
         </script>
+        <script src="<%=request.getContextPath()%>/js/jquery.thumbnailScroller.js"></script>
 
     </head>
     <body>
@@ -390,10 +360,13 @@
                 <div id="fp_next" class="fp_next"></div>
                 <div id="fp_prev" class="fp_prev"></div>
                 <div id="outer_container">
-                    <div id="thumbScroller">
-                        <div class="container" id="contenedorCompara" >
-
+                    <div id="tS2" class="jThumbnailScroller">
+                        <div class="jTscrollerContainer" id="thumbScroller">
+                            <div class="jTscroller container" id="contenedorCompara">
+                            </div>
                         </div>
+                        <a href="#" class="jTscrollerPrevButton"></a>
+                        <a href="#" class="jTscrollerNextButton"></a>
                     </div>
                 </div>
                 <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>

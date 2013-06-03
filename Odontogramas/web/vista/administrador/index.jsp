@@ -15,6 +15,11 @@
         <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap-tagmanager.css">
 
         <style type="text/css">
+            .resolucion{
+                position: absolute;
+                top:15px;
+                right: 20px;
+            }
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
@@ -621,8 +626,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                     <a class="brand" href="#"><img src="<%=request.getContextPath()%>/img/LogoUdeC2.png" style="position: absolute;top:0;left:30px;"></img> Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
-                                    <img class="resolucion" src="<%=request.getContextPath()%>/img/SIGIE.jpg" style="position: absolute;top:10px;right: 20px;"></img>
+                    <a class="brand" href="#"><img src="<%=request.getContextPath()%>/img/LogoUdeC2.png" style="position: absolute;top:0;left:30px;"></img> Sistema para la Gesti&oacute;n de Informaci&oacute;n en el &Aacute;rea de Endodoncia</a>
+                    <img class="resolucion span2" src="<%=request.getContextPath()%>/img/SIGIE.jpg"></img>
 
                     <ul class="nav pull-right">
                         <li id="fat-menu" class="dropdown">

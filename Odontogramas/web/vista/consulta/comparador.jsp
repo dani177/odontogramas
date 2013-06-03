@@ -8,6 +8,7 @@
         <title>Comparador</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/lhp_miv.css" />
+        <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.thumbnailScroller.css" />
         <style>
             /* styles unrelated to zoom */
             * { border:0; margin:0; padding:0; }
@@ -44,47 +45,14 @@
 
         <style>
 
-            #outer_container{
-                position:relative;
-                bottom:-160px;	/*-160px to hide*/
-                margin:0px 0px 10px 0px;
-                height:130px;
-                padding:0;
-                -webkit-box-reflect:
-                    below 5px -webkit-gradient(
-                    linear,
-                    left top,
-                    left bottom,
-                    from(transparent),
-                    color-stop(0.6, transparent),
-                    to(rgb(18, 18, 18))
-                    );
-            }
-            #thumbScroller{
-                position:absolute;
-                left:0;
-                overflow:hidden;
-            }
-            #thumbScroller .container{
-                position:relative;
-                left:0;
-            }
-            #thumbScroller .content{
-                float:left;
-            }
-            #thumbScroller .content div{
-                margin:2px;
-                height:100%;
-            }
+            
+            
             #thumbScroller img,
             img.clone{
                 border:5px solid #fff;
                 height:120px;
             }
-            #thumbScroller a{
-                padding:2px;
-                outline:none;
-            }
+            
             .fp_overlay{
                 width:100%;
                 height:100%;
@@ -300,55 +268,26 @@
         </script>
         <!-- lhpMegaImgViewer plugin -->
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.lhpMegaImgViewer.min_1.js"></script>
+        <script src="<%=request.getContextPath()%>/js/jquery.thumbnailScroller.js"></script>
         <script type="text/javascript">
-            $(function() {
-                sliderWidth=700;
-                $('#thumbScroller').css('width',sliderWidth);
-                var totalContent=0;
-                $('#thumbScroller .content').each(function () {
-                    totalContent+=$(this).innerWidth();
-                    $('#thumbScroller .container').css('width',totalContent);
+            $(function(){
+                $("#tS2").thumbnailScroller({
+                    scrollerType:"clickButtons",
+                    scrollerOrientation:"horizontal",
+                    scrollSpeed:2,
+                    scrollEasing:"easeOutCirc",
+                    scrollEasingAmount:600,
+                    acceleration:4,
+                    scrollSpeed:800,
+                    noScrollCenterSpace:10,
+                    autoScrolling:0,
+                    autoScrollingSpeed:2000,
+                    autoScrollingEasing:"easeInOutQuad",
+                    autoScrollingDelay:500
                 });
-                
-                $('#thumbScroller  .thumb').each(function () {
-                    $(this).fadeTo(fadeSpeed, 0.6);
-                });
-                var fadeSpeed=200;
-                $('#thumbScroller .thumb').hover(
-                function(){ //mouse over
-                    $(this).fadeTo(fadeSpeed, 1);
-                },
-                function(){ //mouse out
-                    $(this).fadeTo(fadeSpeed, 0.6);
-                }
-            );
-                
-                $('#thumbScroller').mousemove(function(e){
-                    if($('#thumbScroller  .container').width()>sliderWidth){
-                        var mouseCoords=(e.pageX - 530);
-                        var mousePercentX=mouseCoords/sliderWidth;
-                        var destX=-(((totalContent-(sliderWidth))-sliderWidth)*(mousePercentX));
-                        var thePosA=mouseCoords-destX;
-                        var thePosB=destX-mouseCoords;
-                        var animSpeed=600; //ease amount
-                        var easeType='easeOutCirc';
-                        if(mouseCoords==destX){
-                            $('#thumbScroller .container').stop();
-                        }
-                        else if(mouseCoords>destX){
-                            //$('#thumbScroller .container').css('left',-thePosA); //without easing
-                            $('#thumbScroller .container').stop().animate({left: -thePosA}, animSpeed,easeType); //with easing
-                        }
-                        else if(mouseCoords<destX){
-                            //$('#thumbScroller .container').css('left',thePosB); //without easing
-                            $('#thumbScroller .container').stop().animate({left: thePosB}, animSpeed,easeType); //with easing
-                        }
-                    }
-                });
-                
             });
-          
         </script>
+
 
     </head>
     <body>
@@ -390,10 +329,13 @@
                 <div id="fp_next" class="fp_next"></div>
                 <div id="fp_prev" class="fp_prev"></div>
                 <div id="outer_container">
-                    <div id="thumbScroller">
-                        <div class="container" id="contenedorCompara" >
-
+                    <div id="tS2" class="jThumbnailScroller">
+                        <div class="jTscrollerContainer" id="thumbScroller">
+                            <div class="jTscroller container" id="contenedorCompara">
+                            </div>
                         </div>
+                        <a href="#" class="jTscrollerPrevButton"></a>
+                        <a href="#" class="jTscrollerNextButton"></a>
                     </div>
                 </div>
                 <div id="fp_thumbtoggle" class="fp_thumbtoggle">View Thumbs</div>
@@ -482,15 +424,11 @@
                         }
                     });	
                 
-                
-                
                     //current thumb's index being viewed
                     var current			= -1;
                     //cache some elements
                     var $btn_thumbs = $('#fp_thumbtoggle');
                     var $loader		= $('#fp_loading');
-                    var $btn_next		= $('#fp_next');
-                    var $btn_prev		= $('#fp_prev');
                     var $thumbScroller	= $('#thumbScroller');
 				
                     //total number of thumbs
@@ -503,7 +441,6 @@
                         $('<img/>').load(function(){
                             ++cnt_thumbs;
                             if(cnt_thumbs == nmb_thumbs)
-                            //display the thumbs on the bottom of the page
                                 showThumbs(2000);
                         }).attr('src',$thumb.find('img').attr('src'));
                     }
@@ -629,7 +566,6 @@
                                     };
                                     $currImage2.lhpMegaImgViewer(customizeMeStt);
                                     setTimeout(function(){
-                                        console.log($currImage2.attr("id"));
                                         if($currImage2.attr("id")=="cuadro1"){
                                             $("#cuadro1 .lhp_miv_holder").append("<canvas width='180px' height='244px' id='cv' style='position:absolute;left:0px;'></canvas>");   
                                         }else{
