@@ -49,8 +49,7 @@
             
             #thumbScroller img,
             img.clone{
-                border:5px solid #fff;
-                height:120px;
+                height:140px;
             }
             
             .fp_overlay{
