@@ -45,13 +45,13 @@
 
         <style>
 
-            
-            
+
+
             #thumbScroller img,
             img.clone{
                 height:140px;
             }
-            
+
             .fp_overlay{
                 width:100%;
                 height:100%;
@@ -182,6 +182,24 @@
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.mousewheel.min.js"></script>
         <script type="text/javascript">
             $(function(){
+                $("a[href='#QuitarImagen']").live("click",function(e){
+                    var $this=$(this);
+                    var $drag;
+                    if(confirm("¿Desea quitar esta imagen?")) { 
+                        $drag = $this.parents("div");
+                        $drag.children("a").remove();
+                        $drag.children("h5").remove();
+                        if($drag.children(".zoom4").attr("id")=="cuadro1"){
+                            $('#cuadro1').lhpMegaImgViewer( 'destroy' );
+                            $drag.children(".zoom4").empty();
+                        }else{
+                            $('#cuadro2').lhpMegaImgViewer( 'destroy' );
+                            $drag.children(".zoom4").empty();
+                        }
+                    }else{
+                        return false;
+                    }
+                });
                 var iX=-1,iY=-1,fX=-1,fY=-1, distancia;
                 $("#cv").live("click",function(e){
                     var canvas = document.getElementById("cv");
@@ -330,7 +348,7 @@
                 <div id="outer_container">
                     <div id="tS2" class="jThumbnailScroller">
                         <div class="jTscrollerContainer" id="thumbScroller">
-                            <div class="jTscroller container" id="contenedorCompara">
+                            <div class="jTscroller" id="contenedorCompara" style="width: 1500px;">
                             </div>
                         </div>
                         <a href="#" class="jTscrollerPrevButton"></a>
@@ -455,14 +473,14 @@
                             $currImage2 = $('#cuadro1'); 
                             $currImage = $('#draggable3'); 
                             $($currImage).
-                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Quitar esta imagen' href='#QuitarImagen'>Quitar imagen</a>");
                                 
                         }else{
                             if(!$("#draggable5").find("img").length){
                                 $currImage2 = $('#cuadro2'); 
                                 $currImage = $('#draggable5'); 
                                 $($currImage).
-                                    append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                    append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Quitar esta imagen' href='#QuitarImagen'>Quitar imagen</a>");
                                     
                             }
                         }

@@ -214,6 +214,28 @@
         <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.mousewheel.min.js"></script>
         <script type="text/javascript">
             $(function(){
+                
+                $("a[href='#QuitarImagen']").live("click",function(e){
+                    var $this=$(this);
+                    var $drag;
+                    if(confirm("¿Desea quitar esta imagen?")) { 
+                        $drag = $this.parents("div");
+                        $drag.children("a").remove();
+                        $drag.children("h5").remove();
+                        if($drag.children(".zoom4").attr("id")=="cuadro1"){
+                            $('#cuadro1').lhpMegaImgViewer( 'destroy' );
+                            $drag.children(".zoom4").empty();
+                        }else{
+                            $('#cuadro2').lhpMegaImgViewer( 'destroy' );
+                            $drag.children(".zoom4").empty();
+                        }
+                        
+                        
+                        
+                    }else{
+                        return false;
+                    }
+                });
                 var iX=-1,iY=-1,fX=-1,fY=-1, distancia;
                 $("#cv").live("click",function(e){
                     var canvas = document.getElementById("cv");
@@ -389,7 +411,7 @@
                 <div id="fp_prev" class="fp_prev"></div>
                 <div id="outer_container">
                     <div id="thumbScroller">
-                        <div class="container" id="contenedorCompara" >
+                        <div class="" id="contenedorCompara" style="width: 1500px;">
 
                         </div>
                     </div>
@@ -517,14 +539,14 @@
                             $currImage2 = $('#cuadro1'); 
                             $currImage = $('#draggable3'); 
                             $($currImage).
-                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Quitar esta imagen' href='#QuitarImagen'>Quitar imagen</a>");
                                 
                         }else{
                             if(!$("#draggable5").find("img").length){
                                 $currImage2 = $('#cuadro2'); 
                                 $currImage = $('#draggable5'); 
                                 $($currImage).
-                                    append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Delete this image' href=''>Delete image</a>");
+                                    append("<a class='ui-icon ui-icon-closethick' style='position:absolute;right:-8px;top:-9px;' title='Quitar esta imagen' href='#QuitarImagen'>Quitar imagen</a>");
                                     
                             }
                         }
@@ -627,7 +649,6 @@
                                     };
                                     $currImage2.lhpMegaImgViewer(customizeMeStt);
                                     setTimeout(function(){
-                                        console.log($currImage2.attr("id"));
                                         if($currImage2.attr("id")=="cuadro1"){
                                             $("#cuadro1 .lhp_miv_holder").append("<canvas width='180px' height='244px' id='cv' style='position:absolute;left:0px;'></canvas>");   
                                         }else{
