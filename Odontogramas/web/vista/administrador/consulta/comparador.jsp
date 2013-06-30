@@ -379,7 +379,7 @@
                 <div id="fp_next" class="fp_next"></div>
                 <div id="fp_prev" class="fp_prev"></div>
                 <div id="outer_container">
-                    <div id="tS2" class="jThumbnailScroller">
+                    <div id="tS2" class="jThumbnailScroller" style="height: 160px;">
                         <div class="jTscrollerContainer" id="thumbScroller">
                             <div class="jTscroller" id="contenedorCompara" style="width: 1500px;">
                             </div>

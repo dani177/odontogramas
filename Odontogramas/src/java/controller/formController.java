@@ -10,6 +10,7 @@ import entity.controller.*;
 import entity.controller.exceptions.IllegalOrphanException;
 import entity.controller.exceptions.NonexistentEntityException;
 import entity.controller.exceptions.PreexistingEntityException;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -92,15 +93,15 @@ public class formController extends HttpServlet {
                     Date fechaConsulta = (Date) consultas.getRowsByIndex()[i][8];
                     if (fechaI.compareTo(fechaConsulta) <= 0 && fechaF.compareTo(fechaConsulta) >= 0) {
                         numCon++;
-                        Result trata = new sqlController().CargarSql2("SELECT * FROM `evolucion` inner join evolucion_has_tratamiento on evolucion_has_tratamiento.`idEvolucionX`=`idevolucion` WHERE `idconsulta`="+consultas.getRowsByIndex()[i][0]);
-                        Result dinero2 = new sqlController().CargarSql2("SELECT * FROM `evolucion` WHERE `idconsulta`="+consultas.getRowsByIndex()[i][0]);
-                        numTrat+=trata.getRowCount();
+                        Result trata = new sqlController().CargarSql2("SELECT * FROM `evolucion` inner join evolucion_has_tratamiento on evolucion_has_tratamiento.`idEvolucionX`=`idevolucion` WHERE `idconsulta`=" + consultas.getRowsByIndex()[i][0]);
+                        Result dinero2 = new sqlController().CargarSql2("SELECT * FROM `evolucion` WHERE `idconsulta`=" + consultas.getRowsByIndex()[i][0]);
+                        numTrat += trata.getRowCount();
                         for (int j = 0; j < dinero2.getRowCount(); j++) {
-                            dinero+=Integer.parseInt(""+dinero2.getRowsByIndex()[j][3]); 
+                            dinero += Integer.parseInt("" + dinero2.getRowsByIndex()[j][3]);
                         }
                     }
                 }
-                out.print(""+numCon+"-"+numTrat+"-"+dinero);
+                out.print("" + numCon + "-" + numTrat + "-" + dinero);
 
 
             }
@@ -569,7 +570,7 @@ public class formController extends HttpServlet {
                 } else {
                     out.print(1);
                 }
-          }
+            }
 
 
             if (request.getParameter("action").equals("listaMedicos")) {
@@ -867,12 +868,29 @@ public class formController extends HttpServlet {
                 sesion.setAttribute("planTratamientoE", new sqlController().CargarSql2("SELECT `planTratamiento_idplanTratamiento` FROM `datosconsulta_has_plantratamiento` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
                 sesion.setAttribute("remisionE", new sqlController().CargarSql2("SELECT `remision_idremision` FROM `remision_has_datosconsulta` WHERE `datosConsulta_iddatosConsulta`=" + con.getRowsByIndex()[0][0]));
 
-
-
-
+                String str = request.getSession().getServletContext().getRealPath("/file/");
+                File fichero = new File(str);
+                String[] ficheros = fichero.list();
+                List<String> dientesEnf = new ArrayList<String>();
+                if (ficheros == null) {
+                } else {
+                    for (int i = 0; i < ficheros.length; i++) {
+                        String elementos[] = ficheros[i].split("\\.");
+                        String elemento2[] = ficheros[i].split("-");
+                        if (elemento2[0].equals("" + idConsulta)) {
+                            if (!dientesEnf.contains("" + elemento2[1])) {
+                                dientesEnf.add("" + elemento2[1]);
+                            }
+                        }
+                    }
+                }
+                
+                sesion.setAttribute("dienteConRadiografia", dientesEnf);
             }
 
-            if (request.getParameter("action").equals("agregarDiagnostico")) {
+
+            if (request.getParameter(
+                    "action").equals("agregarDiagnostico")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_diagnostico` WHERE `datosconsulta_has_diagnostico`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0] + "");
@@ -889,8 +907,8 @@ public class formController extends HttpServlet {
                 }
             }
 
-
-            if (request.getParameter("action").equals("agregarTratamiento")) {
+            if (request.getParameter(
+                    "action").equals("agregarTratamiento")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 new sqlController().UpdateSql("DELETE FROM `datosconsulta_has_tratamiento` WHERE `datosconsulta_has_tratamiento`.`datosConsulta_iddatosConsulta` = " + con.getRowsByIndex()[0][0]);
@@ -908,9 +926,8 @@ public class formController extends HttpServlet {
                 }
             }
 
-
-
-            if (request.getParameter("action").equals("guardarDatosBasicos2")) {
+            if (request.getParameter(
+                    "action").equals("guardarDatosBasicos2")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String temperatura = (String) request.getParameter("temperatura");
@@ -938,9 +955,8 @@ public class formController extends HttpServlet {
 
             }
 
-
-
-            if (request.getParameter("action").equals("agregarAntecedentes")) {
+            if (request.getParameter(
+                    "action").equals("agregarAntecedentes")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String eactual = (String) request.getParameter("eactual");
@@ -963,7 +979,9 @@ public class formController extends HttpServlet {
                 }
 
             }
-            if (request.getParameter("action").equals("agregarImpresion")) {
+
+            if (request.getParameter(
+                    "action").equals("agregarImpresion")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String dienteI = (String) request.getParameter("dienteI");
@@ -976,7 +994,9 @@ public class formController extends HttpServlet {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `diente` = '" + dienteI + "', `tejidosVecinos` = '" + tejidos + "' WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
                 }
             }
-            if (request.getParameter("action").equals("agregarPreparacion")) {
+
+            if (request.getParameter(
+                    "action").equals("agregarPreparacion")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String referencia = (String) request.getParameter("referencia");
@@ -1000,27 +1020,32 @@ public class formController extends HttpServlet {
                 Result preparacionRecienCreada = new sqlController().CargarSql2("SELECT * FROM preparacionbiomedica ORDER BY `idpreparacionBiomedica` DESC LIMIT 1");
                 out.print(preparacionRecienCreada.getRowsByIndex()[0][0]);
             }
-            if (request.getParameter("action").equals("eliminarPreparacion")) {
+
+            if (request.getParameter(
+                    "action").equals("eliminarPreparacion")) {
                 String pid = (String) request.getParameter("pid");
 
                 new sqlController().UpdateSql("DELETE FROM `odontogramas`.`preparacionbiomedica` WHERE `preparacionbiomedica`.`idpreparacionBiomedica` = " + pid);
             }
-            if (request.getParameter("action").equals("eliminarControl")) {
+
+            if (request.getParameter(
+                    "action").equals("eliminarControl")) {
                 String cid = (String) request.getParameter("cid");
 
                 new sqlController().UpdateSql("DELETE FROM `controltratamiento` WHERE `controltratamiento`.`idcontroltratamiento` = " + cid);
                 new sqlController().UpdateSql("DELETE FROM `controltratamiento_has_tratamiento` WHERE `controltratamiento_has_tratamiento`.`controltratamiento_idcontroltratamiento` = " + cid);
             }
-            if (request.getParameter("action").equals("eliminarEvolucion")) {
+
+            if (request.getParameter(
+                    "action").equals("eliminarEvolucion")) {
                 String eid = (String) request.getParameter("ide");
 
                 new sqlController().UpdateSql("DELETE FROM `evolucion` WHERE `evolucion`.`idevolucion` = " + eid);
                 new sqlController().UpdateSql("DELETE FROM `evolucion_has_tratamiento` WHERE `evolucion_has_tratamiento`.`idEvolucionX` = " + eid);
             }
 
-
-
-            if (request.getParameter("action").equals("agregarControl")) {
+            if (request.getParameter(
+                    "action").equals("agregarControl")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String fecha = (String) request.getParameter("fechaTrat10");
@@ -1045,10 +1070,8 @@ public class formController extends HttpServlet {
                 out.print(controlRecienCreado.getRowsByIndex()[0][0]);
             }
 
-
-
-
-            if (request.getParameter("action").equals("agregarRadiografico")) {
+            if (request.getParameter(
+                    "action").equals("agregarRadiografico")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String corona = (String) request.getParameter("corona");
@@ -1091,7 +1114,9 @@ public class formController extends HttpServlet {
                     new sqlController().UpdateSql("UPDATE `odontogramas`.`historiaclinica` SET `evaluaciones` = '" + evaluacion + "', `observaciones`= '" + ObservacionesE + "', `etiologia`= '" + ObservacionesE + "',`corona`='" + corona + "',`raiz`='" + raiz + "',`periapical`='" + periapical + "'  WHERE `historiaclinica`.`idhistoriaClinica` =" + historia.getRowsByIndex()[0][0]);
                 }
             }
-            if (request.getParameter("action").equals("agregarVitalometrica")) {
+
+            if (request.getParameter(
+                    "action").equals("agregarVitalometrica")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 String frio = (String) request.getParameter("frio");
@@ -1104,8 +1129,8 @@ public class formController extends HttpServlet {
                 }
             }
 
-
-            if (request.getParameter("action").equals("guardarPron")) {
+            if (request.getParameter(
+                    "action").equals("guardarPron")) {
                 HttpSession sesion = request.getSession();
                 Result con = (Result) sesion.getAttribute("consulta");
                 Result listR = (Result) sesion.getAttribute("remision");
@@ -1147,10 +1172,6 @@ public class formController extends HttpServlet {
                 String pronostico = (String) request.getParameter("pronostico");
                 new sqlController().UpdateSql("UPDATE `odontogramas`.`consulta` SET `pronostico` = '" + pronostico + "' WHERE `consulta`.`iddatosConsulta` =" + con.getRowsByIndex()[0][0] + "");
             }
-
-
-
-
         } finally {
             out.close();
         }
