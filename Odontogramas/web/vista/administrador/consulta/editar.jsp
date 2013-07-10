@@ -757,7 +757,7 @@
 
         var miArray2 = new Array(${tratamientos.getRowCount()});
 
-        <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
+    <c:forEach items="${tratamientos.rowsByIndex}" var="item2" varStatus="iter2">
             miArray2[${iter2.index}] = "${item2[1]} - ${item2[0]} - ${item2[2]}";
     </c:forEach> 
             $(".tagManager3").tagsManager({
@@ -790,9 +790,9 @@
                 });
                 
         </c:when>
-            <c:otherwise>
+        <c:otherwise>
                 var miArrayExT = new Array(${tratamientosExistentes.getRowCount()});
-                <c:forEach items="${tratamientosExistentes.rowsByIndex}" var="tratamiento" varStatus="iterT">
+            <c:forEach items="${tratamientosExistentes.rowsByIndex}" var="tratamiento" varStatus="iterT">
                     miArrayExT[${iterT.index}] = "${tratamiento[1]} - ${tratamiento[0]}  - ${tratamiento[2]}";
             </c:forEach>
                   
@@ -828,9 +828,9 @@
                 });
                 
         </c:when>
-            <c:otherwise>
+        <c:otherwise>
                 var miArrayExT6 = new Array(${tratamientosExistentes6.getRowCount()});
-                <c:forEach items="${tratamientosExistentes6.rowsByIndex}" var="tratamiento6" varStatus="iterT6">
+            <c:forEach items="${tratamientosExistentes6.rowsByIndex}" var="tratamiento6" varStatus="iterT6">
                     miArrayExT6[${iterT6.index}] = "${tratamiento6[1]} - ${tratamiento6[0]}  - ${tratamiento6[2]}";
             </c:forEach>
                   
@@ -877,7 +877,7 @@
 
             var miArray = new Array(${diagnosticos.getRowCount()});
 
-        <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
+    <c:forEach items="${diagnosticos.rowsByIndex}" var="item" varStatus="iter">
             miArray[${iter.index}] = "${item[2]} - ${item[0]}";
     </c:forEach> 
     <c:choose>
@@ -895,9 +895,9 @@
                     blinkBGColor_2: '#CDE69C'
                 });
         </c:when>
-            <c:otherwise>
+        <c:otherwise>
                 var miArrayEx = new Array(${diagnosticosExistentes.getRowCount()});
-                <c:forEach items="${diagnosticosExistentes.rowsByIndex}" var="diagnostico" varStatus="iterD">
+            <c:forEach items="${diagnosticosExistentes.rowsByIndex}" var="diagnostico" varStatus="iterD">
                     miArrayEx[${iterD.index}] = "${diagnostico[1]} - ${diagnostico[0]}";
             </c:forEach>
                     $(".tagManager").tagsManager({
@@ -932,9 +932,9 @@
                     blinkBGColor_2: '#CDE69C'
                 });
         </c:when>
-            <c:otherwise>
+        <c:otherwise>
                 var miArrayEx5 = new Array(${diagnosticosExistentes5.getRowCount()});
-                <c:forEach items="${diagnosticosExistentes5.rowsByIndex}" var="diagnostico5" varStatus="iterD5">
+            <c:forEach items="${diagnosticosExistentes5.rowsByIndex}" var="diagnostico5" varStatus="iterD5">
                     miArrayEx5[${iterD5.index}] = "${diagnostico5[1]} - ${diagnostico5[0]}";
             </c:forEach>
                     $(".tagManager5").tagsManager({
@@ -1155,72 +1155,19 @@
                             <label for="ultima" class="control-label">Ultima Visita al odont&oacute;logo</label>
                             <div class="controls">
                                 <input type="text" id="ultima" name="ultima" class="input-medium ultima" data-datepicker="datepicker" value="<fmt:formatDate pattern='yyyy-MM-dd' value='${consulta.getRowsByIndex()[0][5]}'></fmt:formatDate>" />
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="control-group">
-                                <label for="motivo2" class="control-label">Motivo</label>
-                                <div class="controls">
-                                    <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
+                        <div class="control-group">
+                            <label for="motivo2" class="control-label">Motivo</label>
+                            <div class="controls">
+                                <textarea rows="3" id="motivo2" name="motivo2" class="input-xxlarge">${consulta.getRowsByIndex()[0][6]}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="procedencia" class="control-label">Procedencia</label>
                             <div class="controls">
                                 <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge">${consulta.getRowsByIndex()[0][13]}</textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div> <!--/span-->
-
-            <!--/nuevo2-->
-
-        </div>
-
-
-
-        <!-----------------PESTANA 2---------------------------->
-        <div class="tab-pane fade" id="otro">
-
-            <div class="span12">
-                <form class="form-horizontal" id="datos3">
-                    <fieldset>
-                        <legend>Examen F&iacute;sico</legend>
-                        <div class="control-group">
-                            <label for="temperatura" class="control-label">Temperatura</label>
-                            <div class="controls">
-                                <input id="temperatura"  name="temperatura" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][1]}">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="pulso" class="control-label">Pulso</label>
-                            <div class="controls">
-                                <input id="pulso" name="pulso"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][2]}">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
-                            <div class="controls">
-                                <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="frecuenciaRes" class="control-label">Frecuencia respiratoria</label>
-                            <div class="controls">
-                                <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
-                            </div>
-                        </div>
-                        <legend>Examen Extraoral</legend>
-                        <div class="control-group">
-                            <label class="control-label" for="extraoral">Examen extraoral</label>
-                            <div class="controls">
-                                <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
                             </div>
                         </div>
                         <legend>Examen Intraoral</legend>    
@@ -1556,6 +1503,60 @@
                                 <input id="evolucionHabito" name="evolucionHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][14]}">
                             </div>
                         </div>     
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                            <button class="btn" type="reset">Cancelar</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div> <!--/span-->
+
+            <!--/nuevo2-->
+
+        </div>
+
+
+
+        <!-----------------PESTANA 2---------------------------->
+        <div class="tab-pane fade" id="otro">
+
+            <div class="span12">
+                <form class="form-horizontal" id="datos3">
+                    <fieldset>
+                        <legend>Examen F&iacute;sico</legend>
+                        <div class="control-group">
+                            <label for="temperatura" class="control-label">Temperatura</label>
+                            <div class="controls">
+                                <input id="temperatura"  name="temperatura" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][1]}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="pulso" class="control-label">Pulso</label>
+                            <div class="controls">
+                                <input id="pulso" name="pulso"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][2]}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
+                            <div class="controls">
+                                <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="frecuenciaRes" class="control-label">Frecuencia respiratoria</label>
+                            <div class="controls">
+                                <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
+                            </div>
+                        </div>
+                        <legend>Examen Extraoral</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="extraoral">Examen extraoral</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
+                            </div>
+                        </div>
+
                         <div class="form-actions">
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
                             <button class="btn" type="reset">Cancelar</button>

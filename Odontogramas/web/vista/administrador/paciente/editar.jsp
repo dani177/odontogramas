@@ -51,72 +51,11 @@
                 </div>
             </div>
             <div class="control-group">
-                <label for="input04" class="control-label">Direcci&oacute;n</label>
-                <div class="controls">
-                    <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getRowsByIndex()[0][2]}">
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="input02" class="control-label">No de Identificaci&oacute;n</label>
-                <div class="controls">
-                    <span class="input-xlarge uneditable-input">${paciente.getRowsByIndex()[0][0]}</span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="input03" class="control-label">No de Afiliaci&oacute;n</label>
-                <div class="controls">
-                    <input type="text" id="input03" name="afiliacion" value="${paciente.getRowsByIndex()[0][3]}">
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label for="input05" class="control-label">Tel&eacute;fono</label>
-                <div class="controls">
-                    <input type="text" id="input05" name="telefono" value="${paciente.getRowsByIndex()[0][4]}">
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="input06" class="control-label">Departamento</label>
-                <div class="controls">
-                    <select id="departamentos" name="departamentos" class="{required:true}">
-                        <c:forEach items="${departamentos.rowsByIndex}" var="row" varStatus="iter">
-                            <c:choose>
-                                <c:when test="${row[0]!=departamento.getRowsByIndex()[0][12]}">
-                                    <option value="${row[0]}">${row[1]}</option>    
-                                </c:when>
-                                <c:otherwise>
-                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
-                                </c:otherwise>     
-                            </c:choose>
-            
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="input06" class="control-label">Ciudad/Municipio</label>
-                <div class="controls">
-                    <select id="municipios" name="municipio" class="{required:true}">
-                        <c:forEach items="${municipios.rowsByIndex}" var="row" varStatus="iter">
-                            <c:choose>
-                                <c:when test="${row[0]!=paciente.getRowsByIndex()[0][8]}">
-                                    <option value="${row[0]}">${row[1]}</option>    
-                                </c:when>
-                                <c:otherwise>
-                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
-                                </c:otherwise>     
-                            </c:choose>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
                 <label for="fecha" class="control-label">Fecha de Nacimiento</label>
                 <div class="controls">
                     <input type="text" id="fecha" name="fecha" class="input-small {required:true}" data-datepicker="datepicker" value="${fecha}">
                 </div>
             </div>
-
             <div class="control-group">
                 <label class="control-label">Sexo</label>
                 <div class="controls">
@@ -150,8 +89,13 @@
                     </c:choose>
 
                 </div>
-            </div>
-
+            </div>    
+            <div class="control-group">
+                <label for="input02" class="control-label">No de Identificaci&oacute;n</label>
+                <div class="controls">
+                    <span class="input-xlarge uneditable-input">${paciente.getRowsByIndex()[0][0]}</span>
+                </div>
+            </div>    
             <div class="control-group">
                 <label class="control-label">Estado Civil</label>
                 <div class="controls">
@@ -217,11 +161,63 @@
                                 </c:otherwise>     
                             </c:choose>
                         </c:forEach>
-            
+
+                    </select>
+                </div>
+            </div>    
+            <div class="control-group">
+                <label for="input04" class="control-label">Direcci&oacute;n</label>
+                <div class="controls">
+                    <input type="text" id="direccion" name="direccion" class="input-xlarge {required:true}" value="${paciente.getRowsByIndex()[0][2]}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="input06" class="control-label">Departamento</label>
+                <div class="controls">
+                    <select id="departamentos" name="departamentos" class="{required:true}">
+                        <c:forEach items="${departamentos.rowsByIndex}" var="row" varStatus="iter">
+                            <c:choose>
+                                <c:when test="${row[0]!=departamento.getRowsByIndex()[0][12]}">
+                                    <option value="${row[0]}">${row[1]}</option>    
+                                </c:when>
+                                <c:otherwise>
+                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
+                                </c:otherwise>     
+                            </c:choose>
+
+                        </c:forEach>
                     </select>
                 </div>
             </div>
-
+            <div class="control-group">
+                <label for="input06" class="control-label">Ciudad/Municipio</label>
+                <div class="controls">
+                    <select id="municipios" name="municipio" class="{required:true}">
+                        <c:forEach items="${municipios.rowsByIndex}" var="row" varStatus="iter">
+                            <c:choose>
+                                <c:when test="${row[0]!=paciente.getRowsByIndex()[0][8]}">
+                                    <option value="${row[0]}">${row[1]}</option>    
+                                </c:when>
+                                <c:otherwise>
+                                    <option selected="selected" value="${row[0]}">${row[1]}</option>    
+                                </c:otherwise>     
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="input05" class="control-label">Tel&eacute;fono</label>
+                <div class="controls">
+                    <input type="text" id="input05" name="telefono" value="${paciente.getRowsByIndex()[0][4]}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label for="input03" class="control-label">No de Afiliaci&oacute;n</label>
+                <div class="controls">
+                    <input type="text" id="input03" name="afiliacion" value="${paciente.getRowsByIndex()[0][3]}">
+                </div>
+            </div>
             <div class="form-actions">
                 <button class="btn btn-primary" type="submit">Guardar cambios</button>
                 <button class="btn" type="reset">Cancelar</button>

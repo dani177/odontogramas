@@ -1148,59 +1148,6 @@
                                 <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge">${consulta.getRowsByIndex()[0][13]}</textarea>
                             </div>
                         </div>
-
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
-                            <button class="btn" type="reset">Cancelar</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div> <!--/span-->
-
-            <!--/nuevo2-->
-
-        </div>
-
-
-
-        <!-----------------PESTANA 2---------------------------->
-        <div class="tab-pane fade" id="otro">
-
-            <div class="span12">
-                <form class="form-horizontal" id="datos3">
-                    <fieldset>
-                        <legend>Examen F&iacute;sico</legend>
-                        <div class="control-group">
-                            <label for="temperatura" class="control-label">Temperatura</label>
-                            <div class="controls">
-                                <input id="temperatura"  name="temperatura" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][1]}">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="pulso" class="control-label">Pulso</label>
-                            <div class="controls">
-                                <input id="pulso" name="pulso"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][2]}">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
-                            <div class="controls">
-                                <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="frecuenciaRes" class="control-label">Frecuencia respiratoria</label>
-                            <div class="controls">
-                                <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
-                            </div>
-                        </div>
-                        <legend>Examen Extraoral</legend>
-                        <div class="control-group">
-                            <label class="control-label" for="extraoral">Examen extraoral</label>
-                            <div class="controls">
-                                <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
-                            </div>
-                        </div>
                         <legend>Examen Intraoral</legend>    
                         <div class="control-group">
                             <label class="control-label">Higiene Oral</label>
@@ -1534,6 +1481,61 @@
                                 <input id="evolucionHabito" name="evolucionHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][14]}">
                             </div>
                         </div>     
+                            
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                            <button class="btn" type="reset">Cancelar</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div> <!--/span-->
+
+            <!--/nuevo2-->
+
+        </div>
+
+
+
+        <!-----------------PESTANA 2---------------------------->
+        <div class="tab-pane fade" id="otro">
+
+            <div class="span12">
+                <form class="form-horizontal" id="datos3">
+                    <fieldset>
+                        <legend>Examen F&iacute;sico</legend>
+                        <div class="control-group">
+                            <label for="temperatura" class="control-label">Temperatura</label>
+                            <div class="controls">
+                                <input id="temperatura"  name="temperatura" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][1]}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="pulso" class="control-label">Pulso</label>
+                            <div class="controls">
+                                <input id="pulso" name="pulso"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][2]}">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
+                            <div class="controls">
+                                <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="frecuenciaRes" class="control-label">Frecuencia respiratoria</label>
+                            <div class="controls">
+                                <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
+                            </div>
+                        </div>
+                        <legend>Examen Extraoral</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="extraoral">Examen extraoral</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
+                            </div>
+                        </div>
+                            
                         <div class="form-actions">
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
                             <button class="btn" type="reset">Cancelar</button>
