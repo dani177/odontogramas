@@ -1078,7 +1078,7 @@
                     <fieldset>
                         <legend>Datos Personales</legend>
                         <div class="control-group">
-                            <label for="motivo" class="control-label">Motivo de la consulta</label>
+                            <label for="motivo" class="control-label">Motivo de consulta</label>
                             <div class="controls">
                                 <textarea rows="3" id="motivo" name="motivo" class="input-xxlarge {required:true}">${consulta.getRowsByIndex()[0][1]}</textarea>
                             </div>
@@ -1123,6 +1123,7 @@
                                 <textarea rows="3" id="otros" name="otros" class="input-xxlarge">${consulta.getRowsByIndex()[0][4]}</textarea>
                             </div>
                         </div>
+                            <legend>Antecedentes odontol&oacute;gicos</legend>    
                         <div class="control-group">
                             <label for="antOdon" class="control-label">Antecedentes odontol&oacute;gicos</label>
                             <div class="controls">
@@ -1148,7 +1149,7 @@
                                 <textarea rows="3" id="procedencia" name="procedencia" class="input-xxlarge">${consulta.getRowsByIndex()[0][13]}</textarea>
                             </div>
                         </div>
-                            <legend>Examen Intraoral</legend>    
+                    
                         <div class="control-group">
                             <label class="control-label">Higiene Oral</label>
                             <div class="controls">
@@ -1368,7 +1369,14 @@
                                 </select>
                             </div>
                         </div>
+                       
                         <div class="control-group">
+                            <label for="frecuenciaHabito" class="control-label">Frecuencia</label>
+                            <div class="controls">
+                                <input id="frecuenciaHabito" name="frecuenciaHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][13]}">
+                            </div>
+                        </div>
+                             <div class="control-group">
                             <label class="control-label">H&aacute;bitos y vicios</label>
                             <div class="controls">
                                 <select id="habitosYvicios" name="habitosYvicios">
@@ -1467,12 +1475,6 @@
                                         </c:otherwise>
                                     </c:choose>  
                                 </select>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label for="frecuenciaHabito" class="control-label">Frecuencia</label>
-                            <div class="controls">
-                                <input id="frecuenciaHabito" name="frecuenciaHabito"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][13]}">
                             </div>
                         </div>
                         <div class="control-group">
