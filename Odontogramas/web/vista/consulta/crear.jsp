@@ -1503,7 +1503,7 @@
             <div class="span12">
                 <form class="form-horizontal" id="datos3">
                     <fieldset>
-                        <legend>Examen F&iacute;sico</legend>
+                        <legend>Examen F&iacute;sico General</legend>
                         <div class="control-group">
                             <label for="temperatura" class="control-label">Temperatura</label>
                             <div class="controls">
@@ -1517,7 +1517,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="tension" class="control-label">Tensi&oacute;n A.</label>
+                            <label for="tension" class="control-label">Tensi&oacute;n Arterial</label>
                             <div class="controls">
                                 <input id="tension" name="tension" type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][3]}" >
                             </div>
@@ -1528,13 +1528,21 @@
                                 <input id="frecuenciaRes" name="frecuenciaRes"  type="text" value="${examenfisicoestomatologicoList.getRowsByIndex()[0][12]}">
                             </div>
                         </div>
-                        <legend>Examen Extraoral</legend>
+                        <legend>Examen F&iacute;sico Extraoral</legend>
                         <div class="control-group">
                             <label class="control-label" for="extraoral">Examen extraoral</label>
                             <div class="controls">
                                 <textarea class="input-xxlarge" name="extraoral" id="extraoral" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][15]}</textarea>
                             </div>
                         </div>
+                                  <legend>Examen estomatologico</legend>
+                        <div class="control-group">
+                            <label class="control-label" for="examenesto">examen de labios y mucosa interna</label>
+                            <div class="controls">
+                                <textarea class="input-xxlarge" name="examenesto" id="examenesto" rows="3"></textarea>
+                            </div>
+                        </div>
+                      
                         
                         <div class="form-actions">
                             <button class="btn btn-primary" type="submit">Guardar cambios</button>
