@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-05-2013 a las 15:05:44
+-- Tiempo de generación: 18-07-2013 a las 17:18:52
 -- Versión del servidor: 5.5.16
 -- Versión de PHP: 5.3.8
 
@@ -77,14 +77,18 @@ CREATE TABLE IF NOT EXISTS `consulta` (
   PRIMARY KEY (`iddatosConsulta`),
   KEY `fk_datosConsulta_paciente1` (`paciente_idpersona`),
   KEY `fk_datosConsulta_medico1` (`medico_idmedico`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Volcado de datos para la tabla `consulta`
 --
 
 INSERT INTO `consulta` (`iddatosConsulta`, `motivoConsulta`, `historiaActualEnfermedad`, `observaciones`, `otros`, `ultimaVisitaOdon`, `motivo`, `paciente_idpersona`, `fechaConsulta`, `pronostico`, `medico_idmedico`, `docente_iddocente`, `antOdon`, `procedencia`, `estado`) VALUES
-(23, 'xxxx', 'vv', 'vv', 'vv', '2013-05-16', 'cacc', '1047565684', '2013-05-23', NULL, 123456, 'xx', 'vv', 'vasdc', 'inactivo');
+(23, 'xxxx', 'vv', 'vv', 'vv', '2013-05-16', 'cacc', '1047565684', '2013-05-23', NULL, 123456, 'xx', 'vv', 'vasdc', 'inactivo'),
+(24, 'me duelen los dientes', 'no lo se', 'caries', 'no mas', '2000-06-01', 'sacar una muela', '73214802', '2013-06-22', NULL, 123456, 'xx', 'no se sabe', 'ciudad de cartagena', 'activo'),
+(25, 'me duele la muela', 'primera vez que siento este dolor', 'tiene la muela dañada', 'nada', '2003-06-01', 'no recuerdo', '73214802', '2013-07-10', NULL, 123456, 'xx', 'tenia caries', 'Cartagena - Barrios Marginales', 'activo'),
+(26, 'xx', 'xx', 'ss', 'ss', '2013-07-03', 'no sw', '73214802', '2013-07-18', NULL, 123456, 'xx', 'ss', 'no se', 'activo'),
+(27, 'M1', 'H1', 'dientes con calculo', 'falta un diente', '2013-07-12', 'revision de rutina', '98765432', '2013-07-18', NULL, 123456, 'xx', 'dientes caidos', 'citadino', 'activo');
 
 -- --------------------------------------------------------
 
@@ -220,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `datosconsulta_has_datosbasicos` (
   PRIMARY KEY (`idConsulta_datosBasicos`),
   KEY `fk_datosConsulta_has_datosBasicos_datosBasicos1` (`datosBasicos_iddatosBasicos`),
   KEY `fk_datosConsulta_has_datosBasicos_datosConsulta1` (`datosConsulta_iddatosConsulta`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=400 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=590 ;
 
 --
 -- Volcado de datos para la tabla `datosconsulta_has_datosbasicos`
@@ -245,7 +249,83 @@ INSERT INTO `datosconsulta_has_datosbasicos` (`datosConsulta_iddatosConsulta`, `
 (23, 4, 'no sabe', 384),
 (23, 3, 'no sabe', 383),
 (23, 2, 'si', 382),
-(23, 1, 'si', 381);
+(23, 1, 'si', 381),
+(24, 1, 'si', 400),
+(24, 2, 'no sabe', 401),
+(24, 3, 'no sabe', 402),
+(24, 4, 'no sabe', 403),
+(24, 5, 'no sabe', 404),
+(24, 6, 'no sabe', 405),
+(24, 7, 'no sabe', 406),
+(24, 8, 'no sabe', 407),
+(24, 9, 'no sabe', 408),
+(24, 10, 'no sabe', 409),
+(24, 11, 'no sabe', 410),
+(24, 12, 'no sabe', 411),
+(24, 13, 'no sabe', 412),
+(24, 14, 'no sabe', 413),
+(24, 15, 'no sabe', 414),
+(24, 16, 'no sabe', 415),
+(24, 17, 'no sabe', 416),
+(24, 18, 'no sabe', 417),
+(24, 19, 'no sabe', 418),
+(25, 1, 'si', 419),
+(25, 2, 'no sabe', 420),
+(25, 3, 'no sabe', 421),
+(25, 4, 'no sabe', 422),
+(25, 5, 'no sabe', 423),
+(25, 6, 'no sabe', 424),
+(25, 7, 'no sabe', 425),
+(25, 8, 'no sabe', 426),
+(25, 9, 'no sabe', 427),
+(25, 10, 'no sabe', 428),
+(25, 11, 'no sabe', 429),
+(25, 12, 'no sabe', 430),
+(25, 13, 'no sabe', 431),
+(25, 14, 'no sabe', 432),
+(25, 15, 'no sabe', 433),
+(25, 16, 'no sabe', 434),
+(25, 17, 'no sabe', 435),
+(25, 18, 'no sabe', 436),
+(25, 19, 'no sabe', 437),
+(26, 19, 'no sabe', 513),
+(26, 18, 'no sabe', 512),
+(26, 17, 'no sabe', 511),
+(26, 16, 'no sabe', 510),
+(26, 15, 'no sabe', 509),
+(26, 14, 'no sabe', 508),
+(26, 13, 'no sabe', 507),
+(26, 12, 'no sabe', 506),
+(26, 11, 'no sabe', 505),
+(26, 10, 'no sabe', 504),
+(26, 9, 'no sabe', 503),
+(26, 8, 'no sabe', 502),
+(26, 7, 'no sabe', 501),
+(26, 6, 'no sabe', 500),
+(26, 5, 'no sabe', 499),
+(26, 4, 'no sabe', 498),
+(26, 3, 'no sabe', 497),
+(26, 1, 'si', 495),
+(26, 2, 'no sabe', 496),
+(27, 19, 'no sabe', 589),
+(27, 18, 'no sabe', 588),
+(27, 17, 'no sabe', 587),
+(27, 16, 'no sabe', 586),
+(27, 15, 'no sabe', 585),
+(27, 14, 'no sabe', 584),
+(27, 13, 'no sabe', 583),
+(27, 12, 'no sabe', 582),
+(27, 11, 'no sabe', 581),
+(27, 10, 'no sabe', 580),
+(27, 9, 'no sabe', 579),
+(27, 8, 'no sabe', 578),
+(27, 7, 'no sabe', 577),
+(27, 6, 'no sabe', 576),
+(27, 5, 'no sabe', 575),
+(27, 4, 'no sabe', 574),
+(27, 3, 'no sabe', 573),
+(27, 1, 'si', 571),
+(27, 2, 'no sabe', 572);
 
 -- --------------------------------------------------------
 
@@ -659,9 +739,19 @@ CREATE TABLE IF NOT EXISTS `examenfisicoestomatologico` (
   `frecuenciaHabito` varchar(45) DEFAULT NULL,
   `evolucionHabito` varchar(45) DEFAULT NULL,
   `extraoral` varchar(500) DEFAULT NULL,
+  `examenlabios` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`idexamenFisicoEstomatologico`),
   KEY `fk_examenFisicoEstomatologico_datosConsulta1` (`datosConsulta_iddatosConsulta`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+--
+-- Volcado de datos para la tabla `examenfisicoestomatologico`
+--
+
+INSERT INTO `examenfisicoestomatologico` (`idexamenFisicoEstomatologico`, `temperatura`, `pulso`, `tensionArterial`, `higieneOral`, `sedaDental`, `cepilloDentalUso`, `vecesAlDia`, `enjuagesBsinFluor`, `enjuagesBconFluor`, `habitosYvicios`, `datosConsulta_iddatosConsulta`, `frecuenciaRes`, `frecuenciaHabito`, `evolucionHabito`, `extraoral`, `examenlabios`) VALUES
+(17, '33', '33', '33', 'Mala', 'No', 'No', '0', 'No', 'No', 'Tabacos', 26, '33', '3 veces al dia', '3 años', '33', 'estan bn'),
+(16, '33', '33', '33', 'Mala', 'No', 'No', '0', 'No', 'No', 'Tabacos', 26, '33', '3 veces al dia', '3 años', '33', 'estan bn'),
+(18, '30', '49', '120', 'Buena', 'Si', 'Si', '0', 'Si', 'Si', 'Café', 27, '45/60', '3 veces al dia', '5 años', 'OK', 'OK');
 
 -- --------------------------------------------------------
 

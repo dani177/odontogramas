@@ -1400,7 +1400,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Caf&eacute;"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Café"}'>
                                             <option selected="selected" value="Caf&eacute;">Caf&eacute;</option>
                                         </c:when>
                                         <c:otherwise>

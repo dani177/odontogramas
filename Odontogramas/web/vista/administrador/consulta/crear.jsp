@@ -1400,7 +1400,7 @@
 
                                     </c:choose>
                                     <c:choose>
-                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Caf&eacute;"}'>
+                                        <c:when test='${examenfisicoestomatologicoList.getRowsByIndex()[0][10] == "Café"}'>
                                             <option selected="selected" value="Caf&eacute;">Caf&eacute;</option>
                                         </c:when>
                                         <c:otherwise>
@@ -1541,7 +1541,7 @@
                         <div class="control-group">
                             <label class="control-label" for="examenesto">examen de labios y mucosa interna</label>
                             <div class="controls">
-                                <textarea class="input-xxlarge" name="examenesto" id="examenesto" rows="3"></textarea>
+                                <textarea class="input-xxlarge" name="examenesto" id="examenesto" rows="3">${examenfisicoestomatologicoList.getRowsByIndex()[0][16]}</textarea>
                             </div>
                         </div>
                             

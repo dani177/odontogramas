@@ -670,8 +670,8 @@ public class formController extends HttpServlet {
                     session.setAttribute("consulta", consultaRecienCreada);
 
 
-                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`) "
-                            + "VALUES (NULL , '', '', '', '" + higiene + "', '" + usoSeda + "', '" + cepillo + "', '" + veces + "', '" + enjuages1 + "', '" + enjuages2 + "', '" + habitosYvicios + "', '" + consultaRecienCreada.getRowsByIndex()[0][0] + "', '', '" + frecuenciaHabito + "', '" + evolucionHabito + "', '' )");
+                    new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`,`examenlabios`) "
+                            + "VALUES (NULL , '', '', '', '" + higiene + "', '" + usoSeda + "', '" + cepillo + "', '" + veces + "', '" + enjuages1 + "', '" + enjuages2 + "', '" + habitosYvicios + "', '" + consultaRecienCreada.getRowsByIndex()[0][0] + "', '', '" + frecuenciaHabito + "', '" + evolucionHabito + "', '','' )");
 
 
 
@@ -702,8 +702,8 @@ public class formController extends HttpServlet {
                     }
 
                     if (sapote) {
-                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`) "
-                                + "VALUES (NULL , '', '', '', '" + higiene + "', '" + usoSeda + "', '" + cepillo + "', '" + veces + "', '" + enjuages1 + "', '" + enjuages2 + "', '" + habitosYvicios + "', '" + con.getRowsByIndex()[0][0] + "', '', '" + frecuenciaHabito + "', '" + evolucionHabito + "', '' )");
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`,`examenlabios`) "
+                                + "VALUES (NULL , '', '', '', '" + higiene + "', '" + usoSeda + "', '" + cepillo + "', '" + veces + "', '" + enjuages1 + "', '" + enjuages2 + "', '" + habitosYvicios + "', '" + con.getRowsByIndex()[0][0] + "', '', '" + frecuenciaHabito + "', '" + evolucionHabito + "', '', '' )");
                     }
 
 
@@ -966,18 +966,19 @@ public class formController extends HttpServlet {
                 String tension = (String) request.getParameter("tension");
                 String extraoral = (String) request.getParameter("extraoral");
                 String frecuenciaRes = (String) request.getParameter("frecuenciaRes");
+                String examenlabios = (String) request.getParameter("examenesto");
 
                 ResultSet examenFisicoEstomatologicoExistente = new sqlController().CargarSql("SELECT * FROM `examenfisicoestomatologico` WHERE `datosConsulta_iddatosConsulta` =" + con.getRowsByIndex()[0][0]);
                 boolean sapo = true;
                 try {
 
                     while (examenFisicoEstomatologicoExistente.next()) {
-                        new sqlController().UpdateSql("UPDATE `odontogramas`.`examenfisicoestomatologico` SET `temperatura` = '" + temperatura + "',`pulso` = '" + pulso + "',`tensionArterial` = '" + tension + "',`frecuenciaRes` = '" + frecuenciaRes + "',`extraoral` = '" + extraoral + "' WHERE `examenfisicoestomatologico`.`idexamenFisicoEstomatologico` =" + examenFisicoEstomatologicoExistente.getInt(1) + "");
+                        new sqlController().UpdateSql("UPDATE `odontogramas`.`examenfisicoestomatologico` SET `temperatura` = '" + temperatura + "',`pulso` = '" + pulso + "',`tensionArterial` = '" + tension + "',`frecuenciaRes` = '" + frecuenciaRes + "',`extraoral` = '" + extraoral + "',`examenlabios` = '" + examenlabios + "' WHERE `examenfisicoestomatologico`.`idexamenFisicoEstomatologico` =" + examenFisicoEstomatologicoExistente.getInt(1) + "");
                         sapo = false;
                     }
                     if (sapo) {
-                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`) "
-                                + "VALUES (NULL , '" + temperatura + "', '" + pulso + "', '" + tension + "', '', '', '', '', '', '', '', '" + con.getRowsByIndex()[0][0] + "', '" + frecuenciaRes + "', '', '', '" + extraoral + "' )");
+                        new sqlController().UpdateSql("INSERT INTO `odontogramas`.`examenfisicoestomatologico` (`idexamenFisicoEstomatologico` ,`temperatura` ,`pulso` ,`tensionArterial` ,`higieneOral` ,`sedaDental` ,`cepilloDentalUso` ,`vecesAlDia` ,`enjuagesBsinFluor` ,`enjuagesBconFluor` ,`habitosYvicios` ,`datosConsulta_iddatosConsulta` ,`frecuenciaRes` ,`frecuenciaHabito` ,`evolucionHabito` ,`extraoral`,`examenlabios`) "
+                                + "VALUES (NULL , '" + temperatura + "', '" + pulso + "', '" + tension + "', '', '', '', '', '', '', '', '" + con.getRowsByIndex()[0][0] + "', '" + frecuenciaRes + "', '', '', '" + extraoral + "', '" + examenlabios + "' )");
                     }
 
 
